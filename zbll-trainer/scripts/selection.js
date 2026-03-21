@@ -1,0 +1,476 @@
+import { zbllMap } from './casesmap.js'
+import { getSelectionStringFromZBLLMap, loadLocal, saveLocal, setZBLLMapFromSelectionString } from './saveload.js';
+import { getPicSize } from './timer.js';
+import { currentMode } from './practice.js'
+/* colors correspond to selection state */
+
+var colorAll = "#2e7d46";
+var colorSome = "#e8c000";
+function colorNone() {
+    return document.getElementById( "bgcolor_in" ).value;
+}
+
+var imgSize = 36;
+
+var pictureView = loadLocal('zbllPictureView') || 'top';
+function togglePictureView() {
+    pictureView = (pictureView === '3D') ? 'top' : '3D';
+    saveLocal('zbllPictureView', pictureView);
+    var btn = document.getElementById('pictureViewBtn');
+    if (btn) btn.innerText = (pictureView === 'top') ? 'side view' : 'top view';
+    window.generateSelectionTable();
+}
+window.togglePictureView = togglePictureView;
+
+
+function saveSelection() {
+    return saveLocal('zbllSelection', getSelectionStringFromZBLLMap());
+}
+window.saveSelection = saveSelection
+
+function loadSelection() {
+    var selectionString = loadLocal('zbllSelection', '');
+    if (selectionString == '') {
+        console.warn("failed loading selection");
+        return false;
+    }
+    setZBLLMapFromSelectionString(selectionString);
+    return true;
+}
+
+
+// allocate help;
+function adjustInfo()
+{
+    // resizing info panel in practice screen
+    if (document.getElementById( "previewPic" ) != null)
+            document.getElementById( "resultPicContainer" ).style.height = getPicSize() + "px";
+
+    if (currentMode == 0) {
+
+        var cases = document.getElementById( "cases_selection" )
+        let rectW = Math.min(cases.getBoundingClientRect().width, document.body.getBoundingClientRect().width - 299)
+        let screenTooSmall = document.body.clientWidth - rectW < 300
+        
+        let infoPanel = document.getElementById( "panel_right" )
+        let selectionContainer = document.getElementById( "selection_layout" )
+        
+        if(screenTooSmall) {
+            infoPanel.style.position = "relative";
+            infoPanel.style.left = 0;
+            infoPanel.style.width = "90vw";
+            
+            selectionContainer.style.flexDirection = "column";
+            selectionContainer.style.justifyContent = "center";
+            
+            cases.style.margin = "auto"
+        }
+        else {
+        infoPanel.style.position = "absolute";
+        infoPanel.style.left = cases.getBoundingClientRect().right + "px";
+        infoPanel.style.width = (document.body.clientWidth - cases.getBoundingClientRect().right - 30) + "px";
+        
+        selectionContainer.style.flexDirection = "row";
+        selectionContainer.style.justifyContent = "flex-start";
+        
+        cases.style.margin = 0
+    }
+}
+
+    
+}
+
+
+/* ids */
+function idTdOll(oll) {return "td-"+oll;}
+function idTdColl(oll,coll) {return "td-"+oll+"-"+coll;}
+function idItemOll(oll) {return "item-"+oll;}
+function idItemColl(oll,coll) {return "item-"+oll+"-"+coll;}
+function idItemZbll(oll,coll, zbll) {return "item-"+oll+"-"+coll+"-"+zbll;}
+function idHeaderOll(oll) {return "ollHead-"+oll;}
+function idHeaderColl(oll,coll) {return "collHead-"+oll+"-"+coll;}
+function zbllSvg(oll,coll, zbll) {return "caseImage/ZBLL/"+"level3"+"/"+oll+"-"+coll+"-"+zbll.replace("/", "s")+".svg";}
+
+
+function prepareMap() {
+    for (var oll in zbllMap) if (zbllMap.hasOwnProperty(oll)) {
+        var ollMap = zbllMap[oll];
+        for (var coll in ollMap) if (ollMap.hasOwnProperty(coll)) {
+            let collMap = ollMap[coll];
+            for (var zbll in collMap) if (collMap.hasOwnProperty(zbll)) {
+                var zbllAlgs = collMap[zbll];
+                collMap[zbll] = {"algs":zbllAlgs, "c":false};
+            }
+        }
+    }
+}
+
+function colorBySelection(all, none)
+{
+    if ( !all && !none ) // some selected: yellow
+        return colorSome;
+    if (all)
+        return colorAll;
+    return colorNone();
+}
+
+/// iterates the zbllMap and highlights HTML elements according to the selection
+function renderSelection()
+{
+    var totalZbllSel = 0;
+    for (var oll in zbllMap) if (zbllMap.hasOwnProperty(oll)) {
+        var ollNoneSel = true, ollAllSel = true; // ollNoneSel = 0 selected, ollAllSel = all cases selected
+        var zbllsInOll = 0;
+        var ollMap = zbllMap[oll];
+        for (var coll in ollMap) if (ollMap.hasOwnProperty(coll)) {
+            var collNoneSel = true, collAllSel = true; // ollNoneSel = 0 selected, ollAllSel = all cases selected	
+            var zbllsInColl = 0;
+            let collMap = ollMap[coll];
+            for (var zbll in collMap) if (collMap.hasOwnProperty(zbll)) {
+                var zbllAlg = collMap[zbll];
+                if (collMap[zbll]["c"])
+                {
+                    // case selected
+                    ollNoneSel = false;
+                    collNoneSel = false;
+                    zbllsInColl++; zbllsInOll++; totalZbllSel++;
+                }
+                else {
+                    // case not selected
+                    ollAllSel = false;
+                    collAllSel = false;
+                }
+            }
+            // render coll item background
+            document.getElementById( idTdColl(oll, coll) ).style.backgroundColor = colorBySelection(collAllSel, collNoneSel);
+            document.getElementById( idHeaderColl(oll, coll) ).innerHTML = collHeaderContent(oll, coll, zbllsInColl);
+        }
+        document.getElementById( idTdOll(oll) ).style.backgroundColor = colorBySelection(ollAllSel, ollNoneSel);
+        document.getElementById( idHeaderOll(oll) ).innerHTML = ollHeaderContent(oll, zbllsInOll);
+    }
+
+    // Save the selection to local storage if possible
+    if (window.saveSelection) { // No guarantee that saveSelection function is ready, so test first
+        saveSelection();
+    }
+}
+
+/* items generator */
+function generateSelectionTable()
+{
+    var s = "";
+    var maxColls = 10;
+    var ollOrder = ["U", "T", "L", "Pi", "S", "aS", "H"];
+    s += "<table class='casesTable'>";
+
+    s += "<tr>";
+    ollOrder.forEach(function(oll) {
+        if (zbllMap.hasOwnProperty(oll))
+            s += "<td id='" + idTdOll(oll) + "' style='background-color:" + colorNone() + ";'>" + ollItem(oll) + "</td>";
+    });
+    s += "</tr>";
+
+    for (var row = 0; row < maxColls; row++) {
+        s += "<tr>";
+        ollOrder.forEach(function(oll) {
+            if (!zbllMap.hasOwnProperty(oll)) return;
+            var collName = getCollByNum(oll, row);
+            if (!collName) s += "<td class='collTd' id='td-empty'>(none)</td>";
+            else s += "<td class='collTd' id='" + idTdColl(oll,collName) + "'>" + collItem(oll, collName) + "</td>";
+        });
+        s += "</tr>";
+    }
+    s += "</table>";
+
+    document.getElementById("cases_selection").innerHTML = s;
+}
+
+function zbllItem(oll, coll, zbll)
+{
+    var s = "";
+    var col = colorNone();
+    if (zbllMap[oll][coll][zbll]["c"])
+        col = colorAll;
+    s += "<div ";
+    s += "id='" + idItemZbll(oll, coll, zbll) + "' ";
+    s += "style='background-color:" + col + ";' ";
+    s += " onmousedown='window.zbllClicked(\"" + oll + "\",\"" + coll + "\",\"" + zbll + "\")' class='zbllItem'>";
+    var imgFolder = (pictureView === 'top') ? 'top' : 'level3';
+    s += "<img src='caseImage/ZBLL/" + imgFolder + "/" + oll + "-" + coll + "-" + zbll.replace("/","s") + ".svg' width='80' height='80' style='pointer-events:none;'/>";
+    s += "<span>" + zbll.replace("s", "/") + "</span>";
+    return s + "</div>";
+}
+
+function ollItem(oll) // div
+{
+    var s = "";
+    s += ollHeader(oll);
+    s += "<div onmousedown='window.ollClicked(\"" + oll + "\")' class='ollItem'><img src='caseImage/ZBLL/level1/" + oll + ".svg' width='" + imgSize + "px'/></div>";
+    return s;
+}
+
+function collItem(oll, coll) // div
+{
+    var s = "";
+    s += collHeader(oll, coll);
+    s += "<div onmousedown='window.collClicked(\"" + oll + "\",\"" + coll + "\")' class='ollItem'><img src='caseImage/ZBLL/" + "level2" + "/"
+            + oll+"-"+coll + ".svg' width='" + imgSize + "px'/></div>";
+    return s;
+}
+
+function ollHeader(oll) // div
+{
+    return "<div class='ollHeader' id='" +idHeaderOll(oll)+"' onclick='window.expandOll(\""+oll+"\")'>"+
+            ollHeaderContent(oll,0) +"</div>";
+}
+
+function ollHeaderContent(oll, n) // text
+{
+    var total = 0;
+    if (zbllMap[oll]) {
+        for (var c in zbllMap[oll]) if (zbllMap[oll].hasOwnProperty(c))
+            total += Object.keys(zbllMap[oll][c]).length;
+    }
+    var collapseIconSpan = "<span id='collapseSpan-"+oll+"' style='float:right'>▼</span>";
+    if (n == 0)
+            return oll + " (0/" + total + ") " + collapseIconSpan;
+    return oll + " (<b>" + n + "</b>/" + total + ") " + collapseIconSpan;
+}
+
+/// \param n number of cases selected
+function collHeader(oll, coll) // div
+{
+    return "<div class='collHeader' id='" +idHeaderColl(oll, coll)+
+            "'onclick='window.expandColl(\""+oll + "\",\"" + coll +"\")'>" +collHeaderContent(oll, coll, 0) +"</div>";
+}
+
+function collHeaderContent(oll, coll, n) // text
+{
+    let t = (zbllMap[oll] && zbllMap[oll][coll]) ? Object.keys(zbllMap[oll][coll]).length : 0; // total
+    if (n == 0)
+        return coll + " (0/"+t+")";
+    return coll + " (<b>" + n + "</b>/"+t+")";
+}
+
+/// returns COLL name of \param oll by number n (0 to 5)
+function getCollByNum(oll, n)
+{
+    var ollMap = zbllMap[oll];
+    var i = -1;
+    for (var key in ollMap) {
+        if (ollMap.hasOwnProperty(key)) {
+            i++;
+            if (i == n)
+                return key;
+        }
+    }
+    // console.error("getCollByNum: number is too high. Oll = " + oll + ", n = " + n);
+    return "";
+}
+
+function changeVisib(el)
+{
+    if (el.style.visibility == "hidden" || el.style.visibility == "")
+        el.style.visibility = "initial";
+    else
+        el.style.visibility = "hidden";
+}
+
+/* expand / collapse */
+function expandOll(oll)
+{
+    var isCollapsed = false;
+    // "td-" + oll + "-" + collName
+    var ollMap = zbllMap[oll];
+    for (var coll in ollMap) {
+        if (ollMap.hasOwnProperty(coll)) {
+            // expland or collapse
+            let collElem = document.getElementById("td-" + oll + "-" + coll);
+            changeVisib(collElem);
+            if (collElem.style.visibility == "hidden" || collElem.style.visibility == "")
+                isCollapsed = true;
+        }
+    }
+    document.getElementById("collapseSpan-" + oll).innerHTML = isCollapsed ? "▼":"▲"
+}
+
+function expandColl(oll, coll)
+{
+    // pop-up zbll cases selection area for this coll
+    displayZW(oll, coll);
+}
+
+/* cases selection */
+// cliks on div, change style of <td>
+function ollClicked(oll)
+{
+    selectAllOll(oll, !ollHasSelected(oll));
+    renderSelection();
+}
+
+function collClicked(oll, coll)
+{
+    selectAllColl(oll, coll, !collHasSelected(oll, coll));
+    renderSelection();
+}
+
+function zbllClicked(oll, coll, zbll)
+{
+    // change its color; do not render anything else
+    var newVal = !(zbllMap[oll][coll][zbll]["c"]);
+    // change color
+    if (newVal)
+        document.getElementById( idItemZbll(oll, coll, zbll) ).style.backgroundColor = colorAll;
+    else
+        document.getElementById( idItemZbll(oll, coll, zbll) ).style.backgroundColor = colorNone();
+
+    zbllMap[oll][coll][zbll]["c"] = newVal;
+
+    updateZwHeader(oll, coll);
+}
+
+/// \param c assign this boolean value to all zbll of \param oll (true=select all, false=unmark all)
+function selectAllOll(oll, c)
+{
+    var ollMap = zbllMap[oll];
+    for (var coll in ollMap) if (ollMap.hasOwnProperty(coll)) {
+        let collMap = ollMap[coll];
+        for (var zbll in collMap) if (collMap.hasOwnProperty(zbll))
+            collMap[zbll]["c"] = c;
+    }
+}
+
+/// \param c assign this boolean value to all zbll of \param oll (true=select all, false=unmark all)
+function selectAllColl(oll, coll, c)
+{
+    var collMap = zbllMap[oll][coll];
+    for (var zbll in collMap) if (collMap.hasOwnProperty(zbll))
+        collMap[zbll]["c"] = c;
+}
+
+/// func is intended to be used in zw when clickced All or None. Elements are redrawed, no renderSelection() call needed
+/// \param c assign this boolean value to all zbll of \param oll (true=select all, false=unmark all)
+function selectAllZw(oll, coll, c)
+{
+    var collMap = zbllMap[oll][coll];
+    for (var zbll in collMap) if (collMap.hasOwnProperty(zbll))
+    {
+        collMap[zbll]["c"] = c;
+        // change color
+        if (c)
+            document.getElementById( idItemZbll(oll, coll, zbll) ).style.backgroundColor = colorAll;
+        else
+            document.getElementById( idItemZbll(oll, coll, zbll) ).style.backgroundColor = colorNone();
+    }
+    updateZwHeader(oll, coll);
+}
+
+/// \returns true if oll has some selected cases
+function ollHasSelected(oll)
+{
+    var ollMap = zbllMap[oll];
+    for (var coll in ollMap) if (ollMap.hasOwnProperty(coll)) {
+        let collMap = ollMap[coll];
+        for (var zbll in collMap) if (collMap.hasOwnProperty(zbll))
+            if (collMap[zbll]["c"])
+                return true;
+    }
+    return false;
+}
+
+/// \returns true if coll has some selected cases
+function collHasSelected(oll, coll)
+{
+    var collMap = zbllMap[oll][coll];
+    for (var zbll in collMap) if (collMap.hasOwnProperty(zbll))
+        if (collMap[zbll]["c"])
+            return true;
+    return false;
+}
+
+/// short for howManyZbllsInCollSelected
+function nZbllsInColl(oll, coll)
+{
+    var collMap = zbllMap[oll][coll];
+    var n = 0;
+    for (var zbll in collMap) if (collMap.hasOwnProperty(zbll))
+        if (collMap[zbll]["c"])
+            ++n;
+    return n;
+}
+
+
+/* zbll selection popup window */
+function displayZW(oll, coll)
+{
+    document.getElementById( "zbllWindowBack" ).style.display = 'initial';
+    document.getElementById( "zbllWindow" ).style.display = 'initial';
+
+    // fill the pictures
+    var collMap = zbllMap[oll][coll];
+    var s = "<span class='nw'>";
+    var n = 0;
+    for (var zbll in collMap) if (collMap.hasOwnProperty(zbll)) {
+        s += zbllItem(oll, coll, zbll);
+        if (!(++n%4))
+            s += "</span><br><span class='nw'>";
+    }
+    document.getElementById( "zwPics" ).innerHTML = s; // this also deletes previous pics
+
+    // header
+    updateZwHeader(oll, coll);
+
+    // assign selectAllZw() to buttons
+    document.getElementById( "noneZwButton" ).onclick = function(){selectAllZw(oll, coll, false);};
+    document.getElementById( "allZwButton" ).onclick = function(){selectAllZw(oll, coll, true);};
+}
+
+function updateZwHeader(oll, coll)
+{
+    let t = (zbllMap[oll] && zbllMap[oll][coll]) ? Object.keys(zbllMap[oll][coll]).length : 0; // total
+    document.getElementById( "zwHeaderMessage" ).innerHTML = coll + "(" + nZbllsInColl(oll, coll) + "/"+t+")";
+}
+
+function closeZW()
+{
+    if (document.getElementById( "zbllWindowBack" ).style.display != 'none')
+    {
+        document.getElementById( "zbllWindowBack" ).style.display = 'none';
+        document.getElementById( "zbllWindow" ).style.display = 'none';
+        renderSelection();
+    }
+}
+
+window.expandOll = expandOll
+window.expandColl = expandColl
+window.zbllClicked = zbllClicked
+window.collClicked = collClicked
+window.ollClicked = ollClicked
+window.adjustInfo = adjustInfo
+window.closeZW = closeZW
+// Listen for messages from parent page
+window.addEventListener('message', (e) => {
+    if (!e.data) return;
+    if (e.data.type === 'togglePictureView') {
+        pictureView = e.data.view;
+        window.generateSelectionTable();
+    }
+    if (e.data.type === 'settingsAction') {
+        const { action, args } = e.data;
+        if (action === 'resetStyle' && window.resetStyle) window.resetStyle(args[0]);
+        if (action === 'adjustSize' && window.adjustSize) window.adjustSize(args[0], args[1]);
+        if (action === 'applyColor' && window.applystyle) {
+            const [field, val] = args;
+            const ids = { bg: 'bgcolor_in', text: 'textcolor_in', links: 'linkscolor_in' };
+            const el = document.getElementById(ids[field]);
+            if (el) { el.value = val; window.applystyle(); }
+        }
+    }
+});
+
+// Notify parent that iframe is ready
+window.addEventListener('DOMContentLoaded', () => {
+    window.parent.postMessage({ type: 'pictureViewReady' }, '*');
+});
+
+export { renderSelection, adjustInfo, closeZW, prepareMap, generateSelectionTable, loadSelection }

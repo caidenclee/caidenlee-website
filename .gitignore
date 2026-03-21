@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# Zip archives
+*.zip
+
+# Extracted/source directories (not served by the site)
+caiden_zbll_extracted/
+pi_sune_as_extracted/
+zbll-master-extracted/
+zbls-trainer-master/
+
+# Source data files not used by the site
+Caiden's ZBLS/
+Caiden's ZBLS - FR.csv

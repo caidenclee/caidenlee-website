@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 200 200">
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="2" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.22)"/>
+    </filter>
+    <clipPath id="paperClip">
+      <path d="M 34,34 Q 34,22 46,22 L 132,22 L 168,58 L 168,182 Q 168,194 156,194 L 46,194 Q 34,194 34,182 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Paper shadow -->
+  <path d="M 34,34 Q 34,22 46,22 L 132,22 L 168,58 L 168,182 Q 168,194 156,194 L 46,194 Q 34,194 34,182 Z"
+        fill="rgba(0,0,0,0.12)" transform="translate(3,4)"/>
+
+  <!-- Paper body -->
+  <path d="M 34,34 Q 34,22 46,22 L 132,22 L 168,58 L 168,182 Q 168,194 156,194 L 46,194 Q 34,194 34,182 Z"
+        fill="#f4f4fb" filter="url(#shadow)"/>
+
+  <!-- ZBLS icon on the paper -->
+  <image href="zbls-icon.png" x="46" y="52" width="108" height="108" clip-path="url(#paperClip)"/>
+
+  <!-- Fold crease lines -->
+  <line x1="132" y1="22" x2="132" y2="58" stroke="#d0d0e8" stroke-width="1"/>
+  <line x1="132" y1="58" x2="168" y2="58" stroke="#d0d0e8" stroke-width="1"/>
+
+  <!-- Fold triangle -->
+  <polygon points="132,22 168,58 132,58" fill="#dcdcee"/>
+</svg>

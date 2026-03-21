@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+<style>
+  #loadcover { position:fixed; inset:0; background:#1a1a1a; z-index:9999; }
+</style>
+<script>
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const c = document.getElementById('loadcover');
+      if (c) c.remove();
+    }, 120);
+  });
+</script>
+<link rel="stylesheet" type="text/css" href="styles/main.css?v8">
+<link rel="stylesheet" type="text/css" href="styles/selection.css?v8">
+<link rel="stylesheet" type="text/css" href="styles/timer.css?v8">
+<link rel="stylesheet" type="text/css" href="styles/dark.css">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<meta name="description"
+		content="A timer-like tool to learn and practice zbll algorithms. You can specify ZBLL cases & catigories to practice, recap forgotten ZBLL algs, create presets to practise and learn. Forked from Roman Strakhov's amazing ZBLL trainer." />
+	<meta name="keywords" content="zbll, zbll trainer, zbll algorithms, cubing, speedcubing, f2l, vhls" />
+	<meta name="author" content="Eduardo Mazuera">
+	<link rel="manifest" href="manifest.json?v1">
+	<link rel="shortcut icon" href="images/favicon.ico" />
+	<title>
+		ZBLL trainer
+	</title>
+</head>
+
+<body class="niceBody" id="bodyid" onload="window.onBodyLoaded()" onresize="window.adjustInfo()">
+<div id="loadcover"></div>
+	<div class="practice_layout">
+		<table id="mainTable">
+			<tr>
+				<td id="casesBox" colspan="2">
+					<div id="casesBoxTop">
+						<a id='selectBtn' onclick='window.changeMode(0)'>← Go back</a>
+						<button id="startSessionBtn" onclick="window.startSession()" style="display:none;">▶ Start Session</button>
+						<div id="sessionControls" style="display:none;">
+							<span id="sessionClock">0:00</span>
+							<button id="pauseSessionBtn" onclick="window.pauseSession()">⏸ Pause</button>
+							<button id="endSessionBtn" onclick="window.endSession()">■ End Session</button>
+						</div>
+					</div>
+					<span id="selInfo"></span>
+				</td>
+			</tr>
+			<tr>
+				<td id="scramble" colspan="2">
+					(scramble will be there)
+				</td>
+			</tr>
+
+			<tr>
+				<td id="timer" style="height: 100%;">
+					<span id="timertext">loading, please wait...</span>
+					<div id="okDnfRow" style="display:none;">
+						<button id="okBtn" onclick="window.markOK()">OK</button>
+						<button id="incorrectBtn" onclick="window.markIncorrect()">Mark Incorrect</button>
+					</div>
+				</td>
+				<td id="stats">
+					<div class="resultInfoHeader">times (<a onclick="window.confirmClear()">clear</a>)</div>
+					<div id="times"></div>
+					<div class="resultInfoHeader">stats</div>
+					<div id="statsBox">-</div>
+					<div class="resultInfoHeader">result info</div>
+					<div id="resultinfo">
+						<div id='resultInfoHeader' class="resultInfoHeader" style="display:none;"></div>
+						<div id='resultInfoContainer'></div>
+						<div id='resultPicContainer'></div>
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<twisty-stream-source style="display: none"></twisty-stream-source>
+				<td colspan="2" style="text-align: center;">
+					<a class='smallBtn' onclick="window.adjustSize('timertext', -8)">⊖</a> timer <a class='smallBtn'
+						onclick="window.adjustSize('timertext', 8);">⊕</a> |
+					<a class='smallBtn' onclick="window.adjustSize('scramble', -5);">⊖</a> scramble <a class='smallBtn'
+						onclick="window.adjustSize('scramble', 5);">⊕</a> |
+					case pictures: <a id='pictureViewBtn' onclick='window.togglePictureView()'>top view</a> |
+				colors (<a onclick='window.resetStyle(0)'>light</a>, <a onclick='window.resetStyle(1)'>dark</a>)
+					<a class='smallBtn' onclick='window.toggleColorSettings()'>⚙</a>
+					<span id='colorSettings'>background <input type='text' value='#16161a' class='settinginput'
+							id='bgcolor_in' onchange="window.applystyle()" placeholder='#16161a' maxlength='12'
+							size='7' />
+						, text <input type='text' value='#f0f0f0' class='settinginput' id='textcolor_in'
+							onchange="window.applystyle()" placeholder='#f0f0f0' maxlength='12' size='7' />
+						, links <input type='text' value='#a59ff8' class='settinginput' id='linkscolor_in'
+							onchange="window.applystyle()" placeholder='#a59ff8' maxlength='12' size='7' /></span>
+					<br>
+					zbll algorithms: <a
+						href="https://docs.google.com/spreadsheets/d/1L0iR5AyRh2sTWymHSD2MiTJXzl8IoxGzyuRgqEhttSs/edit#gid=1895604888"
+						target="_blank">click</a> or <a
+						href="https://docs.google.com/spreadsheets/d/1s8Q2VM2c1eV3oLIxFfM4exvABO0AcCeMCUdMiYKnzC0/edit#gid=0"
+						target="_blank">click</a>
+					&clubs;
+					<a href="https://github.com/trexrush/zbls-trainer.git" target="_blank">GitHub repository</a>
+					&clubs;
+					Original by <a href="https://bestsiteever.ru/me/" target="_blank">Roman Strakhov</a> with ❤
+					&clubs;
+					ZBLL trainer
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div id="selection_layout">
+		<div id="panel_left">
+			<div class="panel-section-header">Session History</div>
+			<div id="sessions_list"><div class="sessions-empty">No sessions saved yet.<br>Complete a session and<br>press "Save Session".</div></div>
+			<div id="panel_left_footer" style="display:none;">
+				<button id="seeMoreBtn" onclick="window.openAllSessions()" title="See all sessions">See more &#8594;</button>
+			</div>
+		</div>
+
+		<!-- All Sessions Page -->
+		<div id="allSessionsPage" style="display:none;">
+			<div id="allSessionsHeader">
+				<span id="allSessionsTitle">All Sessions</span>
+				<button id="allSessionsClose" onclick="window.closeAllSessions()">&#8592; Back</button>
+			</div>
+			<div id="allSessionsFilters">
+				<button class="sessions-filter-btn active" onclick="window.setSessionsFilter('day', this)">Past Day</button>
+				<button class="sessions-filter-btn" onclick="window.setSessionsFilter('week', this)">Past Week</button>
+				<button class="sessions-filter-btn" onclick="window.setSessionsFilter('year', this)">Past Year</button>
+				<button class="sessions-filter-btn" onclick="window.setSessionsFilter('all', this)">All Time</button>
+			</div>
+			<div id="allSessionsStatCards">
+				<div class="all-stat-card"><div class="all-stat-label">Mean</div><div class="all-stat-val" id="statMean">-</div></div>
+				<div class="all-stat-card"><div class="all-stat-label">Best Ao5</div><div class="all-stat-val" id="statBestAo5">-</div></div>
+				<div class="all-stat-card"><div class="all-stat-label">Best Single</div><div class="all-stat-val" id="statBestSingle">-</div></div>
+			</div>
+			<div id="practiceTimeSection">
+				<div id="practiceTimeHeader">
+					<span id="practiceTimeTitle">Total Time Practicing</span>
+					<div id="practiceTimeBtns">
+						<button class="ptc-btn active" onclick="window.setPracticeTimeGroup('day', this)">Day</button>
+						<button class="ptc-btn" onclick="window.setPracticeTimeGroup('week', this)">Week</button>
+						<button class="ptc-btn" onclick="window.setPracticeTimeGroup('month', this)">Month</button>
+					</div>
+				</div>
+				<div id="practiceTimeChart"></div>
+			</div>
+			<div id="allSessionsList"></div>
+		</div>
+		<div id="panel_right">
+			<div id="select_info">
+				<button class="abutton thinner" title="Recap each selected case once"
+					onclick='window.changeMode(2)'>Recap Practice</button>
+				<button class="abutton" id="dbutton" title="Practice selected cases randomly"
+					onclick='window.changeMode(1)'>Random Practice</button>
+				<br>
+				<div>
+					<button id="vctoggle" class="abutton thinner shorter" title="Enable virtual cube for drilling">Use
+						Virtual Cube</button>
+					<button id="vcoptions" class="abutton thinner shorter" title="Virtual Cube options menu"
+						style="display: none;" onclick="window.displayVConfig()">Configure Virtual Cube</button>
+				</div>
+				<ol class="guide-steps">
+					<li>Select the cases you want to review or practice. <span class="guide-green">Green</span> means you're doing the whole set, and <span class="guide-yellow">yellow</span> means you're doing a partial set.</li>
+					<li>Press <strong>Recap Practice</strong> to go through each case exactly one time. Press <strong>Random Practice</strong> to drill cases randomly — you may run into some cases more than others.</li>
+					<li>Track your data with the timer. Start a session to get a full summary when you're done.</li>
+				</ol>
+			</div>
+			<div id="presets">
+				<hr>
+				<input type='text' id='presetName' placeholder='Preset name' maxlength='20' size='15'
+					value='New preset' /> <a onclick='window.addNewPreset()'>save</a>
+				<div class="prs-l" id="prslist">
+				</div>
+			</div>
+		</div>
+
+		<div id="cases_selection">
+		</div>
+
+		<div id="zbllWindow">
+			<div id="zwHeader">
+				<div id="zwHeaderMessage">
+				</div>
+			</div>
+			<div id="zwPics">
+			</div>
+			<div id="zwFooter">
+				<div class="zwButton" id="allZwButton">&nbsp;all&nbsp;</div>
+				<div class="zwButton" id="noneZwButton">&nbsp;none&nbsp;</div>
+				<div class="zwButton" id="closeZwButton" onclick="window.closeZW();">&nbsp;done&nbsp;</div>
+			</div>
+		</div> <!-- zbllWindow -->
+
+		<div id="vconfigWindow">
+			<div id="vconfigOptions">
+			</div>
+			<div id="vconfigFooter">
+				<!-- <div class="vconfigButton" id="allZwButton">&nbsp;all&nbsp;</div> -->
+				<div class="vconfigButton" id="closevconfigButton" onclick="window.closeVConfig();">&nbsp;done&nbsp;
+				</div>
+			</div>
+		</div> <!-- zbllWindow -->
+	</div> <!-- selection layout -->
+
+	<div id="zbllWindowBack" onclick='window.closeZW();'></div>
+	<div id="vconfigWindowBack" onclick='window.closeVConfig();'></div>
+
+	<!-- Go Back Warning -->
+	<div id="goBackWarning" style="display:none;">
+		<div id="goBackWarningCard">
+			<div id="goBackWarningTitle">Are you sure you want to go back?</div>
+			<div id="goBackWarningDesc">Your session is still running. All unsaved data will be lost if you go back now.</div>
+			<div id="goBackWarningBtns">
+				<button id="goBackContinueBtn" onclick="document.getElementById('goBackWarning').style.display='none';">Continue Practicing</button>
+				<button id="goBackEndBtn" onclick="document.getElementById('goBackWarning').style.display='none'; window.endSession();">End Session</button>
+				<button id="goBackPauseBtn" onclick="document.getElementById('goBackWarning').style.display='none'; window.sessionActive=false; window.cancelSession(); window.changeMode(0);">Discard Progress</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- No Cases Alert -->
+	<div id="noCasesAlert" style="display:none;">
+		<div id="noCasesAlertCard">
+			<div id="noCasesAlertTitle">No cases selected</div>
+			<div id="noCasesAlertDesc">You need to select at least one case before you can start practicing. Click on a case set to select it.</div>
+			<button id="noCasesAlertOk" onclick="document.getElementById('noCasesAlert').style.display='none'">Got it</button>
+		</div>
+	</div>
+
+	<!-- Start Session Prompt -->
+	<div id="startSessionPrompt" style="display:none;">
+		<div id="startSessionPromptCard">
+			<div id="startSessionPromptTitle">Start a session?</div>
+			<div id="startSessionPromptDesc">Track your solves and get a full summary when you're done.</div>
+			<div id="startSessionPromptBtns">
+				<button id="startSessionPromptYes" onclick="window._startPromptYes()">Yes, start session</button>
+				<button id="startSessionPromptNo" onclick="window._startPromptNo()">No, I'll start manually</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Session Summary Modal -->
+	<div id="sessionModal" style="display:none;">
+		<div id="sessionModalCard">
+			<div id="sessionModalHeader">
+				<span id="sessionModalTitle">Session Summary</span>
+				<div id="sessionModalClose" onclick="window.closeSessionModal ? window.closeSessionModal() : document.getElementById('sessionModal').classList.remove('open')">✕</div>
+			</div>
+			<div id="summaryBody"></div>
+			<div id="sessionModalFooter">
+				<button id="retryIncorrectBtn" style="display:none;">Retry incorrect cases</button>
+				<button id="saveSessionBtn" onclick="window.saveSession()">Save Session</button>
+				<button id="backToSelectionBtn" onclick="window.discardSession ? window.discardSession() : (document.getElementById('sessionModal').classList.remove('open'), window.changeMode(0));">Discard Session</button>
+				<button id="sessionDetailCloseBtn" style="display:none;" onclick="document.getElementById('sessionModal').classList.remove('open')">Close</button>
+				<button id="deleteSessionBtn" style="display:none;">Delete Session</button>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
+<script src="min2phase.js"></script>
+<script src="mathlib.js"></script>
+<script src="zbll-scrambler.js"></script>
+<script>
+  // Initialize csTimer scrambler in background on page load
+  window.addEventListener('load', function() {
+    if (typeof zbllScrambler !== 'undefined') {
+      zbllScrambler.fullInit();
+    }
+  });
+</script>
+<script src="scripts/selection.js" type="module"></script>
+<script src="scripts/vccache.js" type="module"></script>
+<script src="scripts/practice.js" type="module"></script>
+<script src="scripts/timer.js" type="module"></script>
+<script src="scripts/virtualcube.js" type="module"></script>
+<script src="scripts/virtconfigwindow.js" type="module"></script>
+<script src="scripts/virtkeybindings.js" type="module"></script>
+<script type="module">
+	import { changeMode } from "./scripts/practice.js";
+	import { prepareMap, generateSelectionTable, renderSelection, adjustInfo, loadSelection } from "./scripts/selection.js";
+	// global variables storage
+	import { loadPresets } from "./scripts/presets.js";
+	import { loadLocal } from "./scripts/saveload.js";
+	import { loadKeymap } from "./scripts/virtkeybindings.js"
+	import { initializeVCConfig } from "./scripts/virtconfigwindow.js";
+	import { initializeVirtualCube } from "./scripts/virtualcube.js"
+
+	let indexViewing = 0; // index of time instance currently viewing in time
+
+	// TODO: generalize to any algset
+	const loadData = (() => {
+		prepareMap();
+		generateSelectionTable();
+		loadSelection();
+		renderSelection();
+	})()
+
+	adjustInfo();
+	initializeVirtualCube()
+	initializeVCConfig()
+	changeMode(0);
+
+	function sessionItemHtml(s, idx) {
+		const pctClass = s.pct >= 90 ? 'pct-great' : s.pct >= 70 ? 'pct-ok' : 'pct-poor';
+		const totalSecs = Math.floor((s.durationMs || 0) / 1000);
+		const mins = Math.floor(totalSecs / 60);
+		const secs = totalSecs % 60;
+		const dur = mins + ':' + (secs < 10 ? '0' : '') + secs;
+		const retryTag = s.isRetry ? ' <span class="session-retry-tag">Retry</span>' : '';
+		return `<div class="session-item" onclick="window.showSessionDetail(${idx})">
+			<div class="session-date">${s.date} &middot; ${s.time}${retryTag}</div>
+			<div class="session-row">
+				<span class="session-pct ${pctClass}">${s.pct}%</span>
+				<span class="session-correct">${s.correct}/${s.total} correct</span>
+			</div>
+			<div class="session-duration">&#9201; ${dur} drilling</div>
+		</div>`;
+	}
+
+	function loadSessionsPanel() {
+		const list = document.getElementById('sessions_list');
+		const footer = document.getElementById('panel_left_footer');
+		if (!list) return;
+		let sessions = [];
+		try { sessions = JSON.parse(localStorage.getItem('zbllSessions') || '[]'); } catch(e) {}
+		sessions = sessions.slice().reverse();
+		if (sessions.length === 0) {
+			list.innerHTML = '<div class="sessions-empty">No sessions saved yet.<br>Complete a session and<br>press "Save Session".</div>';
+			if (footer) footer.style.display = 'none';
+			return;
+		}
+		list.innerHTML = sessions.slice(0, 4).map((s, idx) => sessionItemHtml(s, idx)).join('');
+		if (footer) footer.style.display = sessions.length > 4 ? 'flex' : 'none';
+	}
+
+	function parseTimeStr(s) {
+		if (!s || s === 'DNF' || s === '-') return null;
+		const parts = s.split(':');
+		let secs = parseFloat(parts[parts.length - 1]);
+		if (parts.length > 1) secs += parseInt(parts[parts.length - 2]) * 60;
+		if (isNaN(secs)) return null;
+		return Math.round(secs * 100);
+	}
+	function csToStr(cs) {
+		if (!isFinite(cs) || cs <= 0) return '-';
+		const secs = Math.floor(cs / 100);
+		const centis = cs % 100;
+		const mins = Math.floor(secs / 60);
+		const s = secs % 60;
+		const cStr = centis < 10 ? '0' + centis : '' + centis;
+		return mins > 0 ? mins + ':' + (s < 10 ? '0' : '') + s + '.' + cStr : s + '.' + cStr;
+	}
+
+	function computeSessionsStats(sessions) {
+		const times = [];
+		sessions.forEach(s => {
+			if (!s.solves) return;
+			s.solves.forEach(solve => {
+				if (solve.dnf || solve.incorrect) return;
+				const cs = parseTimeStr(solve.time);
+				if (cs !== null) times.push(cs);
+			});
+		});
+		if (times.length === 0) return { mean: '-', bestAo5: '-', bestSingle: '-' };
+		const mean = csToStr(Math.round(times.reduce((a, b) => a + b, 0) / times.length));
+		const bestSingle = csToStr(Math.min(...times));
+		let bestAo5 = '-';
+		if (times.length >= 5) {
+			let best = Infinity;
+			for (let i = 4; i < times.length; i++) {
+				const w = times.slice(i - 4, i + 1).sort((a, b) => a - b);
+				const ao5 = (w[1] + w[2] + w[3]) / 3;
+				if (ao5 < best) best = ao5;
+			}
+			bestAo5 = csToStr(Math.round(best));
+		}
+		return { mean, bestAo5, bestSingle };
+	}
+
+	function filterSessions(sessions, range) {
+		if (range === 'all') return sessions;
+		const now = Date.now();
+		const ms = { day: 86400000, week: 604800000, year: 31536000000 };
+		const cutoff = now - (ms[range] || 0);
+		return sessions.filter(s => s.timestamp && s.timestamp >= cutoff);
+	}
+
+	function renderAllSessionsPage(sessions, filter) {
+		const filtered = filterSessions(sessions, filter);
+		const stats = computeSessionsStats(filtered);
+		document.getElementById('statMean').textContent = stats.mean;
+		document.getElementById('statBestAo5').textContent = stats.bestAo5;
+		document.getElementById('statBestSingle').textContent = stats.bestSingle;
+		const list = document.getElementById('allSessionsList');
+		if (filtered.length === 0) {
+			list.innerHTML = '<div class="sessions-empty" style="padding:32px;text-align:center;color:#555;">No sessions in this time range.</div>';
+			return;
+		}
+		list.innerHTML = filtered.map(s => sessionItemHtml(s, sessions.indexOf(s))).join('');
+	}
+
+	window.closeAllSessions = function() {
+		const page = document.getElementById('allSessionsPage');
+		if (!page) return;
+		page.classList.remove('slide-in');
+		page.classList.add('slide-out');
+		setTimeout(() => {
+			page.style.display = 'none';
+			page.classList.remove('slide-out');
+		}, 320);
+	};
+
+	window.openAllSessions = function() {
+		let sessions = [];
+		try { sessions = JSON.parse(localStorage.getItem('zbllSessions') || '[]'); } catch(e) {}
+		sessions = sessions.slice().reverse();
+		document.querySelectorAll('.sessions-filter-btn').forEach(b => b.classList.remove('active'));
+		document.querySelector('.sessions-filter-btn:last-child').classList.add('active');
+		renderAllSessionsPage(sessions, 'all');
+		// Reset chart to Day view
+		document.querySelectorAll('.ptc-btn').forEach(b => b.classList.remove('active'));
+		const firstPtcBtn = document.querySelector('.ptc-btn');
+		if (firstPtcBtn) firstPtcBtn.classList.add('active');
+		renderPracticeTimeChart(sessions, 'day');
+		const page = document.getElementById('allSessionsPage');
+		page.style.display = 'flex';
+		page.classList.remove('slide-out');
+		page.classList.add('slide-in');
+	};
+
+	function renderPracticeTimeChart(sessions, groupBy) {
+		const now = new Date();
+		let buckets = [];
+		if (groupBy === 'day') {
+			for (let i = 6; i >= 0; i--) {
+				const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+				buckets.push({
+					label: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()],
+					start: d.getTime(),
+					end: new Date(now.getFullYear(), now.getMonth(), now.getDate() - i + 1).getTime(),
+					ms: 0
+				});
+			}
+		} else if (groupBy === 'week') {
+			const dayOfWeek = now.getDay();
+			for (let i = 7; i >= 0; i--) {
+				const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayOfWeek - i * 7);
+				const weekEnd = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + 7);
+				const mo = weekStart.toLocaleString('default', { month: 'short' });
+				buckets.push({ label: mo + ' ' + weekStart.getDate(), start: weekStart.getTime(), end: weekEnd.getTime(), ms: 0 });
+			}
+		} else {
+			for (let i = 11; i >= 0; i--) {
+				const start = new Date(now.getFullYear(), now.getMonth() - i, 1);
+				const end = new Date(now.getFullYear(), now.getMonth() - i + 1, 1);
+				buckets.push({ label: start.toLocaleString('default', { month: 'short' }), start: start.getTime(), end: end.getTime(), ms: 0 });
+			}
+		}
+		sessions.forEach(s => {
+			if (!s.timestamp || !s.durationMs) return;
+			const b = buckets.find(b => s.timestamp >= b.start && s.timestamp < b.end);
+			if (b) b.ms += s.durationMs;
+		});
+		const maxMs = Math.max(...buckets.map(b => b.ms), 1);
+		const chart = document.getElementById('practiceTimeChart');
+		chart.innerHTML = buckets.map(b => {
+			const totalSecs = Math.floor(b.ms / 1000);
+			const m = Math.floor(totalSecs / 60);
+			const s = totalSecs % 60;
+			const mins = b.ms > 0 ? (m > 0 ? m + 'm ' : '') + s + 's' : '';
+			const pct = (b.ms / maxMs * 100).toFixed(1);
+			return `<div class="ptc-bar-wrap">
+				<div class="ptc-bar-val">${mins}</div>
+				<div class="ptc-bar-outer"><div class="ptc-bar-inner" style="height:${pct}%"></div></div>
+				<div class="ptc-bar-lbl">${b.label}</div>
+			</div>`;
+		}).join('');
+	}
+
+	window.setPracticeTimeGroup = function(group, btn) {
+		document.querySelectorAll('.ptc-btn').forEach(b => b.classList.remove('active'));
+		if (btn) btn.classList.add('active');
+		let sessions = [];
+		try { sessions = JSON.parse(localStorage.getItem('zbllSessions') || '[]'); } catch(e) {}
+		renderPracticeTimeChart(sessions, group);
+	};
+
+	window.setSessionsFilter = function(range, btn) {
+		document.querySelectorAll('.sessions-filter-btn').forEach(b => b.classList.remove('active'));
+		if (btn) btn.classList.add('active');
+		let sessions = [];
+		try { sessions = JSON.parse(localStorage.getItem('zbllSessions') || '[]'); } catch(e) {}
+		sessions = sessions.slice().reverse();
+		renderAllSessionsPage(sessions, range);
+	};
+	window.showGoBackWarning = function() {
+		const el = document.getElementById('goBackWarning');
+		if (el) el.style.display = 'flex';
+	};
+
+	window.showNoCasesAlert = function() {
+		const el = document.getElementById('noCasesAlert');
+		if (el) el.style.display = 'flex';
+	};
+
+	function showStartSessionPrompt() {
+		const el = document.getElementById('startSessionPrompt');
+		if (el) { el.style.display = 'flex'; }
+	}
+	window.showStartSessionPrompt = showStartSessionPrompt;
+
+	window._startPromptYes = function() {
+		document.getElementById('startSessionPrompt').style.display = 'none';
+		window.startSession();
+	};
+	window._startPromptNo = function() {
+		document.getElementById('startSessionPrompt').style.display = 'none';
+		const btn = document.getElementById('startSessionBtn');
+		if (btn) btn.style.display = 'inline-flex';
+	};
+
+	window.refreshSessionsPanel = loadSessionsPanel;
+	loadSessionsPanel();
+
+	function buildTimeListHtml(solves) {
+		if (!solves || solves.length === 0) return '';
+		let html = '<div class="summary-section-label">All times (' + solves.length + ')</div><div class="time-list">';
+		solves.forEach((s, i) => {
+			const bad = s.dnf || s.incorrect;
+			html += '<div class="time-list-item">' +
+				'<span class="tl-num">' + (i + 1) + '.</span>' +
+				'<span class="tl-time' + (s.dnf ? ' tl-dnf' : '') + '">' + s.time + '</span>' +
+				'<span class="tl-case">' + (s.case || '') + '</span>' +
+				(bad ? '<span class="tl-status tl-bad">\u2717</span>' : '<span class="tl-status tl-good">\u2713</span>') +
+				'</div>';
+		});
+		html += '</div>';
+		return html;
+	}
+
+	function showSessionDetail(idx) {
+		let sessions = [];
+		try { sessions = JSON.parse(localStorage.getItem('zbllSessions') || '[]').slice().reverse(); } catch(e) {}
+		const s = sessions[idx];
+		if (!s) return;
+
+		const modal = document.getElementById('sessionModal');
+		if (!modal) return;
+
+		// Title
+		const titlePrefix = s.isRetry ? 'Retry \u00b7 ' : '';
+		document.getElementById('sessionModalTitle').textContent = titlePrefix + s.date + ' \u00b7 ' + s.time;
+
+		// Body
+		const pct = s.pct;
+		const correctLabel = 'You got <b>' + s.correct + '</b> out of <b>' + s.total + '</b> correct <b>(' + pct + '%)</b>';
+		const totalSecs = Math.floor((s.durationMs || 0) / 1000);
+		const mins = Math.floor(totalSecs / 60);
+		const secs = totalSecs % 60;
+		const durStr = mins + ':' + (secs < 10 ? '0' : '') + secs;
+
+		let html = '<div class="summary-highlight">' + correctLabel + '</div>';
+		html += '<div class="summary-grid">';
+		if (s.meanStr && s.meanStr !== '-') html += '<div class="summary-item"><div class="summary-label">Session Mean</div><div class="summary-val">' + s.meanStr + '</div></div>';
+		if (s.bestAo5Str && s.bestAo5Str !== '-') html += '<div class="summary-item"><div class="summary-label">Best Ao5</div><div class="summary-val">' + s.bestAo5Str + '</div></div>';
+		if (s.bestSingleStr && s.bestSingleStr !== '-') html += '<div class="summary-item"><div class="summary-label">Best Single</div><div class="summary-val">' + s.bestSingleStr + '</div></div>';
+		html += '<div class="summary-item summary-item--wide"><div class="summary-label">Time Drilling</div><div class="summary-val">' + durStr + '</div></div>';
+		html += '</div>';
+
+		if (s.incorrectCases && s.incorrectCases.length > 0) {
+			html += '<div class="summary-section-label">Cases to review (' + s.incorrectCases.length + ')</div><div class="summary-case-tags">';
+			s.incorrectCases.forEach(c => { html += '<span class="summary-case-tag">' + (typeof c === 'string' ? c : c.desc) + '</span>'; });
+			html += '</div>';
+		}
+
+		html += buildTimeListHtml(s.solves);
+
+		if (s.notes) {
+			html += '<div class="summary-notes-wrap">' +
+				'<div class="summary-section-label">Session Notes</div>' +
+				'<div class="summary-notes-saved">' + s.notes.replace(/\n/g, '<br>') + '</div>' +
+			'</div>';
+		}
+
+		document.getElementById('summaryBody').innerHTML = html;
+
+		// Swap footer buttons: hide session-end ones, show Close + optional Retry + Delete
+		document.getElementById('saveSessionBtn').style.display = 'none';
+		document.getElementById('backToSelectionBtn').style.display = 'none';
+		document.getElementById('sessionDetailCloseBtn').style.display = '';
+
+		const deleteBtn = document.getElementById('deleteSessionBtn');
+		if (deleteBtn) {
+			deleteBtn.style.display = 'inline-flex';
+			deleteBtn.onclick = function() {
+				if (!confirm('Are you sure you want to delete this session? This cannot be undone.')) return;
+				let all = [];
+				try { all = JSON.parse(localStorage.getItem('zbllSessions') || '[]'); } catch(e) {}
+				const reversed = all.slice().reverse();
+				const originalIdx = all.length - 1 - idx;
+				all.splice(originalIdx, 1);
+				localStorage.setItem('zbllSessions', JSON.stringify(all));
+				document.getElementById('sessionModal').classList.remove('open');
+				loadSessionsPanel();
+			};
+		}
+
+		const retryBtn = document.getElementById('retryIncorrectBtn');
+		const retryableCases = s.incorrectCases && s.incorrectCases.filter(c => typeof c === 'object' && c.oll);
+		if (retryBtn) {
+			if (retryableCases && retryableCases.length > 0) {
+				retryBtn.style.display = 'inline-flex';
+				retryBtn.textContent = 'Retry Missed Cases';
+				retryBtn.onclick = function() {
+					document.getElementById('sessionModal').classList.remove('open');
+					window.retryHistorySession(retryableCases);
+				};
+			} else {
+				retryBtn.style.display = 'none';
+			}
+		}
+
+		modal.classList.add('open');
+	}
+	window.showSessionDetail = showSessionDetail;
+
+	window.onBodyLoaded = () => {
+		loadKeymap('0')
+		loadPresets();
+	}
+
+	document.getElementById("bodyid").addEventListener("keydown", function (event) {
+		if (event.keyCode == 27) {// esc
+			closeZW();
+			closeVConfig();
+		}
+	});
+</script>
+
+<script>
+  // Hide text nodes we can't target with CSS
+  window.addEventListener('DOMContentLoaded', () => {
+    const info = document.getElementById('select_info');
+    info.childNodes.forEach(node => {
+      if (node.nodeType === 3 && node.textContent.trim()) node.textContent = '';
+    });
+    const presets = document.getElementById('presets');
+    presets.childNodes.forEach(node => {
+      if (node.nodeType === 3) node.textContent = '';
+    });
+  });
+</script>
+<script src="scripts/styles.js" type="module"></script>
+<script src="scripts/casesmap.js" type="module"></script>
+<script src="scripts/saveload.js" type="module"></script>
+<script src="scripts/presets.js" type="module"></script>

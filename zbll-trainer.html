@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZBLL Trainer — Caiden Lee</title>
+<link rel="icon" type="image/png" href="Caiden Cube Logo black.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #16161a; --bg2: #1e1e24; --bg3: #26262e;
+    --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #8a8a9a;
+    --accent: #7c6ff7; --white: #ffffff;
+  }
+  html, body { height: 100%; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+  body { display: flex; flex-direction: column; }
+
+  /* HEADER */
+  header { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1.5rem; border-bottom: 1px solid var(--border); background: rgba(22,22,26,0.97); backdrop-filter: blur(10px); flex-shrink: 0; z-index: 10; position: relative; }
+  .back-btn { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--muted); font-size: 12px; font-weight: 500; padding: 0.4rem 0.9rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2); transition: all 0.2s, opacity 0.3s; white-space: nowrap; }
+  .back-btn:hover { color: var(--white); border-color: rgba(124,111,247,0.4); background: rgba(124,111,247,0.08); }
+  .header-title { font-size: 14px; font-weight: 700; color: var(--white); }
+  .header-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: rgba(124,111,247,0.12); border: 1px solid rgba(124,111,247,0.2); padding: 2px 8px; border-radius: 50px; white-space: nowrap; }
+  .spacer { flex: 1; }
+  .alg-btn { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--muted); font-size: 12px; font-weight: 500; padding: 0.4rem 0.9rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2); transition: all 0.2s; white-space: nowrap; }
+  .alg-btn:hover { color: var(--white); border-color: rgba(124,111,247,0.4); background: rgba(124,111,247,0.08); }
+  .home-btn { position: fixed; bottom: 1.5rem; left: 1.5rem; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--muted); font-size: 12px; font-weight: 500; padding: 0.5rem 1rem; border-radius: 50px; border: 1px solid var(--border); background: rgba(30,30,36,0.85); backdrop-filter: blur(10px); transition: all 0.2s; z-index: 1000; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+  .home-btn:hover { color: var(--white); border-color: rgba(124,111,247,0.4); background: rgba(124,111,247,0.15); }
+
+  .trainer-frame { flex: 1; width: 100%; border: none; display: block; }
+
+  .blocked-msg { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 2rem; text-align: center; }
+  .blocked-msg p { color: var(--muted); font-size: 14px; max-width: 400px; line-height: 1.7; }
+  .open-btn { display: inline-flex; align-items: center; gap: 8px; padding: 0.75rem 1.5rem; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; text-decoration: none; background: var(--accent); color: var(--white); transition: all 0.2s; }
+  .open-btn:hover { background: #5b5bd6; transform: translateY(-1px); }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back-btn" href="zbll-sheet-v2.html" id="backBtn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    Back
+  </a>
+  <span class="header-tag" id="headerTag" style="display:none;">Last Layer</span>
+  <div class="spacer"></div>
+  <span class="header-title" style="position:absolute;left:50%;transform:translateX(-50%);font-size:20px;">ZBLL <span style="color:#7c6ff7;">Trainer</span></span>
+  <div class="spacer"></div>
+  <button class="alg-btn" onclick="openSettings()" style="cursor:pointer;" title="Settings">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    Settings
+  </button>
+  <a class="alg-btn" href="zbll-sheet-v2.html#sheet" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    Alg Sheet
+  </a>
+</header>
+
+<a class="home-btn" href="zb.html">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+  Go back home
+</a>
+
+<iframe
+  class="trainer-frame"
+  src="zbll-trainer/index.html"
+  title="ZBLL Trainer"
+  allow="fullscreen"
+  id="trainerFrame"
+></iframe>
+
+<div class="blocked-msg" id="blockedMsg" style="display:none;">
+  <p>This trainer can't be embedded directly. Open it in a new tab to use it.</p>
+  <a class="open-btn" href="zbll-trainer/index.html" target="_blank" rel="noopener">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    Open ZBLL Trainer
+  </a>
+</div>
+
+<!-- Settings Modal -->
+<div id="settingsBackdrop" onclick="closeSettings()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;backdrop-filter:blur(4px);"></div>
+<div id="settingsPanel" style="display:none;position:fixed;top:60px;right:1.5rem;width:300px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;z-index:1001;box-shadow:0 16px 48px rgba(0,0,0,0.5);overflow:hidden;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid var(--border);">
+    <span style="font-size:14px;font-weight:700;color:var(--white);">Settings</span>
+    <button onclick="closeSettings()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;">✕</button>
+  </div>
+  <div style="padding:1rem 1.25rem;display:flex;flex-direction:column;gap:1rem;">
+
+    <!-- Case Pictures -->
+    <div>
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.5rem;">Case Pictures</div>
+      <div style="display:flex;gap:8px;">
+        <button id="btnTop" onclick="setPictureView('top')" class="setting-pill active-pill">Top View</button>
+        <button id="btnSide" onclick="setPictureView('3D')" class="setting-pill">Side View</button>
+      </div>
+    </div>
+
+    <!-- Timer Size -->
+    <div>
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.5rem;">Timer Size</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button onclick="sendToFrame('adjustSize','timertext',-8)" class="setting-pill" style="font-size:16px;padding:2px 10px;">−</button>
+        <button onclick="sendToFrame('adjustSize','timertext',8)" class="setting-pill" style="font-size:16px;padding:2px 10px;">+</button>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<style>
+  .setting-pill { background:var(--bg3);border:1px solid var(--border);border-radius:50px;color:var(--muted);font-size:12px;font-weight:500;padding:5px 14px;cursor:pointer;transition:all 0.15s;font-family:'Inter',sans-serif; }
+  .setting-pill:hover { color:var(--white);border-color:rgba(124,111,247,0.4); }
+  .active-pill { background:rgba(124,111,247,0.15);border-color:rgba(124,111,247,0.5);color:var(--white); }
+</style>
+
+<script>
+  const frame = document.getElementById('trainerFrame');
+  const msg = document.getElementById('blockedMsg');
+  frame.addEventListener('error', () => {
+    frame.style.display = 'none';
+    msg.style.display = 'flex';
+  });
+
+  function openSettings() {
+    document.getElementById('settingsBackdrop').style.display = 'block';
+    document.getElementById('settingsPanel').style.display = 'block';
+    syncPictureViewButtons();
+  }
+  function closeSettings() {
+    document.getElementById('settingsBackdrop').style.display = 'none';
+    document.getElementById('settingsPanel').style.display = 'none';
+  }
+  function syncPictureViewButtons() {
+    var view = localStorage.getItem('zbllPictureView') || 'top';
+    document.getElementById('btnTop').classList.toggle('active-pill', view === 'top');
+    document.getElementById('btnSide').classList.toggle('active-pill', view === '3D');
+  }
+  function setPictureView(view) {
+    localStorage.setItem('zbllPictureView', view);
+    syncPictureViewButtons();
+    frame.contentWindow.postMessage({ type: 'togglePictureView', view: view }, '*');
+  }
+  function sendToFrame(action, ...args) {
+    frame.contentWindow.postMessage({ type: 'settingsAction', action, args }, '*');
+  }
+
+  // Listen for iframe ready signal
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'pictureViewReady') syncPictureViewButtons();
+  });
+
+  // Swap back button / purple tag when user enters/leaves the trainer iframe
+  const backBtn = document.getElementById('backBtn');
+  const headerTag = document.getElementById('headerTag');
+  window.addEventListener('blur', function() {
+    if (backBtn) backBtn.style.display = 'none';
+    if (headerTag) headerTag.style.display = '';
+  });
+  window.addEventListener('focus', function() {
+    if (backBtn) backBtn.style.display = '';
+    if (headerTag) headerTag.style.display = 'none';
+  });
+</script>
+
+</body>
+</html>

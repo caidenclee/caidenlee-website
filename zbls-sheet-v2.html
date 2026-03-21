@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZBLS Algorithm Sheet — Caiden Lee</title>
+<link rel="icon" type="image/png" href="Caiden Cube Logo black.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #16161a; --bg2: #1e1e24; --bg3: #26262e; --bg4: #2e2e38;
+  --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #8a8a9a;
+  --accent: #7c6ff7; --accent2: rgba(124,111,247,0.15); --white: #fff;
+}
+html, body { min-height: 100%; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+/* ── VIEWS ── */
+.view { display: none; opacity: 0; transition: opacity 0.4s ease; min-height: 100vh; }
+.view.active { display: flex; flex-direction: column; }
+.view.visible { opacity: 1; }
+
+/* ── WELCOME ── */
+#view-welcome {
+  align-items: center; justify-content: center; position: relative;
+  background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(124,111,247,0.12) 0%, transparent 70%), var(--bg);
+}
+.welcome-glow {
+  position: absolute; width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(124,111,247,0.18) 0%, transparent 65%);
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  animation: glow-pulse 5s ease-in-out infinite; pointer-events: none;
+}
+@keyframes glow-pulse {
+  0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.9; }
+  50% { transform: translate(-50%,-50%) scale(1.12); opacity: 0.6; }
+}
+.welcome-inner {
+  position: relative; z-index: 1; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+  padding: 2rem; animation: welcome-in 0.7s ease both;
+}
+@keyframes welcome-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.welcome-tag {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--accent); background: rgba(124,111,247,0.12);
+  border: 1px solid rgba(124,111,247,0.25); padding: 4px 14px; border-radius: 50px;
+}
+.welcome-title { font-size: clamp(42px, 8vw, 72px); font-weight: 800; color: var(--white); line-height: 1.1; letter-spacing: -0.02em; }
+.welcome-title span { color: var(--accent); }
+.welcome-sub { font-size: 17px; color: var(--muted); max-width: 420px; line-height: 1.6; }
+.welcome-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--accent); color: var(--white);
+  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+  padding: 14px 32px; border-radius: 50px; border: none; cursor: pointer;
+  transition: all 0.2s; margin-top: 0.5rem;
+  box-shadow: 0 0 32px rgba(124,111,247,0.35);
+}
+.welcome-cta:hover { transform: translateY(-2px); box-shadow: 0 0 48px rgba(124,111,247,0.5); background: #6c5fe6; }
+.welcome-stats { display: flex; gap: 2.5rem; margin-top: 0.5rem; }
+.welcome-stat { text-align: center; }
+.welcome-stat-num { font-size: 26px; font-weight: 700; color: var(--white); }
+.welcome-stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── CHOOSE VIEW ── */
+#view-choose {
+  align-items: center; justify-content: center;
+  background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(124,111,247,0.08) 0%, transparent 70%), var(--bg);
+}
+.choose-inner { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2rem; padding: 2rem; animation: welcome-in 0.5s ease both; }
+.choose-title { font-size: clamp(22px, 4vw, 32px); font-weight: 800; color: var(--white); letter-spacing: -0.02em; }
+.choose-cards { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+.choose-card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 20px;
+  padding: 2rem 2.5rem; cursor: pointer; width: 220px;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  transition: all 0.22s; text-decoration: none; position: relative; overflow: hidden;
+}
+.choose-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: 20px;
+  background: radial-gradient(circle at 50% 0%, rgba(124,111,247,0.12) 0%, transparent 65%);
+  opacity: 0; transition: opacity 0.22s;
+}
+.choose-card:hover { border-color: rgba(124,111,247,0.5); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.4); }
+.choose-card:hover::before { opacity: 1; }
+.choose-card-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: rgba(124,111,247,0.15); border: 1px solid rgba(124,111,247,0.25);
+  display: flex; align-items: center; justify-content: center; color: var(--accent);
+  position: relative; z-index: 1;
+}
+.choose-card-name { font-size: 17px; font-weight: 700; color: var(--white); position: relative; z-index: 1; }
+.choose-card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; position: relative; z-index: 1; }
+
+/* ── HEADER ── */
+.app-header {
+  display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(22,22,26,0.97); backdrop-filter: blur(12px);
+  position: sticky; top: 0; z-index: 100; flex-shrink: 0;
+}
+.header-title { font-size: 18px; font-weight: 700; color: var(--white); position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; }
+.header-title span { color: var(--accent); }
+.spacer { flex: 1; }
+.header-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: rgba(124,111,247,0.12); border: 1px solid rgba(124,111,247,0.2); padding: 2px 10px; border-radius: 50px; }
+.btn-pill { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; font-weight: 500; padding: 0.4rem 0.9rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2); cursor: pointer; transition: all 0.2s; white-space: nowrap; font-family: 'Inter', sans-serif; text-decoration: none; }
+.btn-pill:hover { color: var(--white); border-color: rgba(124,111,247,0.4); background: rgba(124,111,247,0.08); }
+.back-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; font-weight: 500; background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; padding: 4px 0; transition: color 0.15s; }
+.back-btn:hover { color: var(--white); }
+
+/* ── VIEW CONTENT ── */
+.view-content { flex: 1; padding: 2.5rem 1.5rem; max-width: 1100px; width: 100%; margin: 0 auto; }
+.view-hero { text-align: center; margin-bottom: 2.5rem; }
+.view-hero h2 { font-size: clamp(24px, 4vw, 36px); font-weight: 800; color: var(--white); letter-spacing: -0.02em; }
+.view-hero p { font-size: 14px; color: var(--muted); margin-top: 8px; }
+
+/* ── SETS GRID ── */
+.sets-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+.set-card {
+  width: 220px; flex-shrink: 0;
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 18px;
+  padding: 28px 20px 24px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  transition: all 0.22s; text-align: center; position: relative; overflow: hidden;
+}
+.set-card::before { content: ''; position: absolute; inset: 0; border-radius: 18px; background: radial-gradient(circle at 50% 0%, rgba(124,111,247,0.1) 0%, transparent 65%); opacity: 0; transition: opacity 0.22s; }
+.set-card:hover { border-color: rgba(124,111,247,0.45); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+.set-card:hover::before { opacity: 1; }
+.set-card-img { width: 88px; height: 88px; object-fit: contain; }
+.set-card-name { font-size: 22px; font-weight: 800; color: var(--white); letter-spacing: -0.02em; }
+.set-card-badge { font-size: 11px; font-weight: 600; color: var(--accent); background: rgba(124,111,247,0.12); border: 1px solid rgba(124,111,247,0.2); padding: 3px 12px; border-radius: 50px; }
+.set-card-arrow { font-size: 18px; color: var(--muted); margin-top: 4px; transition: transform 0.2s; }
+.set-card:hover .set-card-arrow { transform: translateX(4px); color: var(--accent); }
+
+/* ── CASES GRID ── */
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.cases-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.case-card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 14px;
+  padding: 20px 16px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.2s;
+  text-align: center; animation: card-in 0.35s ease both;
+}
+.case-card:hover { border-color: rgba(124,111,247,0.45); background: rgba(124,111,247,0.05); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.3); }
+.case-card-img { width: 80px; height: 80px; object-fit: contain; }
+.case-card-name { font-size: 17px; font-weight: 700; color: var(--white); }
+.case-card-hint { font-size: 10px; color: var(--muted); display: flex; align-items: center; gap: 3px; margin-top: 2px; }
+
+/* ── SUBCASE THUMB GRID ── */
+.subcases-flat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.subcase-thumb {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 12px 10px 8px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  transition: all 0.2s; animation: card-in 0.35s ease both; text-align: center;
+}
+.subcase-thumb:hover { border-color: rgba(124,111,247,0.45); background: rgba(124,111,247,0.05); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+.subcase-thumb img { width: 90px; height: 90px; object-fit: contain; }
+.subcase-thumb-label { font-size: 10px; color: var(--muted); }
+
+/* ── DETAIL OVERLAY ── */
+.detail-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 300; backdrop-filter: blur(10px); align-items: center; justify-content: center; padding: 1.5rem; }
+.detail-overlay.open { display: flex; }
+.detail-panel { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; display: flex; max-width: 820px; width: 100%; max-height: 90vh; overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,0.7); }
+.detail-img-side { background: var(--bg3); border-right: 1px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 2.5rem 2rem; min-width: 240px; flex-shrink: 0; }
+.detail-img-side img { width: 200px; height: 200px; object-fit: contain; }
+.detail-algs-side { flex: 1; overflow-y: auto; padding: 1.5rem 1.75rem; display: flex; flex-direction: column; }
+.detail-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.25rem; gap: 1rem; }
+.detail-title { font-size: 18px; font-weight: 700; color: var(--white); }
+.detail-subtitle { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.detail-close { background: var(--bg3); border: 1px solid var(--border); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--muted); font-size: 16px; transition: all 0.2s; flex-shrink: 0; }
+.detail-close:hover { color: var(--white); border-color: rgba(124,111,247,0.4); }
+.detail-section { padding: 10px 0; }
+.detail-section + .detail-section { border-top: 1px solid var(--border); }
+.detail-section-label { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+.label-main { color: var(--accent); }
+.label-like { color: #4ade80; }
+.label-secondary { color: var(--muted); }
+@media (max-width: 600px) {
+  .detail-panel { flex-direction: column; }
+  .detail-img-side { min-width: unset; border-right: none; border-bottom: 1px solid var(--border); padding: 1.5rem; }
+  .detail-img-side img { width: 120px; height: 120px; }
+}
+
+/* ── ALG ROWS ── */
+.alg-row { display: flex; align-items: center; gap: 6px; padding: 4px 7px; border-radius: 5px; background: var(--bg4); cursor: pointer; transition: background 0.15s; }
+.alg-row:hover { background: rgba(124,111,247,0.1); }
+.alg-text { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text); flex: 1; min-width: 0; word-break: break-all; line-height: 1.4; }
+.copy-icon { flex-shrink: 0; color: var(--muted); opacity: 0; transition: opacity 0.15s; }
+.alg-row:hover .copy-icon { opacity: 1; }
+.alg-row.copied .alg-text { color: var(--accent); }
+
+/* ── EDIT MODE ── */
+.alg-input { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text); flex: 1; min-width: 0; background: var(--bg2); border: 1px solid rgba(124,111,247,0.35); border-radius: 4px; padding: 3px 6px; outline: none; line-height: 1.4; }
+.alg-input:focus { border-color: var(--accent); }
+.alg-delete-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 15px; padding: 0 3px; line-height: 1; transition: color 0.15s; flex-shrink: 0; }
+.alg-delete-btn:hover { color: #f87171; }
+.add-alg-btn { width: 100%; margin-top: 4px; background: none; border: 1px dashed var(--border); border-radius: 5px; color: var(--muted); font-size: 11px; font-family: 'Inter', sans-serif; padding: 5px; cursor: pointer; transition: all 0.15s; }
+.add-alg-btn:hover { border-color: rgba(124,111,247,0.4); color: var(--accent); }
+.reset-alg-btn { background: none; border: none; color: var(--muted); font-size: 10px; font-family: 'Inter', sans-serif; cursor: pointer; padding: 0; margin-left: 4px; text-decoration: underline; transition: color 0.15s; }
+.reset-alg-btn:hover { color: var(--text); }
+.edit-on { color: #f0a500 !important; border-color: rgba(240,165,0,0.45) !important; background: rgba(240,165,0,0.06) !important; }
+
+/* ── HOME BTN ── */
+.home-btn { position: fixed; bottom: 1.5rem; left: 1.5rem; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--muted); font-size: 12px; font-weight: 500; padding: 0.5rem 1rem; border-radius: 50px; border: 1px solid var(--border); background: rgba(30,30,36,0.9); backdrop-filter: blur(10px); transition: all 0.2s; z-index: 200; box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+.home-btn:hover { color: var(--white); border-color: rgba(124,111,247,0.4); background: rgba(124,111,247,0.15); }
+</style>
+</head>
+<body>
+
+<!-- ══ VIEW: WELCOME ══ -->
+<div id="view-welcome" class="view">
+  <div class="welcome-glow"></div>
+  <div class="welcome-inner">
+    <span class="welcome-tag">Zborowski–Bruchem Last Slot</span>
+    <h1 class="welcome-title">Welcome to <span>ZBLS</span></h1>
+    <p class="welcome-sub">Select a category, choose a case, and explore every algorithm.</p>
+    <button class="welcome-cta" onclick="showView('choose')">
+      Get Started
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <div class="welcome-stats">
+      <div class="welcome-stat"><div class="welcome-stat-num">6</div><div class="welcome-stat-label">Categories</div></div>
+      <div class="welcome-stat"><div class="welcome-stat-num">41</div><div class="welcome-stat-label">Cases</div></div>
+      <div class="welcome-stat"><div class="welcome-stat-num">302</div><div class="welcome-stat-label">Algorithms</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ VIEW: CHOOSE ══ -->
+<div id="view-choose" class="view">
+  <div class="choose-inner">
+    <div class="choose-title">What do you want to do?</div>
+    <div class="choose-cards">
+      <a class="choose-card" href="zbls-trainer.html">
+        <div class="choose-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        <div class="choose-card-name">Alg Trainer</div>
+        <div class="choose-card-desc">Practice your ZBLS algorithms with flashcards</div>
+      </a>
+      <div class="choose-card" onclick="goToSets()">
+        <div class="choose-card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="choose-card-name">Alg Sheet</div>
+        <div class="choose-card-desc">Browse every ZBLS algorithm by category and case</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ VIEW: SETS ══ -->
+<div id="view-sets" class="view">
+  <header class="app-header">
+    <span class="header-tag">F2L Last Slot</span>
+    <div class="spacer"></div>
+    <span class="header-title">ZBLS <span>Algorithm Sheet</span></span>
+    <div class="spacer"></div>
+    <a class="btn-pill" href="zbls-trainer.html" target="_blank" rel="noopener">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Go to Trainer
+    </a>
+    <button id="editModeBtn" class="btn-pill" onclick="toggleEditMode()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Edit Algs
+    </button>
+    <button id="exportAlgsBtn" class="btn-pill" onclick="exportAlgsToSource()" style="display:none;color:#4ade80;border-color:rgba(74,222,128,0.35);">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export
+    </button>
+    <button id="lockBtn" class="btn-pill" onclick="lockEditing()" style="display:none;color:#f87171;border-color:rgba(248,113,113,0.35);">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Lock
+    </button>
+  </header>
+  <div class="view-content">
+    <div class="view-hero">
+      <h2>Select a category</h2>
+      <p>Choose which ZBLS case group you want to explore</p>
+    </div>
+    <div class="sets-grid" id="setsGrid"></div>
+  </div>
+  <a class="home-btn" href="zb.html">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Go back home
+  </a>
+</div>
+
+<!-- ══ VIEW: CASES ══ -->
+<div id="view-cases" class="view">
+  <header class="app-header">
+    <button class="back-btn" onclick="goToSets()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      All categories
+    </button>
+    <div class="spacer"></div>
+    <span class="header-title" id="casesHeaderTitle"></span>
+    <div class="spacer"></div>
+    <a class="btn-pill" href="zbls-trainer.html" target="_blank" rel="noopener">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Go to Trainer
+    </a>
+  </header>
+  <div class="view-content">
+    <div class="view-hero">
+      <h2 id="casesHeroTitle">Choose a case</h2>
+      <p id="casesHeroDesc"></p>
+    </div>
+    <div class="cases-grid" id="casesGrid"></div>
+  </div>
+</div>
+
+<!-- ══ VIEW: SUBCASES ══ -->
+<div id="view-subcases" class="view">
+  <header class="app-header">
+    <button class="back-btn" onclick="goToCases(currentCat)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      <span id="subcasesBackLabel">Back</span>
+    </button>
+    <div class="spacer"></div>
+    <span class="header-title" id="subcasesHeaderTitle"></span>
+    <div class="spacer"></div>
+    <a class="btn-pill" href="zbls-trainer.html" target="_blank" rel="noopener">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Go to Trainer
+    </a>
+  </header>
+  <div class="view-content">
+    <div class="view-hero">
+      <h2 id="subcasesHeroTitle"></h2>
+      <p id="subcasesHeroDesc"></p>
+    </div>
+    <div class="subcases-flat-grid" id="subcasesGrid"></div>
+  </div>
+</div>
+
+<!-- ══ DETAIL OVERLAY ══ -->
+<div class="detail-overlay" id="detailOverlay" onclick="closeDetail(event)">
+  <div class="detail-panel">
+    <div class="detail-img-side">
+      <img id="detailImg" src="" alt="">
+    </div>
+    <div class="detail-algs-side">
+      <div class="detail-top">
+        <div>
+          <div class="detail-title" id="detailTitle"></div>
+          <div class="detail-subtitle" id="detailSubtitle"></div>
+        </div>
+        <button class="detail-close" onclick="closeDetailDirect()">&#x2715;</button>
+      </div>
+      <div id="detailAlgs"></div>
+    </div>
+  </div>
+</div>
+
+<script src="zbls-casesmap.js"></script>
+<script>
+/* ── SUBCASE_ALGS ── */
+const SUBCASE_ALGS = {
+  1: [["(U) R U' R'"],["U R B U' B' R'","U F' U' L' U' L F"],["U F' L' U' L F","R' U' F U R U' F'"],["U S' R U' R' S","M U R U' R' U' M'"],["U F' L' U' L F","R' U' F U R U' F'"],["R' F R2 U R' U' F'","U2 R U' R' U' R' F R F'"],["U R U R' U2' R' F R F'"],["(U2) F' L' U2 L F R U2 R'","U2 R' F R F' U2 R' F R F'"]],
+  2: [["(U') F' U F","y U' L' U L"],["F R' F' R"],["(U') R U R' U F R' F' R","d' F R U R' F'"],["U R' D' r U r' D R"],["(U') F' L' U L F"],["(U) R U R2' D' r U r' D R"],["U R' D' r U' r' D R","(U') F' U L' U' L U F"],["U' R U' R2' D' r U r' D R","r U r' U2 M' U M"]],
+  3: [["F' U' F","y L' U' L"],["U' R' F R U R U' R2 F' R"],["(U) R U2 R' F R' F' R","S U R U' R' S'"],["U2 R' D' r U' r' D R2 U' R' "],["(U) R U2 R' U' F' U F","F' r U' r' F2 R U' R'"],["F' U' L' U' L U F"],["F' U2 L' U L F"],["R' F R2 U' M' U2 r' U' F'"]],
+  4: [["R U R'"],["(U') F' U2 F U R U' R'","R U R2' F2 r U r' F R"],["R U' R' U2 R' F R F'","S R U R' U' S'"],["U F U R U' R2' F' R"],["U2 r U' r' U' r U r' "],["S' R U R' S"],["R U' R2' F R F' R U2' R' "],["R' D' r U' r' D R2 U R'"]],
+  5: [["(U') R U R' U2 R U' R'"],["R' D' R U R' D F R F'","U' R U R' U2 F' L' U' L F"],["U' R U R' U2 S' R U' R' S","y' U r' U R U' R' U' r"],["U' F R U R' U' F' R U2 R'","U R U' R' U' R' F R F' R U R'"],["F R' F' R U R U' R2 F R F'"],["U' R U R' U R' F R F'"],["U' r U R' U' R2 r' U2 R' "],["U' r U' r' U2 r U r' R U2 R'"]],
+  6: [["y' U R' U' R U R' U2' R"],["U2' R' F' U' F U R2 U' R' "],["U' r U' R' U R U' R' U' R U' r'"],["U' R' F R F' R U2' R2' F R F'"],["U' r U' R' U R U' R' U' R U' r'"],["U F' U' L' U L U' F"],["U2 F' L' U' L U2 F"],["U R U' R' F' L' U2 L U' F"]],
+  7: [["(U') R U2 R' U2 R U' R'"],["R U R' U R U' R2 F R F'"],["R' D' R U2 R' D F R F'"],["(U) R U' R' U R' F R F' R U R'"],["U' R U2 R' U R' F R2 U R' U' F'"],["F R' F' R U2 R U' R' U R U' R'"],["(U') R U2 R' U R' F R F'"],["M' U' M U2 r U' r'"]],
+  8: [["y' U R' U2 R U2 R' U R"],["U F R' F' R2 U2 R' U2 R U' R'"],["r' U2 R2 U R2' U r"],["F R' F' R U' R U R' U' F' U' F","R2 D R' U' R r' U' r D' R' U R'","U F' U2 L' U L U' F"],["F' U' L' U2 L U' F"],["U F R' F' R2 U2 R' U (R' F R F')"],["U' L' U' L U L F' L2 U2 L F","F' U' L' U2 L U2 L' U L F"],["r U r' U' R U' M' U r'"]],
+  9: [["U y' R' U' R U' R' U' R"],["U r U R' U' M R U' R'"],["U' R U' R' U F' U' F"],["U r U' r' U2' r U r' R U' R'"],["U' R U' R' U F' U' F"],["F' U L' U' L U L' U L F"],["F' U L' U' L U2 F"],["U' R U' R' U F' U2 L' U L F"]],
+  10: [["(U') R U R' U R U R'"],["U2 R U' R' F U R U' R2' F' R"],["U2' r U' R' U' R U r'"],["U2 R U' R' U r U' r' U' r U r'","U F R' F' R U2 R U' R'"],["U2 R U2 R' U' F R' F' R2 U R'"],["U' R U R' U' r U' r' U' r U r'"],["U2 R U' R' U r U' r' U' r U r'"],["r U' r' U' r U r' U2' R' F R F'"]],
+  11: [["(y') R U2 R2 U' R2 U' R'"],["U' R U2 R' U F' U' F"],["(U') R U2 R2' F R U R U' R2' F' R","R U' R' U R U' R2' F R F' R U' R'"],["R U2 R' U' F' L' U2 L F"],["R' F R F' U' R U' R' U R U' R'"],["F' U L' U2 L U2 F"],["F' L' U' L U' L' U L U' F"],["F R' F' R U' R U' R2 F R F'"]],
+  12: [["R U' R' U R U' R' U2 R U' R'"],["R U' R' U R U' R' U R' F R F'"],["(U) F' U2 F U' R U R'"],["(U2) R' F2 r U r' F R2 U R'"],["F' U' (L' U L U')x2 F","R U' r' U R U' R' U' r U2 R'"],["(U) F R' F' R2 U R' U2 R U' R'"],["R d' R U2 R' U2 F'","R' U2 R2 U R2 F' U F R"],["R' D' R U2 M' U r' D R2 U R'","(U) F R' F' R2 U R' U R' F R F'"]],
+  13: [["U y' R' U R U' R' U' R","R U R' U' (R' F R F')x2"],["U r U R' U' M R U' R'"],["R' F' r U R U2 r' F2"],["M' U' R U' r' U2 r U' r'"],["R2 D R' U R D' R2 F' U' F","R U R' U' (R' F R F') U R U' R'"],["R' F R U2 r U' r' U2 F'","U2' r U2' r' U' r U r' U r U2' r'"],["R' D' r U r' D R U R U' R'","R' F R F' U' R' F R F' R U R'","U' S' U' R B U B' U2 R' U' S"],["U2 R U R D r' U r D' R' U R'"]],
+  14: [["(U') R U' R' U R U R'"],["U2 R U R' U R U2 R2 F R F'"],["U' R' F R2 U R' U' R' F' R","r' D' r U' r' D r R U R'","U F R U R' D R2 U' R2 D' F'"],["U2 F R' F' R U R U' R' U R U R'","R U R' U' F' U' F U R U R'","U2 r U R' U R U2 r' U R U' R'","R B r' U r B2 U2' R'"],["U' R' F R2 U R' U' R' F' R","r' D' r U' r' D r R U R'","U F R U R' D R2 U' R2 D' F'"],["F' r U' r' F2 U' R U R'","U' R U' R' U' r U' r' U' r U r'"],["R U R' U' R' F R F' R U R'"],["U2 r U' r' U M' U2' R U r'","R' F R F' R U' R' U R U2' R2' F R F'","U2 r U' r' U2 r U r' U R U R'","U R2 D r' U r D' R2' U2' R U R'"]],
+  15: [["R' D' R U' R' D R U R U' R'","R U2 R' U R U R' U R U' R'","R U R' U2 R U' R' U R U' R'"],["F' U L' U L U2' F","F' U F U2 R U R'","U R' F R F' U R U R'"],["R U2' R' U R U R2' F R F'","R' D' R U' R' D F R F'","U' R' F R F' R U R' U2' R U R'","y' R2' F R F' R U2' R' U R"],["R U2' R2' F R F' U' R U2' R'"],["M U r U' r' U' M'","F D R U R U' R2 D' F'","l U' L F' L U' l'"],["M U R U R' U' r U' R'","(U) S' R U R' S R U2 R'"],["R U R' U2 R U' R2 F R F'"],["l U r U' r2' F r U2 l'","U R U' R D r' U r D' R' U' R'","r' U' R U M' U' R' F U R U' F'"]],
+  16: [["U M' U R U' r' U' R U R'","r U r' U r U2 r' U' r U' r'","U M' U R U' r' U' R U R'","U F R' F' R2 U' R' U R' F R F'","F' U (R U R' U R U2' R') F"],["F' U2 L' U' L U' F","R U' R' U2 F' U' F"],["U F U R U' R' F' R U R'","(l R) U' R' U l' U2 R U' R'","R' D' R U R' D R F R' F' R"],["U2 R' D' r U' M U' R' D R","U r U' r' U2' r U r' U' R U R'"],["R U R' U2' R U' R' U' F' U F","U F R U R' U' F' U R U' R'","y' M' U' r' U r U M"],["F' U R U R' U' R' F2 R F'","U2 R U R' r U' r' U2' r U r'"],["r U' r' U l' U2 R U' R' U2 l","U2 r' F' r U' r' F2' r2 U' r' U2' r U r'","U r U' r' U2 r U r' U r U' r' U' r U r'"],["U' r U' R' U' M U2 r U r'","U R U2' R' r U' r' U2' r U r'","U R U2 R' F' L' U2 L F","R U' R2 D' r U' r' D R2 U' R'"]],
+  17: [["R U2 R' U' R U R'"],["R U R' U' F R' F' R2 U R'"],["F' U2' F R U R' U2 R U' R'","F R' F' R2 D' r U' r' D R","R U l' U R' U' R U R' U' l","B' R U' R U R' U' R2 U B"],["R U2 R' F U R U' R2 F' R"],["F' U' F U R U' R' U R U' R'","R U2' R' U r U' r' U' r U r'"],["R U' R' r U' R' U' R U r'","R U' M' U' R' U' R U r'"],["U R U2 R' U' R U R' U R' F R F'","U' F R U R' U' F2 r U' r' F2","U' R U2 R' U' F' U' F R U R'","R U' R' U' F R' F' R U2 R U' R'"],["r' D' r U2' r' D r2 U' R' U2' R U r'","F' r U' r' F2 R U2' R2 F R F'"]],
+  18: [["R' F R F' R U' R' U R U' R'","y' R' U2 R U R' U' R"],["R U' R' F' U F U R U R'","U R U' R2' F R F' U R U' R'","U R' F R F' R U' R' U F' U' F"],["R' F R F' R U' R2' F R F'","R U R' U' R U2 R' F' U2 F"],["R U' R2' F R F' r U' r' U' r U r'","R' D R2 U2' r' U2 R U r D' R2"],["R U' R' F' U' F U R U' R'","R U R' d' L' U L U' L' U L"],["R U R' d' r' F r2 U' r' F","R U R' F' L' U2 L U' F","R U' R D r' U' r D' R2' U' R U R'","U F2 r U r' U F R U2 R'"],["r U R' U R U r' U M' U2 R U r'","U' R2 D' r U' r' D r U R2 U' r'","R' D' R U2 R' D R r U' r' U2' r U r'","M' U2 r' F2 R U2 r U' r' U2 F","R U2 R' r U r' U2 r U R' U R r'"],["F R' F' R2 U' R' U R U2' R2' F R F'","F R U R' U' F' R U2' R2 F R F'"]],
+  19: [["U R U2 R' U R U' R'"],["U R' F R F' R U' R' U2 R U' R'"],["U2 F R' F' R U R' F R F' R U' R'"],["U (F R U R' U' F') R U R'","R U2 R2 F R2 U R' U' F'"],["U R U2 R' U F' L' U' L F"],["U F R' F' R r U' R' U R U r'"],["U R U2 R2 F R F'"],["U2 R U R2' r U' M U2' r U' r'"]],
+  20: [["y' U' R' U2 R U' R' U R"],["U' (R U' R' U)x2 (U F R' F'","U2' r U' R' U R U r' F' U' F"],["U' R U' R2 F R F' R U' R'"],["U' F' U' r U' r' F2","y U' L' U2 L2 F' L' F"],["F R' F' R2 U R' U2 R U R'"],["R' F2 R U' F U R' F2 R"],["L' U' L U L F' L' U2 F"],["U' R U' R2' F R F' U' R' F R F'"]],
+  21: [["U2 R U R' U R U' R'"],["U2 F' U' F R U R'"],["U (R' F R F' U)x2","U R U' R' U2 R U' R2' F R F'"],["U F R' F' R2 U' R' U R U R'"],["U2' R U R2' F R F'"],["U F R' F' R2 U' R' U R U R'","r U' R' U2 R U r'"],["U2 F R U R' U' F' U' R U2 R'"],["U2' F' r' F2 r2 U' r' F2","U M' U R U' r' U R U R2' F R F'"]],
+  22: [["y' R' U R U2 R' U' R y","U2 R' F R F' R U R' U R U' R'"],["U2' R U R' F' U' F"],["U2 F' L' U' L U' L' U' L U F"],["U2 F' L' U' L U' F"],["U2' R U R' F' U' F"],["F' L' U2 L F","r U' r' U2' r U r'"],["U2' R' F R F' R U R2' F R F'"],["U' F R' F' R U2' F' L' F"]],
+  23: [["U2 R2 U2' R' U' R U' R2'","R U' R2' D' R U2 R' D R"],["U R U' R' U' R U' R2' F R F'","F' U' F U' R U' R' U R U' R'"],["U R' F R F' R U R' U2 R U' R'","F U R U' R' F' U' F' U' F"],["R U2' R' U r U' R' U' R U r'","R U2 R' F' U F U' R U R'"],["U2 R U2 R' U' R U' R2 F R F'","U2 R U R' U' R U' R' U R' F R F'"],["U2 r U' r' U r U r' U R U' R'","M U2 R U R' U r U' R'","U2' r U' r' U r U r' U R U' R'"],["U F R' F' R U R U R'","R U R' F' U F R U R'"],["U F R' F' R U S' R U R' S","F' U' F U' R U' R2' F R F'","U' R' F R F' U2' R U' R' U R' F R F'","U F R' F' R2 r' U R U R' U' M'","(U') F2 r U r' U' r' F' r2 U' r' F2"]],
+  24: [["U' R U R2' F R F' R U' R'"],["R U R' d R' U R U' R' U R","y U' L' U L U L' U L2 F' L' F","R U' R2 F' U' F U R2 U' R'","U' R U R' U R U' l U' R' U R'","U F' r' F r F R U R'"],["F U R U' R' F' R U' R'"],["y' R' U' R' F R F' U2 R","r U' r' U' r U r2' D' r U2' r' D r","r U R' U R U r' U' r U r'","r U' r' U' r U r' F' U2' F"],["R U' R' U r U' R' U R U r'"],["y' M' U2 R' U' R U' r' U R","U r U' r' U2' r U r' R U2' R' U R U' R'","F' U' r U2 R' U' R U' r' U2' F","U2 R' F R y' R U2' R U R' U R2","U' R U' R' F' L' U' L U' F","U' F' U r' F r U r' F r U' F"],["U' R U' R' U r U' r' U2' r U r'","F U R U' R' F2 U' F R U' R'"],["R U' R2 D' r U r' R U R' D R","R U R' d R' U R l U' R' U x","R U R' U2 F' r' F2 r U' F","U2 R U R' U' r U2' r' U' r U' r' U r U2' r'"]],
+  25: [["R' F' R U R U' R' F","U' F' R U R' U' R' F R","R' U' R' U' R' U R U R"],["U' F' U F U R U' R'","L D (R' F R F') D' L'"],["U' F' U' F U R U R'","R2' U R U' R' U F R2 F' R'"],["U2 r U2' R' U R U' R' U2' R U' r'","r' U' R' U' R' U R U r"],["U' (M' U R U' r') R U R'","U' R' F R F' R U R'"],["U2 r U' r' R U' R' U' r U' r'","U r U r' U R U M' U r'","U2 F' L' U' L U R U R' U' R' F R"],["r U r' U2 r U R' U2 R U' r'","F2 r U2 R' U' r' F2 R F'"],["U R2 D r' U r D' R' U' R'","r U r' U2 r U R' U' R U2 r'"]],
+  26: [["L E' L' U L E L'","U2 L E' L' U' L E L'","U2 R U' R' U' r U' R' U R U r'","r2 U2' R2' F R2 U2' r2' F"],["U R U' R' U' F' U F"],["U R U R' U' y' R' U' R","F U' r U M U' R' U F'"],["r U r' U2' r U' R' U2' R U' r'","R' D' R U' M' U r' D R","(y') r U R U R U' R' U' r'"],["U R U' R' F R' F' R","U R U' M' U R' U' M","R2 U R' U' R' F R F' R'"],["r U2' B U' B' U2' r'","r U2' f R f' U2 r'","R' D' r U r' D R U' R U R'","U F R U' R' r U2 r' U' F'","R' D r2 U r' U' r U' r2 D' R","F2 R U' R2 F R2 U R' F2"],["r U R' U2 R U r' U2 r U' r'","R' D' R U M' U' r' D R"],["r U2 R' U R U' r' U2 r U' r'","U R U R D r' U' r D' R2'"]],
+  27: [["R U' R' U R U' R'"],["R' F2 r U' R U r' F2","R' D' R U' R' D R U R' F R F'","R' D' R U R' D R U' R' F R F'"],["R U' r' U R U' R' U' M'","F' U2 F R U2 R'"],["U2 r U' r' U r U r' R U2' R'","R U' R2 U' F U R2 U' R' F'","R U' R' U R U R' U2' R' F R F'"],["R U' R2 F R2 U R' U' F'"],["R U' R2 U' F U R U' F'","U2 R U R' U R U R2' F R F'"],["R U' R2 F R F'"],["U' R U' R2 r U' M U2 r U' r'","R U' R' y R' F' R U2 M' U' M"]],
+  28: [["y' R' U R U' R' U R"],["R U2 l U' R' U l'"],["R U2 R' y' R' U2 R y","U2 R' F R F' r U' r' U2' r U r'"],["R U2 R' U R2 D r' U r D' R2'","R U R' F R U R' U' F2 U' F"],["R U R' d R' U2 R","R U R' r' D' r U' r' D r","F U R U' R2 F' R2 U R'"],["y L' U L U' F R U R' F'","R U2 R' U' F R U R' U' F2 U' F","R U' R' r U' R' U' R r' U' r U r'"],["y r' F r2 U' r' F","F' U2' r U' r' F2"],["U r U r' U2 M' U M R U R'","R U2' R2' F R F2 U2' F"]],
+  29: [["y' R' U' R U R' U' R","R' F R F' U R U' R'","M' U R U' r' U R U' R'"],["R' F R F' R' F R F'","x R' U R U' R' U R U' x'"],["R' F R F' U R U R' U2' R' F R F'","U' F R' F' R2 U' R2' D' R U2 R' D R","U2 R U' R' U' R' F R U R U' R2' F' R","R U' R2' D' r U' r' D F R F'","r U2 R' U' R U' r' R U' R' U R U' R'"],["U R2 D r' U' r D' R2' U' R U2 R'","F' r2 D2 r' U r D2 r' U2 r' F2","U2 r U' r' U2 r U r' U' R U2 R' U R U R'"],["U2 R U' R' F' U' F"],["U' R U R' U' r U' r' U2 r U r'"],["U R' F R F2 U' F"],["M' U' M U2 r U' R' U R U' r'"]],
+  30: [["R U R' U' R U R'"],["x U R' U' R U R' U' l"],["U2 R' F R F' R U' R' U2 R U R'"],["R U r' U' R U R2 r"],["U2' F' U F R U R'","R U R' F U R U' R2 F' R"],["R U R' U r U' r' U' r U r'"],["U' F R' F' R2 U R'"],["R U R' U' R' D' r U r' D R2 U R'","r U R' U' R U r' U2' M' U M","U' F' U2 r' F r2 U' r' F2"]],
+  31: [["R U' R' U F' U F","R U' R' U y' R' U R y"],["U' R' F R F' R U' R'"],["R U2 R' U' F R' F' R"],["r U' R' U' M U' r U r'"],["F' U F R U2' R'","R' F' R U R U' R' U2 F"],["R U2 R2 D' r U' r' D R"],["U' R' F R F' U' R' F R F'","F2 r U r' U2 F R U' R'"],["r U' r' U M' U R U r'"]],
+  32: [["(U) R U' R' U R U' R' U R U' R'"],["U' F' U L' U2 L U' F","U2 r U S' r' U r S U' r'","U2 R U r' U R U R' U' r U' R'","R U' R2 F2 r U r' F R2 U R'","U R U' R' U R U' r' U R U' R' U' M'"],["U R U' R' U R U' R2 F R F'"],["U' R U R' U' R U R2 F R F'"],["U2' r U2' r' U2 r U' r' U2 r U2' r'","U2' R' F R F' U2' r U' r' U2' r U r'","y U2 R' F2 R U2' R' F R U2' R' F2 R","r U M U2 r R2' U2' R U r'"],["U2 F R' F' R2 U R' U R U' R'","U2 R U2 R' U2 R U' R2 F R F'","R U R' U F' U F R U R'"],["U2 R U' f R f' U R'","U' F R' F' R U' R U R'","U' r U r' R' F R F' r U' r'","r U' R2 U' R U' R' U2 R2 U r'"],["U R' F R F' d R' U' R","U2 F' U r' F' r U' F","U2 R' F R F2 r U' r' F2"]],
+  33: [["(U') R U' R' U2 R U' R'"],["R U M U' R' U r U' R'","U' F' U2 L' U L U F"],["U' R U' R' U2' R U R' U2' R' F R F'","R' F R F' R2 U R' U' R' F R F' R'","r2 D r2 U' R2 r' U r2 D' R2 r'"],["U R U' R2 F R F' R U R'"],["U' F R' F' R2 U2' R2' F R F'","D' r U' r' F2 U R' F R F2 D"],["y U2 F R U2 R' U2 F'","R U R' U' F' U' F U' R U2 R'","U' F' U2 L' U2 L F"],["U' R U' R' U R' F R F'","(U') R U' R' U M' U R U' r'"],["U r U' r' U r U r' R U' R'","M' U' R U r' U2 r U' r'"]],
+  34: [["(U) R' D' R U' R' D R","U' R' D' R U R' D R"],["(U') R U' R' F' U' F R U2 R'"],["U R U' R' F R' F' R2 U R'","U' R U2' R' U' r U' r' U' r U r'","R U R' U' R' F R F' U R U R'","r U r' U R U2 R' U r U' r'"],["U r U R' U2 R U R' U M","y' U R2' F R F' R U' R' U R","U R U' R' U' F' U F R U R'","F U R2 D2 R' U' R D2 R2 F'"],["U r U2' r' U2' r U r' U2' r U2' r'","R U R D r' U r D' R' U' R'"],["R U R' U2 R' F R F' R U R'","U2 R U' R' U r U' R' U' R U r'"],["U R U M' U' r' U' r U r'","F U' R2 D2 R' U' R D2 R2 U F'"],["y U L' U L U' L F' L' F","U r U R' U' M U' R U R'","r' D' r U2 r' U' F2 U F2 D r"]],
+  35: [["U2' R U R' y' U' R' U R","R' D' r U' r' D F R F'"],["U' R U R' d R' U' R","U M' U R U' M U' R'","R U R2 F R F' R' F R F'","(R U R' l' U R U' R' U R U' x')"],["U2 R U' R' U' F' U' F","R U R2 F R F' U R U' R'"],["(U) R' D' r U r' D R2 U2' R'","R' F R F' U2' R' F R F' R U R'"],["U2' R U R' F R' F' R","R2 D R' U2 R D' R2 F' U' F"],["R' D' r U' r' D R U R U' R'"],["(U2) R U' R D r' U' r D' R2"],["R2 D r' U' r D' R2 U R U' R'","U2 r U' r' U R' F R F' r U2' r'","(U) R' D' r U r' D R2 U' R' U' R' F R F'"]],
+  36: [["(U) F' U' F U' R U R'"],["U2 F' U' F U R U' R'","R U R' U R U' R' d' r' F r","R U R' F U2' r U r' U2' F'"],["U2' R' F R F' U2 R U R'","R U R' F R S R' F' R S' R'","R U R2 U' R F' R' U R F"],["R U M' U2 f R f' U2 r'","U F' U' F2 U R U' R2' F' R","R U R2' D' r U r' D R U' R U R'","R U R2' D' r U' r' D R U R U R'","R' F2 D' F' D R U R U' R2 F' R"],["F' U' F R U R' U' R U R'","R U R U R' U' R' F R F' R'"],["U2 R2 D r' U' r D' R2' U' R U R'","R' F' r U2 r' F2 R2 U2' R' U' F","F' U2' r' F2 r2 U' r' F U' F","R2 D R' U2 R r' U' r D' R' U R'"],["U2 R' F R F' r U' r' U' r U r'"],["R2 D r' U r D' R' U R'"]],
+  37: [["U' R' F R F' R U' R' U R U' R' U2 R U' R'","U' R' F R F' R' U2' R2 U R2' U R","R U M' U2 M U R' F' R S R' F R S' R'","U L E' L' U' L E L2' E2 L U L' E2 L","U' L E' L' U L E L2' E2 L U' L' E2 L","U R2 U R' U' R' U2' r U R U' r' R'","R U' R' B' R' U' R2 U R' B"],["U' r U' r' R U R' U r U' r' R U R'","R' F R F' U F' U2' F U' R U R'","R' F R F2 U' F U' R U R' U' R U R'","R U' R' U R' F R F2 U2 F R U R'"]],
+  38: [["R2 U2 R' U' R U' R' U2 R'"],["U R U' R' U' R U R' U R' F R F'","R' F R U R U' R2 F' R U' R U2' R'"],["M' U R U' R' U' R U' r' U2 r U' r'","R U' R' U' r U' r' U2' r U r' R U2 R'","R U2' B2 r' U' r B' R2 F R F'","R U' R' U2 R2 D r' U' r D' R' U' R'"],["F R' F' R2 U2' R' U' R U R'"]],
+  39: [["R U2 R' U R U' R' U R U R'"],["R U2' R' U R' F R2 U R' U' R' F' R"],["R U2' R' r U' r' U M' U2' R U r'","r' U' R2 U' R2' U2' r F' r' F2 r F","R U R D r' U r D' R2' U2' R U R'"],["R U' R' U R U2 R2 F R F'"]],
+  40: [["U R U' R' F R U R' U' F' R U' R'","F2 r U r' F U2' R U R'"],["r U' r' U2' r U r' R U R'","R' F R D R U R U' R2 D' F'"]],
+  41: [["F' U2 F R2 U2 R' U' R U' R2"],["F2 L2 D' L' D2 F' D' F2 L' F"],["F2 U' F U' F' U2 F2 R U2 R'"],["R U2 F' U' F2 R' F' R2 U' R2"]]
+};
+
+/* ── CATEGORY DATA ── */
+const CAT_ORDER = ['VHLS','Split','Pair','SlotCorner','SlotEdge','SlotBoth'];
+const CAT_META = {
+  VHLS:      { img: 'zbls-trainer/caseImage/ZBLS/level1/VHLS.png',      displayName: 'VHLS',        cases: 4  },
+  Split:     { img: 'zbls-trainer/caseImage/ZBLS/level1/Split.png',     displayName: 'Split',       cases: 10 },
+  Pair:      { img: 'zbls-trainer/caseImage/ZBLS/level1/Pair.png',      displayName: 'Pair',        cases: 10 },
+  SlotCorner:{ img: 'zbls-trainer/caseImage/ZBLS/level1/SlotCorner.png',displayName: 'Slot Corner', cases: 6  },
+  SlotEdge:  { img: 'zbls-trainer/caseImage/ZBLS/level1/SlotEdge.png',  displayName: 'Slot Edge',   cases: 6  },
+  SlotBoth:  { img: 'zbls-trainer/caseImage/ZBLS/level1/SlotBoth.png',  displayName: 'Slot Both',   cases: 5  },
+};
+const F2L_CASES = [
+  {n:1,cat:'VHLS'},{n:2,cat:'VHLS'},{n:3,cat:'VHLS'},{n:4,cat:'VHLS'},
+  {n:5,cat:'Split'},{n:6,cat:'Split'},{n:7,cat:'Split'},{n:8,cat:'Split'},{n:9,cat:'Split'},{n:10,cat:'Split'},
+  {n:11,cat:'Pair'},{n:12,cat:'Pair'},{n:13,cat:'Pair'},{n:14,cat:'Pair'},{n:15,cat:'Pair'},{n:16,cat:'Pair'},{n:17,cat:'Pair'},{n:18,cat:'Pair'},
+  {n:19,cat:'Split'},{n:20,cat:'Split'},{n:21,cat:'Split'},{n:22,cat:'Split'},
+  {n:23,cat:'Pair'},{n:24,cat:'Pair'},
+  {n:25,cat:'SlotCorner'},{n:26,cat:'SlotCorner'},{n:27,cat:'SlotCorner'},{n:28,cat:'SlotCorner'},{n:29,cat:'SlotCorner'},{n:30,cat:'SlotCorner'},
+  {n:31,cat:'SlotEdge'},{n:32,cat:'SlotEdge'},{n:33,cat:'SlotEdge'},{n:34,cat:'SlotEdge'},{n:35,cat:'SlotEdge'},{n:36,cat:'SlotEdge'},
+  {n:37,cat:'SlotBoth'},{n:38,cat:'SlotBoth'},{n:39,cat:'SlotBoth'},{n:40,cat:'SlotBoth'},{n:41,cat:'SlotBoth'}
+];
+
+function getCasesForCat(cat) { return F2L_CASES.filter(function(c){ return c.cat === cat; }); }
+
+function getSubcases(cat, num) {
+  var caseData = zblsMap[cat] && zblsMap[cat][String(num)];
+  if (!caseData) return [];
+  var csvAlgs = SUBCASE_ALGS[num] || [];
+  var orients = Object.keys(caseData);
+  var perm;
+  var n = orients.length;
+  if (n === 8) {
+    if (cat === 'SlotEdge') {
+      perm = orients.indexOf('Dot') !== -1 ? [0,2,4,6,7,5,3,1] : [0,2,4,7,6,5,3,1];
+    } else {
+      perm = [0,4,6,3,2,5,1,7];
+    }
+  } else if (n === 4) {
+    perm = [0,2,3,1];
+  } else {
+    perm = [0,1];
+  }
+  return orients.map(function(orient, i) {
+    return {
+      orient: orient,
+      algs: csvAlgs[perm[i]] || [],
+      imgUrl: 'zbls-trainer/caseImage/ZBLS/level3/' + cat + '-' + num + '-' + orient + '.png'
+    };
+  });
+}
+
+/* ── NAV STATE ── */
+var currentView = null;
+var currentCat = null;
+var currentCaseNum = null;
+var currentDetailCat = null;
+var currentDetailNum = null;
+var currentDetailOrient = null;
+var editMode = false;
+
+/* ── VIEW TRANSITIONS ── */
+function showView(name) {
+  if (currentView === name) return;
+  var prev = currentView ? document.getElementById('view-' + currentView) : null;
+  var next = document.getElementById('view-' + name);
+  if (prev) { prev.classList.remove('visible'); setTimeout(function(){ prev.classList.remove('active'); }, 400); }
+  next.classList.add('active');
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ next.classList.add('visible'); }); });
+  currentView = name;
+  window.scrollTo(0, 0);
+}
+
+function goToSets() { showView('sets'); renderSets(); }
+function goToCases(cat) { currentCat = cat; showView('cases'); renderCases(cat); }
+function goToSubcases(cat, num) { currentCat = cat; currentCaseNum = num; showView('subcases'); renderSubcases(cat, num); }
+
+/* ── RENDER SETS ── */
+function renderSets() {
+  var grid = document.getElementById('setsGrid');
+  grid.innerHTML = '';
+  CAT_ORDER.forEach(function(cat) {
+    var meta = CAT_META[cat];
+    var card = document.createElement('div');
+    card.className = 'set-card';
+    card.onclick = function() { goToCases(cat); };
+    card.innerHTML =
+      '<img class="set-card-img" src="' + meta.img + '" alt="' + cat + '" onerror="this.style.opacity=\'0.3\'">' +
+      '<div class="set-card-name">' + meta.displayName + '</div>' +
+      '<div class="set-card-badge">' + meta.cases + ' cases</div>' +
+      '<div class="set-card-arrow">\u2192</div>';
+    grid.appendChild(card);
+  });
+}
+
+/* ── RENDER CASES ── */
+function renderCases(cat) {
+  var meta = CAT_META[cat];
+  document.getElementById('casesHeaderTitle').innerHTML = meta.displayName + ' <span style="color:var(--accent)">Cases</span>';
+  document.getElementById('casesHeroTitle').textContent = 'Choose a case';
+  document.getElementById('casesHeroDesc').textContent = meta.cases + ' cases';
+  var grid = document.getElementById('casesGrid');
+  grid.innerHTML = '';
+  getCasesForCat(cat).forEach(function(c, idx) {
+    var card = document.createElement('div');
+    card.className = 'case-card';
+    card.style.animationDelay = (idx * 0.06) + 's';
+    card.onclick = function() { goToSubcases(cat, c.n); };
+    var subcases = getSubcases(cat, c.n);
+    card.innerHTML =
+      '<img class="case-card-img" src="zbls-trainer/caseImage/ZBLS/level2/' + cat + '-' + c.n + '.png" alt="Case ' + c.n + '" onerror="this.style.opacity=\'0.2\'">' +
+      '<div class="case-card-name">Case ' + c.n + '</div>' +
+      '<div class="case-card-hint">' +
+        '<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
+        subcases.length + ' cases' +
+      '</div>';
+    grid.appendChild(card);
+  });
+}
+
+/* ── RENDER SUBCASES ── */
+function renderSubcases(cat, num) {
+  var meta = CAT_META[cat];
+  document.getElementById('subcasesHeaderTitle').innerHTML = meta.displayName + ' <span style="color:var(--accent)">Cases</span>';
+  document.getElementById('subcasesBackLabel').textContent = meta.displayName + ' cases';
+  document.getElementById('subcasesHeroTitle').textContent = 'Case ' + num;
+  var subcases = getSubcases(cat, num);
+  document.getElementById('subcasesHeroDesc').textContent = subcases.length + ' cases — click an image to see its algorithms';
+  var grid = document.getElementById('subcasesGrid');
+  grid.innerHTML = '';
+  subcases.forEach(function(sc, i) {
+    var thumb = document.createElement('div');
+    thumb.className = 'subcase-thumb';
+    thumb.style.animationDelay = (i * 0.05) + 's';
+    thumb.onclick = function() { openDetail(cat, num, sc.orient); };
+    thumb.innerHTML =
+      '<img src="' + sc.imgUrl + '" alt="' + sc.orient + '" onerror="this.style.opacity=\'0.2\'">' +
+      '<div class="subcase-thumb-label">Case ' + (i+1) + '</div>';
+    grid.appendChild(thumb);
+  });
+}
+
+/* ── STORAGE ── */
+function getCustomAlgs() { try { return JSON.parse(localStorage.getItem('zbls_custom_algs') || '{}'); } catch { return {}; } }
+function saveCustomAlgs(obj) { localStorage.setItem('zbls_custom_algs', JSON.stringify(obj)); }
+function isEditLocked() { return localStorage.getItem('zbls_edit_locked') === 'true'; }
+function storageKey(cat, num, orient) { return cat + '_' + num + '_' + orient; }
+function getAlgsForOrient(cat, num, orient, fallback) {
+  var custom = getCustomAlgs();
+  var key = storageKey(cat, num, orient);
+  return custom[key] !== undefined ? custom[key] : fallback;
+}
+function saveAlgsForOrient(cat, num, orient, algs) {
+  var custom = getCustomAlgs();
+  custom[storageKey(cat, num, orient)] = algs;
+  saveCustomAlgs(custom);
+}
+function resetAlgsForOrient(cat, num, orient) {
+  var custom = getCustomAlgs();
+  delete custom[storageKey(cat, num, orient)];
+  saveCustomAlgs(custom);
+  renderDetail();
+}
+function deleteAlgFromOrient(cat, num, orient, idx, fallback) {
+  var algs = getAlgsForOrient(cat, num, orient, fallback).slice();
+  algs.splice(idx, 1);
+  saveAlgsForOrient(cat, num, orient, algs);
+  renderDetail();
+}
+function addAlgToOrient(cat, num, orient, fallback) {
+  var algs = getAlgsForOrient(cat, num, orient, fallback).slice();
+  algs.push('');
+  saveAlgsForOrient(cat, num, orient, algs);
+  renderDetail();
+  setTimeout(function() {
+    var inputs = document.querySelectorAll('#detailAlgs .alg-input');
+    if (inputs.length) inputs[inputs.length - 1].focus();
+  }, 20);
+}
+function saveAlgEdit(cat, num, orient, idx, val, fallback) {
+  var algs = getAlgsForOrient(cat, num, orient, fallback).slice();
+  algs[idx] = val;
+  saveAlgsForOrient(cat, num, orient, algs);
+}
+
+/* ── EDIT MODE ── */
+function toggleEditMode() {
+  if (isEditLocked()) {
+    var pw = prompt('Enter password to unlock editing:');
+    if (pw === null) return;
+    if (pw !== localStorage.getItem('zbls_edit_password')) { alert('Incorrect password.'); return; }
+    localStorage.removeItem('zbls_edit_locked');
+  }
+  editMode = !editMode;
+  updateEditBtn();
+  if (currentDetailCat !== null) renderDetail();
+}
+function lockEditing() {
+  if (!localStorage.getItem('zbls_edit_password')) {
+    var pw = prompt('Set a password:');
+    if (!pw) return;
+    if (pw !== prompt('Confirm password:')) { alert('Passwords do not match.'); return; }
+    localStorage.setItem('zbls_edit_password', pw);
+  }
+  localStorage.setItem('zbls_edit_locked', 'true');
+  editMode = false;
+  updateEditBtn();
+  if (currentDetailCat !== null) renderDetail();
+}
+function updateEditBtn() {
+  var btn = document.getElementById('editModeBtn');
+  var lockBtn = document.getElementById('lockBtn');
+  var exportBtn = document.getElementById('exportAlgsBtn');
+  if (!btn) return;
+  if (isEditLocked()) {
+    btn.classList.remove('edit-on');
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Unlock';
+    lockBtn.style.display = 'none'; exportBtn.style.display = 'none'; return;
+  }
+  if (editMode) {
+    btn.classList.add('edit-on');
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editing\u2026';
+    lockBtn.style.display = 'inline-flex'; exportBtn.style.display = 'inline-flex';
+  } else {
+    btn.classList.remove('edit-on');
+    btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit Algs';
+    lockBtn.style.display = 'none'; exportBtn.style.display = 'none';
+  }
+}
+function exportAlgsToSource() {
+  var custom = getCustomAlgs();
+  var lines = ['const SUBCASE_ALGS = {'];
+  for (var num = 1; num <= 41; num++) {
+    var cat = F2L_CASES[num-1].cat;
+    var subcases = getSubcases(cat, num);
+    lines.push('  ' + num + ': [');
+    subcases.forEach(function(sc) {
+      var algs = custom[storageKey(cat, num, sc.orient)] !== undefined ? custom[storageKey(cat, num, sc.orient)] : sc.algs;
+      lines.push('    [' + algs.map(function(a){ return JSON.stringify(a); }).join(',') + '],');
+    });
+    lines.push('  ],');
+  }
+  lines.push('};');
+  var code = lines.join('\n');
+  navigator.clipboard.writeText(code).then(function() {
+    alert('Copied! Paste to Claude: replace SUBCASE_ALGS in zbls-sheet-v2.html with this.');
+  }).catch(function() { prompt('Copy this:', code); });
+}
+
+/* ── COPY ── */
+function copyAlg(text, el) {
+  navigator.clipboard.writeText(text).then(function() {
+    el.classList.add('copied');
+    setTimeout(function() { el.classList.remove('copied'); }, 700);
+  });
+}
+
+/* ── DETAIL OVERLAY ── */
+function openDetail(cat, num, orient) {
+  currentDetailCat = cat;
+  currentDetailNum = num;
+  currentDetailOrient = orient;
+  document.getElementById('detailOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderDetail();
+}
+function renderDetail() {
+  var cat = currentDetailCat, num = currentDetailNum, orient = currentDetailOrient;
+  if (cat === null) return;
+  var subcases = getSubcases(cat, num);
+  var sc = subcases.find(function(s){ return s.orient === orient; });
+  if (!sc) return;
+  var algs = getAlgsForOrient(cat, num, orient, sc.algs);
+  var hasCustom = getCustomAlgs()[storageKey(cat, num, orient)] !== undefined;
+
+  document.getElementById('detailImg').src = sc.imgUrl;
+  document.getElementById('detailImg').alt = 'Case ' + num + ' — ' + orient;
+  document.getElementById('detailTitle').textContent = 'Case ' + num + ' \u2014 ' + orient;
+  var resetHtml = (editMode && hasCustom) ? ' <button class="reset-alg-btn" onclick="resetAlgsForOrient(\'' + cat + '\',' + num + ',\'' + orient + '\')">reset</button>' : '';
+  document.getElementById('detailSubtitle').innerHTML = CAT_META[cat].displayName + ' \u2014 ' + algs.length + ' alg' + (algs.length!==1?'s':'') + resetHtml;
+
+  var container = document.getElementById('detailAlgs');
+  container.innerHTML = '';
+  var sectionDefs = [];
+  if (algs.length >= 1) sectionDefs.push({ label: 'Main Alg', cls: 'label-main', idxs: [0] });
+  if (algs.length >= 2) sectionDefs.push({ label: 'Like', cls: 'label-like', idxs: [1] });
+  if (algs.length >= 3) {
+    var rest = [];
+    for (var i = 2; i < algs.length; i++) rest.push(i);
+    sectionDefs.push({ label: 'Secondary Algs', cls: 'label-secondary', idxs: rest });
+  }
+  sectionDefs.forEach(function(sec) {
+    var section = document.createElement('div');
+    section.className = 'detail-section';
+    var lbl = document.createElement('div');
+    lbl.className = 'detail-section-label ' + sec.cls;
+    lbl.textContent = sec.label;
+    section.appendChild(lbl);
+    sec.idxs.forEach(function(idx) {
+      var alg = algs[idx];
+      var row = document.createElement('div');
+      row.className = 'alg-row';
+      if (editMode) {
+        var input = document.createElement('input');
+        input.type = 'text'; input.className = 'alg-input';
+        input.value = alg; input.placeholder = 'Type algorithm\u2026';
+        input.addEventListener('blur', function() { saveAlgEdit(cat, num, orient, idx, input.value, sc.algs); });
+        input.addEventListener('keydown', function(e) { if (e.key==='Enter') input.blur(); });
+        var del = document.createElement('button');
+        del.className = 'alg-delete-btn'; del.textContent = '\xd7';
+        del.onclick = function() { deleteAlgFromOrient(cat, num, orient, idx, sc.algs); };
+        row.appendChild(input); row.appendChild(del);
+      } else {
+        row.title = 'Click to copy';
+        row.onclick = function() { copyAlg(alg, row); };
+        row.innerHTML = '<span class="alg-text">' + alg + '</span><svg class="copy-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+      }
+      section.appendChild(row);
+    });
+    container.appendChild(section);
+  });
+  if (editMode) {
+    var addBtn = document.createElement('button');
+    addBtn.className = 'add-alg-btn'; addBtn.textContent = '+ Add algorithm';
+    addBtn.onclick = function() { addAlgToOrient(cat, num, orient, sc.algs); };
+    container.appendChild(addBtn);
+  }
+}
+function closeDetail(e) { if (e.target === document.getElementById('detailOverlay')) closeDetailDirect(); }
+function closeDetailDirect() { document.getElementById('detailOverlay').classList.remove('open'); document.body.style.overflow = ''; }
+document.addEventListener('keydown', function(e) { if (e.key==='Escape') closeDetailDirect(); });
+
+/* ── EXPOSE ── */
+window.showView = showView;
+window.goToSets = goToSets;
+window.goToCases = goToCases;
+window.goToSubcases = goToSubcases;
+window.closeDetail = closeDetail;
+window.closeDetailDirect = closeDetailDirect;
+window.toggleEditMode = toggleEditMode;
+window.lockEditing = lockEditing;
+window.exportAlgsToSource = exportAlgsToSource;
+window.resetAlgsForOrient = resetAlgsForOrient;
+
+/* ── INIT ── */
+if (!localStorage.getItem('zbls_edit_password')) {
+  localStorage.setItem('zbls_edit_password', 'Uperm1234');
+}
+updateEditBtn();
+showView('welcome');
+</script>
+</body>
+</html>

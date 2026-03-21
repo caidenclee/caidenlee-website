@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZBLL Alg Sheet — Caiden Lee</title>
+<link rel="icon" type="image/png" href="Caiden Cube Logo black.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #16161a; --bg2: #1e1e24; --bg3: #26262e;
+    --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #8a8a9a;
+    --accent: #7c6ff7; --accent2: #5b5bd6; --accent-glow: rgba(124,111,247,0.15);
+    --green: #22c55e; --green-glow: rgba(34,197,94,0.12); --white: #ffffff;
+  }
+  html, body { height: 100%; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+  body { display: flex; flex-direction: column; }
+
+  /* HEADER */
+  header { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1.5rem; border-bottom: 1px solid var(--border); background: rgba(22,22,26,0.97); backdrop-filter: blur(10px); flex-shrink: 0; }
+  .back-btn { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--muted); font-size: 12px; font-weight: 500; padding: 0.4rem 0.9rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2); transition: all 0.2s; white-space: nowrap; }
+  .back-btn:hover { color: var(--white); border-color: rgba(124,111,247,0.4); background: rgba(124,111,247,0.08); }
+  .header-title { font-size: 14px; font-weight: 700; color: var(--white); }
+  .header-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: rgba(124,111,247,0.12); border: 1px solid rgba(124,111,247,0.2); padding: 2px 8px; border-radius: 50px; white-space: nowrap; }
+  .spacer { flex: 1; }
+  .open-ext { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--muted); font-size: 12px; font-weight: 500; padding: 0.4rem 0.9rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2); transition: all 0.2s; white-space: nowrap; }
+  .open-ext:hover { color: var(--white); border-color: rgba(124,111,247,0.4); background: rgba(124,111,247,0.08); }
+
+  /* TAB BAR */
+  .tab-bar { display: flex; gap: 0.4rem; padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); flex-shrink: 0; background: var(--bg); }
+  .tab-btn { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; padding: 0.4rem 1rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2); color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .tab-btn:hover { color: var(--white); border-color: rgba(124,111,247,0.4); background: rgba(124,111,247,0.08); }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: var(--white); }
+
+  /* MAIN LAYOUT */
+  .main { flex: 1; display: flex; overflow: hidden; }
+
+  /* SHEET SIDE */
+  .sheet-col { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .sheet-title-bar { padding: 1rem 1.5rem 0.75rem; flex-shrink: 0; display: flex; justify-content: center; align-items: center; gap: 0.75rem; }
+  .sheet-title-icon { width: 44px; height: 44px; object-fit: contain; flex-shrink: 0; }
+  .sheet-title { font-size: 1.6rem; font-weight: 800; color: var(--white); letter-spacing: -0.03em; }
+  .sheet-title span { color: var(--accent); }
+  .sheet-wrapper { flex: 1; background: var(--bg); overflow: hidden; display: flex; justify-content: center; padding: 0 1.25rem 1.25rem; }
+  .sheet-clip { width: 79.5%; margin-left: 2%; overflow: hidden; border-radius: 16px; height: 100%; }
+  .sheet-frame { width: 100%; height: calc(100% + 40px); border: none; margin-top: -40px; }
+
+  /* PROGRESS PANEL */
+  .progress-panel { width: 256px; flex-shrink: 0; display: flex; flex-direction: column; background: var(--bg2); overflow-y: auto; overflow-x: hidden; border-radius: 20px; border: 1px solid var(--border); margin: 1.25rem 1.25rem 1.25rem 0; box-shadow: 0 8px 32px rgba(0,0,0,0.35); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s, width 0.35s, margin 0.35s; transform-origin: right; }
+  .progress-panel.collapsed { transform: translateX(120%); opacity: 0; width: 0; margin: 0; pointer-events: none; }
+  .collapse-btn { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg3); color: var(--muted); cursor: pointer; transition: all 0.2s; flex-shrink: 0; }
+  .collapse-btn:hover { color: var(--white); border-color: rgba(124,111,247,0.4); background: rgba(124,111,247,0.08); }
+  .panel-header-row { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1rem 0; }
+  .reopen-btn { position: fixed; right: 1.25rem; top: 50%; transform: translateY(-50%); width: 36px; height: 48px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg2); color: var(--muted); cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3); transition: all 0.2s; z-index: 50; }
+  .reopen-btn:hover { color: var(--white); border-color: rgba(124,111,247,0.4); background: rgba(124,111,247,0.1); }
+  .reopen-btn.visible { display: flex; }
+
+  .panel-top { padding: 1.1rem 1rem 0.75rem; border-bottom: 1px solid var(--border); }
+  .panel-heading { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; color: var(--white); margin-bottom: 0.75rem; }
+  .overall-count { font-size: 1.2rem; font-weight: 800; color: var(--white); letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+  .overall-count span { font-size: 12px; font-weight: 500; color: var(--muted); }
+  .progress-bar-bg { height: 5px; background: var(--bg3); border-radius: 99px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 99px; transition: width 0.3s ease; }
+  .progress-bar-fill.green { background: var(--green); }
+  .progress-bar-fill.yellow { background: #eab308; }
+  .progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem; margin-top: 0.6rem; }
+  .progress-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+  .progress-label.green { color: var(--green); }
+  .progress-label.yellow { color: #eab308; }
+  .progress-val { font-size: 10px; font-weight: 600; color: var(--muted); }
+
+  .panel-subset { padding: 1rem; flex: 1; display: flex; flex-direction: column; gap: 0.75rem; }
+  .subset-header-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.2rem; }
+  .subset-icon { width: 36px; height: 36px; object-fit: contain; flex-shrink: 0; }
+  .subset-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  .subset-count { font-size: 12px; color: var(--muted); margin-bottom: 0; }
+  .subset-count strong { color: var(--green); }
+
+  .group-block { margin-bottom: 1rem; }
+  .group-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 0.4rem; display: flex; justify-content: space-between; }
+  .group-label span { color: var(--accent); }
+  .case-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35rem; }
+  .case-tile { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 0.3rem; display: flex; flex-direction: column; align-items: center; gap: 0.35rem; cursor: pointer; transition: all 0.15s; user-select: none; }
+  .case-tile:hover { border-color: rgba(124,111,247,0.4); background: rgba(124,111,247,0.08); }
+  .case-tile.learning { background: rgba(234,179,8,0.12); border-color: rgba(234,179,8,0.4); }
+  .case-tile.learning:hover { background: rgba(234,179,8,0.2); border-color: rgba(234,179,8,0.6); }
+  .case-tile.completed { background: var(--green-glow); border-color: rgba(34,197,94,0.35); }
+  .case-tile.completed:hover { background: rgba(34,197,94,0.2); border-color: rgba(34,197,94,0.5); }
+  .case-num { font-size: 9px; font-weight: 700; color: var(--muted); }
+  .case-tile.learning .case-num { color: #eab308; }
+  .case-tile.completed .case-num { color: var(--green); }
+  .case-check { width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; }
+  .case-tile.learning .case-check { background: #eab308; border-color: #eab308; }
+  .case-tile.completed .case-check { background: var(--green); border-color: var(--green); }
+  .case-check svg { opacity: 0; transition: opacity 0.15s; }
+  .case-tile.learning .case-check svg { opacity: 1; }
+  .case-tile.completed .case-check svg { opacity: 1; }
+  .group-btns { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.4rem; }
+  .select-all-btn { width: 100%; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; padding: 0.3rem 0.5rem; border-radius: 6px; border: 1px solid var(--border); background: var(--bg2); color: var(--muted); cursor: pointer; transition: all 0.2s; }
+  .select-all-btn.learning-btn:hover { color: #eab308; border-color: rgba(234,179,8,0.4); background: rgba(234,179,8,0.08); }
+  .select-all-btn.complete-btn:hover { color: var(--green); border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.08); }
+
+  .reset-btn { margin: 0.75rem 1rem 1rem; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 500; padding: 0.4rem 0.75rem; border-radius: 50px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.2s; width: calc(100% - 2rem); }
+  .reset-btn:hover { color: #f87171; border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.06); }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="back-btn" href="zb.html">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Go back home
+  </a>
+  <span class="header-title">ZBLL Algorithm Sheet</span>
+  <span class="header-tag">Last Layer</span>
+  <div class="spacer"></div>
+  <a class="open-ext" href="zbll-trainer.html" target="_blank" rel="noopener">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    Go to Trainer
+  </a>
+</header>
+
+<div class="tab-bar" id="tabBar"></div>
+
+<div class="main">
+  <div class="sheet-col">
+    <div class="sheet-title-bar">
+      <img class="sheet-title-icon" id="sheetTitleIcon" src="T ZBLL.png" alt="T">
+      <div class="sheet-title" id="sheetTitle"><span>T</span> Cases</div>
+    </div>
+    <div class="sheet-wrapper">
+      <div class="sheet-clip">
+        <iframe
+          class="sheet-frame"
+          id="sheetFrame"
+          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQT4MfWwWaK-nl_us_rojeu5Pazep-3p55C30MfT6yHxM2efavPuIR7D8OmBd1KMSOdr0OSCi45IYNC/pubhtml?gid=34031343&single=true&headers=false"
+          title="ZBLL Algorithm Sheet"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="progress-panel" id="progressPanel">
+    <div class="panel-header-row">
+      <div class="panel-heading" style="font-size:15px;font-weight:800;color:var(--white);">Your Progress</div>
+      <button class="collapse-btn" onclick="togglePanel()" title="Collapse">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+    <div class="panel-content">
+    <div class="panel-top" style="padding-top:0.5rem;">
+      <div class="progress-row">
+        <span class="progress-label green">Completed</span>
+        <span class="progress-val" id="completedVal">0 / 472</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill green" id="overallBar" style="width:0%"></div>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label yellow">Learning</span>
+        <span class="progress-val" id="learningVal">0 / 472</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill yellow" id="learningBar" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="panel-subset" id="panelSubset"></div>
+    <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+    </div>
+  </div>
+</div>
+
+<button class="reopen-btn" id="reopenBtn" onclick="togglePanel()" title="Open progress">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+</button>
+
+<script>
+const SUBSETS = [
+  { id: 'T',    label: 'T',    gid: '34031343',   groupSizes: [12,12,12,12,12,12], img: 'T ZBLL.png' },
+  { id: 'U',    label: 'U',    gid: '1380624980',  groupSizes: [12,12,12,12,12,12], img: 'U ZBLL.png' },
+  { id: 'L',    label: 'L',    gid: '404041196',   groupSizes: [12,12,12,12,12,12], img: 'L ZBLL.png', rotate: -90 },
+  { id: 'H',    label: 'H',    gid: '655472602',   groupSizes: [8,8,12,12],         img: 'H ZBLL.png', rotate: 90 },
+  { id: 'Pi',   label: 'Pi',   gid: '1465216463',  groupSizes: [12,12,12,12,12,12], img: 'PI ZBLL.png' },
+  { id: 'Sune', label: 'Sune', gid: '1250534162',  groupSizes: [12,12,12,12,12,12], img: 'SUNE ZBLL.png' },
+  { id: 'As',   label: 'As',   gid: '1515619308',  groupSizes: [12,12,12,12,12,12], img: 'AS ZBLL.png', rotate: 90 },
+];
+const TOTAL = SUBSETS.reduce((s, x) => s + x.groupSizes.reduce((a, b) => a + b, 0), 0);
+const BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQT4MfWwWaK-nl_us_rojeu5Pazep-3p55C30MfT6yHxM2efavPuIR7D8OmBd1KMSOdr0OSCi45IYNC/pubhtml?single=true&headers=false&gid=';
+const STORAGE_KEY = 'zbll-progress';
+
+let progress = (() => { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; } })();
+let activeSubset = SUBSETS[0];
+
+function saveProgress() { localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }
+function totalLearned() { return Object.values(progress).filter(Boolean).length; }
+
+function stateClass(val) { return val === 1 ? 'learning' : val === 2 ? 'completed' : ''; }
+
+function subsetCompleted(subset) {
+  let n = 0;
+  subset.groupSizes.forEach((size, gi) => {
+    for (let c = 1; c <= size; c++)
+      if (progress[`${subset.id}-${gi+1}-${c}`] === 2) n++;
+  });
+  return n;
+}
+
+function groupCompleted(subset, gi) {
+  let n = 0;
+  const size = subset.groupSizes[gi];
+  for (let c = 1; c <= size; c++)
+    if (progress[`${subset.id}-${gi+1}-${c}`] === 2) n++;
+  return n;
+}
+
+function updateOverall() {
+  const completed = Object.values(progress).filter(v => v === 2).length;
+  const learning = Object.values(progress).filter(v => v === 1).length;
+  document.getElementById('completedVal').textContent = `${completed} / ${TOTAL}`;
+  document.getElementById('overallBar').style.width = `${(completed / TOTAL) * 100}%`;
+  document.getElementById('learningVal').textContent = `${learning} / ${TOTAL}`;
+  document.getElementById('learningBar').style.width = `${(learning / TOTAL) * 100}%`;
+}
+
+function renderPanel(subset) {
+  const total = subset.groupSizes.reduce((a, b) => a + b, 0);
+  const completed = subsetCompleted(subset);
+  const panel = document.getElementById('panelSubset');
+  panel.innerHTML = `
+    <div class="subset-header-row">
+      <img class="subset-icon" src="${subset.img}" alt="${subset.label}" style="${subset.rotate ? `transform:rotate(${subset.rotate}deg)` : ''}">
+      <div>
+        <div class="subset-label">${subset.label} cases</div>
+        <div class="subset-count" id="subsetCount"><strong>${completed}</strong> / ${total} completed</div>
+      </div>
+    </div>`;
+
+  subset.groupSizes.forEach((size, gi) => {
+    const g = gi + 1;
+    const gc = groupCompleted(subset, gi);
+    const block = document.createElement('div');
+    block.className = 'group-block';
+    block.innerHTML = `<div class="group-label">Group ${g} <span id="glabel-${subset.id}-${g}">${gc}/${size}</span></div>`;
+    const grid = document.createElement('div');
+    grid.className = 'case-grid';
+
+    for (let c = 1; c <= size; c++) {
+      const id = `${subset.id}-${g}-${c}`;
+      const val = progress[id] || 0;
+      const tile = document.createElement('div');
+      tile.className = 'case-tile' + (val ? ` ${stateClass(val)}` : '');
+      tile.id = `tile-${id}`;
+      tile.innerHTML = `<span class="case-num">${c}</span><div class="case-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg></div>`;
+      tile.onclick = () => {
+        progress[id] = ((progress[id] || 0) + 1) % 3;
+        saveProgress();
+        tile.className = 'case-tile' + (progress[id] ? ` ${stateClass(progress[id])}` : '');
+        const newGc = groupCompleted(subset, gi);
+        document.getElementById(`glabel-${subset.id}-${g}`).textContent = `${newGc}/${size}`;
+        const sc = subsetCompleted(subset);
+        document.getElementById('subsetCount').innerHTML = `<strong>${sc}</strong> / ${total} completed`;
+        updateOverall();
+      };
+      grid.appendChild(tile);
+    }
+
+    const refreshGroup = () => {
+      const gc = groupCompleted(subset, gi);
+      document.getElementById(`glabel-${subset.id}-${g}`).textContent = `${gc}/${size}`;
+      const sc = subsetCompleted(subset);
+      document.getElementById('subsetCount').innerHTML = `<strong>${sc}</strong> / ${total} completed`;
+      updateOverall();
+    };
+
+    const btnWrap = document.createElement('div');
+    btnWrap.className = 'group-btns';
+
+    const learnBtn = document.createElement('button');
+    learnBtn.className = 'select-all-btn learning-btn';
+    learnBtn.textContent = `Learning all ${size}`;
+    learnBtn.onclick = () => {
+      const allLearning = Array.from({length: size}, (_, i) => progress[`${subset.id}-${g}-${i+1}`] || 0).every(v => v === 1);
+      const newState = allLearning ? 0 : 1;
+      for (let c = 1; c <= size; c++) progress[`${subset.id}-${g}-${c}`] = newState;
+      saveProgress();
+      const cls = newState === 1 ? 'learning' : '';
+      grid.querySelectorAll('.case-tile').forEach(t => { t.className = `case-tile${cls ? ' ' + cls : ''}`; });
+      refreshGroup();
+    };
+
+    const completeBtn = document.createElement('button');
+    completeBtn.className = 'select-all-btn complete-btn';
+    completeBtn.textContent = `Complete all ${size}`;
+    completeBtn.onclick = () => {
+      const allCompleted = Array.from({length: size}, (_, i) => progress[`${subset.id}-${g}-${i+1}`] || 0).every(v => v === 2);
+      const newState = allCompleted ? 0 : 2;
+      for (let c = 1; c <= size; c++) progress[`${subset.id}-${g}-${c}`] = newState;
+      saveProgress();
+      const cls = newState === 2 ? 'completed' : '';
+      grid.querySelectorAll('.case-tile').forEach(t => { t.className = `case-tile${cls ? ' ' + cls : ''}`; });
+      refreshGroup();
+    };
+
+    btnWrap.appendChild(learnBtn);
+    btnWrap.appendChild(completeBtn);
+    block.appendChild(grid);
+    block.appendChild(btnWrap);
+    panel.appendChild(block);
+  });
+}
+
+function switchTab(subset) {
+  activeSubset = subset;
+  document.getElementById('sheetFrame').src = BASE + subset.gid;
+  document.getElementById('sheetTitle').innerHTML = `<span>${subset.label}</span> Cases`;
+  const icon = document.getElementById('sheetTitleIcon');
+  icon.src = subset.img;
+  icon.style.transform = subset.rotate ? `rotate(${subset.rotate}deg)` : '';
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.id === subset.id));
+  renderPanel(subset);
+}
+
+function resetProgress() {
+  if (!confirm('Reset all progress? This cannot be undone.')) return;
+  progress = {};
+  saveProgress();
+  renderPanel(activeSubset);
+  updateOverall();
+}
+
+// Build tabs
+const tabBar = document.getElementById('tabBar');
+SUBSETS.forEach((s, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'tab-btn' + (i === 0 ? ' active' : '');
+  btn.dataset.id = s.id;
+  btn.textContent = s.label;
+  btn.onclick = () => switchTab(s);
+  tabBar.appendChild(btn);
+});
+
+function togglePanel() {
+  const panel = document.getElementById('progressPanel');
+  const reopen = document.getElementById('reopenBtn');
+  const collapsed = panel.classList.toggle('collapsed');
+  reopen.classList.toggle('visible', collapsed);
+}
+
+renderPanel(activeSubset);
+updateOverall();
+</script>
+
+</body>
+</html>

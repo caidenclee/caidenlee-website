@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="2" dy="4" stdDeviation="6" flood-color="rgba(0,0,0,0.22)"/>
+    </filter>
+  </defs>
+
+  <!-- Paper shadow -->
+  <path d="M 34,34 Q 34,22 46,22 L 132,22 L 168,58 L 168,182 Q 168,194 156,194 L 46,194 Q 34,194 34,182 Z"
+        fill="rgba(0,0,0,0.12)" transform="translate(3,4)"/>
+
+  <!-- Paper body (with clipped top-right corner) -->
+  <path d="M 34,34 Q 34,22 46,22 L 132,22 L 168,58 L 168,182 Q 168,194 156,194 L 46,194 Q 34,194 34,182 Z"
+        fill="#f4f4fb" filter="url(#shadow)"/>
+
+  <!-- Fold crease line -->
+  <line x1="132" y1="22" x2="132" y2="58" stroke="#d0d0e8" stroke-width="1"/>
+  <line x1="132" y1="58" x2="168" y2="58" stroke="#d0d0e8" stroke-width="1"/>
+
+  <!-- Fold triangle (back face of folded corner) -->
+  <polygon points="132,22 168,58 132,58" fill="#dcdcee"/>
+
+  <!-- Isometric cube, centered on page -->
+  <!-- Top face -->
+  <polygon points="100,72 134,90 100,108 66,90" fill="#c4b8fd"/>
+  <!-- Left face -->
+  <polygon points="66,90 100,108 100,142 66,124" fill="#7c6ff7"/>
+  <!-- Right face -->
+  <polygon points="134,90 100,108 100,142 134,124" fill="#5044c0"/>
+
+  <!-- Cube edge highlights -->
+  <polyline points="66,90 100,72 134,90" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/>
+  <line x1="100" y1="72" x2="100" y2="108" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+</svg>

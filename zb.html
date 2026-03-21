@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZB Method — Caiden Lee</title>
+<meta name="description" content="Caiden Lee's ZB method algorithm sheets and trainers for ZBLL and ZBLS.">
+<link rel="icon" type="image/png" href="Caiden Cube Logo black.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #16161a; --bg2: #1e1e24; --bg3: #26262e;
+    --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #8a8a9a;
+    --accent: #7c6ff7; --accent2: #5b5bd6; --accent-glow: rgba(124,111,247,0.15);
+    --white: #ffffff;
+  }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; }
+
+  /* NAV */
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 2.5rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(22,22,26,0.97); backdrop-filter: blur(10px); z-index: 100; }
+  .nav-back { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 500; padding: 0.4rem 0.9rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2); transition: all 0.2s; }
+  .nav-back:hover { color: var(--white); border-color: rgba(124,111,247,0.4); }
+  .nav-title { font-size: 22px; font-weight: 800; letter-spacing: -0.04em; color: var(--white); }
+  .nav-title span { color: var(--accent); }
+
+  /* MAIN */
+  main { padding: 5rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .section-title { font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; letter-spacing: -0.03em; color: var(--white); margin-bottom: 1rem; line-height: 1.1; }
+  .section-intro { color: var(--muted); font-size: 14px; max-width: 580px; margin-bottom: 3rem; line-height: 1.8; }
+
+  /* CARDS */
+  .zb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .zb-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 24px; padding: 2.5rem; display: flex; flex-direction: column; gap: 1.5rem; transition: all 0.2s; }
+  .zb-card:hover { border-color: rgba(124,111,247,0.4); transform: translateY(-2px); }
+  .zb-card.featured { background: rgba(124,111,247,0.08); border-color: rgba(124,111,247,0.4); }
+  .zb-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--accent-glow); border: 1px solid rgba(124,111,247,0.2); color: var(--accent); font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 50px; width: fit-content; text-transform: uppercase; letter-spacing: 0.06em; }
+  .zb-name { font-size: 4rem; font-weight: 800; color: var(--white); letter-spacing: -0.04em; line-height: 1; display: flex; align-items: center; gap: 1rem; }
+  .zb-cube-icon { width: 110px; height: 110px; object-fit: contain; flex-shrink: 0; }
+  .zb-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .zb-actions { display: flex; flex-direction: column; gap: 0.75rem; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 1rem 1.75rem; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; text-decoration: none; cursor: pointer; transition: all 0.2s; border: none; width: 100%; }
+  .btn-primary { background: var(--accent); color: var(--white); }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+  .btn-secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: rgba(124,111,247,0.1); border-color: rgba(124,111,247,0.4); color: var(--white); transform: translateY(-1px); }
+  .btn svg { flex-shrink: 0; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    main { padding: 3rem 1.25rem; }
+    .zb-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-back" href="index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Home
+  </a>
+  <div class="nav-title">ZB <span>Method</span></div>
+  <div style="width:80px"></div>
+</nav>
+
+<main>
+  <div class="section-label">ZB Method</div>
+  <h1 class="section-title">Algorithm sets & trainers.</h1>
+  <p class="section-intro">I use the full ZB method — one of the most advanced 3×3 solving systems in speedcubing. Below you'll find my complete algorithm sheets and interactive trainers for both ZBLL and ZBLS.</p>
+
+  <div class="zb-grid">
+
+    <div class="zb-card" style="border-color:rgba(34,197,94,0.3);">
+      <div class="zb-tag" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.25);color:#22c55e;">F2L Last Pair</div>
+      <div class="zb-name">
+        <img class="zb-cube-icon" src="zbls-icon.png" alt="ZBLS cube" style="width:110px;height:110px;">
+        ZBLS
+      </div>
+      <p class="zb-desc">Zborowski-Bruchem Last Slot. A set of 302 algorithms that solve the last F2L pair while orienting the last layer edges simultaneously, setting up for a ZBLL case.</p>
+      <div class="zb-actions">
+        <a class="btn btn-primary" href="zbls-sheet-v3.html" style="background:#22c55e;box-shadow:0 0 24px rgba(34,197,94,0.35);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          Check it out
+        </a>
+      </div>
+    </div>
+
+    <div class="zb-card featured" style="background:rgba(217,119,6,0.06);border-color:rgba(217,119,6,0.35);">
+      <div class="zb-tag" style="background:rgba(217,119,6,0.12);border-color:rgba(217,119,6,0.3);color:#f59e0b;">Last Layer</div>
+      <div class="zb-name">
+        <img class="zb-cube-icon" src="zbll-icon.png" alt="ZBLL cube">
+        <span style="color:#facc15;">ZBLL</span>
+      </div>
+      <p class="zb-desc">Zborowski-Bruchem Last Layer. A set of 472 algorithms that solve the entire last layer in one look when all last layer edges are oriented.</p>
+      <div class="zb-actions">
+        <a class="btn btn-primary" href="zbll-sheet-v2.html" style="background:#d97706;box-shadow:0 0 24px rgba(217,119,6,0.35);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          Check it out
+        </a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+﻿.selected {
+    font-size: 20px;
+    border: 1px solid #000;
+    background-color:#ee9;
+    cursor: pointer;
+    padding: 3px;
+    -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;
+}
+
+.unselected {
+    font-size: 20px;
+    border: 1px solid #aaa;
+    background-color:#eee;
+    cursor: pointer;
+    padding: 3px;
+    -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;
+}
+
+.selectionButton {
+    font-size: 20px;
+    border: 1px solid #000;
+    background-color:#bbb;
+    cursor: pointer;
+    padding: 3px;
+    -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;
+}
+
+checkbox
+{
+    -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;
+}
+
+#scramble {
+    font-size: 20px;
+    text-align: left;
+}
+
+#timer {
+    font-size: 30px;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: bold;
+    height: 100%;
+    -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;
+}
+
+.big {
+	font-size: 30px;
+}
+
+table#mainTable {
+	width: 100%;
+	height: 100%;
+}
+
+td {
+	border: 1px solid #aaa;
+	padding: 4px;
+    width: 135px;
+}
+
+#selectBtn {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Stats */
+#stats {
+    width: 30%;
+    height: 100%;
+    vertical-align: top;
+}
+
+.timeResult {
+    cursor: pointer;
+}
+
+.timeResult:hover {
+    color: red;
+    cursor: pointer;
+}
+
+#times {
+    font-family: "Courier New", Courier, monospace;
+    overflow: scroll;
+    overflow-x: hidden;
+    /*height: 40%;*/
+    height: 40%;
+}
+
+#resultinfo {
+    height: 55%;
+}
+.resultInfoHeader {
+    border: 1px solid gray;
+}
+span.pllNameStats{
+	font-family: "Times New Roman", Georgia, Serif;
+	font-weight: bold;
+}
+
+input[type=text] {
+    border: 1px solid gray;
+}
+
+#previewPic {
+    height: 100%;
+}
+
+#colorSettings {
+    display: none;
+}
+
+#resultPicContainer {
+    cursor: pointer;
+}
+
+a.smallBtn, a.smallBtn:not([href]), a.smallBtn:visited {
+    text-decoration: none;
+    border: 1px solid gray;
+    border-radius: 2px;
+    padding: 0 0.2em;
+}
+
+a.smallBtn:hover {
+    background-color: rgba(0,0,0,0.3);
+}
+
+.bmBtn {
+    margin-right: 4px;
+}
