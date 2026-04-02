@@ -448,6 +448,16 @@ window.addEventListener('message', (e) => {
     if (!e.data || e.data.type !== 'settingsAction') return;
     const { action, args } = e.data;
     if (action === 'adjustSize' && window.adjustSize) window.adjustSize(args[0], args[1]);
+    if (action === 'toggleScrambleImg') {
+        var img = document.getElementById('scrambleImg');
+        if (img) {
+            img.style.display = args[0] ? 'block' : 'none';
+            if (args[0] && window.lastZbllCase) {
+                var c = window.lastZbllCase;
+                img.src = 'caseImage/ZBLS/level3/' + c.oll + '-' + c.coll + '-' + c.zbll.replace('/', 's') + '.png';
+            }
+        }
+    }
     if (action === 'applyColor' && window.applystyle) {
         const ids = { bg: 'bgcolor_in', text: 'textcolor_in', links: 'linkscolor_in' };
         const el = document.getElementById(ids[args[0]]);

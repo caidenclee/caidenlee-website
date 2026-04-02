@@ -54,6 +54,10 @@ function changeMode(m)
         if (controls) controls.style.display = 'none';
         if (typeof window.cancelSession === 'function') window.cancelSession();
         window.sessionActive = false;
+        const simg = document.getElementById('scrambleImg');
+        if (simg) simg.style.display = 'none';
+        const slbl = document.getElementById('scrambleImgLabel');
+        if (slbl) slbl.style.display = 'none';
         renderSelection();
         adjustInfo();
         return;

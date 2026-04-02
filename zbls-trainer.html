@@ -30,6 +30,16 @@
 
   .trainer-frame { flex: 1; width: 100%; border: none; display: block; }
 
+  @media (max-width: 768px) {
+    header { padding: 0.5rem 0.75rem; gap: 0.5rem; }
+    .header-title { font-size: 16px !important; }
+    .alg-btn span, .alg-btn svg + span { display: none; }
+    .alg-btn { padding: 0.4rem 0.6rem; }
+    .home-btn { bottom: 0.75rem; left: 0.75rem; font-size: 11px; padding: 0.4rem 0.75rem; }
+    a.alg-btn[href*="sheet"] { display: none; }
+    button.alg-btn { margin-right: 0.5rem; }
+  }
+
   .blocked-msg { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 2rem; text-align: center; }
   .blocked-msg p { color: var(--muted); font-size: 14px; max-width: 400px; line-height: 1.7; }
   .open-btn { display: inline-flex; align-items: center; gap: 8px; padding: 0.75rem 1.5rem; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; text-decoration: none; background: var(--accent); color: var(--white); transition: all 0.2s; }
@@ -96,6 +106,23 @@
       </div>
     </div>
 
+    <!-- Session Data -->
+    <div>
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.5rem;">Session Data</div>
+      <div style="display:flex;gap:8px;">
+        <button id="btnSessionOn" onclick="setSessionData(true)" class="setting-pill">On</button>
+        <button id="btnSessionOff" onclick="setSessionData(false)" class="setting-pill">Off</button>
+      </div>
+    </div>
+
+    <!-- Draw Scramble -->
+    <div>
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.5rem;">Draw Scramble</div>
+      <div style="display:flex;gap:8px;">
+        <button id="btnDrawOn" onclick="setDrawScramble(true)" class="setting-pill">On</button>
+        <button id="btnDrawOff" onclick="setDrawScramble(false)" class="setting-pill active-pill">Off</button>
+      </div>
+    </div>
 
   </div>
 </div>
@@ -117,6 +144,31 @@
   function openSettings() {
     document.getElementById('settingsBackdrop').style.display = 'block';
     document.getElementById('settingsPanel').style.display = 'block';
+    syncSessionDataButtons();
+    syncDrawScrambleButtons();
+  }
+
+  function setSessionData(enabled) {
+    localStorage.setItem('zblsSessionData', enabled ? 'on' : 'off');
+    syncSessionDataButtons();
+  }
+
+  function syncSessionDataButtons() {
+    var on = (localStorage.getItem('zblsSessionData') || 'on') === 'on';
+    document.getElementById('btnSessionOn').classList.toggle('active-pill', on);
+    document.getElementById('btnSessionOff').classList.toggle('active-pill', !on);
+  }
+
+  function setDrawScramble(enabled) {
+    localStorage.setItem('zblsDrawScramble', enabled ? 'on' : 'off');
+    syncDrawScrambleButtons();
+    sendToFrame('toggleScrambleImg', enabled);
+  }
+
+  function syncDrawScrambleButtons() {
+    var on = (localStorage.getItem('zblsDrawScramble') || 'off') === 'on';
+    document.getElementById('btnDrawOn').classList.toggle('active-pill', on);
+    document.getElementById('btnDrawOff').classList.toggle('active-pill', !on);
   }
   function closeSettings() {
     document.getElementById('settingsBackdrop').style.display = 'none';

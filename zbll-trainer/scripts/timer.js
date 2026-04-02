@@ -5,10 +5,26 @@ import { fillSelected } from "./practice.js";
 import { isInBookmarks } from "./presets.js";
 import { loadLocal, saveLocal } from "./saveload.js";
 import { preloadImage, scrambleToVcUrl } from "./vccache.js";
+window.scrambleToVcUrl = scrambleToVcUrl;
 import { processVirtInput, virtEnabled, virtualCube, virtMoves, setVirtMoves } from "./virtualcube.js";
 import { selCases, recaps, recapTotal, currentMode } from "./practice.js"
 
 let scramble = ""
+var scrambleHistory = [];
+var historyIndex = -1;
+
+function pushToHistory() {
+    if (!scramble) return;
+    scrambleHistory = scrambleHistory.slice(0, historyIndex + 1);
+    scrambleHistory.push({ scramble: scramble, zbllCase: window.lastZbllCase });
+    historyIndex = scrambleHistory.length - 1;
+    updateNavBtns();
+}
+
+function updateNavBtns() {
+    var prevBtn = document.getElementById('prevScrambleBtn');
+    if (prevBtn) prevBtn.disabled = (historyIndex <= 0);
+}
 
 let sessionSolves = [];
 let sessionStartIndex = 0;
@@ -51,7 +67,40 @@ function showScramble()
 
     document.getElementById("scramble").innerHTML = '<span class="scramble-pill">' + s + '</span>';
     preloadImage(scramble);
+    if (scramble) { pushToHistory(); updateScrambleImg(scramble); }
 }
+
+function updateScrambleImg(s) {
+    var img = document.getElementById('scrambleImg');
+    var lbl = document.getElementById('scrambleImgLabel');
+    if (!img) return;
+    var on = localStorage.getItem('zbllDrawScramble') === 'on';
+    img.style.display = on ? 'block' : 'none';
+    if (lbl) lbl.style.display = on ? 'block' : 'none';
+    if (on && window.lastZbllCase) {
+        var c = window.lastZbllCase;
+        var view = localStorage.getItem('zbllPictureView') || 'top';
+        img.src = 'caseImage/ZBLL/' + view + '/' + c.oll + '-' + c.coll + '-' + c.zbll.replace('/', 's') + '.svg';
+    }
+}
+
+window.skipNext = function() {
+    showScramble();
+};
+
+window.goPrevious = function() {
+    if (historyIndex <= 0) return;
+    historyIndex--;
+    var entry = scrambleHistory[historyIndex];
+    scramble = entry.scramble;
+    window.lastScramble = scramble;
+    window.lastZbllCase = entry.zbllCase;
+    window.allowStartingTimer = true;
+    document.getElementById('scramble').innerHTML = '<span class="scramble-pill">scramble: ' + scramble + '</span>';
+    preloadImage(scramble);
+    updateScrambleImg(scramble);
+    updateNavBtns();
+};
 
 function randomElement(arr)
 {
@@ -516,11 +565,17 @@ function getPicSize() {
 function fillResultInfo(r) {
     var picContainer = document.getElementById("resultPicContainer");
     if (r != null) {
+        var view = localStorage.getItem('zbllPictureView') || 'top';
+        var imgSrc = 'caseImage/ZBLL/' + view + '/' + r["oll"] + '-' + r["coll"] + '-' + r["zbll"] + '.svg';
         var s = "";
-        s += "<div style='font-weight:700;color:#e8e8e8;margin-bottom:6px;'>result #" + (r["index"] + 1) + ": " + r["time"] + "</div>";
-        s += "<div style='margin-bottom:4px;'><b>Scramble</b>: " + r["scramble"] + "</div>";
-        s += "<div><b>Case</b>: " + r["oll"] +"-"+ r["coll"] +", "+ r["zbll"].replace("s", "/") + "</div>";
-        s += "<button onclick='window.confirmRem(" + r["index"] + ")' class='result-delete-btn'>Delete</button>";
+        s += "<div style='font-weight:700;color:#e8e8e8;margin-bottom:2px;'>result #" + (r["index"] + 1) + ": " + r["time"] + "</div>";
+        s += "<div style='margin-bottom:2px;'><b>Scramble</b>: " + r["scramble"] + "</div>";
+        s += "<div style='margin-bottom:2px;'><b>Case</b>: " + r["oll"] +"-"+ r["coll"] +", "+ r["zbll"].replace("s", "/") + "</div>";
+        s += "<div style='display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;'>";
+        s += "<div style='font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#8a8a9a;'>Previous Case</div>";
+        s += "<button onclick='window.confirmRem(" + r["index"] + ")' class='result-delete-btn' style='margin-top:0;'>Delete</button>";
+        s += "</div>";
+        s += "<img src='" + imgSrc + "' style='display:block;width:60px;height:60px;object-fit:contain;border-radius:8px;background:#26262e;border:1px solid rgba(255,255,255,0.08);padding:4px;margin-bottom:8px;'>";
 
         document.getElementById("resultInfoContainer").innerHTML = s;
         picContainer.innerHTML = "";

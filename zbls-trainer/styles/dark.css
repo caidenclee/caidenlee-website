@@ -113,6 +113,73 @@ table#mainTable tr, table#mainTable td {
   justify-content: center !important;
 }
 
+#scrambleNav {
+  position: fixed !important;
+  top: 108px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  gap: 6px !important;
+  z-index: 101 !important;
+}
+
+#scrambleImgLabel {
+  position: fixed !important;
+  bottom: 263px !important;
+  left: 24px !important;
+  width: 160px !important;
+  text-align: center !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: #8a8a9a !important;
+  z-index: 200 !important;
+}
+
+#scrambleImg {
+  position: fixed !important;
+  bottom: 90px !important;
+  left: 24px !important;
+  width: 160px !important;
+  height: 160px !important;
+  object-fit: contain !important;
+  border-radius: 12px !important;
+  background: #1e1e24 !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  padding: 8px !important;
+  z-index: 200 !important;
+  pointer-events: none !important;
+}
+
+.nav-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 0.35rem 0.9rem !important;
+  border-radius: 50px !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  background: #26262e !important;
+  color: #8a8a9a !important;
+  cursor: pointer !important;
+  transition: color 0.2s, border-color 0.2s, background 0.2s !important;
+  white-space: nowrap !important;
+}
+
+.nav-btn:hover:not(:disabled) {
+  color: #ffffff !important;
+  border-color: rgba(124,111,247,0.4) !important;
+  background: rgba(124,111,247,0.08) !important;
+}
+
+.nav-btn:disabled {
+  opacity: 0.3 !important;
+  cursor: not-allowed !important;
+}
+
 .scramble-pill {
   display: inline-block !important;
   background: #26262e !important;
@@ -141,14 +208,14 @@ table#mainTable tr, table#mainTable td {
 /* Right side panel */
 #stats {
   position: fixed !important;
-  top: 50% !important;
+  top: 16px !important;
   right: 24px !important;
-  bottom: auto !important;
-  transform: translateY(-50%) !important;
+  bottom: 16px !important;
+  transform: none !important;
   width: 280px !important;
   max-width: 280px !important;
-  height: 85vh !important;
-  max-height: 85vh !important;
+  height: auto !important;
+  max-height: none !important;
   background: #1e1e24 !important;
   border: 1px solid rgba(255,255,255,0.08) !important;
   border-radius: 20px !important;
@@ -223,7 +290,7 @@ table#mainTable tr, table#mainTable td {
 }
 
 #resultinfo {
-  padding: 10px 14px !important;
+  padding: 10px 14px 24px !important;
   font-size: 12px !important;
   overflow-y: auto !important;
   flex: 1 !important;
@@ -233,6 +300,7 @@ table#mainTable tr, table#mainTable td {
 }
 
 #resultPicContainer { display: none !important; }
+#resultInfoContainer img { width: 60px !important; height: 60px !important; margin-bottom: 16px !important; }
 
 /* Hide bottom controls bar */
 table#mainTable tr:last-child td { display: none !important; }
@@ -1256,6 +1324,50 @@ twisty-stream-source { display: none !important; }
 .summary-notes-input::placeholder {
   color: #444 !important;
 }
+.how-to-btn { display: none; }
+
+.clear-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 3px 12px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(234,179,8,0.35) !important;
+  background: rgba(234,179,8,0.1) !important;
+  color: #fbbf24 !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+.clear-btn:hover {
+  background: rgba(234,179,8,0.25) !important;
+  border-color: rgba(234,179,8,0.6) !important;
+  color: #fff !important;
+}
+
+.result-action-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 6px 18px !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  background: #26262e !important;
+  color: #e8e8e8 !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+.result-action-btn:hover {
+  background: rgba(124,111,247,0.15) !important;
+  border-color: rgba(124,111,247,0.4) !important;
+  color: #fff !important;
+}
+
 .result-delete-btn {
   display: inline-flex !important;
   align-items: center !important;
@@ -1490,4 +1602,181 @@ twisty-stream-source { display: none !important; }
   background: rgba(124,111,247,0.15) !important;
   border-color: rgba(124,111,247,0.4) !important;
   color: #fff !important;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* Header bar */
+  #casesBox {
+    padding: 8px 12px !important;
+    gap: 8px !important;
+    padding-bottom: 10px !important;
+  }
+  #casesBoxTop { flex-wrap: wrap !important; gap: 6px !important; }
+  #selectBtn { font-size: 12px !important; padding: 6px 14px !important; margin-top: 5px !important; }
+  #selInfo {
+    position: fixed !important;
+    bottom: 59px !important;
+    right: 16px !important;
+    top: auto !important;
+    height: auto !important;
+    min-width: unset !important;
+    padding: 4px 10px !important;
+    z-index: 300 !important;
+  }
+  #startSessionBtn { display: none !important; }
+
+  /* Scramble */
+  #scramble {
+    top: 90px !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 12px 16px !important;
+    font-size: clamp(12px, 3.5vw, 16px) !important;
+  }
+  .scramble-pill {
+    padding: 8px 18px !important;
+    font-size: clamp(11px, 3vw, 15px) !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Nav buttons — just above scramble */
+  #scrambleNav {
+    top: 44px !important;
+    bottom: auto !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  /* Timer */
+  #timer {
+    top: 50% !important;
+    bottom: auto !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: translateY(-50%) !important;
+    font-size: clamp(28px, 8vw, 44px) !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+  }
+  #timertext {
+    font-size: clamp(28px, 8vw, 42px) !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  /* Hide stats panel by default, show as floating bottom sheet */
+  #stats {
+    top: auto !important;
+    bottom: -100% !important;
+    left: 100px !important;
+    right: 12px !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: 70vh !important;
+    border-radius: 20px !important;
+    transition: bottom 0.3s cubic-bezier(0.4,0,0.2,1) !important;
+    z-index: 500 !important;
+  }
+  #stats.mobile-stats-open {
+    bottom: 12px !important;
+  }
+
+  /* Stats toggle button */
+  #mobileStatsBtn {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 16px !important;
+    right: 16px !important;
+    align-items: center !important;
+    padding: 10px 20px !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(255,255,255,0.15) !important;
+    background: #26262e !important;
+    color: #e8e8e8 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    z-index: 400 !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+  }
+
+  /* Overlay behind stats sheet */
+  #mobileStatsOverlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0,0,0,0.5) !important;
+    z-index: 499 !important;
+    backdrop-filter: blur(2px) !important;
+  }
+
+  /* Hide draw scramble on mobile — too cluttered */
+  #scrambleImg, #scrambleImgLabel { display: none !important; }
+
+  /* okDnf row bigger touch targets */
+  #okDnfRow { gap: 10px !important; margin-top: 12px !important; }
+  #okBtn, #incorrectBtn { padding: 10px 22px !important; font-size: 14px !important; }
+
+  /* Selection screen — stack panels */
+  #selection_layout {
+    flex-direction: column !important;
+    padding: 12px 16px !important;
+    gap: 12px !important;
+  }
+  #panel_left { display: none !important; }
+  #panel_right {
+    position: relative !important;
+    top: auto !important; left: auto !important;
+    width: 100% !important;
+    border-radius: 14px !important;
+    margin-left: 20px !important;
+  }
+  #cases_selection {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+  .zbllItem {
+    min-width: 20px !important;
+    min-height: 20px !important;
+    font-size: 7px !important;
+    padding: 1px !important;
+    margin: 1px !important;
+  }
+  .zbllItem img { width: 20px !important; height: 20px !important; }
+  .ollItem, .collItem { padding: 2px !important; }
+  .ollItem img, .collItem img { width: 24px !important; height: 24px !important; }
+
+  /* Hide guide steps, show how-to button instead */
+  .guide-steps { display: none !important; }
+  .how-to-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    margin-top: 8px !important;
+    padding: 6px 14px !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(124,111,247,0.3) !important;
+    background: rgba(124,111,247,0.08) !important;
+    color: #a59ff8 !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    font-family: 'Inter', sans-serif !important;
+  }
+
+  /* Practice buttons — centered with breathing room */
+  #select_info {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 0 20px !important;
+  }
+  #select_info .abutton {
+    width: 100% !important;
+    max-width: 320px !important;
+  }
 }

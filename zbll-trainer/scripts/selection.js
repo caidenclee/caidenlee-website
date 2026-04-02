@@ -459,6 +459,17 @@ window.addEventListener('message', (e) => {
         const { action, args } = e.data;
         if (action === 'resetStyle' && window.resetStyle) window.resetStyle(args[0]);
         if (action === 'adjustSize' && window.adjustSize) window.adjustSize(args[0], args[1]);
+        if (action === 'toggleScrambleImg') {
+            var img = document.getElementById('scrambleImg');
+            if (img) {
+                img.style.display = args[0] ? 'block' : 'none';
+                if (args[0] && window.lastZbllCase) {
+                    var c = window.lastZbllCase;
+                    var view = localStorage.getItem('zbllPictureView') || 'top';
+                    img.src = 'caseImage/ZBLL/' + view + '/' + c.oll + '-' + c.coll + '-' + c.zbll.replace('/', 's') + '.svg';
+                }
+            }
+        }
         if (action === 'applyColor' && window.applystyle) {
             const [field, val] = args;
             const ids = { bg: 'bgcolor_in', text: 'textcolor_in', links: 'linkscolor_in' };

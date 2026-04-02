@@ -129,3 +129,37 @@ a.smallBtn:hover {
 .bmBtn {
     margin-right: 4px;
 }
+
+#scrambleNav {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 0.35rem 0.9rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: #1e1e24;
+    color: #8a8a9a;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+    white-space: nowrap;
+}
+
+.nav-btn:hover:not(:disabled) {
+    color: #ffffff;
+    border-color: rgba(124,111,247,0.4);
+    background: rgba(124,111,247,0.08);
+}
+
+.nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
