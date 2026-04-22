@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Cross+3 Trainer — Caiden's Cubing Resources</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      margin: 0; padding: 0;
+      background: #0f0f13;
+      color: #e8e8e8;
+      font-family: 'Inter', sans-serif;
+      height: 100%;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 54px;
+      background: rgba(15,15,19,0.96);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      backdrop-filter: blur(14px);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    .header-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #e8e8e8;
+      letter-spacing: -0.01em;
+    }
+
+    .header-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #a59ff8;
+      background: rgba(124,111,247,0.12);
+      border: 1px solid rgba(124,111,247,0.25);
+      border-radius: 999px;
+      padding: 3px 9px;
+    }
+
+    .header-spacer { flex: 1; }
+
+    .header-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #1e1e24;
+      color: #c0c0d0;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .header-btn:hover { background: #26262e; color: #e8e8e8; }
+
+    /* ── Scramble ───────────────────────────────────────────── */
+    #scrambleWrap {
+      position: fixed;
+      top: 66px;
+      left: 0;
+      right: 280px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    #scramble {
+      display: inline-block;
+      background: #1a1a22;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 14px 28px;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #dcdcf0;
+      line-height: 1.65;
+      white-space: nowrap;
+    }
+
+    /* ── Main center area ───────────────────────────────────── */
+    #centerArea {
+      position: fixed;
+      top: 54px; bottom: 0;
+      left: 0; right: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    /* ── Timer ──────────────────────────────────────────────── */
+    #timerDisplay {
+      font-size: 86px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: #e8e8e8;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    #timerLabel {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #6a6a7a;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    #inspectionLabel {
+      margin-top: 6px;
+      font-size: 11px;
+      color: #4a4a5a;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Rating ─────────────────────────────────────────────── */
+    #ratingWrap {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    #ratingLabel {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #6a6a7a;
+    }
+
+    #ratingBtns {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 480px;
+    }
+
+    .rating-btn {
+      padding: 9px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #1a1a22;
+      color: #c0c0d0;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: -0.01em;
+    }
+    .rating-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+    .rating-btn.cross  { border-color: rgba(239,68,68,0.4);    color: #ef4444; }
+    .rating-btn.p1     { border-color: rgba(249,115,22,0.4);  color: #f97316; }
+    .rating-btn.p2     { border-color: rgba(234,179,8,0.4);   color: #eab308; }
+    .rating-btn.p3     { border-color: rgba(132,204,22,0.4);  color: #84cc16; }
+    .rating-btn.p4     { border-color: rgba(34,197,94,0.4);   color: #22c55e; }
+    .rating-btn.zbll   { border-color: rgba(74,222,128,0.5);  color: #4ade80; background: rgba(74,222,128,0.06); }
+    .rating-btn.dnf    { border-color: rgba(107,114,128,0.35);color: #6b7280; background: rgba(107,114,128,0.06); }
+
+    #nextBtn {
+      display: none;
+      padding: 8px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #26262e;
+      color: #e8e8e8;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    #nextBtn:hover { background: #2e2e3a; }
+
+    /* ── State color changes ─────────────────────────────────── */
+    body.state-inspecting #timerDisplay { color: #a59ff8; }
+    body.state-inspecting #timerLabel   { color: #7c6ff7; }
+    body.state-executing  #timerDisplay { color: #4ade80; }
+    body.state-executing  #timerLabel   { color: #22c55e; }
+    body.state-rating     #timerDisplay { color: #e8e8e8; }
+
+    /* ── Inspecting text (timer-none mode) ──────────────────── */
+    body.state-inspecting.timer-none #timerDisplay {
+      font-size: 52px;
+      letter-spacing: -0.02em;
+    }
+
+
+    /* ── Stats Panel ─────────────────────────────────────────── */
+    #statsPanel {
+      position: fixed;
+      top: 66px;
+      right: 20px;
+      bottom: 20px;
+      width: 248px;
+      background: #1a1a22;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .stats-section-header {
+      padding: 12px 16px 10px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #5a5a6a;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .clear-solves-btn {
+      font-size: 9px;
+      font-weight: 600;
+      color: #4a4a5a;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      padding: 0;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .clear-solves-btn:hover { color: #ef4444; }
+
+    #solveList {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 0;
+    }
+    #solveList::-webkit-scrollbar { width: 3px; }
+    #solveList::-webkit-scrollbar-track { background: transparent; }
+    #solveList::-webkit-scrollbar-thumb { background: #2e2e3a; border-radius: 3px; }
+
+    .solve-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 14px;
+      font-size: 12px;
+      color: #9090a8;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .solve-item:hover { background: rgba(255,255,255,0.04); }
+    .solve-item:last-child { border-bottom: none; }
+    .solve-num { color: #5a5a6a; font-size: 10px; margin-right: 6px; }
+
+    .solve-badge {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+    }
+
+    #statsGrid {
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .stat-card {
+      background: #22222c;
+      border-radius: 10px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .stat-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #5a5a6a; }
+    .stat-val   { font-size: 16px; font-weight: 700; color: #e8e8e8; margin-top: 2px; letter-spacing: -0.02em; }
+
+    /* ── Mode indicator ─────────────────────────────────────── */
+    #modeIndicator {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #5a5a6a;
+      padding: 5px 12px;
+      background: #1a1a22;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 999px;
+    }
+
+    /* ── Settings overlay ───────────────────────────────────── */
+    #settingsOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(8px);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .settings-card {
+      background: #1a1a22;
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 24px;
+      padding: 28px 28px 24px;
+      width: 380px;
+      max-width: 92vw;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    }
+
+    .settings-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #e8e8e8;
+      letter-spacing: -0.02em;
+      margin-bottom: 22px;
+    }
+
+    .setting-row { margin-bottom: 18px; }
+
+    .setting-name {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #6a6a7a;
+      margin-bottom: 8px;
+    }
+
+    .pill-group { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .s-pill {
+      padding: 6px 15px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #22222c;
+      color: #6a6a7a;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .s-pill.active {
+      background: rgba(124,111,247,0.14);
+      border-color: rgba(124,111,247,0.4);
+      color: #a59ff8;
+    }
+    .s-pill:hover:not(.active) { background: #2a2a34; color: #c0c0d0; }
+
+    .settings-done {
+      display: block;
+      width: 100%;
+      padding: 11px;
+      margin-top: 4px;
+      border-radius: 12px;
+      border: none;
+      background: #7c6ff7;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: -0.01em;
+      transition: background 0.15s;
+    }
+    .settings-done:hover { background: #6358e0; }
+
+    /* ── Home btn ────────────────────────────────────────────── */
+    .home-btn {
+      position: fixed;
+      bottom: 20px;
+      left: 80px;
+      padding: 5px 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: #1a1a22;
+      color: #5a5a6a;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s;
+      letter-spacing: 0.02em;
+    }
+    .home-btn:hover { background: #22222c; color: #c0c0d0; }
+
+    /* ── See more stats btn ─────────────────────────────────── */
+    .see-more-btn {
+      display: block;
+      width: calc(100% - 24px);
+      margin: 0 12px 12px;
+      padding: 9px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: #22222c;
+      color: #6a6a7a;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: all 0.15s;
+      text-align: center;
+    }
+    .see-more-btn:hover { background: #2a2a36; color: #c0c0d0; border-color: rgba(255,255,255,0.12); }
+
+    /* ── More stats modal ────────────────────────────────────── */
+    #moreStatsOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(10px);
+      z-index: 600;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .more-stats-card {
+      background: #1a1a22;
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 24px;
+      padding: 26px 26px 24px;
+      width: 520px;
+      max-width: 94vw;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.7);
+    }
+    .more-stats-card::-webkit-scrollbar { width: 3px; }
+    .more-stats-card::-webkit-scrollbar-thumb { background: #2e2e3a; border-radius: 3px; }
+
+    .ms-section {
+      margin-bottom: 22px;
+    }
+    .ms-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #5a5a6a;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .ms-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 7px;
+    }
+    .ms-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+    }
+    .ms-card {
+      background: #22222c;
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 10px;
+      padding: 9px 11px;
+    }
+    .ms-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #5a5a6a; }
+    .ms-val   { font-size: 17px; font-weight: 700; color: #e8e8e8; margin-top: 3px; letter-spacing: -0.02em; }
+    .ms-sub   { font-size: 10px; color: #5a5a6a; margin-top: 1px; }
+
+    .ms-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .ms-bar-label {
+      font-size: 11px;
+      font-weight: 700;
+      width: 38px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .ms-bar-track {
+      flex: 1;
+      height: 7px;
+      background: #22222c;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .ms-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+    .ms-bar-pct {
+      font-size: 10px;
+      color: #5a5a6a;
+      width: 34px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .ms-close-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: #26262e;
+      color: #c0c0d0;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: background 0.15s;
+    }
+    .ms-close-btn:hover { background: #2e2e3a; color: #e8e8e8; }
+
+    /* ── Easy cross note ─────────────────────────────────────── */
+    #easyCrossNote {
+      font-size: 10px;
+      color: #5a5a6a;
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+    /* ── Solve detail modal ──────────────────────────────────── */
+    #solveDetailOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.72);
+      backdrop-filter: blur(10px);
+      z-index: 600;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .detail-card {
+      background: #1a1a22;
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 24px;
+      padding: 26px 26px 22px;
+      width: 420px;
+      max-width: 94vw;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.7);
+    }
+    .detail-card::-webkit-scrollbar { width: 3px; }
+    .detail-card::-webkit-scrollbar-thumb { background: #2e2e3a; border-radius: 3px; }
+
+    .detail-scramble {
+      font-size: 13px;
+      color: #c0c0d0;
+      background: #22222c;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+      line-height: 1.65;
+      word-break: break-all;
+      letter-spacing: 0.02em;
+    }
+
+    .detail-notes {
+      width: 100%;
+      min-height: 80px;
+      background: #22222c;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: #e8e8e8;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      resize: vertical;
+      outline: none;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+    .detail-notes:focus { border-color: rgba(124,111,247,0.4); }
+    .detail-notes::placeholder { color: #4a4a5a; }
+
+    .detail-save-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background: #26262e;
+      color: #c0c0d0;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .detail-save-btn:hover { background: #2e2e3a; color: #e8e8e8; }
+
+    .detail-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #5a5a6a;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Password Gate -->
+<div id="passwordGate" style="display:none;position:fixed;inset:0;background:#0f0f13;z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#1a1a22;border:1px solid rgba(255,255,255,0.09);border-radius:24px;padding:36px 32px;width:340px;max-width:90vw;box-shadow:0 24px 64px rgba(0,0,0,0.7);text-align:center;">
+    <div style="font-size:18px;font-weight:800;color:#e8e8e8;letter-spacing:-0.02em;margin-bottom:6px;">Cross+3 Trainer</div>
+    <div style="font-size:12px;color:#5a5a6a;margin-bottom:24px;">Enter the password to continue</div>
+    <input id="passwordInput" type="password" placeholder="Password"
+      style="width:100%;padding:11px 14px;background:#22222c;border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:#e8e8e8;font-family:'Inter',sans-serif;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:10px;"
+      onkeydown="if(event.key==='Enter')checkPassword()">
+    <div id="passwordError" style="font-size:11px;color:#ef4444;min-height:16px;margin-bottom:10px;"></div>
+    <button onclick="checkPassword()"
+      style="width:100%;padding:11px;border-radius:10px;border:none;background:#7c6ff7;color:#fff;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background 0.15s;"
+      onmouseover="this.style.background='#6358e0'" onmouseout="this.style.background='#7c6ff7'">
+      Enter
+    </button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const gate = document.getElementById('passwordGate');
+    gate.style.display = 'flex';
+    if (sessionStorage.getItem('c3_auth') === '1') {
+      gate.style.display = 'none';
+    }
+  })();
+
+  function checkPassword() {
+    const input = document.getElementById('passwordInput');
+    if (input.value === '654321') {
+      sessionStorage.setItem('c3_auth', '1');
+      document.getElementById('passwordGate').style.display = 'none';
+    } else {
+      document.getElementById('passwordError').textContent = 'Incorrect password. Try again.';
+      input.value = '';
+      input.focus();
+    }
+  }
+</script>
+
+<!-- Header -->
+<header>
+  <div class="header-title">Cross+3 Trainer</div>
+  <div class="header-badge">Beta</div>
+  <div class="header-spacer"></div>
+  <button class="header-btn" onclick="openSettings()">⚙ Settings</button>
+</header>
+
+<!-- Scramble -->
+<div id="scrambleWrap">
+  <div id="scramble">Generating scramble…</div>
+</div>
+
+<!-- Center -->
+<div id="centerArea">
+  <div id="timerDisplay">0.00</div>
+  <div id="timerLabel">Press Space to begin inspection</div>
+  <div id="inspectionLabel"></div>
+
+  <div id="ratingWrap">
+    <div id="ratingLabel">How much did you predict?</div>
+    <div id="ratingBtns">
+      <button class="rating-btn cross" onclick="rate('Cross',this)">Cross</button>
+      <button class="rating-btn p1"    onclick="rate('+1',this)">+1</button>
+      <button class="rating-btn p2"    onclick="rate('+2',this)">+2</button>
+      <button class="rating-btn p3"    onclick="rate('+3',this)">+3</button>
+      <button class="rating-btn p4"    onclick="rate('+4',this)">+4</button>
+      <button class="rating-btn zbll"  onclick="rate('ZBLS',this)">ZBLS</button>
+      <button class="rating-btn dnf"   onclick="rate('DNF',this)">DNF</button>
+      <button class="rating-btn" onclick="discardSolve()" style="border-color:rgba(255,255,255,0.12);color:#6a6a7a;">Delete</button>
+    </div>
+    <button id="nextBtn" onclick="nextScramble()">Next →</button>
+  </div>
+</div>
+
+<!-- Stats Panel -->
+<div id="statsPanel">
+  <div class="stats-section-header">
+    Solves
+    <button class="clear-solves-btn" onclick="confirmClear()">Clear</button>
+  </div>
+  <div id="solveList"><div style="padding:16px;font-size:11px;color:#4a4a5a;text-align:center;">No solves yet</div></div>
+  <div style="padding:10px 16px 6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#5a5a6a;border-top:1px solid rgba(255,255,255,0.05);">Stats</div>
+  <div id="statsGrid">
+    <div class="stat-card"><div class="stat-label" id="statRateLabel">+3 Rate</div><div class="stat-val" id="statRate">—</div></div>
+    <div class="stat-card"><div class="stat-label">AVG Prediction</div><div class="stat-val" id="statMean">—</div></div>
+    <div class="stat-card" style="grid-column:1/-1;cursor:pointer;" onclick="openAo5Detail()">
+      <div class="stat-label">Current Ao5 ›</div>
+      <div class="stat-val" id="statAo5">—</div>
+    </div>
+    <div class="stat-card" style="grid-column:1/-1;">
+      <div class="stat-label">Mean</div>
+      <div class="stat-val" id="statMeanTime">—</div>
+    </div>
+  </div>
+  <button class="see-more-btn" onclick="openMoreStats()">See more stats ›</button>
+</div>
+
+<!-- Mode indicator -->
+<div id="modeIndicator">Timed</div>
+
+<!-- Home -->
+<a href="index.html" class="home-btn">← Home</a>
+
+<!-- More Stats Modal -->
+<div id="moreStatsOverlay">
+  <div class="more-stats-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div style="font-size:17px;font-weight:800;color:#e8e8e8;letter-spacing:-0.02em;">Detailed Stats</div>
+      <button onclick="closeMoreStats()" style="background:none;border:none;color:#6a6a7a;font-size:20px;cursor:pointer;padding:0;line-height:1;font-family:inherit;">✕</button>
+    </div>
+    <div id="moreStatsContent"></div>
+    <button class="ms-close-btn" onclick="closeMoreStats()">Close</button>
+  </div>
+</div>
+
+<!-- Ao5 Detail Modal -->
+<div id="ao5Overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(10px);z-index:600;align-items:center;justify-content:center;">
+  <div class="detail-card" style="width:340px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div style="font-size:15px;font-weight:800;color:#e8e8e8;letter-spacing:-0.02em;">Last 5 Solves</div>
+      <button onclick="closeAo5Detail()" style="background:none;border:none;color:#6a6a7a;font-size:20px;cursor:pointer;padding:0;line-height:1;font-family:inherit;">✕</button>
+    </div>
+    <div id="ao5Content"></div>
+  </div>
+</div>
+
+<!-- Solve Detail Modal -->
+<div id="solveDetailOverlay">
+  <div class="detail-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div class="settings-title" style="margin-bottom:0;font-size:15px;" id="detailTitle">Solve</div>
+      <button onclick="closeDetail()" style="background:none;border:none;color:#6a6a7a;font-size:20px;cursor:pointer;padding:0;line-height:1;font-family:inherit;">✕</button>
+    </div>
+    <div id="detailContent"></div>
+    <div class="detail-section-label">Notes</div>
+    <textarea class="detail-notes" id="detailNotes" placeholder="Add notes about this solve…"></textarea>
+    <button class="detail-save-btn" onclick="saveDetailNotes()">Save &amp; Close</button>
+  </div>
+</div>
+
+<!-- Settings -->
+<div id="settingsOverlay">
+  <div class="settings-card">
+    <div class="settings-title">Settings</div>
+
+    <div class="setting-row">
+      <div class="setting-name">Timer Mode</div>
+      <div class="pill-group">
+        <button class="s-pill" id="pillTimed"   onclick="setMode('timed')">Timed</button>
+        <button class="s-pill" id="pillUntimed" onclick="setMode('untimed')">Untimed</button>
+      </div>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-name">Scramble Type</div>
+      <div class="pill-group">
+        <button class="s-pill" id="pillNormal" onclick="setScrambleType('normal')">Normal (25 moves)</button>
+        <button class="s-pill" id="pillEasy"   onclick="setScrambleType('easy')">Easy Cross</button>
+      </div>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-name">Timer Update</div>
+      <div class="pill-group">
+        <button class="s-pill" id="pillUpdate001" onclick="setTimerUpdate('0.01')">0.01s</button>
+        <button class="s-pill" id="pillUpdate1"   onclick="setTimerUpdate('1')">1s</button>
+        <button class="s-pill" id="pillUpdateNone" onclick="setTimerUpdate('none')">None</button>
+      </div>
+    </div>
+
+    <div class="setting-row" id="easyMovesRow" style="display:none;">
+      <div class="setting-name">Easy Cross — Cross Move Count</div>
+      <div class="pill-group" id="easyMovesPills">
+        <button class="s-pill" onclick="setEasyMoves(3)">3</button>
+        <button class="s-pill" onclick="setEasyMoves(4)">4</button>
+        <button class="s-pill" onclick="setEasyMoves(5)">5</button>
+        <button class="s-pill" onclick="setEasyMoves(6)">6</button>
+      </div>
+      <div id="easyCrossNote">Full 25-move scramble, but cross is exactly N moves optimal.</div>
+    </div>
+
+    <div class="setting-row">
+      <div class="setting-name">Target Goal</div>
+      <div style="font-size:10px;color:#5a5a6a;margin-bottom:8px;">Your aim to hit every solve — rate tracks how often you reach it or better.</div>
+      <div class="pill-group" id="rateThresholdPills">
+        <button class="s-pill" onclick="setRateThreshold('Cross')">Cross</button>
+        <button class="s-pill" onclick="setRateThreshold('+1')">+1</button>
+        <button class="s-pill" onclick="setRateThreshold('+2')">+2</button>
+        <button class="s-pill" onclick="setRateThreshold('+3')">+3</button>
+        <button class="s-pill" onclick="setRateThreshold('+4')">+4</button>
+        <button class="s-pill" onclick="setRateThreshold('ZBLS')">ZBLS</button>
+      </div>
+    </div>
+
+    <button class="settings-done" onclick="closeSettings()">Done</button>
+  </div>
+</div>
+
+<script>
+// ── Scramble Generator ────────────────────────────────────────
+const FACES    = ['U','D','R','L','F','B'];
+const AXIS     = {U:0,D:0,R:1,L:1,F:2,B:2};
+const SUFFIXES = ["","'","2"];
+
+function generateScramble(n = 25) {
+  const moves = [];
+  let last = null, prev = null;
+  while (moves.length < n) {
+    const f = FACES[Math.floor(Math.random() * 6)];
+    if (f === last) continue;
+    if (last !== null && prev !== null && AXIS[f] === AXIS[last] && AXIS[f] === AXIS[prev]) continue;
+    moves.push(f + SUFFIXES[Math.floor(Math.random() * 3)]);
+    prev = last; last = f;
+  }
+  return moves.join(' ');
+}
+
+// ── Cross Solver (BFS) ────────────────────────────────────────
+// Edges: UR=0,UF=1,UL=2,UB=3,DR=4,DF=5,DL=6,DB=7,FR=8,FL=9,BL=10,BR=11
+// Cross cubies: DR=4, DF=5, DL=6, DB=7
+
+const CROSS_PERMS = [
+  [3,0,1,2, 4,5,6,7, 8,9,10,11],  // U
+  [2,3,0,1, 4,5,6,7, 8,9,10,11],  // U2
+  [1,2,3,0, 4,5,6,7, 8,9,10,11],  // U'
+  [0,1,2,3, 5,6,7,4, 8,9,10,11],  // D
+  [0,1,2,3, 6,7,4,5, 8,9,10,11],  // D2
+  [0,1,2,3, 7,4,5,6, 8,9,10,11],  // D'
+  [8,1,2,3, 11,5,6,7, 4,9,10,0],  // R
+  [4,1,2,3, 0,5,6,7, 11,9,10,8],  // R2
+  [11,1,2,3, 8,5,6,7, 0,9,10,4],  // R'
+  [0,1,10,3, 4,5,9,7, 8,2,6,11],  // L
+  [0,1,6,3,  4,5,2,7, 8,10,9,11], // L2
+  [0,1,9,3,  4,5,10,7,8,6,2,11],  // L'
+  [0,8,2,3, 4,9,6,7, 5,1,10,11],  // F
+  [0,5,2,3, 4,1,6,7, 9,8,10,11],  // F2
+  [0,9,2,3, 4,8,6,7, 1,5,10,11],  // F'
+  [0,1,2,11, 4,5,6,10,8,9,3,7],   // B
+  [0,1,2,7,  4,5,6,3, 8,9,11,10], // B2
+  [0,1,2,10, 4,5,6,11,8,9,7,3],   // B'
+];
+const CROSS_FLIPS = [
+  [0,0,0,0,0,0,0,0,0,0,0,0], // U
+  [0,0,0,0,0,0,0,0,0,0,0,0], // U2
+  [0,0,0,0,0,0,0,0,0,0,0,0], // U'
+  [0,0,0,0,0,0,0,0,0,0,0,0], // D
+  [0,0,0,0,0,0,0,0,0,0,0,0], // D2
+  [0,0,0,0,0,0,0,0,0,0,0,0], // D'
+  [0,0,0,0,0,0,0,0,0,0,0,0], // R
+  [0,0,0,0,0,0,0,0,0,0,0,0], // R2
+  [0,0,0,0,0,0,0,0,0,0,0,0], // R'
+  [0,0,0,0,0,0,0,0,0,0,0,0], // L
+  [0,0,0,0,0,0,0,0,0,0,0,0], // L2
+  [0,0,0,0,0,0,0,0,0,0,0,0], // L'
+  [0,1,0,0,0,1,0,0,1,1,0,0], // F
+  [0,0,0,0,0,0,0,0,0,0,0,0], // F2
+  [0,1,0,0,0,1,0,0,1,1,0,0], // F'
+  [0,0,0,1,0,0,0,1,0,0,1,1], // B
+  [0,0,0,0,0,0,0,0,0,0,0,0], // B2
+  [0,0,0,1,0,0,0,1,0,0,1,1], // B'
+];
+const CROSS_MOVE_MAP = {
+  'U':0,'U2':1,"U'":2,
+  'D':3,'D2':4,"D'":5,
+  'R':6,'R2':7,"R'":8,
+  'L':9,'L2':10,"L'":11,
+  'F':12,'F2':13,"F'":14,
+  'B':15,'B2':16,"B'":17
+};
+
+// Encode cross state: positions/orientations of the 4 cross cubies
+function encodeCross(p4,o4,p5,o5,p6,o6,p7,o7) {
+  return p4|(o4<<4)|(p5<<5)|(o5<<9)|(p6<<10)|(o6<<14)|(p7<<15)|(o7<<19);
+}
+const CROSS_SOLVED = encodeCross(4,0,5,0,6,0,7,0);
+
+function applyMoveCross(p4,o4,p5,o5,p6,o6,p7,o7, mi) {
+  const p=CROSS_PERMS[mi], f=CROSS_FLIPS[mi];
+  return [p[p4],(o4+f[p4])&1, p[p5],(o5+f[p5])&1, p[p6],(o6+f[p6])&1, p[p7],(o7+f[p7])&1];
+}
+
+let CROSS_TABLE = null;
+
+function buildCrossTable() {
+  CROSS_TABLE = new Map();
+  CROSS_TABLE.set(CROSS_SOLVED, 0);
+  let frontier = [[4,0,5,0,6,0,7,0]];
+  for (let d = 1; d <= 8; d++) {
+    const next = [];
+    for (const s of frontier) {
+      for (let mi = 0; mi < 18; mi++) {
+        const ns = applyMoveCross(...s, mi);
+        const key = encodeCross(...ns);
+        if (!CROSS_TABLE.has(key)) { CROSS_TABLE.set(key, d); next.push(ns); }
+      }
+    }
+    frontier = next;
+    if (!frontier.length) break;
+  }
+}
+
+function getCrossDist(moveArr) {
+  let p4=4,o4=0,p5=5,o5=0,p6=6,o6=0,p7=7,o7=0;
+  for (const m of moveArr) {
+    const mi = CROSS_MOVE_MAP[m];
+    if (mi == null) continue;
+    [p4,o4,p5,o5,p6,o6,p7,o7] = applyMoveCross(p4,o4,p5,o5,p6,o6,p7,o7, mi);
+  }
+  return CROSS_TABLE.get(encodeCross(p4,o4,p5,o5,p6,o6,p7,o7)) ?? 0;
+}
+
+function generateEasyCrossScramble(N) {
+  for (let i = 0; i < 5000; i++) {
+    const s = generateScramble(25);
+    if (getCrossDist(s.split(' ')) === N) return s;
+  }
+  return generateScramble(25); // fallback
+}
+
+// ── Audio ─────────────────────────────────────────────────────
+let audioCtx = null;
+function beep(freq = 880, dur = 0.18) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc  = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.frequency.value = freq;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+    osc.start(audioCtx.currentTime);
+    osc.stop(audioCtx.currentTime + dur);
+  } catch(e) {}
+}
+
+// ── Settings State ────────────────────────────────────────────
+let mode         = localStorage.getItem('c3_mode')         || 'timed';
+let scrambleType = localStorage.getItem('c3_scrambleType') || 'normal';
+let easyMoves    = parseInt(localStorage.getItem('c3_easyMoves') || '4');
+
+// ── Solve Data ────────────────────────────────────────────────
+let solves = [];
+try { solves = JSON.parse(localStorage.getItem('c3_solves') || '[]'); } catch(e) {}
+
+function saveSolves() {
+  localStorage.setItem('c3_solves', JSON.stringify(solves.slice(-500)));
+}
+
+// ── Timer State ───────────────────────────────────────────────
+let appState       = 'idle'; // idle | inspecting | executing | rating
+let inspectStart   = 0;
+let executeStart   = 0;
+let inspectMs      = 0;
+let executeMs      = 0;
+let totalMs        = 0;
+let rafId          = null;
+let pendingRating  = null;
+let timerUpdate    = localStorage.getItem('c3_timerUpdate')    || '0.01'; // '0.01' | '1' | 'none'
+let rateThreshold  = localStorage.getItem('c3_rateThreshold') || '+3';
+
+const RATE_THRESHOLDS = {
+  'Cross': ['Cross','+1','+2','+3','+4','ZBLS'],
+  '+1':    ['+1','+2','+3','+4','ZBLS'],
+  '+2':    ['+2','+3','+4','ZBLS'],
+  '+3':    ['+3','+4','ZBLS'],
+  '+4':    ['+4','ZBLS'],
+  'ZBLS':  ['ZBLS'],
+};
+
+// ── Helpers ───────────────────────────────────────────────────
+function fmt(ms) {
+  if (ms < 60000) return (ms / 1000).toFixed(2);
+  const m = Math.floor(ms / 60000);
+  const s = ((ms % 60000) / 1000).toFixed(2).padStart(5,'0');
+  return m + ':' + s;
+}
+
+function el(id) { return document.getElementById(id); }
+
+// ── Render loop ───────────────────────────────────────────────
+function tick() {
+  if (timerUpdate !== 'none') {
+    if (appState === 'inspecting' && mode === 'timed') {
+      const ms = Date.now() - inspectStart;
+      el('timerDisplay').textContent = timerUpdate === '1' ? Math.floor(ms / 1000).toString() : fmt(ms);
+    } else if (appState === 'executing') {
+      const ms = Date.now() - executeStart;
+      el('timerDisplay').textContent = timerUpdate === '1' ? Math.floor(ms / 1000).toString() : fmt(ms);
+    }
+  }
+  if (appState === 'inspecting' || appState === 'executing') {
+    rafId = requestAnimationFrame(tick);
+  }
+}
+
+// ── State transitions ─────────────────────────────────────────
+function goIdle() {
+  appState = 'idle';
+  document.body.className = '';
+  cancelAnimationFrame(rafId);
+  el('timerDisplay').textContent  = '0.00';
+  el('timerLabel').textContent    = mode === 'timed' ? 'Press Space to begin inspection' : 'Press Space to begin';
+  el('inspectionLabel').textContent = '';
+  el('ratingWrap').style.display  = 'none';
+  el('nextBtn').style.display     = 'none';
+  pendingRating = null;
+  document.querySelectorAll('.rating-btn').forEach(b => { b.style.opacity=''; b.style.transform=''; });
+}
+
+function startInspection() {
+  appState     = 'inspecting';
+  inspectStart = Date.now();
+  document.body.className = 'state-inspecting';
+  if (mode === 'timed') {
+    if (timerUpdate === 'none') {
+      document.body.classList.add('timer-none');
+      el('timerDisplay').textContent = 'Inspecting';
+    } else {
+      el('timerDisplay').textContent = '0.00';
+    }
+    el('timerLabel').textContent = 'Inspecting — Space when ready';
+    rafId = requestAnimationFrame(tick);
+  } else {
+    el('timerDisplay').textContent = 'Plan';
+    el('timerLabel').textContent   = 'Plan your solution — Space to execute';
+  }
+  el('inspectionLabel').textContent = 'Eyes open during inspection • close them after pressing Space';
+}
+
+function startExecution() {
+  beep();
+  inspectMs    = Date.now() - inspectStart;
+  appState     = 'executing';
+  document.body.classList.remove('timer-none');
+  executeStart = Date.now();
+  document.body.className = 'state-executing';
+  cancelAnimationFrame(rafId);
+  el('timerDisplay').textContent    = timerUpdate === 'none' ? '—' : '0.00';
+  el('timerLabel').textContent      = 'Executing — eyes closed — Space to stop';
+  el('inspectionLabel').textContent = '';
+  rafId = requestAnimationFrame(tick);
+}
+
+function stopExecution() {
+  executeMs = Date.now() - executeStart;
+  totalMs   = (mode === 'timed' ? inspectMs : 0) + executeMs;
+  appState  = 'rating';
+  document.body.className = 'state-rating';
+  cancelAnimationFrame(rafId);
+  el('timerDisplay').textContent = fmt(totalMs);
+  if (mode === 'timed') {
+    el('timerLabel').textContent = 'Insp ' + fmt(inspectMs) + '  +  Exec ' + fmt(executeMs) + '  =  ' + fmt(totalMs);
+  } else {
+    el('timerLabel').textContent = 'Execution ' + fmt(executeMs);
+  }
+  el('inspectionLabel').textContent = '';
+  el('ratingWrap').style.display    = 'flex';
+}
+
+function rate(rating, btn) {
+  pendingRating = rating;
+  // Dim all, highlight selected — but keep all clickable
+  document.querySelectorAll('.rating-btn').forEach(b => { b.style.opacity='0.3'; b.style.transform=''; });
+  btn.style.opacity = '1';
+  btn.style.transform = 'scale(1.06)';
+  el('nextBtn').style.display = 'block';
+}
+
+function nextScramble() {
+  if (pendingRating) {
+    solves.push({
+      ts:           Date.now(),
+      scramble:     el('scramble').textContent,
+      inspectMs:    mode === 'timed' ? inspectMs : null,
+      executeMs:    executeMs,
+      totalMs:      totalMs,
+      rating:       pendingRating,
+      mode:         mode,
+      scrambleType: scrambleType
+    });
+    saveSolves();
+    renderStats();
+  }
+  newScramble();
+  goIdle();
+}
+
+function discardSolve() {
+  if (confirm('Are you sure you want to delete this solve?')) {
+    newScramble();
+    goIdle();
+  }
+}
+
+// ── Keyboard & Touch ──────────────────────────────────────────
+document.addEventListener('keydown', function(e) {
+  if (e.repeat) return;
+  if (e.code === 'Escape') {
+    if (el('ao5Overlay').style.display === 'flex')         { closeAo5Detail(); return; }
+    if (el('moreStatsOverlay').style.display === 'flex')   { closeMoreStats(); return; }
+    if (el('solveDetailOverlay').style.display === 'flex') { closeDetail(); return; }
+    if (el('settingsOverlay').style.display === 'flex')    { closeSettings(); return; }
+    return;
+  }
+  if (e.code !== 'Space') return;
+  e.preventDefault();
+  if (el('settingsOverlay').style.display === 'flex') return;
+  if (el('solveDetailOverlay').style.display === 'flex') return;
+  if (el('moreStatsOverlay').style.display === 'flex') return;
+  if (el('ao5Overlay').style.display === 'flex') return;
+  handleInput();
+});
+
+
+function handleInput() {
+  if (appState === 'idle')       startInspection();
+  else if (appState === 'inspecting') startExecution();
+  else if (appState === 'executing')  stopExecution();
+  else if (appState === 'rating' && pendingRating) nextScramble();
+}
+
+// ── Scramble ──────────────────────────────────────────────────
+function newScramble() {
+  if (scrambleType === 'easy') {
+    if (!CROSS_TABLE) {
+      el('scramble').textContent = 'Building cross table…';
+      setTimeout(() => { buildCrossTable(); newScramble(); }, 20);
+      return;
+    }
+    el('scramble').textContent = generateEasyCrossScramble(easyMoves);
+  } else {
+    el('scramble').textContent = generateScramble(25);
+  }
+}
+
+// ── Stats ─────────────────────────────────────────────────────
+const BADGE = {
+  'Cross': ['#ef4444','rgba(239,68,68,0.12)','rgba(239,68,68,0.3)'],
+  '+1':    ['#f97316','rgba(249,115,22,0.12)','rgba(249,115,22,0.3)'],
+  '+2':    ['#eab308','rgba(234,179,8,0.12)','rgba(234,179,8,0.3)'],
+  '+3':    ['#84cc16','rgba(132,204,22,0.12)','rgba(132,204,22,0.3)'],
+  '+4':    ['#22c55e','rgba(34,197,94,0.12)','rgba(34,197,94,0.3)'],
+  'ZBLS':  ['#4ade80','rgba(74,222,128,0.14)','rgba(74,222,128,0.35)'],
+  'DNF':   ['#6b7280','rgba(107,114,128,0.12)','rgba(107,114,128,0.3)'],
+};
+
+const PAIRS_VAL = { 'Cross': 0, '+1': 1, '+2': 2, '+3': 3, '+4': 4, 'ZBLS': 3 };
+
+function renderStats() {
+  const recent = solves.slice(-50).reverse();
+  if (recent.length === 0) {
+    el('solveList').innerHTML = '<div style="padding:16px;font-size:11px;color:#4a4a5a;text-align:center;">No solves yet</div>';
+  } else {
+    el('solveList').innerHTML = recent.map((s, i) => {
+      const [clr, bg, border] = BADGE[s.rating] || ['#8a8a9a','rgba(138,138,154,0.12)','rgba(138,138,154,0.3)'];
+      const total = s.totalMs != null ? fmt(s.totalMs) : fmt(s.executeMs);
+      const splits = s.inspectMs != null
+        ? `<div style="font-size:9px;color:#5a5a6a;margin-top:1px;">insp ${fmt(s.inspectMs)} · exec ${fmt(s.executeMs)}</div>`
+        : `<div style="font-size:9px;color:#5a5a6a;margin-top:1px;">exec ${fmt(s.executeMs)}</div>`;
+      const solveIdx = solves.length - 1 - i;
+      const hasNote = s.notes && s.notes.trim();
+      return `<div class="solve-item" style="align-items:flex-start;padding:7px 14px;" onclick="openDetail(${solveIdx})">
+        <div>
+          <div><span class="solve-num">#${solves.length - i}</span><span style="font-weight:700;color:#e8e8e8;">${total}</span>${hasNote ? '<span style="font-size:9px;color:#5a5a6a;margin-left:5px;">✎</span>' : ''}</div>
+          ${splits}
+        </div>
+        <span class="solve-badge" style="color:${clr};background:${bg};border:1px solid ${border};margin-top:2px;">${s.rating}</span>
+      </div>`;
+    }).join('');
+  }
+
+  const rateLabel = rateThreshold === 'Cross' ? 'Cross Rate' : rateThreshold === 'ZBLS' ? 'ZBLS Rate' : 'Cross ' + rateThreshold + ' Rate';
+  el('statRateLabel').textContent = rateLabel;
+  const qualifying = RATE_THRESHOLDS[rateThreshold] || ['+3','+4','ZBLS'];
+  const rateCount = solves.filter(s => qualifying.includes(s.rating)).length;
+  el('statRate').textContent = solves.length > 0 ? Math.round(rateCount / solves.length * 100) + '%' : '—';
+
+  const pairsArr = solves
+    .filter(s => PAIRS_VAL[s.rating] !== undefined)
+    .map(s => PAIRS_VAL[s.rating]);
+  el('statMean').innerHTML = pairsArr.length > 0
+    ? (pairsArr.reduce((a,b)=>a+b,0) / pairsArr.length).toFixed(2) + '<span style="font-size:11px;font-weight:500;color:#6a6a7a;margin-left:5px;">pairs</span>'
+    : '—';
+
+  const valid = solves.filter(s => s.rating !== 'DNF').map(s => s.totalMs || s.executeMs);
+  el('statMeanTime').textContent = valid.length > 0
+    ? fmt(Math.round(valid.reduce((a,b)=>a+b,0) / valid.length))
+    : '—';
+
+  const last5 = valid.slice(-5);
+  if (last5.length === 5) {
+    const sorted = [...last5].sort((a,b)=>a-b);
+    const ao5ms = Math.round((sorted[1]+sorted[2]+sorted[3])/3);
+    el('statAo5').textContent = fmt(ao5ms);
+  } else {
+    el('statAo5').textContent = last5.length > 0 ? last5.length + '/5' : '—';
+  }
+}
+
+function confirmClear() {
+  if (confirm('Clear all solve data?')) {
+    solves = [];
+    saveSolves();
+    renderStats();
+  }
+}
+
+// ── More Stats ────────────────────────────────────────────────
+function openMoreStats() {
+  const content = buildMoreStatsHTML();
+  el('moreStatsContent').innerHTML = content;
+  el('moreStatsOverlay').style.display = 'flex';
+}
+
+function closeMoreStats() {
+  el('moreStatsOverlay').style.display = 'none';
+}
+
+// ── Ao5 Detail ────────────────────────────────────────────────
+function openAo5Detail() {
+  const last5 = solves.filter(s => s.rating !== 'DNF').slice(-5);
+  if (last5.length === 0) return;
+
+  // compute ao5 to know which are dropped
+  let droppedIdxs = new Set();
+  if (last5.length === 5) {
+    const times = last5.map(s => s.totalMs || s.executeMs);
+    const sorted = [...times].map((t,i) => ({t,i})).sort((a,b)=>a.t-b.t);
+    droppedIdxs = new Set([sorted[0].i, sorted[4].i]);
+  }
+
+  const rows = [...last5].reverse().map((s, i) => {
+    const actualIdx = last5.length - 1 - i;
+    const isDropped = droppedIdxs.has(actualIdx);
+    const [clr, bg, border] = BADGE[s.rating] || ['#8a8a9a','rgba(138,138,154,0.12)','rgba(138,138,154,0.3)'];
+    const total = fmt(s.totalMs || s.executeMs);
+    const splits = s.inspectMs != null
+      ? `<span style="font-size:10px;color:#5a5a6a;">insp ${fmt(s.inspectMs)} · exec ${fmt(s.executeMs)}</span>`
+      : `<span style="font-size:10px;color:#5a5a6a;">exec ${fmt(s.executeMs)}</span>`;
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);opacity:${isDropped ? '0.4' : '1'};">
+      <div>
+        <span style="font-size:14px;font-weight:700;color:${isDropped ? '#6a6a7a' : '#e8e8e8'};${isDropped ? 'text-decoration:line-through;' : ''}">${total}</span>
+        ${isDropped ? '<span style="font-size:9px;color:#5a5a6a;margin-left:6px;">dropped</span>' : ''}
+        <div style="margin-top:2px;">${splits}</div>
+      </div>
+      <span class="solve-badge" style="color:${clr};background:${bg};border:1px solid ${border};">${s.rating}</span>
+    </div>`;
+  }).join('');
+
+  const ao5El = el('statAo5').textContent;
+  el('ao5Content').innerHTML = `
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:16px;">
+      <span style="font-size:26px;font-weight:800;color:#e8e8e8;letter-spacing:-0.03em;">${ao5El}</span>
+      <span style="font-size:11px;color:#5a5a6a;">${last5.length === 5 ? 'ao5 · best & worst dropped' : last5.length + ' of 5 solves'}</span>
+    </div>
+    ${rows}
+  `;
+  el('ao5Overlay').style.display = 'flex';
+}
+
+function closeAo5Detail() {
+  el('ao5Overlay').style.display = 'none';
+}
+
+function buildMoreStatsHTML() {
+  if (solves.length === 0) {
+    return '<div style="text-align:center;padding:24px 0;font-size:13px;color:#4a4a5a;">No solves yet — complete some solves to see stats.</div>';
+  }
+
+  const nonDNF   = solves.filter(s => s.rating !== 'DNF');
+  const timed    = nonDNF.filter(s => s.inspectMs != null);
+  const execArr  = nonDNF.map(s => s.executeMs).filter(Boolean);
+  const inspArr  = timed.map(s => s.inspectMs).filter(Boolean);
+  const totalArr = nonDNF.map(s => s.totalMs || s.executeMs).filter(Boolean);
+
+  const avg  = arr => arr.length ? Math.round(arr.reduce((a,b)=>a+b,0)/arr.length) : null;
+  const best = arr => arr.length ? Math.min(...arr) : null;
+  const worst= arr => arr.length ? Math.max(...arr) : null;
+  const ao5  = arr => {
+    const last5 = arr.slice(-5);
+    if (last5.length < 5) return null;
+    const sorted = [...last5].sort((a,b)=>a-b);
+    return Math.round((sorted[1]+sorted[2]+sorted[3])/3);
+  };
+  const d    = ms  => ms != null ? fmt(ms) : '—';
+
+  // streaks
+  const qualifying = RATE_THRESHOLDS[rateThreshold] || ['+3','+4','ZBLS'];
+  let curStreak = 0, bestStreak = 0, tempStreak = 0;
+  for (const s of solves) {
+    if (qualifying.includes(s.rating)) { tempStreak++; bestStreak = Math.max(bestStreak, tempStreak); }
+    else tempStreak = 0;
+  }
+  // current streak (from the end)
+  for (let i = solves.length - 1; i >= 0; i--) {
+    if (qualifying.includes(solves[i].rating)) curStreak++;
+    else break;
+  }
+
+  // rating distribution
+  const RATING_ORDER = ['ZBLS','+4','+3','+2','+1','Cross','DNF'];
+  const RATING_COLORS = {
+    'ZBLS':'#4ade80', '+4':'#22c55e', '+3':'#84cc16',
+    '+2':'#eab308',  '+1':'#f97316', 'Cross':'#ef4444', 'DNF':'#6b7280'
+  };
+  const counts = {};
+  RATING_ORDER.forEach(r => counts[r] = 0);
+  solves.forEach(s => { if (counts[s.rating] !== undefined) counts[s.rating]++; });
+  const maxCount = Math.max(...Object.values(counts), 1);
+
+  const barsHTML = RATING_ORDER.map(r => {
+    const count = counts[r];
+    const pct   = solves.length > 0 ? Math.round(count / solves.length * 100) : 0;
+    const width  = Math.round(count / maxCount * 100);
+    const clr   = RATING_COLORS[r];
+    return `<div class="ms-bar-row">
+      <span class="ms-bar-label" style="color:${clr};">${r}</span>
+      <div class="ms-bar-track">
+        <div class="ms-bar-fill" style="width:${width}%;background:${clr};opacity:0.7;"></div>
+      </div>
+      <span class="ms-bar-pct">${count > 0 ? pct+'%' : '—'}</span>
+    </div>`;
+  }).join('');
+
+  // DNF info
+  const dnfCount = counts['DNF'];
+  const dnfRate  = solves.length > 0 ? Math.round(dnfCount / solves.length * 100) + '%' : '—';
+
+  // total time practiced
+  const totalPracticeMs = execArr.reduce((a,b)=>a+b,0) + inspArr.reduce((a,b)=>a+b,0);
+  const totalMin = Math.floor(totalPracticeMs / 60000);
+  const totalSec = Math.round((totalPracticeMs % 60000) / 1000);
+  const totalPracticeStr = totalMin > 0 ? `${totalMin}m ${totalSec}s` : `${totalSec}s`;
+
+  return `
+    <div class="ms-section">
+      <div class="ms-section-title">Execution Time</div>
+      <div class="ms-grid-2">
+        <div class="ms-card"><div class="ms-label">Mean</div><div class="ms-val">${d(avg(execArr))}</div></div>
+        <div class="ms-card"><div class="ms-label">Ao5</div><div class="ms-val">${d(ao5(execArr))}</div><div class="ms-sub">last 5, drop best &amp; worst</div></div>
+      </div>
+    </div>
+
+    ${inspArr.length > 0 ? `
+    <div class="ms-section">
+      <div class="ms-section-title">Inspection Time</div>
+      <div class="ms-grid-2">
+        <div class="ms-card"><div class="ms-label">Mean</div><div class="ms-val">${d(avg(inspArr))}</div></div>
+        <div class="ms-card"><div class="ms-label">Ao5</div><div class="ms-val">${d(ao5(inspArr))}</div><div class="ms-sub">last 5, drop best &amp; worst</div></div>
+      </div>
+    </div>` : ''}
+
+    <div class="ms-section">
+      <div class="ms-section-title">Total Time</div>
+      <div class="ms-grid-2">
+        <div class="ms-card"><div class="ms-label">Average</div><div class="ms-val">${d(avg(totalArr))}</div></div>
+        <div class="ms-card"><div class="ms-label">Best</div><div class="ms-val">${d(best(totalArr))}</div></div>
+      </div>
+    </div>
+
+    <div class="ms-section">
+      <div class="ms-section-title">Streaks — ${rateThreshold}+ in a row</div>
+      <div class="ms-grid-2">
+        <div class="ms-card"><div class="ms-label">Current Streak</div><div class="ms-val">${curStreak}</div></div>
+        <div class="ms-card"><div class="ms-label">Best Streak</div><div class="ms-val">${bestStreak}</div></div>
+      </div>
+    </div>
+
+    <div class="ms-section">
+      <div class="ms-section-title">Rating Breakdown</div>
+      ${barsHTML}
+    </div>
+
+    <div class="ms-section" style="margin-bottom:0;">
+      <div class="ms-section-title">Session Overview</div>
+      <div class="ms-grid">
+        <div class="ms-card"><div class="ms-label">Total Solves</div><div class="ms-val">${solves.length}</div></div>
+        <div class="ms-card"><div class="ms-label">DNFs</div><div class="ms-val">${dnfCount}</div><div class="ms-sub">${dnfRate} of all solves</div></div>
+        <div class="ms-card"><div class="ms-label">Time Practiced</div><div class="ms-val">${totalMin > 0 ? totalMin+'m' : totalSec+'s'}</div><div class="ms-sub">${totalPracticeStr}</div></div>
+      </div>
+    </div>
+  `;
+}
+
+// ── Solve Detail ──────────────────────────────────────────────
+let detailIdx = null;
+
+function openDetail(idx) {
+  detailIdx = idx;
+  const s = solves[idx];
+  if (!s) return;
+  const num = idx + 1;
+  const [clr, bg, border] = BADGE[s.rating] || ['#8a8a9a','rgba(138,138,154,0.12)','rgba(138,138,154,0.3)'];
+  const total = s.totalMs != null ? fmt(s.totalMs) : fmt(s.executeMs);
+  const splitsText = s.inspectMs != null
+    ? `Insp ${fmt(s.inspectMs)} · Exec ${fmt(s.executeMs)}`
+    : `Exec ${fmt(s.executeMs)}`;
+  el('detailTitle').textContent = 'Solve #' + num;
+  el('detailContent').innerHTML = `
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <span style="font-size:30px;font-weight:800;color:#e8e8e8;letter-spacing:-0.04em;">${total}</span>
+      <span class="solve-badge" style="color:${clr};background:${bg};border:1px solid ${border};font-size:10px;padding:3px 10px;">${s.rating}</span>
+    </div>
+    <div style="font-size:11px;color:#6a6a7a;margin-bottom:18px;">${splitsText}</div>
+    <div class="detail-section-label">Scramble</div>
+    <div class="detail-scramble">${s.scramble || '—'}</div>
+    `;
+  el('detailNotes').value = s.notes || '';
+  el('solveDetailOverlay').style.display = 'flex';
+}
+
+function closeDetail() {
+  el('solveDetailOverlay').style.display = 'none';
+  detailIdx = null;
+}
+
+function saveDetailNotes() {
+  if (detailIdx == null) return;
+  solves[detailIdx].notes = el('detailNotes').value.trim();
+  saveSolves();
+  renderStats();
+  closeDetail();
+}
+
+// ── Settings ──────────────────────────────────────────────────
+function openSettings() {
+  syncSettingsUI();
+  el('settingsOverlay').style.display = 'flex';
+}
+
+function closeSettings() {
+  el('settingsOverlay').style.display = 'none';
+  localStorage.setItem('c3_mode', mode);
+  localStorage.setItem('c3_scrambleType', scrambleType);
+  localStorage.setItem('c3_easyMoves', easyMoves);
+  localStorage.setItem('c3_timerUpdate', timerUpdate);
+  localStorage.setItem('c3_rateThreshold', rateThreshold);
+  newScramble();
+  goIdle();
+}
+
+function setMode(m) {
+  mode = m;
+  syncSettingsUI();
+}
+
+function setScrambleType(t) {
+  scrambleType = t;
+  syncSettingsUI();
+}
+
+function setEasyMoves(n) {
+  easyMoves = n;
+  syncSettingsUI();
+}
+
+function setTimerUpdate(val) {
+  timerUpdate = val;
+  syncSettingsUI();
+}
+
+function setRateThreshold(val) {
+  rateThreshold = val;
+  syncSettingsUI();
+  renderStats();
+}
+
+function syncSettingsUI() {
+  el('pillTimed').classList.toggle('active',   mode === 'timed');
+  el('pillUntimed').classList.toggle('active', mode === 'untimed');
+  el('pillNormal').classList.toggle('active',  scrambleType === 'normal');
+  el('pillEasy').classList.toggle('active',    scrambleType === 'easy');
+  el('easyMovesRow').style.display = scrambleType === 'easy' ? 'block' : 'none';
+
+  document.querySelectorAll('#easyMovesPills .s-pill').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.textContent) === easyMoves);
+  });
+
+  el('pillUpdate001').classList.toggle('active',  timerUpdate === '0.01');
+  el('pillUpdate1').classList.toggle('active',    timerUpdate === '1');
+  el('pillUpdateNone').classList.toggle('active', timerUpdate === 'none');
+
+  document.querySelectorAll('#rateThresholdPills .s-pill').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent === rateThreshold);
+  });
+
+  el('modeIndicator').textContent = mode === 'timed' ? 'Timed' : 'Untimed';
+
+  if (appState === 'idle') {
+    el('timerLabel').textContent = mode === 'timed' ? 'Press Space to begin inspection' : 'Press Space to begin';
+  }
+}
+
+// Close overlays on backdrop click
+el('settingsOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeSettings();
+});
+el('solveDetailOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeDetail();
+});
+el('moreStatsOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeMoreStats();
+});
+el('ao5Overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeAo5Detail();
+});
+
+// ── Init ──────────────────────────────────────────────────────
+syncSettingsUI();
+newScramble();
+renderStats();
+</script>
+</body>
+</html>
