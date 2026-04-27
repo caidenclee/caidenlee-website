@@ -207,6 +207,37 @@
     body.state-executing  #timerLabel   { color: #22c55e; }
     body.state-rating     #timerDisplay { color: #e8e8e8; }
 
+    /* ── Focus fade during timing ───────────────────────────── */
+    header,
+    #scrambleWrap,
+    #statsPanel,
+    #cubePanel,
+    .home-btn,
+    #cubeToggleBtn,
+    .settings-btn,
+    .see-more-btn {
+      transition: opacity 0.08s ease;
+    }
+    body.state-inspecting header,
+    body.state-inspecting #scrambleWrap,
+    body.state-inspecting #statsPanel,
+    body.state-inspecting #cubePanel,
+    body.state-inspecting .home-btn,
+    body.state-inspecting #cubeToggleBtn,
+    body.state-inspecting .settings-btn,
+    body.state-inspecting .see-more-btn,
+    body.state-executing header,
+    body.state-executing #scrambleWrap,
+    body.state-executing #statsPanel,
+    body.state-executing #cubePanel,
+    body.state-executing .home-btn,
+    body.state-executing #cubeToggleBtn,
+    body.state-executing .settings-btn,
+    body.state-executing .see-more-btn {
+      opacity: 0;
+      pointer-events: none;
+    }
+
     /* ── Inspecting text (timer-none mode) ──────────────────── */
     body.state-inspecting.timer-none #timerDisplay {
       font-size: 52px;
@@ -305,21 +336,6 @@
     .stat-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #5a5a6a; }
     .stat-val   { font-size: 16px; font-weight: 700; color: #e8e8e8; margin-top: 2px; letter-spacing: -0.02em; }
 
-    /* ── Mode indicator ─────────────────────────────────────── */
-    #modeIndicator {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #5a5a6a;
-      padding: 5px 12px;
-      background: #1a1a22;
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 999px;
-    }
 
     /* ── Settings overlay ───────────────────────────────────── */
     #settingsOverlay {
@@ -404,9 +420,12 @@
     /* ── Home btn ────────────────────────────────────────────── */
     .home-btn {
       position: fixed;
-      bottom: 20px;
-      left: 80px;
-      padding: 5px 13px;
+      bottom: 16px;
+      left: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 13px 5px 10px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.07);
       background: #1a1a22;
@@ -710,6 +729,18 @@
       <button class="rating-btn dnf"   onclick="rate('DNF',this)">DNF</button>
       <button class="rating-btn" onclick="discardSolve()" style="border-color:rgba(255,255,255,0.12);color:#6a6a7a;">Delete</button>
     </div>
+    <!-- Full / Partial sub-rating -->
+    <div id="fpWrap" style="display:none;flex-direction:column;align-items:center;gap:10px;margin-top:4px;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#6a6a7a;">Did you execute fully?</div>
+      <div style="display:flex;gap:8px;">
+        <button class="rating-btn" id="fpFull"    onclick="setFullPartial('full')"    style="border-color:rgba(74,222,128,0.4);color:#4ade80;">Full</button>
+        <button class="rating-btn" id="fpPartial" onclick="setFullPartial('partial')" style="border-color:rgba(249,115,22,0.4);color:#f97316;">Partial</button>
+      </div>
+      <div id="partialInputWrap" style="display:none;flex-direction:column;align-items:center;gap:10px;">
+        <div style="font-size:10px;color:#6a6a7a;">Got <span id="partialGotLabel" style="color:#e8e8e8;font-weight:700;">—</span> out of ___ pairs</div>
+        <div id="partialGoalBtns" style="display:flex;gap:6px;"></div>
+      </div>
+    </div>
     <button id="nextBtn" onclick="nextScramble()">Next →</button>
   </div>
 </div>
@@ -725,23 +756,60 @@
   <div id="statsGrid">
     <div class="stat-card"><div class="stat-label" id="statRateLabel">+3 Rate</div><div class="stat-val" id="statRate">—</div></div>
     <div class="stat-card"><div class="stat-label">AVG Prediction</div><div class="stat-val" id="statMean">—</div></div>
-    <div class="stat-card" style="grid-column:1/-1;cursor:pointer;" onclick="openAo5Detail()">
-      <div class="stat-label">Current Ao5 ›</div>
+    <div class="stat-card" style="cursor:pointer;" onclick="openAo5Detail()">
+      <div class="stat-label">Ao5 ›</div>
       <div class="stat-val" id="statAo5">—</div>
     </div>
-    <div class="stat-card" style="grid-column:1/-1;">
+    <div class="stat-card">
       <div class="stat-label">Mean</div>
       <div class="stat-val" id="statMeanTime">—</div>
+    </div>
+    <div class="stat-card" style="cursor:pointer;" onclick="openAoNDetail(12)">
+      <div class="stat-label">Ao12 ›</div>
+      <div class="stat-val" id="statAo12">—</div>
+    </div>
+    <div class="stat-card" style="cursor:pointer;" onclick="openAoNDetail(25)">
+      <div class="stat-label">Ao25 ›</div>
+      <div class="stat-val" id="statAo25">—</div>
     </div>
   </div>
   <button class="see-more-btn" onclick="openMoreStats()">See more stats ›</button>
 </div>
 
-<!-- Mode indicator -->
-<div id="modeIndicator">Timed</div>
 
 <!-- Home -->
-<a href="index.html" class="home-btn">← Home</a>
+<a href="index.html" class="home-btn">
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+  Home
+</a>
+
+<!-- Cube toggle button -->
+<button id="cubeToggleBtn" onclick="toggleCubePanel()" style="
+  position:fixed;bottom:16px;left:110px;
+  display:flex;align-items:center;gap:6px;
+  padding:5px 13px 5px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.07);
+  background:#1a1a22;
+  color:#5a5a6a;
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:600;
+  cursor:pointer;
+  transition:all 0.15s;
+  letter-spacing:0.02em;
+">
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20 2H4a2 2 0 00-2 2v16a2 2 0 002 2h16a2 2 0 002-2V4a2 2 0 00-2-2zm-9 15H5v-2h6v2zm8-4H5v-2h14v2zm0-4H5V7h14v2z"/>
+  </svg>
+  Draw Scramble
+</button>
+
+<!-- Cube net panel (bottom-left, always visible) -->
+<div id="cubePanel" style="position:fixed;bottom:64px;left:16px;z-index:50;">
+  <div id="cubeNetWrap"></div>
+</div>
 
 <!-- More Stats Modal -->
 <div id="moreStatsOverlay">
@@ -759,7 +827,7 @@
 <div id="ao5Overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(10px);z-index:600;align-items:center;justify-content:center;">
   <div class="detail-card" style="width:340px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
-      <div style="font-size:15px;font-weight:800;color:#e8e8e8;letter-spacing:-0.02em;">Last 5 Solves</div>
+      <div style="font-size:15px;font-weight:800;color:#e8e8e8;letter-spacing:-0.02em;" id="aoNTitle">Last 5 Solves</div>
       <button onclick="closeAo5Detail()" style="background:none;border:none;color:#6a6a7a;font-size:20px;cursor:pointer;padding:0;line-height:1;font-family:inherit;">✕</button>
     </div>
     <div id="ao5Content"></div>
@@ -776,7 +844,10 @@
     <div id="detailContent"></div>
     <div class="detail-section-label">Notes</div>
     <textarea class="detail-notes" id="detailNotes" placeholder="Add notes about this solve…"></textarea>
-    <button class="detail-save-btn" onclick="saveDetailNotes()">Save &amp; Close</button>
+    <div style="display:flex;gap:8px;margin-top:14px;">
+      <button class="detail-save-btn" style="margin-top:0;flex:1;" onclick="saveDetailNotes()">Save &amp; Close</button>
+      <button onclick="deleteDetail()" style="padding:10px 16px;border-radius:10px;border:1px solid rgba(239,68,68,0.3);background:rgba(239,68,68,0.08);color:#ef4444;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s;" onmouseover="this.style.background='rgba(239,68,68,0.18)'" onmouseout="this.style.background='rgba(239,68,68,0.08)'">Delete</button>
+    </div>
   </div>
 </div>
 
@@ -959,6 +1030,124 @@ function generateEasyCrossScramble(N) {
   return generateScramble(25); // fallback
 }
 
+// ── Cube Net Renderer (CS Timer engine) ───────────────────────
+// Face order in posit[]: D=0, L=1, B=2, U=3, R=4, F=5
+// Colors match CS Timer defaults
+var _csPosit = [];
+
+function _csDoslice(f, d, q, size) {
+  var s2 = size * size, c, i, j, k, f1, f2, f3, f4;
+  if (f > 5) f -= 6;
+  for (k = 0; k < q; k++) {
+    for (i = 0; i < size; i++) {
+      if (f == 0) {
+        f1 = 6*s2 - size*d - size + i; f2 = 2*s2 - size*d - 1 - i;
+        f3 = 3*s2 - size*d - 1 - i;   f4 = 5*s2 - size*d - size + i;
+      } else if (f == 1) {
+        f1 = 3*s2 + d + size*i;        f2 = 3*s2 + d - size*(i+1);
+        f3 = s2 + d - size*(i+1);      f4 = 5*s2 + d + size*i;
+      } else if (f == 2) {
+        f1 = 3*s2 + d*size + i;        f2 = 4*s2 + size - 1 - d + size*i;
+        f3 = d*size + size - 1 - i;    f4 = 2*s2 - 1 - d - size*i;
+      } else if (f == 3) {
+        f1 = 4*s2 + d*size + size-1-i; f2 = 2*s2 + d*size + i;
+        f3 = s2 + d*size + i;          f4 = 5*s2 + d*size + size-1-i;
+      } else if (f == 4) {
+        f1 = 6*s2 - 1 - d - size*i;   f2 = size - 1 - d + size*i;
+        f3 = 2*s2 + size-1-d+size*i;  f4 = 4*s2 - 1 - d - size*i;
+      } else {
+        f1 = 4*s2 - size - d*size + i; f2 = 2*s2 - size + d - size*i;
+        f3 = s2 - 1 - d*size - i;      f4 = 4*s2 + d + size*i;
+      }
+      c = _csPosit[f1]; _csPosit[f1] = _csPosit[f2]; _csPosit[f2] = _csPosit[f3];
+      _csPosit[f3] = _csPosit[f4]; _csPosit[f4] = c;
+    }
+    if (d == 0) {
+      for (i = 0; i+i < size; i++) {
+        for (j = 0; j+j < size-1; j++) {
+          f1 = f*s2 + i + j*size;
+          f3 = f*s2 + (size-1-i) + (size-1-j)*size;
+          if (f < 3) {
+            f2 = f*s2 + (size-1-j) + i*size;
+            f4 = f*s2 + j + (size-1-i)*size;
+          } else {
+            f4 = f*s2 + (size-1-j) + i*size;
+            f2 = f*s2 + j + (size-1-i)*size;
+          }
+          c = _csPosit[f1]; _csPosit[f1] = _csPosit[f2]; _csPosit[f2] = _csPosit[f3];
+          _csPosit[f3] = _csPosit[f4]; _csPosit[f4] = c;
+        }
+      }
+    }
+  }
+}
+
+function _csGenPosit(size, moveseq) {
+  _csPosit = [];
+  for (var i = 0; i < 6*size*size; i++) _csPosit[i] = Math.floor(i / (size*size));
+  for (var s = 0; s < moveseq.length; s++) {
+    for (var d = 0; d < moveseq[s][1]; d++) _csDoslice(moveseq[s][0], d, moveseq[s][2], size);
+  }
+  return _csPosit;
+}
+
+function _csParseScramble(scramble) {
+  var moveMap = 'DLBURF', result = [];
+  var moves = scramble.trim().split(/\s+/);
+  for (var i = 0; i < moves.length; i++) {
+    var m = /^([FRUBLD])(['2])?$/.exec(moves[i]);
+    if (!m) continue;
+    var faceIdx = moveMap.indexOf(m[1]);
+    var p = m[2] === '2' ? 2 : m[2] === "'" ? 3 : 1;
+    result.push([faceIdx, 1, p]);
+  }
+  return result;
+}
+
+function renderCubeNetSVG(scramble) {
+  var size = 3;
+  var moveseq = _csParseScramble(scramble);
+  var p = _csGenPosit(size, moveseq);
+  // Exact CS Timer colors: D=yellow, L=orange, B=blue, U=white, R=red, F=green
+  var fill   = ['#ffff00','#ff8800','#0000ff','#ffffff','#ff0000','#00cc00'];
+  var cell = 17, gap = 1.5, pad = 3, step = cell + gap;
+  var fpos = [[1,2],[0,1],[3,1],[1,0],[2,1],[1,1]];
+  var W = pad*2 + step*4*size - gap;
+  var H = pad*2 + step*3*size - gap;
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'">';
+  // dark background per-face group
+  for (var f = 0; f < 6; f++) {
+    var ox = pad + fpos[f][0]*step*size;
+    var oy = pad + fpos[f][1]*step*size;
+    svg += '<rect x="'+(ox-1)+'" y="'+(oy-1)+'" width="'+(step*size-gap+2)+'" height="'+(step*size-gap+2)+'" rx="2" fill="#222" />';
+    for (var i = 0; i < size; i++) {
+      var xi = (f===1||f===2) ? size-1-i : i;
+      for (var j = 0; j < size; j++) {
+        var yj = (f===0) ? size-1-j : j;
+        var ci = p[(f*size + yj)*size + xi];
+        svg += '<rect x="'+(ox+i*step)+'" y="'+(oy+j*step)+'" width="'+cell+'" height="'+cell
+             + '" rx="1" fill="'+fill[ci]+'" stroke="#333" stroke-width="0.5"/>';
+      }
+    }
+  }
+  svg += '</svg>';
+  return svg;
+}
+
+var cubeVisible = true;
+
+function toggleCubePanel() {
+  cubeVisible = !cubeVisible;
+  el('cubePanel').style.display = cubeVisible ? '' : 'none';
+  el('cubeToggleBtn').style.color = cubeVisible ? '#5a5a6a' : '#3a3a4a';
+}
+
+function updateCubeNet() {
+  var sc = el('scramble').textContent;
+  if (!sc || sc.indexOf('…') >= 0 || sc.indexOf('Building') >= 0) return;
+  el('cubeNetWrap').innerHTML = renderCubeNetSVG(sc);
+}
+
 // ── Audio ─────────────────────────────────────────────────────
 let audioCtx = null;
 function beep(freq = 880, dur = 0.18) {
@@ -998,7 +1187,10 @@ let inspectMs      = 0;
 let executeMs      = 0;
 let totalMs        = 0;
 let rafId          = null;
-let pendingRating  = null;
+let pendingRating      = null;
+let pendingFP          = null;
+let pendingPartialGot  = null;
+let pendingPartialGoal = null;
 let timerUpdate    = localStorage.getItem('c3_timerUpdate')    || '0.01'; // '0.01' | '1' | 'none'
 let rateThreshold  = localStorage.getItem('c3_rateThreshold') || '+3';
 
@@ -1047,7 +1239,12 @@ function goIdle() {
   el('inspectionLabel').textContent = '';
   el('ratingWrap').style.display  = 'none';
   el('nextBtn').style.display     = 'none';
-  pendingRating = null;
+  el('fpWrap').style.display      = 'none';
+  el('partialInputWrap').style.display = 'none';
+  pendingRating      = null;
+  pendingFP          = null;
+  pendingPartialGot  = null;
+  pendingPartialGoal = null;
   document.querySelectorAll('.rating-btn').forEach(b => { b.style.opacity=''; b.style.transform=''; });
 }
 
@@ -1062,13 +1259,13 @@ function startInspection() {
     } else {
       el('timerDisplay').textContent = '0.00';
     }
-    el('timerLabel').textContent = 'Inspecting — Space when ready';
+    el('timerLabel').textContent = '';
     rafId = requestAnimationFrame(tick);
   } else {
     el('timerDisplay').textContent = 'Plan';
-    el('timerLabel').textContent   = 'Plan your solution — Space to execute';
+    el('timerLabel').textContent   = '';
   }
-  el('inspectionLabel').textContent = 'Eyes open during inspection • close them after pressing Space';
+  el('inspectionLabel').textContent = '';
 }
 
 function startExecution() {
@@ -1080,7 +1277,7 @@ function startExecution() {
   document.body.className = 'state-executing';
   cancelAnimationFrame(rafId);
   el('timerDisplay').textContent    = timerUpdate === 'none' ? '—' : '0.00';
-  el('timerLabel').textContent      = 'Executing — eyes closed — Space to stop';
+  el('timerLabel').textContent      = 'Execution';
   el('inspectionLabel').textContent = '';
   rafId = requestAnimationFrame(tick);
 }
@@ -1102,12 +1299,55 @@ function stopExecution() {
 }
 
 function rate(rating, btn) {
-  pendingRating = rating;
-  // Dim all, highlight selected — but keep all clickable
+  pendingRating      = rating;
+  pendingFP          = null;
+  pendingPartialGot  = null;
+  pendingPartialGoal = null;
   document.querySelectorAll('.rating-btn').forEach(b => { b.style.opacity='0.3'; b.style.transform=''; });
   btn.style.opacity = '1';
   btn.style.transform = 'scale(1.06)';
+  // Show full/partial for rated pairs (not DNF or Delete)
+  const showFP = ['Cross','+1','+2','+3','+4','ZBLS'].includes(rating);
+  el('fpWrap').style.display = showFP ? 'flex' : 'none';
+  el('partialInputWrap').style.display = 'none';
+  el('fpFull').style.opacity = '1'; el('fpFull').style.transform = '';
+  el('fpPartial').style.opacity = '1'; el('fpPartial').style.transform = '';
   el('nextBtn').style.display = 'block';
+}
+
+function setFullPartial(val) {
+  pendingFP = val;
+  el('fpFull').style.opacity    = val === 'full'    ? '1' : '0.35';
+  el('fpPartial').style.opacity = val === 'partial' ? '1' : '0.35';
+  el('fpFull').style.transform    = val === 'full'    ? 'scale(1.06)' : '';
+  el('fpPartial').style.transform = val === 'partial' ? 'scale(1.06)' : '';
+  el('partialInputWrap').style.display = val === 'partial' ? 'flex' : 'none';
+  if (val === 'partial') {
+    var pairsVal = {'Cross':0,'+1':1,'+2':2,'+3':3,'+4':4,'ZBLS':3};
+    var got = pairsVal[pendingRating] != null ? pairsVal[pendingRating] : 0;
+    el('partialGotLabel').textContent = got;
+    pendingPartialGot = got;
+    pendingPartialGoal = null;
+    // Build goal buttons (got+1 through 4)
+    var btns = el('partialGoalBtns');
+    btns.innerHTML = '';
+    for (var n = got + 1; n <= 4; n++) {
+      (function(num) {
+        var b = document.createElement('button');
+        b.className = 'rating-btn';
+        b.textContent = num;
+        b.style.cssText = 'border-color:rgba(255,255,255,0.15);color:#c0c0d0;min-width:36px;';
+        b.onclick = function() {
+          pendingPartialGoal = num;
+          btns.querySelectorAll('button').forEach(function(x) {
+            x.style.opacity = '0.35'; x.style.transform = '';
+          });
+          b.style.opacity = '1'; b.style.transform = 'scale(1.06)';
+        };
+        btns.appendChild(b);
+      })(n);
+    }
+  }
 }
 
 function nextScramble() {
@@ -1119,6 +1359,9 @@ function nextScramble() {
       executeMs:    executeMs,
       totalMs:      totalMs,
       rating:       pendingRating,
+      fullPartial:  pendingFP,
+      partialGot:   pendingFP === 'partial' ? pendingPartialGot  : null,
+      partialGoal:  pendingFP === 'partial' ? pendingPartialGoal : null,
       mode:         mode,
       scrambleType: scrambleType
     });
@@ -1175,6 +1418,7 @@ function newScramble() {
   } else {
     el('scramble').textContent = generateScramble(25);
   }
+  updateCubeNet();
 }
 
 // ── Stats ─────────────────────────────────────────────────────
@@ -1197,16 +1441,19 @@ function renderStats() {
   } else {
     el('solveList').innerHTML = recent.map((s, i) => {
       const [clr, bg, border] = BADGE[s.rating] || ['#8a8a9a','rgba(138,138,154,0.12)','rgba(138,138,154,0.3)'];
-      const total = s.totalMs != null ? fmt(s.totalMs) : fmt(s.executeMs);
-      const splits = s.inspectMs != null
-        ? `<div style="font-size:9px;color:#5a5a6a;margin-top:1px;">insp ${fmt(s.inspectMs)} · exec ${fmt(s.executeMs)}</div>`
+      const primary = s.inspectMs != null ? fmt(s.inspectMs) : fmt(s.executeMs);
+      const primaryLabel = s.inspectMs != null ? 'insp' : 'exec';
+      const secondary = s.inspectMs != null
+        ? `<div style="font-size:9px;color:#5a5a6a;margin-top:1px;">exec ${fmt(s.executeMs)} · total ${fmt(s.totalMs)}</div>`
         : `<div style="font-size:9px;color:#5a5a6a;margin-top:1px;">exec ${fmt(s.executeMs)}</div>`;
       const solveIdx = solves.length - 1 - i;
       const hasNote = s.notes && s.notes.trim();
+      const fpLabel = s.fullPartial === 'partial' && s.partialGot != null
+        ? `<span style="font-size:9px;color:#f97316;margin-left:5px;">${s.partialGot}/${s.partialGoal}</span>` : '';
       return `<div class="solve-item" style="align-items:flex-start;padding:7px 14px;" onclick="openDetail(${solveIdx})">
         <div>
-          <div><span class="solve-num">#${solves.length - i}</span><span style="font-weight:700;color:#e8e8e8;">${total}</span>${hasNote ? '<span style="font-size:9px;color:#5a5a6a;margin-left:5px;">✎</span>' : ''}</div>
-          ${splits}
+          <div><span class="solve-num">#${solves.length - i}</span><span style="font-weight:700;color:#e8e8e8;">${primary}</span><span style="font-size:9px;color:#5a5a6a;margin-left:3px;">${primaryLabel}</span>${fpLabel}${hasNote ? '<span style="font-size:9px;color:#5a5a6a;margin-left:5px;">✎</span>' : ''}</div>
+          ${secondary}
         </div>
         <span class="solve-badge" style="color:${clr};background:${bg};border:1px solid ${border};margin-top:2px;">${s.rating}</span>
       </div>`;
@@ -1226,19 +1473,26 @@ function renderStats() {
     ? (pairsArr.reduce((a,b)=>a+b,0) / pairsArr.length).toFixed(2) + '<span style="font-size:11px;font-weight:500;color:#6a6a7a;margin-left:5px;">pairs</span>'
     : '—';
 
-  const valid = solves.filter(s => s.rating !== 'DNF').map(s => s.totalMs || s.executeMs);
-  el('statMeanTime').textContent = valid.length > 0
-    ? fmt(Math.round(valid.reduce((a,b)=>a+b,0) / valid.length))
+  // Use inspection time as primary; fall back to exec if untimed
+  const inspTimes = solves.filter(s => s.rating !== 'DNF' && s.inspectMs != null).map(s => s.inspectMs);
+  const fallback  = solves.filter(s => s.rating !== 'DNF').map(s => s.executeMs);
+  const timeSeries = inspTimes.length > 0 ? inspTimes : fallback;
+
+  el('statMeanTime').textContent = timeSeries.length > 0
+    ? fmt(Math.round(timeSeries.reduce((a,b)=>a+b,0) / timeSeries.length))
     : '—';
 
-  const last5 = valid.slice(-5);
-  if (last5.length === 5) {
-    const sorted = [...last5].sort((a,b)=>a-b);
-    const ao5ms = Math.round((sorted[1]+sorted[2]+sorted[3])/3);
-    el('statAo5').textContent = fmt(ao5ms);
-  } else {
-    el('statAo5').textContent = last5.length > 0 ? last5.length + '/5' : '—';
+  function computeAoN(arr, n) {
+    if (arr.length < n) return arr.length > 0 ? arr.length + '/' + n : null;
+    const last = arr.slice(-n);
+    const sorted = [...last].sort((a,b)=>a-b);
+    const trimmed = sorted.slice(1, n - 1);
+    return fmt(Math.round(trimmed.reduce((a,b)=>a+b,0) / trimmed.length));
   }
+
+  el('statAo5').textContent  = computeAoN(timeSeries, 5)  || '—';
+  el('statAo12').textContent = computeAoN(timeSeries, 12) || '—';
+  el('statAo25').textContent = computeAoN(timeSeries, 25) || '—';
 }
 
 function confirmClear() {
@@ -1260,30 +1514,32 @@ function closeMoreStats() {
   el('moreStatsOverlay').style.display = 'none';
 }
 
-// ── Ao5 Detail ────────────────────────────────────────────────
-function openAo5Detail() {
-  const last5 = solves.filter(s => s.rating !== 'DNF').slice(-5);
-  if (last5.length === 0) return;
+// ── AoN Detail ────────────────────────────────────────────────
+function openAo5Detail() { openAoNDetail(5); }
 
-  // compute ao5 to know which are dropped
+function openAoNDetail(n) {
+  const lastN = solves.filter(s => s.rating !== 'DNF').slice(-n);
+  if (lastN.length === 0) return;
+
+  const getPrimary = s => s.inspectMs != null ? s.inspectMs : s.executeMs;
   let droppedIdxs = new Set();
-  if (last5.length === 5) {
-    const times = last5.map(s => s.totalMs || s.executeMs);
-    const sorted = [...times].map((t,i) => ({t,i})).sort((a,b)=>a.t-b.t);
-    droppedIdxs = new Set([sorted[0].i, sorted[4].i]);
+  if (lastN.length === n) {
+    const times = lastN.map((s,i) => ({t: getPrimary(s), i})).sort((a,b)=>a.t-b.t);
+    droppedIdxs = new Set([times[0].i, times[n-1].i]);
   }
 
-  const rows = [...last5].reverse().map((s, i) => {
-    const actualIdx = last5.length - 1 - i;
+  const rows = [...lastN].reverse().map((s, i) => {
+    const actualIdx = lastN.length - 1 - i;
     const isDropped = droppedIdxs.has(actualIdx);
     const [clr, bg, border] = BADGE[s.rating] || ['#8a8a9a','rgba(138,138,154,0.12)','rgba(138,138,154,0.3)'];
-    const total = fmt(s.totalMs || s.executeMs);
+    const primary = s.inspectMs != null ? fmt(s.inspectMs) : fmt(s.executeMs);
+    const primaryLabel = s.inspectMs != null ? 'insp' : 'exec';
     const splits = s.inspectMs != null
-      ? `<span style="font-size:10px;color:#5a5a6a;">insp ${fmt(s.inspectMs)} · exec ${fmt(s.executeMs)}</span>`
+      ? `<span style="font-size:10px;color:#5a5a6a;">exec ${fmt(s.executeMs)} · total ${fmt(s.totalMs)}</span>`
       : `<span style="font-size:10px;color:#5a5a6a;">exec ${fmt(s.executeMs)}</span>`;
     return `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);opacity:${isDropped ? '0.4' : '1'};">
       <div>
-        <span style="font-size:14px;font-weight:700;color:${isDropped ? '#6a6a7a' : '#e8e8e8'};${isDropped ? 'text-decoration:line-through;' : ''}">${total}</span>
+        <span style="font-size:14px;font-weight:700;color:${isDropped ? '#6a6a7a' : '#e8e8e8'};${isDropped ? 'text-decoration:line-through;' : ''}">${primary}</span><span style="font-size:9px;color:#5a5a6a;margin-left:3px;">${primaryLabel}</span>
         ${isDropped ? '<span style="font-size:9px;color:#5a5a6a;margin-left:6px;">dropped</span>' : ''}
         <div style="margin-top:2px;">${splits}</div>
       </div>
@@ -1291,11 +1547,13 @@ function openAo5Detail() {
     </div>`;
   }).join('');
 
-  const ao5El = el('statAo5').textContent;
+  const statEl = n === 5 ? el('statAo5') : n === 12 ? el('statAo12') : el('statAo25');
+  const aoVal = statEl.textContent;
+  el('aoNTitle').textContent = `Last ${n} Solves`;
   el('ao5Content').innerHTML = `
     <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:16px;">
-      <span style="font-size:26px;font-weight:800;color:#e8e8e8;letter-spacing:-0.03em;">${ao5El}</span>
-      <span style="font-size:11px;color:#5a5a6a;">${last5.length === 5 ? 'ao5 · best & worst dropped' : last5.length + ' of 5 solves'}</span>
+      <span style="font-size:26px;font-weight:800;color:#e8e8e8;letter-spacing:-0.03em;">${aoVal}</span>
+      <span style="font-size:11px;color:#5a5a6a;">${lastN.length === n ? `ao${n}` : lastN.length + ' of ' + n + ' solves'}</span>
     </div>
     ${rows}
   `;
@@ -1381,7 +1639,7 @@ function buildMoreStatsHTML() {
       <div class="ms-section-title">Execution Time</div>
       <div class="ms-grid-2">
         <div class="ms-card"><div class="ms-label">Mean</div><div class="ms-val">${d(avg(execArr))}</div></div>
-        <div class="ms-card"><div class="ms-label">Ao5</div><div class="ms-val">${d(ao5(execArr))}</div><div class="ms-sub">last 5, drop best &amp; worst</div></div>
+        <div class="ms-card"><div class="ms-label">Ao5</div><div class="ms-val">${d(ao5(execArr))}</div></div>
       </div>
     </div>
 
@@ -1390,15 +1648,15 @@ function buildMoreStatsHTML() {
       <div class="ms-section-title">Inspection Time</div>
       <div class="ms-grid-2">
         <div class="ms-card"><div class="ms-label">Mean</div><div class="ms-val">${d(avg(inspArr))}</div></div>
-        <div class="ms-card"><div class="ms-label">Ao5</div><div class="ms-val">${d(ao5(inspArr))}</div><div class="ms-sub">last 5, drop best &amp; worst</div></div>
+        <div class="ms-card"><div class="ms-label">Ao5</div><div class="ms-val">${d(ao5(inspArr))}</div></div>
       </div>
     </div>` : ''}
 
     <div class="ms-section">
       <div class="ms-section-title">Total Time</div>
       <div class="ms-grid-2">
-        <div class="ms-card"><div class="ms-label">Average</div><div class="ms-val">${d(avg(totalArr))}</div></div>
-        <div class="ms-card"><div class="ms-label">Best</div><div class="ms-val">${d(best(totalArr))}</div></div>
+        <div class="ms-card"><div class="ms-label">Mean</div><div class="ms-val">${d(avg(totalArr))}</div></div>
+        <div class="ms-card"><div class="ms-label">Ao5</div><div class="ms-val">${d(ao5(totalArr))}</div></div>
       </div>
     </div>
 
@@ -1466,6 +1724,15 @@ function saveDetailNotes() {
   closeDetail();
 }
 
+function deleteDetail() {
+  if (detailIdx == null) return;
+  if (!confirm('Delete this solve?')) return;
+  solves.splice(detailIdx, 1);
+  saveSolves();
+  renderStats();
+  closeDetail();
+}
+
 // ── Settings ──────────────────────────────────────────────────
 function openSettings() {
   syncSettingsUI();
@@ -1528,7 +1795,6 @@ function syncSettingsUI() {
     btn.classList.toggle('active', btn.textContent === rateThreshold);
   });
 
-  el('modeIndicator').textContent = mode === 'timed' ? 'Timed' : 'Untimed';
 
   if (appState === 'idle') {
     el('timerLabel').textContent = mode === 'timed' ? 'Press Space to begin inspection' : 'Press Space to begin';
