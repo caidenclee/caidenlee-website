@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>WCA Competition Simulator</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: #0f0f13; color: #e8e8e8; font-family: -apple-system, 'Segoe UI', sans-serif; }
+
+    @keyframes blink { 0%,80%,100%{opacity:.15} 40%{opacity:1} }
+    .dot { display:inline-block;width:7px;height:7px;border-radius:50%;background:#aaa;margin:0 2px;animation:blink 1.4s infinite ease-in-out; }
+    .dot:nth-child(2){animation-delay:.2s}
+    .dot:nth-child(3){animation-delay:.4s}
+
+    @keyframes urgentPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+    .urgent { animation: urgentPulse .45s ease-in-out infinite; }
+
+    input[type=range] { accent-color: #7c3aed; cursor: pointer; }
+
+    .phase-pill {
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .03em;
+    }
+    .phase-active { background: #6d28d9; color: white; }
+    .phase-done   { color: #4a4a5a; }
+    .phase-future { color: #2e2e3e; }
+
+    /* Scoresheet export — explicit so html2canvas captures correctly */
+    .ss-export {
+      background: #fff !important;
+      color: #000 !important;
+      font-family: Arial, sans-serif !important;
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback, useMemo } = React;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCRAMBLE GENERATOR (WCA-style, ~20 moves, no same-face or sandwich repeats)
+// ─────────────────────────────────────────────────────────────────────────────
+function generateScramble(length = 20) {
+  const faces = ['U','D','R','L','F','B'];
+  const opp   = {U:'D',D:'U',R:'L',L:'R',F:'B',B:'F'};
+  const mods  = ['', "'", '2'];
+  const moves = [];
+  let last = null, prev = null;
+  while (moves.length < length) {
+    const f = faces[Math.floor(Math.random() * 6)];
+    if (f === last) continue;
+    if (f === prev && opp[f] === last) continue;
+    moves.push(f + mods[Math.floor(Math.random() * 3)]);
+    prev = last; last = f;
+  }
+  return moves.join(' ');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CS TIMER CUBE ENGINE (exact port from cstimer by cs0x7f)
+// ─────────────────────────────────────────────────────────────────────────────
+let _csPosit = [];
+function _csDoslice(f, d, q, size) {
+  const s2 = size * size;
+  let c, f1, f2, f3, f4;
+  if (f > 5) f -= 6;
+  for (let k = 0; k < q; k++) {
+    for (let i = 0; i < size; i++) {
+      if (f===0){ f1=6*s2-size*d-size+i; f2=2*s2-size*d-1-i; f3=3*s2-size*d-1-i; f4=5*s2-size*d-size+i; }
+      else if(f===1){ f1=3*s2+d+size*i; f2=3*s2+d-size*(i+1); f3=s2+d-size*(i+1); f4=5*s2+d+size*i; }
+      else if(f===2){ f1=3*s2+d*size+i; f2=4*s2+size-1-d+size*i; f3=d*size+size-1-i; f4=2*s2-1-d-size*i; }
+      else if(f===3){ f1=4*s2+d*size+size-1-i; f2=2*s2+d*size+i; f3=s2+d*size+i; f4=5*s2+d*size+size-1-i; }
+      else if(f===4){ f1=6*s2-1-d-size*i; f2=size-1-d+size*i; f3=2*s2+size-1-d+size*i; f4=4*s2-1-d-size*i; }
+      else { f1=4*s2-size-d*size+i; f2=2*s2-size+d-size*i; f3=s2-1-d*size-i; f4=4*s2+d+size*i; }
+      c=_csPosit[f1]; _csPosit[f1]=_csPosit[f2]; _csPosit[f2]=_csPosit[f3]; _csPosit[f3]=_csPosit[f4]; _csPosit[f4]=c;
+    }
+    if (d===0) {
+      for (let i=0; i+i<size; i++) {
+        for (let j=0; j+j<size-1; j++) {
+          f1=f*s2+i+j*size; f3=f*s2+(size-1-i)+(size-1-j)*size;
+          if(f<3){ f2=f*s2+(size-1-j)+i*size; f4=f*s2+j+(size-1-i)*size; }
+          else   { f4=f*s2+(size-1-j)+i*size; f2=f*s2+j+(size-1-i)*size; }
+          c=_csPosit[f1]; _csPosit[f1]=_csPosit[f2]; _csPosit[f2]=_csPosit[f3]; _csPosit[f3]=_csPosit[f4]; _csPosit[f4]=c;
+        }
+      }
+    }
+  }
+}
+function _csGenPosit(size, moveseq) {
+  _csPosit = [];
+  for (let i=0; i<6*size*size; i++) _csPosit[i]=Math.floor(i/(size*size));
+  for (let s=0; s<moveseq.length; s++)
+    for (let d=0; d<moveseq[s][1]; d++) _csDoslice(moveseq[s][0], d, moveseq[s][2], size);
+  return [..._csPosit];
+}
+function _csParseScramble(scramble) {
+  const moveMap='DLBURF', result=[];
+  for (const mv of scramble.trim().split(/\s+/)) {
+    const m = /^([FRUBLD])(['2])?$/.exec(mv);
+    if (!m) continue;
+    const p = m[2]==='2'?2 : m[2]==="'"?3 : 1;
+    result.push([moveMap.indexOf(m[1]), 1, p]);
+  }
+  return result;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CUBE NET SVG RENDERER
+// WCA colors: D=yellow, L=orange, B=blue, U=white, R=red, F=green
+// CS Timer face order in posit[]: D=0,L=1,B=2,U=3,R=4,F=5
+// Net layout col/row: D=[1,2] L=[0,1] B=[3,1] U=[1,0] R=[2,1] F=[1,1]
+// ─────────────────────────────────────────────────────────────────────────────
+function renderCubeNetSVG(scramble, cell=18) {
+  const size=3, moveseq=_csParseScramble(scramble), p=_csGenPosit(size,moveseq);
+  const fill=['#ffff00','#ff8800','#0000ff','#ffffff','#ff0000','#00cc00'];
+  const gap=1.5, pad=4, step=cell+gap;
+  const fpos=[[1,2],[0,1],[3,1],[1,0],[2,1],[1,1]];
+  const W=pad*2+step*4*size-gap, H=pad*2+step*3*size-gap;
+  let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">`;
+  for (let f=0; f<6; f++) {
+    const ox=pad+fpos[f][0]*step*size, oy=pad+fpos[f][1]*step*size;
+    svg+=`<rect x="${ox-1}" y="${oy-1}" width="${step*size-gap+2}" height="${step*size-gap+2}" rx="2" fill="#2a2a32"/>`;
+    for (let i=0; i<size; i++) {
+      const xi=(f===1||f===2)?size-1-i:i;
+      for (let j=0; j<size; j++) {
+        const yj=(f===0)?size-1-j:j;
+        const ci=p[(f*size+yj)*size+xi];
+        svg+=`<rect x="${ox+i*step}" y="${oy+j*step}" width="${cell}" height="${cell}" rx="1.5" fill="${fill[ci]}" stroke="#111" stroke-width="0.6"/>`;
+      }
+    }
+  }
+  svg+='</svg>';
+  return svg;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AUDIO MANAGER
+// ─────────────────────────────────────────────────────────────────────────────
+const Audio = {
+  ctx: null, masterGain: null, crowdNodes: [],
+  initialized: false, volume: 0.3, muted: false,
+
+  init() {
+    if (this.initialized) return;
+    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    this.masterGain = this.ctx.createGain();
+    this.masterGain.gain.value = this.volume;
+    this.masterGain.connect(this.ctx.destination);
+    this._buildCrowd();
+    this.initialized = true;
+  },
+
+  _pinkNoise(secs=3) {
+    const sr=this.ctx.sampleRate, n=Math.floor(sr*secs);
+    const buf=this.ctx.createBuffer(1,n,sr), d=buf.getChannelData(0);
+    let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+    for(let i=0;i<n;i++){
+      const w=Math.random()*2-1;
+      b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759;
+      b2=0.96900*b2+w*0.1538520; b3=0.86650*b3+w*0.3104856;
+      b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+      d[i]=(b0+b1+b2+b3+b4+b5+b6+w*0.5362)*0.11; b6=w*0.115926;
+    }
+    const src=this.ctx.createBufferSource(); src.buffer=buf; src.loop=true; return src;
+  },
+
+  _buildCrowd() {
+    const bands=[
+      {freq:220,q:1.0,gain:0.55,secs:3},
+      {freq:450,q:0.9,gain:0.45,secs:4},
+      {freq:850,q:1.4,gain:0.30,secs:2.5},
+      {freq:1500,q:2.0,gain:0.12,secs:5},
+    ];
+    bands.forEach(({freq,q,gain,secs})=>{
+      const src=this._pinkNoise(secs);
+      const f=this.ctx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=freq; f.Q.value=q;
+      const g=this.ctx.createGain(); g.gain.value=gain;
+      src.connect(f); f.connect(g); g.connect(this.masterGain); src.start();
+      this.crowdNodes.push(src);
+    });
+    // slow crowd swell LFO
+    const lfo=this.ctx.createOscillator(); lfo.frequency.value=0.12;
+    const lg=this.ctx.createGain(); lg.gain.value=0.07;
+    lfo.connect(lg); lg.connect(this.masterGain.gain); lfo.start();
+    // chatter modulation LFO
+    const lfo2=this.ctx.createOscillator(); lfo2.frequency.value=1.8; lfo2.type='sine';
+    const lg2=this.ctx.createGain(); lg2.gain.value=0.04;
+    lfo2.connect(lg2); lg2.connect(this.masterGain.gain); lfo2.start();
+    this.crowdNodes.push(lfo, lfo2);
+  },
+
+  resume() { if(this.ctx?.state==='suspended') this.ctx.resume(); },
+
+  setVolume(v) {
+    this.volume=v;
+    if(this.masterGain && !this.muted) this.masterGain.gain.value=v;
+  },
+  setMuted(m) {
+    this.muted=m;
+    if(this.masterGain) this.masterGain.gain.value=m?0:this.volume;
+  },
+
+  beep(freq=880, dur=0.18) {
+    if(!this.ctx||this.muted) return;
+    const t=this.ctx.currentTime;
+    const o=this.ctx.createOscillator(), g=this.ctx.createGain();
+    o.type='sine'; o.frequency.value=freq;
+    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.35,t+0.01);
+    g.gain.exponentialRampToValueAtTime(0.001,t+dur);
+    o.connect(g); g.connect(this.ctx.destination);
+    o.start(t); o.stop(t+dur+0.05);
+  },
+
+  announce(text) {
+    if(this.muted) return;
+    try {
+      speechSynthesis.cancel();
+      const u=new SpeechSynthesisUtterance(text);
+      u.rate=1.05; u.pitch=0.95; u.volume=0.95;
+      speechSynthesis.speak(u);
+    } catch(e) { this.beep(660,0.25); }
+  },
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────────────────────────────────
+function fmtTime(ms) {
+  if (ms == null || ms < 0) return '—';
+  const s = ms / 1000;
+  if (s >= 60) {
+    const m=Math.floor(s/60), sec=(s%60).toFixed(2).padStart(5,'0');
+    return `${m}:${sec}`;
+  }
+  return s.toFixed(2);
+}
+
+function parseTime(str) {
+  if (!str) return null;
+  str = str.trim();
+  const colon = str.indexOf(':');
+  if (colon >= 0) {
+    const m=parseFloat(str.slice(0,colon)), s=parseFloat(str.slice(colon+1));
+    if (isNaN(m)||isNaN(s)) return null;
+    return Math.round((m*60+s)*1000);
+  }
+  const v=parseFloat(str);
+  return isNaN(v)?null:Math.round(v*1000);
+}
+
+function calcAo5(results) {
+  if (results.length < 5) return { ao5: null, isDNF: false, droppedIdxs: new Set() };
+  const finals = results.map(r => r.penalty==='DNF' ? Infinity : r.ms + (r.penalty==='+2'?2000:0));
+  const dnfs = finals.filter(v=>v===Infinity).length;
+  if (dnfs > 1) return { ao5: null, isDNF: true, droppedIdxs: new Set() };
+  const sorted = finals.map((v,i)=>({v,i})).sort((a,b)=>a.v-b.v);
+  const droppedIdxs = new Set([sorted[0].i, sorted[4].i]);
+  const mid = sorted.slice(1,4).map(x=>x.v);
+  if (mid.some(v=>v===Infinity)) return { ao5: null, isDNF: true, droppedIdxs };
+  return { ao5: Math.round(mid.reduce((a,b)=>a+b,0)/3), isDNF: false, droppedIdxs };
+}
+
+function fmtResult(r) {
+  if (!r) return '—';
+  if (r.penalty==='DNF') return 'DNF';
+  const base = fmtTime(r.ms);
+  if (r.penalty==='+2') return fmtTime(r.ms+2000)+'+';
+  return base;
+}
+
+function getFinalMs(r) {
+  if (!r || r.penalty==='DNF') return null;
+  return r.ms + (r.penalty==='+2'?2000:0);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SUB-COMPONENTS
+// ─────────────────────────────────────────────────────────────────────────────
+function WaitingDots() {
+  return (
+    <span style={{display:'inline-flex',alignItems:'center',gap:3,marginLeft:4}}>
+      <span className="dot"/><span className="dot"/><span className="dot"/>
+    </span>
+  );
+}
+
+function PhaseBar({ phase, completedCount }) {
+  const PHASES = ['Scramble','Waiting','Inspection','Solving','Enter Time','Waiting'];
+  const MAP = { scrambling:0,'waiting-pickup':1,inspection:2,solving:3,'entering-time':4,'waiting-next':5 };
+  const cur = MAP[phase] ?? -1;
+  const solveDisplay = phase==='waiting-next' ? completedCount : completedCount+1;
+  return (
+    <div style={{display:'flex',alignItems:'center',gap:6,flexWrap:'wrap',marginBottom:24}}>
+      <span style={{fontSize:11,color:'#5a5a6a',marginRight:4,fontWeight:600}}>
+        Solve {Math.min(solveDisplay,5)}/5
+      </span>
+      <span style={{color:'#2e2e3e',fontSize:11}}>·</span>
+      {PHASES.map((p,i)=>(
+        <React.Fragment key={i}>
+          {i>0&&<span style={{color:'#2a2a38',fontSize:10}}>›</span>}
+          <span className={`phase-pill ${i===cur?'phase-active':i<cur?'phase-done':'phase-future'}`}>{p}</span>
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+function CubeNet({ scramble, cell=18 }) {
+  const svg = useMemo(()=>renderCubeNetSVG(scramble,cell),[scramble,cell]);
+  return (
+    <div
+      style={{display:'inline-block',borderRadius:10,overflow:'hidden',background:'#1a1a22',padding:6}}
+      dangerouslySetInnerHTML={{__html:svg}}
+    />
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LIVE SCORESHEET (sidebar, always visible during session)
+// ─────────────────────────────────────────────────────────────────────────────
+function LiveScoresheet({ results, completedCount, meta, onMetaChange }) {
+  return (
+    <div style={{background:'#13131a',border:'1px solid #1e1e28',borderRadius:16,padding:16}}>
+      <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',color:'#3a3a52',marginBottom:12}}>
+        Live Scoresheet
+      </div>
+
+      <div style={{display:'flex',flexDirection:'column',gap:6,marginBottom:14}}>
+        <input
+          style={{background:'#1a1a24',border:'1px solid #252534',borderRadius:7,padding:'5px 9px',fontSize:11,color:'#d0d0e0',outline:'none',width:'100%'}}
+          placeholder="Competitor name"
+          value={meta.name}
+          onChange={e=>onMetaChange({...meta,name:e.target.value})}
+        />
+        <input
+          style={{background:'#1a1a24',border:'1px solid #252534',borderRadius:7,padding:'5px 9px',fontSize:11,color:'#d0d0e0',outline:'none',width:'100%'}}
+          placeholder="Competition name"
+          value={meta.competition}
+          onChange={e=>onMetaChange({...meta,competition:e.target.value})}
+        />
+        <div style={{display:'flex',gap:6}}>
+          <input
+            style={{background:'#1a1a24',border:'1px solid #252534',borderRadius:7,padding:'5px 9px',fontSize:11,color:'#d0d0e0',outline:'none',flex:1}}
+            placeholder="Round"
+            value={meta.round}
+            onChange={e=>onMetaChange({...meta,round:e.target.value})}
+          />
+          <div style={{background:'#1a1a24',border:'1px solid #252534',borderRadius:7,padding:'5px 9px',fontSize:11,color:'#3a3a52',flex:1}}>3x3x3</div>
+        </div>
+      </div>
+
+      <table style={{width:'100%',borderCollapse:'collapse',fontSize:11}}>
+        <thead>
+          <tr style={{color:'#3a3a52'}}>
+            <th style={{textAlign:'left',paddingBottom:6,paddingRight:6}}>#</th>
+            <th style={{textAlign:'right',paddingBottom:6,paddingRight:6}}>Time</th>
+            <th style={{textAlign:'center',paddingBottom:6,paddingRight:6}}>Pen</th>
+            <th style={{textAlign:'right',paddingBottom:6}}>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[0,1,2,3,4].map(i=>{
+            const r=results[i];
+            const isActive=i===completedCount && !r;
+            return (
+              <tr key={i} style={{borderTop:'1px solid #1a1a24',color:r?'#c0c0d0':isActive?'#7c6ff7':'#2a2a38'}}>
+                <td style={{padding:'6px 6px 6px 0',fontFamily:'monospace'}}>{i+1}</td>
+                <td style={{padding:'6px 6px',textAlign:'right',fontFamily:'monospace'}}>
+                  {r?fmtTime(r.ms):isActive?<span style={{color:'#4a4a6a'}}>…</span>:'—'}
+                </td>
+                <td style={{padding:'6px 6px',textAlign:'center',fontFamily:'monospace',color:r?.penalty==='+2'?'#f97316':r?.penalty==='DNF'?'#ef4444':'transparent'}}>
+                  {r?.penalty==='+2'?'+2':r?.penalty==='DNF'?'DNF':'·'}
+                </td>
+                <td style={{padding:'6px 0',textAlign:'right',fontFamily:'monospace',fontWeight:700}}>
+                  {r?fmtResult(r):'—'}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SESSION SUMMARY
+// ─────────────────────────────────────────────────────────────────────────────
+function SessionSummary({ results, meta, onNewSession }) {
+  const { ao5, isDNF, droppedIdxs } = calcAo5(results);
+  const finals = results.map(getFinalMs);
+  const validFinals = finals.filter(v=>v!=null);
+  const bestMs = validFinals.length ? Math.min(...validFinals) : null;
+  const bestIdx = bestMs!=null ? finals.indexOf(bestMs) : -1;
+  const ao5Str = isDNF?'DNF':ao5?fmtTime(ao5):'—';
+  const bestStr = bestMs!=null?fmtTime(bestMs):'—';
+  const scoresheetRef = useRef(null);
+  const [copied, setCopied] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+
+  function buildText() {
+    const lines = [
+      `${meta.name||'Competitor'} — 3x3x3`,
+      `${meta.competition||'Competition'} | Round ${meta.round||'1'}`,
+      '',
+      ...results.map((r,i)=>{
+        let s = fmtResult(r);
+        if (i===bestIdx) s += ' ←';
+        if (droppedIdxs.has(i)) s += ' (dropped)';
+        return s;
+      }),
+      '',
+      `Best: ${bestStr} | Ao5: ${ao5Str}`,
+    ];
+    return lines.join('\n');
+  }
+
+  async function copyText() {
+    try { await navigator.clipboard.writeText(buildText()); } catch(e) {}
+    setCopied(true); setTimeout(()=>setCopied(false),2000);
+  }
+
+  async function downloadImage() {
+    if (!scoresheetRef.current || !window.html2canvas) return;
+    setDownloading(true);
+    try {
+      const canvas = await html2canvas(scoresheetRef.current,{backgroundColor:'#ffffff',scale:2,useCORS:true});
+      const a=document.createElement('a');
+      a.download=`scoresheet-${(meta.name||'competitor').replace(/\s+/g,'-')}.png`;
+      a.href=canvas.toDataURL('image/png'); a.click();
+    } finally { setDownloading(false); }
+  }
+
+  return (
+    <div style={{minHeight:'100vh',display:'flex',flexDirection:'column',alignItems:'center',padding:'40px 16px',background:'#0f0f13'}}>
+      <div style={{width:'100%',maxWidth:520}}>
+
+        <div style={{textAlign:'center',marginBottom:28}}>
+          <div style={{fontSize:26,fontWeight:900,color:'#e8e8e8',letterSpacing:'-0.03em',marginBottom:4}}>Session Complete</div>
+          <div style={{fontSize:13,color:'#4a4a5a'}}>All 5 solves recorded</div>
+        </div>
+
+        {/* Big result cards */}
+        <div style={{display:'flex',gap:12,justifyContent:'center',marginBottom:28}}>
+          <div style={{background:'#13131a',border:'1px solid #1e2e1e',borderRadius:16,padding:'18px 28px',textAlign:'center',flex:1}}>
+            <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',color:'#3a5a3a',marginBottom:6}}>Best Single</div>
+            <div style={{fontSize:32,fontWeight:900,color:'#4ade80',letterSpacing:'-0.03em',fontFamily:'monospace'}}>{bestStr}</div>
+          </div>
+          <div style={{background:'#13131a',border:'1px solid #2a1e4a',borderRadius:16,padding:'18px 28px',textAlign:'center',flex:1}}>
+            <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',color:'#4a3a6a',marginBottom:6}}>Ao5</div>
+            <div style={{fontSize:32,fontWeight:900,color:isDNF?'#ef4444':'#a78bfa',letterSpacing:'-0.03em',fontFamily:'monospace'}}>{ao5Str}</div>
+          </div>
+        </div>
+
+        {/* Printable scoresheet */}
+        <div ref={scoresheetRef} className="ss-export" style={{background:'#fff',color:'#000',borderRadius:12,overflow:'hidden',marginBottom:16,padding:'20px 24px',fontFamily:'Arial,sans-serif'}}>
+          <div style={{textAlign:'center',borderBottom:'2px solid #000',paddingBottom:10,marginBottom:12}}>
+            <div style={{fontSize:16,fontWeight:700,color:'#000'}}>WCA Competition Score Sheet</div>
+            <div style={{fontSize:12,color:'#555',marginTop:2}}>{meta.competition||'—'}</div>
+          </div>
+          <div style={{display:'flex',justifyContent:'space-between',fontSize:12,marginBottom:14,color:'#000',flexWrap:'wrap',gap:8}}>
+            <span><strong>Competitor:</strong> {meta.name||'—'}</span>
+            <span><strong>Event:</strong> 3x3x3</span>
+            <span><strong>Round:</strong> {meta.round||'—'}</span>
+          </div>
+          <table style={{width:'100%',borderCollapse:'collapse',fontSize:13}}>
+            <thead>
+              <tr style={{background:'#f0f0f0'}}>
+                <th style={{border:'1px solid #aaa',padding:'6px 10px',textAlign:'left',color:'#000'}}>#</th>
+                <th style={{border:'1px solid #aaa',padding:'6px 10px',textAlign:'right',color:'#000'}}>Time</th>
+                <th style={{border:'1px solid #aaa',padding:'6px 10px',textAlign:'center',color:'#000'}}>Pen.</th>
+                <th style={{border:'1px solid #aaa',padding:'6px 10px',textAlign:'right',color:'#000'}}>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              {results.map((r,i)=>{
+                const dropped=droppedIdxs.has(i);
+                const best=i===bestIdx;
+                return (
+                  <tr key={i} style={{background:best?'#f0fff0':'#fff'}}>
+                    <td style={{border:'1px solid #aaa',padding:'6px 10px',fontFamily:'monospace',color:'#000'}}>{i+1}</td>
+                    <td style={{border:'1px solid #aaa',padding:'6px 10px',textAlign:'right',fontFamily:'monospace',color:'#000',
+                      textDecoration:dropped?'line-through':'none',opacity:dropped?0.45:1}}>
+                      {fmtTime(r.ms)}
+                    </td>
+                    <td style={{border:'1px solid #aaa',padding:'6px 10px',textAlign:'center',fontFamily:'monospace',color:'#000'}}>
+                      {r.penalty==='+2'?'+2':r.penalty==='DNF'?'DNF':''}
+                    </td>
+                    <td style={{border:'1px solid #aaa',padding:'6px 10px',textAlign:'right',fontFamily:'monospace',fontWeight:700,
+                      color:best?'#166534':'#000',textDecoration:dropped?'line-through':'none',opacity:dropped?0.45:1}}>
+                      {fmtResult(r)}{best?' ★':''}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+            <tfoot>
+              <tr style={{background:'#f0f0f0',fontWeight:700}}>
+                <td colSpan={2} style={{border:'1px solid #aaa',padding:'6px 10px',fontSize:12,color:'#000'}}>Best: {bestStr}</td>
+                <td colSpan={2} style={{border:'1px solid #aaa',padding:'6px 10px',fontSize:12,textAlign:'right',color:'#000'}}>Ao5: {ao5Str}</td>
+              </tr>
+            </tfoot>
+          </table>
+          <div style={{fontSize:10,color:'#888',marginTop:10,textAlign:'center'}}>
+            Dropped times are struck through · Best single marked ★
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div style={{display:'flex',gap:10,justifyContent:'center',flexWrap:'wrap',marginBottom:24}}>
+          <button onClick={copyText}
+            style={{padding:'10px 20px',borderRadius:10,background:'#1a1a24',border:'1px solid #252534',color:'#c0c0d0',fontSize:13,fontWeight:600,cursor:'pointer'}}>
+            {copied?'✓ Copied!':'📋 Copy as Text'}
+          </button>
+          <button onClick={downloadImage} disabled={downloading}
+            style={{padding:'10px 20px',borderRadius:10,background:'#1a1a24',border:'1px solid #252534',color:'#c0c0d0',fontSize:13,fontWeight:600,cursor:downloading?'default':'pointer',opacity:downloading?0.5:1}}>
+            {downloading?'Generating…':'⬇ Download Scoresheet'}
+          </button>
+        </div>
+
+        <div style={{textAlign:'center'}}>
+          <button onClick={onNewSession}
+            style={{padding:'14px 36px',borderRadius:14,background:'#6d28d9',color:'white',fontSize:15,fontWeight:700,cursor:'pointer',border:'none'}}>
+            New Session
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MAIN APP
+// ─────────────────────────────────────────────────────────────────────────────
+function App() {
+  // ── State ──
+  const [phase, setPhase]           = useState('idle');
+  const [scramble, setScramble]     = useState('');
+  const [results, setResults]       = useState([]);
+  const [meta, setMeta]             = useState({name:'',competition:'',round:'1'});
+  const [inspRemaining, setInspRemaining] = useState(15000);
+  const [inspWarning, setInspWarning]     = useState(null); // null | '+2'
+  const [penalty, setPenalty]       = useState('none');
+  const [timeInput, setTimeInput]   = useState('');
+  const [muted, setMuted]           = useState(false);
+  const [volume, setVolume]         = useState(0.3);
+  const [timeError, setTimeError]   = useState(false);
+
+  // ── Refs (for use inside async callbacks) ──
+  const resultsRef     = useRef([]);
+  const scrambleRef    = useRef('');
+  const inspStartRef   = useRef(null);
+  const inspPenRef     = useRef(null);   // '+2' | 'DNF' | null — mirrors inspWarning + auto-DNF
+  const ann12Ref       = useRef(false);
+  const ann8Ref        = useRef(false);
+  const waitTimerRef   = useRef(null);
+  const inspIntervalRef= useRef(null);
+
+  // ── Sync refs with state ──
+  function setResultsSync(r) { resultsRef.current=r; setResults(r); }
+  function setScrambleSync(s) { scrambleRef.current=s; setScramble(s); }
+
+  // ── Effects ──
+  useEffect(()=>Audio.setMuted(muted), [muted]);
+  useEffect(()=>Audio.setVolume(volume), [volume]);
+  useEffect(()=>()=>{ clearTimeout(waitTimerRef.current); clearInterval(inspIntervalRef.current); }, []);
+
+  // ── Actions ──
+  function startSession() {
+    Audio.init(); Audio.resume();
+    const sc = generateScramble();
+    setResultsSync([]);
+    setScrambleSync(sc);
+    setPhase('scrambling');
+    setPenalty('none');
+    setInspWarning(null);
+  }
+
+  function doneScrambling() {
+    setPhase('waiting-pickup');
+    const delay = 30000 + Math.random() * 60000; // 30–90s
+    waitTimerRef.current = setTimeout(beginInspection, delay);
+  }
+
+  function beginInspection() {
+    inspStartRef.current = Date.now();
+    inspPenRef.current   = null;
+    ann12Ref.current     = false;
+    ann8Ref.current      = false;
+    setInspRemaining(15000);
+    setInspWarning(null);
+    setPhase('inspection');
+    Audio.resume();
+
+    inspIntervalRef.current = setInterval(()=>{
+      const elapsed = Date.now() - inspStartRef.current;
+      const remaining = Math.max(0, 15000 - elapsed);
+      setInspRemaining(remaining);
+
+      if (!ann12Ref.current && elapsed >= 3000) {
+        ann12Ref.current = true;
+        Audio.announce('12 seconds');
+      }
+      if (!ann8Ref.current && elapsed >= 7000) {
+        ann8Ref.current = true;
+        Audio.announce('8 seconds');
+      }
+      if (!inspPenRef.current && elapsed >= 15000) {
+        inspPenRef.current = '+2';
+        setInspWarning('+2');
+      }
+      if (elapsed >= 17000) {
+        // Inspection DNF — auto-submit and skip to next
+        clearInterval(inspIntervalRef.current);
+        inspPenRef.current = 'DNF';
+        const r = { ms: 0, penalty: 'DNF', scramble: scrambleRef.current };
+        addResult(r);
+      }
+    }, 80);
+  }
+
+  function stopInspection() {
+    clearInterval(inspIntervalRef.current);
+    const pen = inspPenRef.current; // '+2' or null
+    setPenalty(pen==='+2'?'+2':'none');
+    setPhase('solving');
+  }
+
+  function doneSolving() {
+    setTimeInput('');
+    setTimeError(false);
+    setPhase('entering-time');
+  }
+
+  function submitResult() {
+    if (penalty==='DNF') {
+      addResult({ ms: 0, penalty: 'DNF', scramble: scrambleRef.current });
+      return;
+    }
+    const ms = parseTime(timeInput);
+    if (!ms || ms <= 0) { setTimeError(true); return; }
+    setTimeError(false);
+    addResult({ ms, penalty, scramble: scrambleRef.current });
+  }
+
+  function addResult(result) {
+    const newResults = [...resultsRef.current, result];
+    setResultsSync(newResults);
+    if (newResults.length >= 5) {
+      setPhase('complete');
+      return;
+    }
+    // Wait before next scramble: 45–120s
+    setPhase('waiting-next');
+    const delay = 45000 + Math.random() * 75000;
+    waitTimerRef.current = setTimeout(()=>{
+      const sc = generateScramble();
+      setScrambleSync(sc);
+      setPenalty('none');
+      setInspWarning(null);
+      setPhase('scrambling');
+    }, delay);
+  }
+
+  function handleNewSession() {
+    if (!confirm('Start a new session? All results will be cleared.')) return;
+    clearTimeout(waitTimerRef.current);
+    clearInterval(inspIntervalRef.current);
+    setPhase('idle');
+    setResultsSync([]);
+    setScrambleSync('');
+    setPenalty('none');
+    setInspWarning(null);
+  }
+
+  // ── IDLE SCREEN ──
+  if (phase==='idle') {
+    return (
+      <div style={{minHeight:'100vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:24}}>
+        <div style={{textAlign:'center',maxWidth:400}}>
+          <div style={{fontSize:36,fontWeight:900,color:'#e8e8e8',letterSpacing:'-0.04em',marginBottom:6}}>WCA Sim</div>
+          <div style={{fontSize:14,color:'#4a4a5a',marginBottom:10}}>Competition atmosphere trainer · 3x3x3 · Ao5</div>
+          <div style={{fontSize:12,color:'#3a3a4a',marginBottom:36,lineHeight:1.7}}>
+            Realistic wait times between solves · 15-second inspection with callouts<br/>
+            Ambient crowd noise · Live scoresheet · Downloadable results
+          </div>
+          <button onClick={startSession}
+            style={{padding:'16px 48px',background:'#6d28d9',color:'white',borderRadius:16,fontSize:16,fontWeight:700,border:'none',cursor:'pointer',letterSpacing:'-0.01em'}}>
+            Start Session
+          </button>
+          <div style={{marginTop:20,fontSize:11,color:'#2e2e3e'}}>
+            Enter times from your physical Gen 5 stackmat timer
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── COMPLETE ──
+  if (phase==='complete') {
+    return <SessionSummary results={results} meta={meta} onNewSession={handleNewSession}/>;
+  }
+
+  // ── SESSION SCREEN ──
+  return (
+    <div style={{minHeight:'100vh',display:'flex',flexDirection:'column'}}>
+
+      {/* Header */}
+      <header style={{
+        position:'sticky',top:0,zIndex:50,
+        background:'rgba(15,15,19,0.95)',backdropFilter:'blur(12px)',
+        borderBottom:'1px solid rgba(255,255,255,0.05)',
+        display:'flex',alignItems:'center',justifyContent:'space-between',
+        padding:'0 20px',height:52,flexShrink:0
+      }}>
+        <span style={{fontWeight:800,fontSize:15,color:'#e8e8e8',letterSpacing:'-0.02em'}}>WCA Sim</span>
+        <div style={{display:'flex',alignItems:'center',gap:12}}>
+          <button onClick={()=>setMuted(m=>!m)}
+            style={{background:'none',border:'none',cursor:'pointer',fontSize:18,color:'#5a5a6a',lineHeight:1}}>
+            {muted?'🔇':'🔊'}
+          </button>
+          <input type="range" min={0} max={1} step={0.05} value={volume}
+            onChange={e=>setVolume(parseFloat(e.target.value))}
+            style={{width:70}}
+          />
+          <button onClick={handleNewSession}
+            style={{fontSize:11,color:'#4a4a5a',background:'#1a1a22',border:'1px solid #252530',borderRadius:8,padding:'5px 12px',cursor:'pointer',fontWeight:600}}>
+            New Session
+          </button>
+        </div>
+      </header>
+
+      {/* Body: main + sidebar */}
+      <div style={{display:'flex',flex:1,overflow:'hidden'}}>
+
+        {/* Main content */}
+        <div style={{flex:1,overflowY:'auto',padding:'24px 20px',display:'flex',flexDirection:'column'}}>
+          <PhaseBar phase={phase} completedCount={results.length}/>
+
+          <div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',maxWidth:480,margin:'0 auto',width:'100%'}}>
+
+            {/* ── SCRAMBLING ── */}
+            {phase==='scrambling' && (
+              <div style={{width:'100%',textAlign:'center'}}>
+                <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:'#4a4a5a',marginBottom:14}}>
+                  Scramble {results.length+1}
+                </div>
+                <div style={{background:'#13131a',border:'1px solid #1e1e2a',borderRadius:14,padding:'16px 20px',marginBottom:20,textAlign:'left'}}>
+                  <div style={{fontFamily:'monospace',fontSize:16,color:'#e8e8e8',lineHeight:1.7,letterSpacing:'0.02em',wordBreak:'break-word'}}>
+                    {scramble}
+                  </div>
+                </div>
+                <div style={{display:'flex',justifyContent:'center',marginBottom:28}}>
+                  <CubeNet scramble={scramble} cell={20}/>
+                </div>
+                <button onClick={doneScrambling}
+                  style={{width:'100%',padding:'15px 0',background:'#6d28d9',color:'white',borderRadius:14,fontSize:15,fontWeight:700,border:'none',cursor:'pointer'}}>
+                  Done Scrambling →
+                </button>
+              </div>
+            )}
+
+            {/* ── WAITING FOR PICKUP ── */}
+            {phase==='waiting-pickup' && (
+              <div style={{textAlign:'center'}}>
+                <div style={{fontSize:52,marginBottom:20}}>⏳</div>
+                <div style={{fontSize:20,fontWeight:700,color:'#c0c0d0',marginBottom:8}}>
+                  Waiting for judge<WaitingDots/>
+                </div>
+                <div style={{fontSize:13,color:'#3a3a4a',lineHeight:1.6}}>
+                  Stand by — you'll be called to the solving station soon
+                </div>
+              </div>
+            )}
+
+            {/* ── INSPECTION ── */}
+            {phase==='inspection' && (
+              <div style={{textAlign:'center',width:'100%'}}>
+                <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:'#4a4a5a',marginBottom:20}}>
+                  Inspection
+                </div>
+                <div
+                  className={inspRemaining <= 3000 && !inspWarning ? 'urgent' : ''}
+                  style={{
+                    fontSize:96,fontWeight:900,letterSpacing:'-0.05em',marginBottom:8,fontFamily:'monospace',lineHeight:1,
+                    color: inspWarning==='+2' ? '#f97316'
+                         : inspRemaining<=3000 ? '#ef4444'
+                         : inspRemaining<=7000 ? '#fb923c'
+                         : '#a78bfa'
+                  }}>
+                  {inspWarning==='+2' ? '+2' : Math.ceil(inspRemaining/1000)}
+                </div>
+                {inspWarning==='+2' && (
+                  <div style={{fontSize:13,color:'#f97316',fontWeight:700,marginBottom:16}}>
+                    Inspection exceeded — +2 penalty will apply
+                  </div>
+                )}
+                <div style={{fontSize:12,color:'#3a3a4a',marginBottom:24}}>
+                  Study the scramble — press when you begin solving
+                </div>
+                <button onClick={stopInspection}
+                  style={{width:'100%',padding:'15px 0',background:'#16a34a',color:'white',borderRadius:14,fontSize:15,fontWeight:700,border:'none',cursor:'pointer'}}>
+                  I've Started Solving →
+                </button>
+              </div>
+            )}
+
+            {/* ── SOLVING ── */}
+            {phase==='solving' && (
+              <div style={{textAlign:'center',width:'100%'}}>
+                <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:'#4a4a5a',marginBottom:20}}>
+                  Solving
+                </div>
+                <div style={{fontSize:72,marginBottom:12}}>⚡</div>
+                {penalty==='+2' && (
+                  <div style={{fontSize:13,color:'#f97316',fontWeight:700,marginBottom:12}}>
+                    +2 sec inspection penalty pending
+                  </div>
+                )}
+                <div style={{fontSize:13,color:'#3a3a4a',marginBottom:32}}>
+                  Stop your Gen 5 stackmat when done
+                </div>
+                <button onClick={doneSolving}
+                  style={{width:'100%',padding:'15px 0',background:'#e8e8e8',color:'#0f0f13',borderRadius:14,fontSize:15,fontWeight:700,border:'none',cursor:'pointer'}}>
+                  I've Stopped My Timer →
+                </button>
+              </div>
+            )}
+
+            {/* ── ENTERING TIME ── */}
+            {phase==='entering-time' && (
+              <div style={{textAlign:'center',width:'100%'}}>
+                <div style={{fontSize:10,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.12em',color:'#4a4a5a',marginBottom:20}}>
+                  Enter Your Time
+                </div>
+                <input
+                  autoFocus
+                  type="text"
+                  inputMode="decimal"
+                  placeholder={penalty==='DNF'?'DNF — no time needed':'e.g. 7.43'}
+                  value={timeInput}
+                  disabled={penalty==='DNF'}
+                  onChange={e=>{ setTimeInput(e.target.value); setTimeError(false); }}
+                  onKeyDown={e=>{ if(e.key==='Enter') submitResult(); }}
+                  style={{
+                    width:'100%',padding:'16px 20px',
+                    background: penalty==='DNF'?'#1a1016':'#13131a',
+                    border:`2px solid ${timeError?'#ef4444':penalty==='DNF'?'#3a1a1a':'#252534'}`,
+                    borderRadius:14,fontSize:36,fontFamily:'monospace',textAlign:'center',
+                    color:penalty==='DNF'?'#4a2a2a':'#e8e8e8',outline:'none',marginBottom:20,
+                    transition:'border-color 0.15s'
+                  }}
+                />
+                {timeError && (
+                  <div style={{fontSize:12,color:'#ef4444',marginTop:-14,marginBottom:14}}>Enter a valid time (e.g. 7.43)</div>
+                )}
+                <div style={{display:'flex',gap:10,justifyContent:'center',marginBottom:24}}>
+                  {['none','+2','DNF'].map(p=>(
+                    <button key={p} onClick={()=>{ setPenalty(p); setTimeError(false); }}
+                      style={{
+                        padding:'9px 20px',borderRadius:10,fontSize:13,fontWeight:700,border:'none',cursor:'pointer',
+                        background: penalty===p
+                          ? p==='DNF'?'#dc2626':p==='+2'?'#ea580c':'#16a34a'
+                          : '#1a1a24',
+                        color: penalty===p?'white':'#5a5a6a',
+                        transition:'all 0.12s'
+                      }}>
+                      {p==='none'?'No Penalty':p}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={submitResult}
+                  style={{width:'100%',padding:'15px 0',background:'#6d28d9',color:'white',borderRadius:14,fontSize:15,fontWeight:700,border:'none',cursor:'pointer'}}>
+                  Submit Result →
+                </button>
+              </div>
+            )}
+
+            {/* ── WAITING FOR NEXT ── */}
+            {phase==='waiting-next' && (
+              <div style={{textAlign:'center'}}>
+                <div style={{fontSize:52,marginBottom:20}}>📋</div>
+                <div style={{fontSize:20,fontWeight:700,color:'#c0c0d0',marginBottom:8}}>
+                  Preparing next scramble<WaitingDots/>
+                </div>
+                <div style={{fontSize:13,color:'#3a3a4a',lineHeight:1.6}}>
+                  Score sheet signing, judge rotation, scramble prep…
+                </div>
+                <div style={{marginTop:24,fontSize:12,color:'#2a2a3a'}}>
+                  Solve {results.length} of 5 complete
+                </div>
+              </div>
+            )}
+
+          </div>
+        </div>
+
+        {/* Scoresheet sidebar */}
+        <div style={{
+          width:260,flexShrink:0,
+          borderLeft:'1px solid #1a1a22',
+          overflowY:'auto',padding:'20px 16px',
+          display:'flex',flexDirection:'column',gap:12
+        }}>
+          <LiveScoresheet
+            results={results}
+            completedCount={results.length}
+            meta={meta}
+            onMetaChange={setMeta}
+          />
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
