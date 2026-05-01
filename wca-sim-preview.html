@@ -859,23 +859,7 @@ function App() {
           <span style={{fontWeight:800,fontSize:15,color:'#e8e8e8',letterSpacing:'-0.02em',marginLeft:6}}>WCA Comp Sim</span>
         </div>
         <div style={{display:'flex',alignItems:'center',gap:12}}>
-          <button onClick={()=>{
-            clearTimeout(waitTimerRef.current);
-            clearInterval(inspIntervalRef.current);
-            const fakeResults = [
-              {ms:629,penalty:'none',scramble:'R U R\' U\''},
-              {ms:793,penalty:'+2',scramble:'F R U\''},
-              {ms:540,penalty:'none',scramble:'L\' U L'},
-              {ms:638,penalty:'none',scramble:'R\' F R'},
-              {ms:573,penalty:'none',scramble:'U R U\''},
-            ];
-            setResultsSync(fakeResults);
-            setRoundHistory(prev => [...prev, {round: currentRound, results: fakeResults}]);
-            setPhase('complete');
-          }} style={{fontSize:11,color:'#fbbf24',background:'#1a1500',border:'1px solid #fbbf2440',borderRadius:8,padding:'5px 12px',cursor:'pointer',fontWeight:600}}>
-            ⚡ Skip to End
-          </button>
-          <button onClick={handleNewSession}
+<button onClick={handleNewSession}
             style={{fontSize:11,color:'white',background:'#dc2626',border:'none',borderRadius:8,padding:'5px 12px',cursor:'pointer',fontWeight:600}}>
             Stop Comp Sim
           </button>
