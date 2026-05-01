@@ -4,51 +4,110 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Caiden's Tools</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: #0f0f13;
+      background: #0a0a0f;
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 16px;
-      padding: 40px 24px;
+      justify-content: flex-start;
+      padding: 72px 24px;
     }
 
-    a {
-      display: block;
+    .wordmark {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #3a3a52;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 900;
+      color: #e8e8f0;
+      letter-spacing: -0.04em;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #3a3a52;
+      margin-bottom: 52px;
+      font-weight: 500;
+    }
+
+    .tools {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
       width: 100%;
-      max-width: 420px;
-      padding: 20px 32px;
-      border-radius: 100px;
-      background: #1a1a24;
-      border: 1px solid #252534;
-      color: #e8e8e8;
-      font-size: 16px;
+      max-width: 400px;
+    }
+
+    .tool-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 28px;
+      border-radius: 18px;
+      background: #13131e;
+      border: 1px solid #1e1e2e;
+      color: #e8e8f0;
+      font-size: 15px;
       font-weight: 700;
       text-decoration: none;
-      text-align: center;
       transition: background 0.15s, border-color 0.15s, transform 0.1s;
     }
 
-    a:hover {
-      background: #22223a;
+    .tool-link:hover {
+      background: #1a1a2e;
       border-color: #6d28d9;
       color: #fff;
     }
 
-    a:active {
-      transform: scale(0.97);
+    .tool-link:active {
+      transform: scale(0.98);
+    }
+
+    .tool-link .arrow {
+      font-size: 18px;
+      color: #3a3a5a;
+      transition: color 0.15s, transform 0.15s;
+    }
+
+    .tool-link:hover .arrow {
+      color: #6d28d9;
+      transform: translateX(3px);
+    }
+
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: #1e1e2e;
+      margin: 8px auto 0;
     }
   </style>
 </head>
 <body>
-  <a href="cross-trainer.html">Cross+3 Trainer</a>
-  <a href="wca-sim.html">Comp Sim Trainer</a>
+  <h1>Caiden's Tools</h1>
+  <p class="subtitle">Private training resources</p>
+
+  <div class="tools">
+    <a href="cross-trainer.html" class="tool-link">
+      <span>Cross+3 Trainer</span>
+      <span class="arrow">→</span>
+    </a>
+    <a href="wca-sim.html" class="tool-link">
+      <span>Comp Sim Trainer</span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
 </body>
 </html>
