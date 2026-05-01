@@ -15,8 +15,44 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding: 72px 24px;
+      padding: 80px 24px 0;
+      overflow: hidden;
+    }
+
+    .top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .middle {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(109,40,217,0.1) 0%, transparent 70%);
+      filter: blur(30px);
+      pointer-events: none;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeSlow {
+      from { opacity: 0; }
+      to   { opacity: 1; }
     }
 
     .wordmark {
@@ -29,18 +65,20 @@
     }
 
     h1 {
-      font-size: 42px;
+      font-size: 72px;
       font-weight: 900;
-      color: #e8e8f0;
+      color: #ede8ff;
       letter-spacing: -0.04em;
       margin-bottom: 6px;
+      animation: fadeSlow 0.7s ease both;
     }
 
     .subtitle {
       font-size: 14px;
       color: #3a3a52;
-      margin-bottom: 52px;
+      margin-bottom: 0;
       font-weight: 500;
+      animation: fadeSlow 0.7s ease 0.2s both;
     }
 
     .tools {
@@ -48,7 +86,8 @@
       flex-direction: column;
       gap: 14px;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
+      animation: fadeSlow 0.7s ease 0.4s both;
     }
 
     .tool-link {
@@ -58,7 +97,7 @@
       padding: 20px 28px;
       border-radius: 18px;
       background: #13131e;
-      border: 1px solid #1e1e2e;
+      border: 1px solid rgba(109,40,217,0.3);
       color: #e8e8f0;
       font-size: 15px;
       font-weight: 700;
@@ -78,7 +117,7 @@
 
     .tool-link .arrow {
       font-size: 18px;
-      color: #3a3a5a;
+      color: rgba(109,40,217,0.7);
       transition: color 0.15s, transform 0.15s;
     }
 
@@ -96,18 +135,23 @@
   </style>
 </head>
 <body>
-  <h1>Caiden's Tools</h1>
-  <p class="subtitle">Private training resources</p>
-
-  <div class="tools">
-    <a href="cross-trainer.html" class="tool-link">
-      <span>Cross+3 Trainer</span>
-      <span class="arrow">→</span>
-    </a>
-    <a href="wca-sim.html" class="tool-link">
-      <span>Comp Sim Trainer</span>
-      <span class="arrow">→</span>
-    </a>
+  <div class="top">
+    <h1>Caiden's Tools</h1>
+    <div style="width:200px;height:2px;background:rgba(255,255,255,0.12);margin-top:20px;border-radius:2px;"></div>
   </div>
+
+  <div class="middle">
+    <div class="tools">
+      <a href="cross-trainer.html" class="tool-link">
+        <span>Cross+3 Trainer</span>
+        <span class="arrow">→</span>
+      </a>
+      <a href="wca-sim.html" class="tool-link">
+        <span>Comp Sim Trainer</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+
 </body>
 </html>
