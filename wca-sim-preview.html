@@ -766,7 +766,7 @@ function App() {
               <input
                 autoFocus
                 type="text"
-                placeholder="Your name"
+                placeholder=""
                 value={setupName}
                 onChange={e=>setSetupName(e.target.value)}
                 onKeyDown={e=>{ if(e.key==='Enter' && canStart) startSession(); }}
@@ -782,7 +782,7 @@ function App() {
               <div style={{fontSize:11,fontWeight:700,textTransform:'uppercase',letterSpacing:'0.1em',color:'#9a9aaa',marginBottom:7}}>Competition Name</div>
               <input
                 type="text"
-                placeholder="Competition name"
+                placeholder=""
                 value={meta.competition}
                 onChange={e=>setMeta(m=>({...m,competition:e.target.value}))}
                 style={{
