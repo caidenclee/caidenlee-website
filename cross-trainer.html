@@ -1705,10 +1705,22 @@ function openDetail(idx) {
     </div>
     <div style="font-size:11px;color:#6a6a7a;margin-bottom:18px;">${splitsText}</div>
     <div class="detail-section-label">Scramble</div>
-    <div class="detail-scramble">${s.scramble || '—'}</div>
+    <div class="detail-scramble" id="detailScrambleEl" title="Tap to copy" style="cursor:pointer;">${s.scramble || '—'}</div>
     `;
   el('detailNotes').value = s.notes || '';
   el('solveDetailOverlay').style.display = 'flex';
+
+  const scrambleEl = document.getElementById('detailScrambleEl');
+  if (scrambleEl && s.scramble) {
+    scrambleEl.addEventListener('click', () => {
+      navigator.clipboard.writeText(s.scramble).then(() => {
+        const orig = scrambleEl.textContent;
+        scrambleEl.textContent = 'Copied!';
+        scrambleEl.style.color = '#4ade80';
+        setTimeout(() => { scrambleEl.textContent = orig; scrambleEl.style.color = ''; }, 1500);
+      });
+    });
+  }
 }
 
 function closeDetail() {
