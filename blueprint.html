@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Blueprint</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      background: #0C0C0C;
+      color: #F0EDE7;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 24px;
+      overflow: hidden;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 760px;
+      padding-bottom: 80px;
+    }
+
+    .top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 20px;
+      margin-bottom: 48px;
+    }
+
+    .top-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 52px;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .top-sub {
+      font-size: 11px;
+      color: #4A90C4;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* pipeline */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .step-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #1A1A1A;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.35);
+      transition: color 0.2s;
+    }
+
+    .step.active .step-circle {
+      background: #4A90C4;
+      border-color: #4A90C4;
+      color: #fff;
+      box-shadow: 0 0 24px rgba(74,144,196,0.35);
+    }
+
+    .step.active .step-label { color: #4A90C4; }
+
+    .step:hover .step-circle { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.6); }
+    .step:hover .step-label { color: rgba(255,255,255,0.6); }
+    .step.active:hover .step-circle { border-color: #4A90C4; color: #fff; }
+    .step.active:hover .step-label { color: #4A90C4; }
+
+    .connector {
+      flex: 0 0 28px;
+      height: 1.5px;
+      background: rgba(255,255,255,0.1);
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .connector::after {
+      content: '';
+      position: absolute;
+      right: -3px;
+      top: 50%;
+      width: 5px;
+      height: 5px;
+      border-top: 1.5px solid rgba(255,255,255,0.15);
+      border-right: 1.5px solid rgba(255,255,255,0.15);
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    /* panels */
+    .panel {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+    }
+
+    .panel.open {
+      max-height: 700px;
+      opacity: 1;
+      margin-bottom: 40px;
+    }
+
+    .panel-inner {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #141414;
+      padding: 28px 32px;
+    }
+
+    .panel-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      color: #4A90C4;
+    }
+
+    /* ── IDEA: queue cards (unchanged) ── */
+    .idea-list { display: flex; flex-direction: column; gap: 2px; }
+
+    .idea-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      background: #1A1A1A;
+    }
+
+    .idea-item.first { border-left: 3px solid #4A90C4; }
+
+    .idea-n {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      color: rgba(255,255,255,0.2);
+      width: 20px;
+      flex-shrink: 0;
+    }
+
+    .idea-item.first .idea-n { color: #4A90C4; }
+
+    .idea-name { font-size: 14px; color: rgba(255,255,255,0.45); flex: 1; }
+    .idea-item.first .idea-name { color: #F0EDE7; }
+
+    .idea-badge { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.18); }
+    .idea-item.first .idea-badge { color: #4A90C4; }
+
+    /* ── FLOWCHART ── */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      position: relative;
+    }
+
+    .flow-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 44px;
+    }
+
+    .flow-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #1E1E1E;
+      border: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .flow-arrow {
+      width: 24px;
+      height: 32px;
+      margin: 2px auto 2px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flow-arrow::before {
+      content: '';
+      width: 2px;
+      height: 16px;
+      background: linear-gradient(to bottom, rgba(74,144,196,0.5), rgba(74,144,196,0.9));
+      border-radius: 2px;
+    }
+
+    .flow-arrow::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid #4A90C4;
+      margin-top: -1px;
+      filter: drop-shadow(0 2px 4px rgba(74,144,196,0.4));
+    }
+
+    .flow-step:last-child .flow-arrow { display: none; }
+
+    .flow-body {
+      padding: 10px 0 28px;
+      flex: 1;
+    }
+
+    .flow-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #F0EDE7;
+      margin-bottom: 3px;
+    }
+
+    .flow-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.5;
+    }
+
+    /* gate note */
+    .gate-note {
+      margin-top: 4px;
+      padding: 10px 14px;
+      border: 1px solid rgba(74,144,196,0.3);
+      background: rgba(74,144,196,0.06);
+      font-size: 11px;
+      color: rgba(74,144,196,0.9);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* footer */
+    .bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #0C0C0C;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bottom-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 3px;
+      color: #4A90C4;
+    }
+
+    .bottom-note {
+      font-size: 10px;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="top">
+    <div class="top-title">Video Blueprint</div>
+    <div class="top-sub">Tips & Tricks Series</div>
+  </div>
+
+  <!-- PIPELINE -->
+  <div class="pipeline">
+    <div class="step active" data-step="idea" onclick="toggleStep('idea')">
+      <div class="step-circle">1</div>
+      <div class="step-label">Idea</div>
+    </div>
+    <div class="connector"></div>
+    <div class="step" data-step="thumbnail" onclick="toggleStep('thumbnail')">
+      <div class="step-circle">2</div>
+      <div class="step-label">Thumbnail</div>
+    </div>
+    <div class="connector"></div>
+    <div class="step" data-step="film" onclick="toggleStep('film')">
+      <div class="step-circle">3</div>
+      <div class="step-label">Film</div>
+    </div>
+    <div class="connector"></div>
+    <div class="step" data-step="edit" onclick="toggleStep('edit')">
+      <div class="step-circle">4</div>
+      <div class="step-label">Edit</div>
+    </div>
+    <div class="connector"></div>
+    <div class="step" data-step="post" onclick="toggleStep('post')">
+      <div class="step-circle">5</div>
+      <div class="step-label">Post</div>
+    </div>
+  </div>
+
+  <!-- IDEA PANEL -->
+  <div class="panel open" id="panel-idea">
+    <div class="panel-inner">
+      <div class="panel-title">Video Queue</div>
+      <div class="idea-list">
+        <div class="idea-item first">
+          <div class="idea-n">1</div>
+          <div class="idea-name">5 Tips to Become Sub-10</div>
+          <div class="idea-badge">Up Next</div>
+        </div>
+        <div class="idea-item">
+          <div class="idea-n">2</div>
+          <div class="idea-name">3 Tips to Pseudo Slot Effectively</div>
+          <div class="idea-badge">Queued</div>
+        </div>
+        <div class="idea-item">
+          <div class="idea-n">3</div>
+          <div class="idea-name">3 Tips to Improve First Pair Prediction</div>
+          <div class="idea-badge">Queued</div>
+        </div>
+        <div class="idea-item">
+          <div class="idea-n">4</div>
+          <div class="idea-name">How to Learn Algorithms Fast</div>
+          <div class="idea-badge">Queued</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THUMBNAIL PANEL -->
+  <div class="panel" id="panel-thumbnail">
+    <div class="panel-inner">
+      <div class="panel-title">Thumbnail</div>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">🎨</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Keep it simple</div>
+            <div class="flow-desc">Plain background, bold text, nothing cluttered</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">👁</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Easy to read at a glance</div>
+            <div class="flow-desc">If it takes more than 2 seconds to read — redo it</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">🧩</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Style it like J-Perm's</div>
+            <div class="flow-desc">Reference his thumbnails — clean, minimal, effective</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">🚫</div>
+          </div>
+          <div class="flow-body">
+            <div class="gate-note">Bad thumbnail = don't film</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILM PANEL -->
+  <div class="panel" id="panel-film">
+    <div class="panel-inner">
+      <div class="panel-title">Filming</div>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">📋</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Review your outline</div>
+            <div class="flow-desc">Know exactly what you're covering before you hit record</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">⚡</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Jump straight in</div>
+            <div class="flow-desc">No hook — start with the content immediately</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">🎯</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Cover all key points</div>
+            <div class="flow-desc">3–8 minutes, tight and purposeful</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">📣</div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">End with coaching CTA</div>
+            <div class="flow-desc">Soft sell — link in description</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDIT PANEL -->
+  <div class="panel" id="panel-edit">
+    <div class="panel-inner">
+      <div class="panel-title">Editing</div>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">✂️</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Cut dead air & filler</div>
+            <div class="flow-desc">Every second should earn its place</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">💬</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Add on-screen text</div>
+            <div class="flow-desc">Key tips should appear as text on screen</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">🎬</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Add B-roll where needed</div>
+            <div class="flow-desc">Cube footage, hands, solves</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">🔊</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Check audio levels</div>
+            <div class="flow-desc">Consistent volume throughout</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">▶️</div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Full watch-through</div>
+            <div class="flow-desc">Watch it once before exporting</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST PANEL -->
+  <div class="panel" id="panel-post">
+    <div class="panel-inner">
+      <div class="panel-title">Post</div>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">⬆️</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Upload the final export</div>
+            <div class="flow-desc">YouTube Studio → upload</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">🖼</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Set the thumbnail</div>
+            <div class="flow-desc">The one you already approved</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">📝</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Write description</div>
+            <div class="flow-desc">Include coaching link — caidenlee.com/#coaching</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">🏷</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Add tags & chapters</div>
+            <div class="flow-desc">Help YouTube understand the content</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-left">
+            <div class="flow-icon">🚀</div>
+          </div>
+          <div class="flow-body">
+            <div class="flow-label">Publish or schedule</div>
+            <div class="flow-desc">Go live or set a date</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom">
+    <div class="bottom-brand">Caiden Lee</div>
+    <div class="bottom-note">2025 Production System</div>
+  </div>
+
+</div>
+
+<script>
+  function toggleStep(name) {
+    const clickedStep = document.querySelector(`.step[data-step="${name}"]`);
+    const isAlreadyActive = clickedStep.classList.contains('active');
+
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('open'));
+
+    if (!isAlreadyActive) {
+      clickedStep.classList.add('active');
+      document.getElementById(`panel-${name}`).classList.add('open');
+    }
+  }
+</script>
+</body>
+</html>
