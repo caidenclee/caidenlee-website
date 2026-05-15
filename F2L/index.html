@@ -111,6 +111,9 @@
     .pdot { width: 6px; height: 6px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.5); background: transparent; }
     .pdot.filled { background: #fff; border-color: #fff; }
 
+    .card-body { padding: 10px 12px 12px; }
+    .card-title { font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.4; }
+
     /* ── Empty state ── */
     .empty-state {
       grid-column: 1 / -1; text-align: center;
@@ -154,7 +157,7 @@
       },
       {
         id: '1TzHHPJ_2HY',
-        title: 'F2L Permutation to the Back',
+        title: 'How to Solve F2L Pairs in the Back',
         difficulty: 'intermediate',
         slug: 'f2l-back-permutation',
         tags: ['intermediate']
@@ -207,7 +210,9 @@
         <div class="thumb-wrap">
           <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" loading="lazy">
           <div class="diff-dot ${v.difficulty}"></div>
-          <div class="progress-dots">${dots}</div>
+        </div>
+        <div class="card-body">
+          <p class="card-title">${v.title}</p>
         </div>`;
       return card;
     }
