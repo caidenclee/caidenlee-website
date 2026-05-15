@@ -20,7 +20,8 @@
       background: rgba(10,10,15,0.92); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
-    .nav-logo { font-size: 15px; font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { height: 28px; width: auto; object-fit: contain; }
 
     .content { max-width: 760px; margin: 0 auto; padding: 36px 24px 80px; }
 
@@ -79,7 +80,7 @@
 <body>
 
   <nav>
-    <a class="nav-logo" href="/F2L/">Caiden Lee</a>
+    <a class="nav-logo" href="/F2L/"><img src="/Caiden Cube Logo black.png" alt=""><span style="font-size:16px;font-weight:700;color:#3a3a52">×</span><img src="/F2L.png" alt="F2L" style="height:28px;width:auto;object-fit:contain"></a>
   </nav>
 
   <div class="content">
