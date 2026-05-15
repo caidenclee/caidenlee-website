@@ -203,7 +203,7 @@
       const dots = STEPS.map(k => `<div class="pdot ${p[k] ? 'filled' : ''}"></div>`).join('');
       const card = document.createElement('a');
       card.className = 'video-card';
-      card.href = `/F2L/${v.slug}/`;
+      card.href = `/f2l/${v.slug}/`;
       card.dataset.tags = v.tags.join(' ');
       card.dataset.title = v.title.toLowerCase();
       card.innerHTML = `
