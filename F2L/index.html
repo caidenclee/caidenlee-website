@@ -3,343 +3,255 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>F2L Video Library — Caiden Lee</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Caiden's F2L Library</title>
+  <link rel="icon" type="image/png" href="/Caiden Cube Logo black.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg:        #0a0a0f;
-      --surface:   #111118;
-      --border:    rgba(255,255,255,0.07);
-      --text:      #e8e8f0;
-      --muted:     #5a5a6a;
-      --accent:    #7c3aed;
-      --beginner:  #22c55e;
-      --intermediate: #eab308;
-      --advanced:  #3b82f6;
+      --bg: #16161a; --bg2: #1e1e24; --bg3: #26262e;
+      --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #8a8a9a;
+      --accent: #7c6ff7;
+      --beginner: #22c55e; --intermediate: #eab308; --advanced: #ef4444;
     }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; -webkit-font-smoothing: antialiased; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
+    /* ── Hero ── */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -80px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(124,111,247,0.09) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+      animation: fadeIn 1s ease both;
     }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* ── Header ── */
-    .page-header {
-      padding: 56px 24px 0;
-      max-width: 900px;
-      margin: 0 auto;
+    .hero {
+      padding: 3rem 2.5rem 2rem; text-align: center;
+      position: relative; z-index: 1;
+      animation: fadeUp 0.7s ease both;
     }
+    .hero-lockup { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 14px; }
+    .hero-logo { width: 56px; height: 56px; object-fit: contain; }
+    .hero-f2l-img { width: 56px; height: 56px; object-fit: contain; }
+    .hero-x { font-size: 22px; font-weight: 700; color: #3a3a52; }
+    .hero-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.04em; color: var(--text); line-height: 1.1; }
 
-    .eyebrow {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    .page-title {
-      font-size: 32px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-
-    .page-subtitle {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 36px;
-    }
-
-    /* ── Tabs ── */
-    .tabs {
-      display: flex;
-      gap: 0;
+    /* ── Filter bar ── */
+    .filter-bar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(22,22,26,0.97); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      margin-bottom: 32px;
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;
     }
 
-    .tab-btn {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 12px 20px 11px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--muted);
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      cursor: pointer;
-      transition: color 0.15s;
-      margin-bottom: -1px;
+
+    .pills { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .pill {
+      padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border);
+      background: var(--bg2); color: var(--muted);
+      font-size: 12px; font-weight: 600; font-family: 'Inter', sans-serif;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
     }
-
-    .tab-btn:hover { color: var(--text); }
-
-    .tab-btn.active {
-      color: var(--text);
-      border-bottom-color: var(--accent);
-    }
-
-    .tab-badge {
-      font-size: 10px;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.06);
-      color: var(--muted);
-    }
-
-    .tab-btn.active .tab-badge {
-      background: rgba(124,58,237,0.2);
-      color: #a78bfa;
-    }
-
-    /* ── Tab panels ── */
-    .tab-panel { display: none; animation: fadeIn 0.2s ease; }
-    .tab-panel.active { display: block; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 64px 24px;
-      color: var(--muted);
-      font-size: 14px;
+    .pill:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+    .pill.active {
+      background: var(--accent); border-color: var(--accent);
+      color: #fff;
     }
 
     /* ── Grid ── */
+    .grid-wrap { padding: 28px 24px 60px; max-width: 1100px; margin: 0 auto; animation: fadeUp 0.7s ease 0.4s both; }
+
     .video-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
     }
+
+    @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
 
     /* ── Card ── */
     .video-card {
-      display: block;
-      text-decoration: none;
-      color: inherit;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      transition: border-color 0.15s, transform 0.12s;
+      display: block; text-decoration: none; color: inherit;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      transition: border-color 0.2s, transform 0.15s;
     }
-
-    .video-card:hover {
-      border-color: rgba(124,58,237,0.4);
-      transform: translateY(-2px);
-    }
-
+    .video-card:hover { border-color: rgba(124,111,247,0.4); transform: translateY(-2px); }
     .video-card:active { transform: translateY(0); }
+    .video-card.hidden { display: none; }
 
     .thumb-wrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: #1a1a24;
-      overflow: hidden;
+      position: relative; width: 100%; aspect-ratio: 16/9;
+      background: var(--bg3); overflow: hidden;
     }
-
     .thumb-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      opacity: 0.85; transition: opacity 0.2s;
     }
+    .video-card:hover .thumb-wrap img { opacity: 1; }
 
-    .duration-badge {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      background: rgba(0,0,0,0.75);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 4px;
-      backdrop-filter: blur(4px);
+    .diff-dot {
+      position: absolute; bottom: 8px; right: 8px;
+      width: 8px; height: 8px; border-radius: 50%;
+      border: 1.5px solid rgba(0,0,0,0.3);
     }
+    .diff-dot.beginner { background: var(--beginner); }
+    .diff-dot.intermediate { background: var(--intermediate); }
+    .diff-dot.advanced { background: var(--advanced); }
+    .diff-dot.all { background: var(--accent); }
 
-    .progress-dots {
-      position: absolute;
-      bottom: 8px;
-      left: 8px;
-      display: flex;
-      gap: 4px;
-    }
+    .progress-dots { position: absolute; bottom: 7px; left: 7px; display: flex; gap: 4px; }
+    .pdot { width: 6px; height: 6px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.5); background: transparent; }
+    .pdot.filled { background: #fff; border-color: #fff; }
 
-    .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,0.5);
-      background: transparent;
-      transition: background 0.2s;
-    }
-
-    .dot.filled { background: #fff; border-color: #fff; }
-
-    .card-body { padding: 13px 14px 14px; }
-
-    .difficulty-pill {
-      display: inline-block;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 20px;
-      margin-bottom: 7px;
-    }
-
-    .pill-beginner     { background: rgba(34,197,94,0.12);  color: #22c55e; }
-    .pill-intermediate { background: rgba(234,179,8,0.12);  color: #eab308; }
-    .pill-advanced     { background: rgba(59,130,246,0.12); color: #3b82f6; }
-
-    .card-title {
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1.45;
-      color: var(--text);
-    }
-
-    /* ── Content wrapper ── */
-    .content {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
+    /* ── Empty state ── */
+    .empty-state {
+      grid-column: 1 / -1; text-align: center;
+      padding: 60px 24px; color: var(--muted);
+      font-size: 14px; font-weight: 500;
     }
   </style>
 </head>
 <body>
 
-  <div class="page-header">
-    <p class="eyebrow">Resources</p>
-    <h1 class="page-title">F2L Video Library</h1>
-    <p class="page-subtitle">Step-by-step video breakdowns for every F2L case category.</p>
+  <div class="hero">
+    <div class="hero-lockup">
+      <img class="hero-logo" src="/Caiden Cube Logo black.png" alt="Caiden Lee">
+      <span class="hero-x">×</span>
+      <img class="hero-f2l-img" src="/F2L.png" alt="F2L">
+    </div>
+    <h1 class="hero-title">Caiden's F2L Library</h1>
   </div>
 
-  <div class="content">
-    <div class="tabs" id="tabs"></div>
-    <div id="panels"></div>
+  <div class="filter-bar">
+<div class="pills" id="pills">
+      <button class="pill active" data-filter="all">All</button>
+      <button class="pill" data-filter="beginner">Beginner</button>
+      <button class="pill" data-filter="intermediate">Intermediate</button>
+      <button class="pill" data-filter="advanced">Advanced</button>
+    </div>
+  </div>
+
+  <div class="grid-wrap">
+    <div class="video-grid" id="grid"></div>
   </div>
 
   <script>
     const videos = [
       {
+        id: '3tYj-9f4dA0',
+        title: 'All 41 F2L Cases',
+        difficulty: 'all',
+        slug: 'all-41-cases',
+        tags: ['all', 'beginner', 'intermediate', 'advanced']
+      },
+      {
+        id: '1TzHHPJ_2HY',
+        title: 'F2L Permutation to the Back',
+        difficulty: 'intermediate',
+        slug: 'f2l-back-permutation',
+        tags: ['intermediate']
+      },
+      {
         id: 'bJiPHMW8mmw',
         title: '5 Beginner F2L Cases (Both Pieces In Top)',
-        duration: '0:00',
         difficulty: 'beginner',
-        slug: 'beginner-both-pieces-top'
+        slug: 'beginner-both-pieces-top',
+        tags: ['beginner', 'connected']
       },
       {
         id: 'FnnEW2jaZyQ',
         title: '5 Intermediate F2L Cases (Pieces in the Top Touching)',
-        duration: '0:00',
         difficulty: 'intermediate',
-        slug: 'intermediate-top-touching'
+        slug: 'intermediate-top-touching',
+        tags: ['intermediate', 'connected']
       },
       {
         id: 'SHtI0C5LHkY',
         title: '4 Intermediate F2L Cases (Edge In Slot)',
-        duration: '0:00',
         difficulty: 'intermediate',
-        slug: 'intermediate-edge-in-slot'
+        slug: 'intermediate-edge-in-slot',
+        tags: ['intermediate', 'edge']
       },
       {
         id: 'j6QQfTSCgb8',
         title: '3 Intermediate F2L Cases (Corner In Slot)',
-        duration: '0:00',
         difficulty: 'intermediate',
-        slug: 'intermediate-corner-in-slot'
+        slug: 'intermediate-corner-in-slot',
+        tags: ['intermediate', 'corner']
       }
     ];
 
-    const DIFFICULTIES = ['beginner', 'intermediate', 'advanced'];
-    const LABELS = { beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' };
+    const STEPS = ['watched', 'practiced', 'mastered'];
 
     function getProgress(slug) {
-      try {
-        return JSON.parse(localStorage.getItem('f2l-progress-' + slug)) || {};
-      } catch { return {}; }
-    }
-
-    function countProgress(p) {
-      return ['watched','practiced','mastered'].filter(k => p[k]).length;
+      try { return JSON.parse(localStorage.getItem('f2l-progress-' + slug)) || {}; } catch { return {}; }
     }
 
     function buildCard(v) {
       const p = getProgress(v.slug);
-      const steps = ['watched','practiced','mastered'];
-      const dots = steps.map(k =>
-        `<div class="dot ${p[k] ? 'filled' : ''}"></div>`
-      ).join('');
-
-      return `
-        <a class="video-card" href="/F2L/${v.slug}/">
-          <div class="thumb-wrap">
-            <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy">
-            <span class="duration-badge">${v.duration}</span>
-            <div class="progress-dots">${dots}</div>
-          </div>
-          <div class="card-body">
-            <span class="difficulty-pill pill-${v.difficulty}">${LABELS[v.difficulty]}</span>
-            <p class="card-title">${v.title}</p>
-          </div>
-        </a>`;
+      const dots = STEPS.map(k => `<div class="pdot ${p[k] ? 'filled' : ''}"></div>`).join('');
+      const card = document.createElement('a');
+      card.className = 'video-card';
+      card.href = `/F2L/${v.slug}/`;
+      card.dataset.tags = v.tags.join(' ');
+      card.dataset.title = v.title.toLowerCase();
+      card.innerHTML = `
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" loading="lazy">
+          <div class="diff-dot ${v.difficulty}"></div>
+          <div class="progress-dots">${dots}</div>
+        </div>`;
+      return card;
     }
 
-    function render() {
-      const tabsEl = document.getElementById('tabs');
-      const panelsEl = document.getElementById('panels');
+    // Build grid
+    const grid = document.getElementById('grid');
+    videos.forEach(v => grid.appendChild(buildCard(v)));
 
-      DIFFICULTIES.forEach((diff, i) => {
-        const group = videos.filter(v => v.difficulty === diff);
-        const count = group.length;
+    let activeFilter = 'all';
 
-        // Tab button
-        const btn = document.createElement('button');
-        btn.className = 'tab-btn' + (i === 0 ? ' active' : '');
-        btn.dataset.tab = diff;
-        btn.innerHTML = `${LABELS[diff]} <span class="tab-badge">${count}</span>`;
-        btn.addEventListener('click', () => switchTab(diff));
-        tabsEl.appendChild(btn);
-
-        // Panel
-        const panel = document.createElement('div');
-        panel.className = 'tab-panel' + (i === 0 ? ' active' : '');
-        panel.id = 'panel-' + diff;
-
-        if (count === 0) {
-          panel.innerHTML = `<div class="empty-state">No ${LABELS[diff].toLowerCase()} videos yet.</div>`;
-        } else {
-          panel.innerHTML = `<div class="video-grid">${group.map(buildCard).join('')}</div>`;
-        }
-        panelsEl.appendChild(panel);
+    function applyFilters() {
+      const cards = grid.querySelectorAll('.video-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const matchesFilter = activeFilter === 'all' || card.dataset.tags.includes(activeFilter);
+        const show = matchesFilter;
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
       });
+
+      // Empty state
+      let empty = grid.querySelector('.empty-state');
+      if (visible === 0) {
+        if (!empty) {
+          empty = document.createElement('div');
+          empty.className = 'empty-state';
+          grid.appendChild(empty);
+        }
+        empty.textContent = 'No cases found.';
+      } else if (empty) {
+        empty.remove();
+      }
     }
 
-    function switchTab(diff) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === diff));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + diff));
-    }
+    // Pills
+    document.getElementById('pills').addEventListener('click', e => {
+      const pill = e.target.closest('.pill');
+      if (!pill) return;
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeFilter = pill.dataset.filter;
+      applyFilters();
+    });
 
-    render();
   </script>
 </body>
 </html>

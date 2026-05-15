@@ -34,8 +34,9 @@
     .breadcrumb span { margin: 0 6px; }
 
     /* Embed */
-    .embed-wrap { width: 100%; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; background: #0d0d14; margin-bottom: 20px; }
+    .embed-wrap { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; background: #0d0d14; margin-bottom: 20px; }
     .embed-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+    .video-overlay { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: transparent; }
 
     /* Video meta */
     .video-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
@@ -94,15 +95,15 @@
 <body>
 
   <nav>
-    <a class="nav-logo" href="/">Caiden Lee</a>
-    <a class="back-link" href="/F2L/">← F2L Library</a>
+    <a class="nav-logo" href="/F2L/">Caiden Lee</a>
   </nav>
 
   <div class="content">
     <p class="breadcrumb"><a href="/F2L/">F2L Library</a><span>›</span> Intermediate</p>
 
     <div class="embed-wrap">
-      <iframe src="https://www.youtube.com/embed/FnnEW2jaZyQ?rel=0&modestbranding=1" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/FnnEW2jaZyQ?rel=0&modestbranding=1&autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      <div class="video-overlay" id="video-overlay"></div>
     </div>
 
     <div class="video-meta">
@@ -113,7 +114,6 @@
     <div class="checklist-card">
       <div class="checklist-header">
         <h2>Your Progress</h2>
-        <p>Track where you are with this video</p>
       </div>
 
       <div class="checklist-step" data-key="watched">
@@ -122,7 +122,6 @@
         </div>
         <div class="step-info">
           <p class="step-label">Watched</p>
-          <p class="step-desc">You've watched the full video</p>
         </div>
         <span class="step-badge">Step 1</span>
       </div>
@@ -133,7 +132,6 @@
         </div>
         <div class="step-info">
           <p class="step-label">Practiced</p>
-          <p class="step-desc">You've drilled these cases</p>
         </div>
         <span class="step-badge">Step 2</span>
       </div>
@@ -144,7 +142,6 @@
         </div>
         <div class="step-info">
           <p class="step-label">Mastered</p>
-          <p class="step-desc">You can execute these cases in solves</p>
         </div>
         <span class="step-badge">Step 3</span>
       </div>
@@ -156,6 +153,12 @@
     </div>
   </div>
 
+  <script>
+    const wrap = document.querySelector('.embed-wrap');
+    const overlay = document.getElementById('video-overlay');
+    wrap.addEventListener('mouseenter', () => { overlay.style.pointerEvents = 'none'; });
+    wrap.addEventListener('mouseleave', () => { overlay.style.pointerEvents = 'auto'; });
+  </script>
   <script>
     const SLUG = 'intermediate-top-touching';
     const KEY = 'f2l-progress-' + SLUG;
