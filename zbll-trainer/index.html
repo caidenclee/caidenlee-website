@@ -554,15 +554,30 @@
 	window._startPromptYes = function() {
 		var angleOn = localStorage.getItem('zbllAngleTraining') === 'on';
 		if (angleOn) {
+			var cases = window._zbllSelCases || [];
+			var firstCase = cases[0] || {};
+			var oll = firstCase.oll || '';
+			var coll = firstCase.coll || '';
+			var imgSrc = 'caseImage/ZBLL/level1/' + oll + '.svg';
+
 			document.getElementById('startSessionPromptTitle').textContent = 'Choose an angle';
-			document.getElementById('startSessionPromptDesc').textContent = 'Pick the AUF angle to train, or choose Random for any.';
+			document.getElementById('startSessionPromptDesc').textContent = 'Pick which orientation to practice from.';
 			var btns = document.getElementById('startSessionPromptBtns');
-			btns.style.flexWrap = 'wrap';
+			btns.style.flexWrap = '';
 			btns.innerHTML =
-				'<button class="angle-btn" onclick="window._pickAngle(\'any\')">Random</button>' +
-				'<button class="angle-btn" onclick="window._pickAngle(\'1\')">U</button>' +
-				'<button class="angle-btn" onclick="window._pickAngle(\'2\')">U2</button>' +
-				'<button class="angle-btn" onclick="window._pickAngle(\'3\')">U\'</button>';
+				'<div class="angle-img-grid">' +
+				[
+					{ label: 'Base', angle: 0, deg: 0 },
+					{ label: 'U', angle: 1, deg: 90 },
+					{ label: 'U2', angle: 2, deg: 180 },
+					{ label: "U'", angle: 3, deg: 270 }
+				].map(function(a) {
+					return '<div class="angle-img-btn" onclick="window._pickAngle(\'' + a.angle + '\')">' +
+						'<img src="' + imgSrc + '" style="transform:rotate(' + a.deg + 'deg);" alt="' + a.label + '">' +
+						'<span>' + a.label + '</span>' +
+					'</div>';
+				}).join('') +
+				'</div>';
 		} else {
 			localStorage.removeItem('zbllAngle');
 			document.getElementById('startSessionPrompt').style.display = 'none';

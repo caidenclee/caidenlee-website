@@ -262,9 +262,7 @@ var zbllScrambler = (function(getNPerm, setNPerm, getNParity, setNOri, getNOri, 
 				var cc2 = new mathlib.CubieCube();
 				cc2.init(cc.ca, cc.ea);
 				var cd = new mathlib.CubieCube();
-				var rndpre = (fixedAngle != null && fixedAngle >= 0 && fixedAngle <= 3)
-					? aufsuff[fixedAngle]
-					: rndEl(aufsuff);
+				var rndpre = (fixedAngle != null) ? aufsuff[0] : rndEl(aufsuff);
 				var rndapp = (fixedAngle != null) ? aufsuff[0] : rndEl(aufsuff);
 				for (var i = 0; i < rndpre.length; i++) {
 					mathlib.CubieCube.CubeMult(mathlib.CubieCube.moveCube[rndpre[i]], cc2, cd);

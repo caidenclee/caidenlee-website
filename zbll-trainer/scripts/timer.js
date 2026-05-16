@@ -8,6 +8,7 @@ import { preloadImage, scrambleToVcUrl } from "./vccache.js";
 window.scrambleToVcUrl = scrambleToVcUrl;
 import { processVirtInput, virtEnabled, virtualCube, virtMoves, setVirtMoves } from "./virtualcube.js";
 import { selCases, recaps, recapTotal, currentMode } from "./practice.js"
+Object.defineProperty(window, '_zbllSelCases', { get: () => selCases, configurable: true });
 
 let scramble = ""
 var scrambleHistory = [];
@@ -186,10 +187,24 @@ function generateScramble()
     var finalAlg = null;
     if (typeof zbllScrambler !== 'undefined') {
         var shuffled = zbllCase.algs.slice().sort(function() { return Math.random() - 0.5; });
+        var angleStr = localStorage.getItem('zbllAngle');
+        var fixedAngle = (angleStr !== null && angleStr !== 'any') ? parseInt(angleStr) : null;
+        var uStr = ['', 'U', 'U2', "U'"];
+        var uVal = {'U': 1, 'U2': 2, "U'": 3};
         for (var i = 0; i < shuffled.length && !finalAlg; i++) {
-            var angleStr = localStorage.getItem('zbllAngle');
-            var fixedAngle = (angleStr !== null && angleStr !== 'any') ? parseInt(angleStr) : null;
             finalAlg = zbllScrambler.scrambleFromAlg(shuffled[i], fixedAngle);
+            if (finalAlg && fixedAngle !== null && fixedAngle > 0) {
+                var tokens = finalAlg.split(' ');
+                var last = tokens[tokens.length - 1];
+                if (uVal.hasOwnProperty(last)) {
+                    var combined = (uVal[last] + fixedAngle) % 4;
+                    if (combined === 0) { tokens.pop(); }
+                    else { tokens[tokens.length - 1] = uStr[combined]; }
+                } else {
+                    tokens.push(uStr[fixedAngle]);
+                }
+                finalAlg = tokens.join(' ');
+            }
         }
     }
 
