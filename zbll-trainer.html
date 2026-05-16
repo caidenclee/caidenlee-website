@@ -133,6 +133,18 @@
       </div>
     </div>
 
+    <!-- Angle Training -->
+    <div>
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:0.5rem;">Angle Training</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button id="btnAngleAny" onclick="setAngle('any')" class="setting-pill active-pill">Any</button>
+        <button id="btnAngle0" onclick="setAngle('0')" class="setting-pill">U0</button>
+        <button id="btnAngle1" onclick="setAngle('1')" class="setting-pill">U</button>
+        <button id="btnAngle2" onclick="setAngle('2')" class="setting-pill">U2</button>
+        <button id="btnAngle3" onclick="setAngle('3')" class="setting-pill">U'</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -156,6 +168,20 @@
     syncPictureViewButtons();
     syncSessionDataButtons();
     syncDrawScrambleButtons();
+    syncAngleButtons();
+  }
+
+  function setAngle(val) {
+    localStorage.setItem('zbllAngle', val);
+    syncAngleButtons();
+  }
+
+  function syncAngleButtons() {
+    var val = localStorage.getItem('zbllAngle') || 'any';
+    ['any','0','1','2','3'].forEach(function(v) {
+      var id = v === 'any' ? 'btnAngleAny' : 'btnAngle' + v;
+      document.getElementById(id).classList.toggle('active-pill', val === v);
+    });
   }
 
   function setSessionData(enabled) {

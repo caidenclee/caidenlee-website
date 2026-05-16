@@ -237,7 +237,8 @@ var zbllScrambler = (function(getNPerm, setNPerm, getNParity, setNOri, getNOri, 
 	// correctly handles y/x/z rotation moves in the alg (which only update
 	// this.ori without moving pieces; naive reverse+invert misplaces those
 	// rotations and produces the wrong case).
-	function scrambleFromAlg(algStr) {
+	// fixedAngle: 0=U0, 1=U, 2=U2, 3=U', null=random
+	function scrambleFromAlg(algStr, fixedAngle) {
 		if (!initialized) return null;
 		// Strip AUF bracket e.g. "[U'] R U..." → "R U..."
 		var clean = algStr.replace(/\[[^\]]*\]/g, '').replace(/\([^)]*\)/g, '').trim();
@@ -252,7 +253,7 @@ var zbllScrambler = (function(getNPerm, setNPerm, getNParity, setNOri, getNOri, 
 			var cc = new mathlib.CubieCube();
 			cc.invFrom(cc_fwd);
 
-			// Apply random AUF (pre and post) directly on the CubieCube,
+			// Apply fixed or random AUF (pre and post) directly on the CubieCube,
 			// then pass the facelet string to the solver.
 			var solution = '';
 			var attempts = 0;
@@ -261,7 +262,10 @@ var zbllScrambler = (function(getNPerm, setNPerm, getNParity, setNOri, getNOri, 
 				var cc2 = new mathlib.CubieCube();
 				cc2.init(cc.ca, cc.ea);
 				var cd = new mathlib.CubieCube();
-				var rndpre = rndEl(aufsuff), rndapp = rndEl(aufsuff);
+				var rndpre = (fixedAngle != null && fixedAngle >= 0 && fixedAngle <= 3)
+					? aufsuff[fixedAngle]
+					: rndEl(aufsuff);
+				var rndapp = rndEl(aufsuff);
 				for (var i = 0; i < rndpre.length; i++) {
 					mathlib.CubieCube.CubeMult(mathlib.CubieCube.moveCube[rndpre[i]], cc2, cd);
 					cc2.init(cd.ca, cd.ea);

@@ -187,7 +187,9 @@ function generateScramble()
     if (typeof zbllScrambler !== 'undefined') {
         var shuffled = zbllCase.algs.slice().sort(function() { return Math.random() - 0.5; });
         for (var i = 0; i < shuffled.length && !finalAlg; i++) {
-            finalAlg = zbllScrambler.scrambleFromAlg(shuffled[i]);
+            var angleStr = localStorage.getItem('zbllAngle');
+            var fixedAngle = (angleStr !== null && angleStr !== 'any') ? parseInt(angleStr) : null;
+            finalAlg = zbllScrambler.scrambleFromAlg(shuffled[i], fixedAngle);
         }
     }
 
