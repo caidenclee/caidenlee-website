@@ -1601,6 +1601,23 @@ twisty-stream-source { display: none !important; }
   border-color: rgba(124,111,247,0.4) !important;
   color: #fff !important;
 }
+.angle-btn {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 10px 16px !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  background: #26262e !important;
+  color: #aaa !important;
+  cursor: pointer !important;
+  transition: all 0.2s !important;
+}
+.angle-btn:hover {
+  background: rgba(124,111,247,0.15) !important;
+  border-color: rgba(124,111,247,0.4) !important;
+  color: #fff !important;
+}
 
 /* ── Mobile ──────────────────────────────────────────────────── */
 @media (max-width: 768px) {

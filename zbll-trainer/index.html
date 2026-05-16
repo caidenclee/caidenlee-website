@@ -528,6 +528,16 @@
 		if (el) el.style.display = 'flex';
 	};
 
+	function resetStartSessionPrompt() {
+		document.getElementById('startSessionPromptTitle').textContent = 'Start a session?';
+		document.getElementById('startSessionPromptDesc').textContent = 'Track your solves and get a full summary when you\'re done.';
+		var btns = document.getElementById('startSessionPromptBtns');
+		btns.style.flexWrap = '';
+		btns.innerHTML =
+			'<button id="startSessionPromptYes" onclick="window._startPromptYes()">Yes, start session</button>' +
+			'<button id="startSessionPromptNo" onclick="window._startPromptNo()">No, I\'ll start manually</button>';
+	}
+
 	function showStartSessionPrompt() {
 		var sessionDataOn = (localStorage.getItem('zbllSessionData') || 'on') === 'on';
 		if (!sessionDataOn) {
@@ -535,12 +545,32 @@
 			if (btn) btn.style.display = 'inline-flex';
 			return;
 		}
+		resetStartSessionPrompt();
 		const el = document.getElementById('startSessionPrompt');
 		if (el) { el.style.display = 'flex'; }
 	}
 	window.showStartSessionPrompt = showStartSessionPrompt;
 
 	window._startPromptYes = function() {
+		var angleOn = localStorage.getItem('zbllAngleTraining') === 'on';
+		if (angleOn) {
+			document.getElementById('startSessionPromptTitle').textContent = 'Choose an angle';
+			document.getElementById('startSessionPromptDesc').textContent = 'Pick the AUF angle to train, or choose Random for any.';
+			var btns = document.getElementById('startSessionPromptBtns');
+			btns.style.flexWrap = 'wrap';
+			btns.innerHTML =
+				'<button class="angle-btn" onclick="window._pickAngle(\'any\')">Random</button>' +
+				'<button class="angle-btn" onclick="window._pickAngle(\'1\')">U</button>' +
+				'<button class="angle-btn" onclick="window._pickAngle(\'2\')">U2</button>' +
+				'<button class="angle-btn" onclick="window._pickAngle(\'3\')">U\'</button>';
+		} else {
+			localStorage.removeItem('zbllAngle');
+			document.getElementById('startSessionPrompt').style.display = 'none';
+			window.startSession();
+		}
+	};
+	window._pickAngle = function(val) {
+		localStorage.setItem('zbllAngle', val);
 		document.getElementById('startSessionPrompt').style.display = 'none';
 		window.startSession();
 	};
