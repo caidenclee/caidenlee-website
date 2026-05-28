@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2-Sided ZBLL Recognition Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e0f13;
+    --card:#181a20;
+    --cube-bg:#0a0b0e;        /* must match CUBE_BG in the script below */
+    --text:#e7e9ee;
+    --muted:#767c88;
+    --border:#262932;
+    --accent:#6ee7a8;
+    --accent-dim:#39a877;
+    --radius:14px;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--mono);
+    display:flex;align-items:center;justify-content:center;
+    min-height:100vh;padding:28px 20px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* top progress bar */
+  #progress{
+    position:fixed;top:0;left:0;height:3px;width:0%;
+    background:var(--accent);
+    box-shadow:0 0 12px var(--accent-dim);
+    transition:width .18s ease;z-index:10;
+  }
+  .wrap{width:100%;max-width:440px;display:flex;flex-direction:column;align-items:center;gap:26px}
+
+  /* ---- setup ---- */
+  #setup{display:flex;flex-direction:column;align-items:center;gap:24px;width:100%;text-align:center}
+  .title{font-size:30px;font-weight:700;letter-spacing:1px}
+  .title .dot{color:var(--accent)}
+  .subtitle{color:var(--muted);font-size:13px;letter-spacing:.4px}
+  .field{width:100%;display:flex;flex-direction:column;gap:8px;text-align:left}
+  .field label{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted)}
+  select{
+    width:100%;appearance:none;
+    background:var(--card);color:var(--text);
+    border:1px solid var(--border);border-radius:10px;
+    padding:14px 16px;font-family:var(--mono);font-size:15px;
+    cursor:pointer;outline:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23767c88' stroke-width='2.5'><path d='M6 9l6 6 6-6'/></svg>");
+    background-repeat:no-repeat;background-position:right 16px center;
+  }
+  select:focus{border-color:var(--accent-dim)}
+  button{
+    font-family:var(--mono);cursor:pointer;
+    border:1px solid var(--border);border-radius:10px;
+    background:var(--card);color:var(--text);
+    transition:border-color .15s ease, background .15s ease, transform .05s ease;
+  }
+  button:active{transform:translateY(1px)}
+  .btn-primary{
+    width:100%;padding:15px;font-size:15px;font-weight:700;letter-spacing:.5px;
+    background:var(--accent);color:#08130d;border-color:var(--accent);
+  }
+  .btn-primary:hover{background:#84f0ba;border-color:#84f0ba}
+  .hint{color:var(--muted);font-size:12px;letter-spacing:.3px}
+  .hint kbd{
+    background:var(--card);border:1px solid var(--border);border-radius:5px;
+    padding:1px 7px;font-family:var(--mono);font-size:11px;color:var(--text);
+  }
+  /* angle picker: 4x1 row of clickable preview tiles */
+  .angle-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:100%}
+  .angle-tile{
+    display:flex;flex-direction:column;align-items:center;
+    padding:8px;border-radius:10px;
+    background:var(--card);border:1px solid var(--border);
+    cursor:pointer;transition:border-color .15s ease;
+  }
+  .angle-tile img{width:100%;height:auto;display:block;border-radius:6px;background:var(--cube-bg)}
+  .angle-tile span{font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--muted)}
+  .angle-tile:hover{border-color:var(--accent-dim)}
+  .angle-tile.selected{border-color:var(--accent)}
+  .angle-tile.selected span{color:var(--accent)}
+
+  /* set picker: text tiles (T/U/Pi/...), greyed when no algs yet */
+  .set-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;width:100%}
+  .set-tile{
+    display:flex;align-items:center;justify-content:center;
+    padding:14px 4px;border-radius:10px;
+    background:var(--card);border:1px solid var(--border);
+    color:var(--muted);font-family:var(--mono);
+    font-size:13px;font-weight:700;letter-spacing:1px;
+    cursor:pointer;transition:border-color .15s ease,color .15s ease;
+  }
+  .set-tile:hover:not(:disabled){border-color:var(--accent-dim);color:var(--text)}
+  .set-tile.selected{border-color:var(--accent);color:var(--accent)}
+  .set-tile:disabled{opacity:.32;cursor:not-allowed}
+  .set-tile:disabled:hover{border-color:var(--border)}
+
+  /* subset picker: 1..6 (multi-select) + Custom (mutually-exclusive w/ 1..6) */
+  .subset-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;width:100%}
+  .subset-tile{
+    display:flex;align-items:center;justify-content:center;
+    padding:14px 4px;border-radius:10px;
+    background:var(--card);border:1px solid var(--border);
+    color:var(--muted);font-family:var(--mono);
+    font-size:13px;font-weight:700;letter-spacing:1px;
+    cursor:pointer;transition:border-color .15s ease,color .15s ease;
+  }
+  .subset-tile:hover:not(:disabled){border-color:var(--accent-dim);color:var(--text)}
+  .subset-tile.selected{border-color:var(--accent);color:var(--accent)}
+  .subset-tile:disabled{opacity:.32;cursor:not-allowed}
+  .subset-tile:disabled:hover{border-color:var(--border)}
+  /* Custom textbox: hidden until Custom subset-tile is active */
+  #customWrap{display:none;margin-top:10px}
+  #customWrap.show{display:block}
+
+  /* ---- training ---- */
+  #training{display:none;flex-direction:column;align-items:center;gap:22px;width:100%}
+  .topbar{width:100%;display:flex;align-items:center;justify-content:space-between}
+  .counter{font-size:22px;font-weight:700;letter-spacing:1px}
+  .counter .sep{color:var(--muted);font-weight:400}
+  .counter .total{color:var(--muted);font-weight:400}
+  .angle-tag{
+    font-size:11px;color:var(--accent);border:1px solid var(--accent-dim);
+    border-radius:999px;padding:4px 11px;letter-spacing:.5px;
+  }
+  .icon-btn{padding:6px 10px;font-size:12px;color:var(--muted)}
+  .icon-btn:hover{border-color:var(--accent-dim);color:var(--text)}
+
+  .cube-panel{
+    background:var(--cube-bg);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:20px;
+    display:flex;align-items:center;justify-content:center;
+    width:100%;min-height:300px;cursor:pointer;
+    position:relative;
+  }
+  #cube{width:min(280px,68vw);height:auto;display:block}
+  #cube.fade{animation:fade .22s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .cube-err{color:#ff7b72;font-size:13px;text-align:center;line-height:1.6}
+
+  .reveal-row{width:100%;display:flex;flex-direction:column;align-items:center;gap:12px}
+  .reveal-btn{padding:10px 18px;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+  .reveal-btn:hover{border-color:var(--accent-dim);color:var(--text)}
+  .nav-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center}
+  .nav-btn{padding:8px 16px;font-size:12px;letter-spacing:.5px;color:var(--muted)}
+  .nav-btn:hover{border-color:var(--accent-dim);color:var(--text)}
+  .nav-btn:disabled{opacity:.3;cursor:default}
+  .nav-btn:disabled:hover{border-color:var(--border);color:var(--muted)}
+  #algText{
+    display:none;width:100%;text-align:center;
+    background:var(--card);border:1px solid var(--border);border-radius:10px;
+    padding:16px 14px;font-size:15px;line-height:1.7;
+    color:var(--accent);word-break:break-word;
+  }
+  #algText.show{display:block;animation:fade .2s ease}
+
+  /* ---- done ---- */
+  #done{display:none;flex-direction:column;align-items:center;gap:22px;width:100%;text-align:center}
+  .done-check{font-size:46px;color:var(--accent)}
+  .done-count{font-size:26px;font-weight:700;letter-spacing:1px}
+  .done-label{color:var(--muted);font-size:13px;letter-spacing:.5px}
+
+  /* ---- review subset ---- */
+  .review-box{
+    width:100%;background:var(--card);border:1px solid var(--border);
+    border-radius:10px;padding:10px 12px;color:var(--text);
+    font-family:var(--mono);font-size:13px;resize:vertical;min-height:42px;
+  }
+  .review-box:focus{outline:none;border-color:var(--accent-dim)}
+  .review-box::placeholder{color:var(--muted);opacity:.6}
+  .review-msg{font-size:12px;line-height:1.5;margin-top:6px;min-height:1em}
+  .review-msg.err{color:#ff7b72}
+  .review-msg.ok{color:var(--accent)}
+  .mark-btn{padding:8px 16px;font-size:12px;letter-spacing:.5px;color:var(--muted)}
+  .mark-btn:hover{border-color:var(--accent-dim);color:var(--text)}
+  .mark-btn.marked{border-color:var(--accent);color:var(--accent)}
+  .copy-block{width:100%;display:flex;flex-direction:column;gap:8px;text-align:left}
+  .copy-line{
+    display:flex;align-items:center;gap:10px;width:100%;
+    background:var(--card);border:1px solid var(--border);border-radius:10px;
+    padding:10px 12px;
+  }
+  .copy-line .lbl{font-size:11px;color:var(--muted);letter-spacing:.5px;white-space:nowrap}
+  .copy-line .val{
+    flex:1;font-family:var(--mono);font-size:13px;color:var(--text);
+    word-break:break-word;text-align:left;
+  }
+  .copy-line .copy-btn{padding:5px 12px;font-size:11px;color:var(--muted);white-space:nowrap}
+  .copy-line .copy-btn:hover{border-color:var(--accent-dim);color:var(--text)}
+  .copy-line .copy-btn.done{border-color:var(--accent);color:var(--accent)}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="wrap">
+
+  <!-- SETUP -->
+  <section id="setup">
+    <div>
+      <div class="title">2-Sided ZBLL Recognition Trainer</div>
+    </div>
+    <div class="field">
+      <label>Set</label>
+      <div class="set-grid" id="setGrid"></div>
+    </div>
+    <div class="field">
+      <label>Subset</label>
+      <div class="subset-grid" id="subsetGrid"></div>
+      <div id="customWrap">
+        <textarea id="reviewInput" class="review-box" rows="1" placeholder="e.g. 3, 28, 46, 52"></textarea>
+        <div class="review-msg" id="reviewMsg"></div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Recognition angle</label>
+      <div class="angle-grid" id="angleGrid">
+        <button class="angle-tile" data-angle="A"><img alt="angle A preview"></button>
+        <button class="angle-tile" data-angle="B"><img alt="angle B preview"></button>
+        <button class="angle-tile" data-angle="C"><img alt="angle C preview"></button>
+        <button class="angle-tile" data-angle="D"><img alt="angle D preview"></button>
+      </div>
+    </div>
+    <button class="btn-primary" id="startBtn">START</button>
+  </section>
+
+  <!-- TRAINING -->
+  <section id="training">
+    <div class="topbar">
+      <div class="counter"><span id="cur">01</span><span class="sep"> / </span><span class="total" id="total">72</span></div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="angle-tag" id="angleTag">A</span>
+        <button class="icon-btn" id="restartBtn" title="restart / change angle">&#8635; reset</button>
+      </div>
+    </div>
+
+    <div class="cube-panel" id="cubePanel" title="click to reveal alg">
+      <img id="cube" alt="ZBLL case">
+    </div>
+
+    <div class="reveal-row">
+      <button class="reveal-btn" id="revealBtn">reveal alg</button>
+      <div id="algText"></div>
+      <div class="nav-row">
+        <button class="nav-btn" id="backBtn">&#8592; back</button>
+        <button class="mark-btn" id="markBtn">&#9733; mark</button>
+        <span class="hint"><kbd>space</kbd>/<kbd>&rarr;</kbd> next &nbsp;&bull;&nbsp; <kbd>&larr;</kbd> back &nbsp;&bull;&nbsp; <kbd>M</kbd> mark</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- DONE -->
+  <section id="done">
+    <div class="done-check">&#10003;</div>
+    <div>
+      <div class="done-count" id="doneCount">72 / 72</div>
+      <div class="done-label" style="margin-top:8px">set complete</div>
+    </div>
+    <div class="copy-block" id="copyBlock"></div>
+    <button class="btn-primary" id="againBtn" style="max-width:240px">GO AGAIN</button>
+    <button class="icon-btn" id="changeAngleBtn">change angle</button>
+    <div class="hint"><kbd>space</kbd> go again</div>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   CONFIG  — edit these freely
+   ============================================================ */
+const SIZE     = 300;                 // cube render size (px). SVG, so scales cleanly.
+const CUBE_BG  = "0a0b0e";            // hex w/o '#'. Must match --cube-bg in CSS.
+                                      //   If the cube shows a WHITE square instead,
+                                      //   this VisualCube port wants a named color — use "black".
+// Fixed color scheme (sch = U,R,F,D,L,B), applied to every rendered cube.
+const SCH      = "f2f2f2,db0404,07b524,ffff00,ff8205,062fc4";
+// Selector scheme: same colors but U<->D and L<->R swapped (order is U,R,F,D,L,B).
+const SELECTOR_SCH = "ffff00,ff8205,07b524,f2f2f2,db0404,062fc4";
+// Training images: full last layer (NO stage filter — ZBLL needs orientation + permutation visible).
+const BASE     = "https://www.cubing.net/api/visualcube/?fmt=svg&pzl=3&sch=" + SCH;
+// Selector previews ONLY: stage=oll masks side stickers so the tile cleanly shows the angle.
+// (Per your examples — this is the only place stage=oll is used.)
+const SELECTOR_BASE = "https://visualcube.api.cubing.net/?fmt=svg&pzl=3&stage=oll";
+// NOTE: the selector "sample alg" is now per-set (see SETS[...].sample below),
+// so picking a set re-renders the 4 angle tiles from that set's sample.
+
+// Each angle carries two pieces:
+//   code = prepended to the TRAINING case image — the proven y'-based recognition angles
+//   auf  = pre-AUF used only in the SELECTOR preview tile (stage=oll thumbnail)
+// Tiles render left->right as A, B, C, D. Default selection = A (y' U).
+const ANGLES = {
+  A: { label: "A", code: "y%27U",    auf: "U'" },
+  B: { label: "B", code: "y%27",     auf: "U2" },
+  C: { label: "C", code: "y%27U%27", auf: "U"  },
+  D: { label: "D", code: "y%27U2",   auf: ""   },
+};
+
+// Encode to match the URL format (space->%20, '->%27, ()->%28%29).
+function enc(s){
+  return encodeURIComponent(s).replace(/'/g,"%27").replace(/\(/g,"%28").replace(/\)/g,"%29");
+}
+
+// Per-case randomizers (angle-independent), appended after the alg to vary the
+// color scheme so cases aren't memorized by color:
+//   1) a random post-AUF, one of [U, U', U2, ""]   (recolors the top layer)
+//   2) a random y,        one of [y, y2, y', ""]    (varies the F2L side colors)
+//   3) a random z2,       one of ["", "z2"]         (50/50)
+// Final case string = <angle code> <alg> <post-AUF> <y> <z2>
+const POST_AUFS = ["U", "U'", "U2", ""];
+const YS        = ["y", "y2", "y'", ""];
+const Z2S       = ["", "z2"];
+function randSuffix(){
+  const a = POST_AUFS[Math.floor(Math.random()*POST_AUFS.length)];
+  const y = YS[Math.floor(Math.random()*YS.length)];
+  const z = Z2S[Math.floor(Math.random()*Z2S.length)];
+  return (a ? " " + a : "") + (y ? " " + y : "") + (z ? " " + z : "");
+}
+
+/* ============================================================
+   ALG SETS — ZBLL grouped by corner-orientation set.
+   Each set: { label, ready, sample, algs:[...] }
+     ready=false → greyed out in the picker (no algs yet)
+     sample      → alg used to render that set's 4 angle preview tiles
+     algs        → the case algs. Counter + subset scale to algs.length,
+                   so pasting more algs later "just works" — nothing is
+                   hardcoded to 12/72. This is the single source of truth.
+   Case numbers are 1-based WITHIN the selected set (T = 1..72, U = 1..N).
+   ============================================================ */
+const SETS = {
+  // T — full set, all 72 algs, user-verified in-browser.
+  T: { label:"T", ready:true, sample:"R U' R' U2 L R U' R' U L' U2",
+       algs:[
+  // T1 (1–12)
+  "[U2] L' U' L U' L' U2 (L R) U R' U R U2 R'",
+  "[U] x D' R' U R D R2' D2 R U' R' D2 (R l)",
+  "[U] R U2 R' U' R U' R2 U2 R U R' U R",
+  "[U'] R' U2 R U R' U R2 U2 R' U' R U' R'",
+  "R U R' U R U2 R' U' R U2 R' U' R U' R'",
+  "[U'] R U' R' U2 R U R' U2 R U R' U R U' R'",
+  "[U] R U2 R' U' R U' R' U R U R' U R U2 R'",
+  "[U'] R' U2 R U R' U R U' R' U' R U' R' U2 R",
+  "R U R' U R U' R' U R' U' R2 U' R2' U2 R",
+  "R' U' R U' R' U R U' R U R2' U R2 U2 R'",
+  "R U R2 U' R2 U' R2 U2 R U' R U' R'",
+  "R' U' R2 U R2 U R2 U2 R' U R' U R",
+  // T2 (13–24)
+  "[U'] R U' R2' D' r U2 r' D R2 U R'",
+  "[U] R' U R2 D r' U2 r D' R2' U' R",
+  "[U2] R U R' U R U R2' D' r U2 r' D R2 U R'",
+  "[U'] R U2 R' U2 R U R2' D' R U' R' D R U2 R U' R'",
+  "[U'] R U R' U2 R' D' R U R' D R2 U' R' U R U' R'",
+  "[U] R' U' R U2 R D R' U' R D' R2 U R U' R' U R",
+  "[U2] R U R' U' R U R2 D' R U' R' D R U2 R U' R'",
+  "[U2] R' U' R U R' U' R2 D R' U R D' R' U2 R' U R",
+  "[U] R U' r' F R' F' r U' r U R' U' r' F R F'",
+  "[U] R' F' R U R' U2 R' D R U2 R' D' R U' R' F R U R",
+  "[U'] R (U' D) R' U2 R D' R U R' U2 R U R2'",
+  "[U] R U' R' U R U R' U' R U R' U R' D' R U R' D R",
+  // T3 (25–36)
+  "[U'] R U' R' U2 L R U' R' U L'",
+  "[U] R' U R U2 r' R' F R F' r",
+  "[U'] R' U' R2 U R' F' R U R' U' R' F R2 U' R' U' R' U R",
+  "[U'] r U' r U2 R' F R U2 r2 F",
+  "[U'] R' U' R U' R' U2 R' D' R U' R' D R U R",
+  "R U R D R' U' R D' R' U2 R' U' R U' R'",
+  "[U] F U' R' U2 R U F' R' U' R U R' U R",
+  "[U] R D R' U' R D' R' U' R' U R U' R' U R U R' U' R",
+  "[U] R U' R' U R U R' U' R U R' U' R' D' R U' R' D R",
+  "[U] R U R' U R U' R' U' R' F2 R F2 L' U2 L",
+  "[U] R' U2 R U R' U R F U R U2 R' U R U R' F'",
+  "[U] r' U' l' U2 R U' R' U2 l R U' R' U2 r",
+  // T4 (37–48)
+  "[U'] F R U R' U' R U' R' U' R U R' F'",
+  "R U R' U2 R U' R' U2 R U' R2 F' R U R U' R' F",
+  "l' U2 R' D2 R U2 R' D2 (R l)",
+  "l U2 R D2 R' U2 R D2 (R' l')",
+  "R U R2' D' R U2 R' D R U2 R U R' U' R U' R'",
+  "[U'] R U2 R D R' U2 R D' R U' R U' R' U2 R",
+  "[U2] R U R' U R' D' R U' R' D R U R U2 R'",
+  "[U2] R' U' R' D' R U R' D R U' R U' R' U2 R",
+  "[U'] R U' R2 D' R U' R' D R U' R U R' U R U R'",
+  "[U'] L' U2 L U r' F r2 U R' U' r' F R F'",
+  "[U2] R' U' R U2 R2 F' R U R U' R' F R U2 R' U R",
+  "[U2] R U R' L' U2 R U' R' U2 L U R U' R'",
+  // T5 (49–60)
+  "r U R' U' r' F R F'",
+  "R U2 R' U2 R' F R U R U' R' F'",
+  "[U'] R' U' R (U D') R U' R U R U' R2' D",
+  "R' D' R U R' D R2 U' R' U R U R' U' R U R'",
+  "F' U' L' U2 L U' L' U' L F",
+  "R U R' U' R U' (R' L) U' R U R' L'",
+  "[U2] R U R' U R U R' U2 L R U' R' U L'",
+  "[U2] R2 U R' U' R' U R' (U' D) U' R' U2 R D'",
+  "[U] R' U' R U' R2' F' R U R U' R' F U R U' R' U2 R",
+  "[U'] r' F R F' r U' R' U' R U R' U' R U' R'",
+  "R U' R' U' R U R D R' U2 R D' R' U' R'",
+  "[U] M U' r U R' U' R' F R F' (R r') U M'",
+  // T6 (61–72)
+  "[U2] R' F' r U R U' r' F",
+  "[U2] R U R' U' R' F' R U2 R U2 R' F",
+  "[U] R U R' (U' D) R' U R' U' R' U R2 D'",
+  "[U'] R D' R2 U R U' R' U' R U R' U' R2' D R'",
+  "[U2] F U R U2 R' U R U R' F'",
+  "[U] R U R' U' R U' R' U' F R U R' U' R' F' R",
+  "L' U' L U' L' U' L U2 R' L' U L U' R",
+  "[U] R' U2 R F U' R' U R U F' R' U R",
+  "[U2] F R U R' U' R U R' U' F' R U R' U' R' F R F'",
+  "F U R' U' R F' R' U' R U R' U R",
+  "R' U R U R' U' R' D' R U2 R' D R U R",
+  "[U] R' U2 R U' R' D R' U R U R' U2 R U' D' R",
+  ]},
+
+  // U — sparse 72-slot array (positions 1-72 always map to cases 1-72,
+  // regardless of fill order). Slots are null until algs are added; adding
+  // a subset out of order (e.g. U4 before U2) keeps every existing case
+  // number stable. Currently filled: U1, U4 → 24/72 available.
+  // To add another subset: replace the 12 nulls for U2/U3/U5/U6 in place.
+  U: { label:"U", ready:true, sample:"U R' U R U R' U2 R U' D' R U' R' U2 R U' R' D",
+       algs:[
+    // U1 (1–12)
+    "[U2] R' F' R U R' U' R' F D' R U R' D R2",
+    "[U'] (l' R') D2 R U R' D2 R2 D' R' U' R D x'",
+    "[U'] R U R' U R U2 R2 U' R U' R' U2 R",
+    "[U] R' U' R U' R' U2 R2 U R' U R U2 R'",
+    "[U'] R U R' U R U2 R' U R U2 R' U' R U' R'",
+    "R U R' U' R U' R' U2 R U' R' U2 R U R'",
+    "[U2] R U2 R' U' R U' R' U' R U R' U R U2 R'",
+    "[U2] R' U2 R U R' U R U R' U' R U' R' U2 R",
+    "[U2] R U2 R2' U' R2 U' R' U R' U' R U R' U R",
+    "[U2] R' U2 R2 U R2' U R U' R U R' U' R U' R'",
+    "[U'] R U R' U R' U2 R2 U R2 U R2 U' R'",
+    "[U] R' U' R U' R U R' U R U2 R' U2 R' U2 R",
+    // U2 (13–24) — not added yet
+    ...Array(12).fill(null),
+    // U3 (25–36) — not added yet
+    ...Array(12).fill(null),
+    // U4 (37–48)
+    "[U] F R U' R' U R U R' U R U' R' F'",
+    "[U'] R U' R2' F R U R U' R2' F' R U' F' U F",
+    "[U'] (l' R') D2 R U2 R' D2 R U2 R x'",
+    "[U] (l R) D2 R' U2 R D2 R' U2 R' x",
+    "[U] R U R' U R U' R' U2 R' D' R U2 R' D R2 U' R'",
+    "R' U2 R U R' U R3 D R' U2 R D' R' U2 R'",
+    "[U] R' U2 R U R' U R' D' R U' R' D R U R",
+    "[U] R F U' R' U' R U2 R' U' R F' R'",
+    "R U' R' U' R U' R' U R' D' R U R' D R2 U R'",
+    "F R' F' r U R U' r2' F' r U' r' F2 r",
+    "[U] R' U' R U2 R' F' R U R' U' R' F R2 U2 R' U R",
+    "[U'] R U R' U R U R' U2 R U' R2 D' R U' R' D R",
+    // U5 (49–60) — not added yet
+    ...Array(12).fill(null),
+    // U6 (61–72) — not added yet
+    ...Array(12).fill(null),
+  ]},
+
+  // Not ready yet — greyed out in the picker until algs are added.
+  // To enable one: paste its algs + sample and flip ready:true.
+  Pi:  { label:"Pi",  ready:false, sample:"", algs:[] },
+  H:   { label:"H",   ready:false, sample:"", algs:[] },
+  S:   { label:"S",   ready:false, sample:"", algs:[] },
+  AS:  { label:"AS",  ready:false, sample:"", algs:[] },
+  PLL: { label:"PLL", ready:false, sample:"", algs:[] },
+};
+
+// Picker order (left→right, wrapping). Add a key here to add a tile.
+const SET_ORDER = ["T","U","Pi","H","S","AS","PLL"];
+let setKey = "T";                          // default selected set
+const activeAlgs    = () => SETS[setKey].algs;        // full array incl null slots
+const availableCases = () => activeAlgs()              // case nums (1-based) of filled slots only
+  .map((a, i) => a == null ? null : i + 1)
+  .filter(x => x != null);
+
+/* ============================================================
+   ENGINE
+   ============================================================ */
+const $ = (id) => document.getElementById(id);
+const views = { setup:$("setup"), training:$("training"), done:$("done") };
+
+let state    = "setup";   // 'setup' | 'training' | 'done'
+let order    = [];        // shuffled case numbers (1..set size) for this run
+let randomizers = [];     // per-position suffix strings (post-AUF + y + z2), parallel to order
+let ptr       = 0;
+let angleKey = "A";
+let revealed = false;
+let marked    = new Set();   // case numbers toggled "for review" this run
+let sessionPool = [];        // sorted case numbers actually trained this run
+
+function buildUrl(alg, code, suffix){
+  return `${BASE}&size=${SIZE}&bg=${CUBE_BG}&case=${code}${enc(alg + (suffix||""))}`;
+}
+function buildSelectorUrl(auf){
+  const moves = (auf ? auf + " " : "") + SETS[setKey].sample;
+  return `${SELECTOR_BASE}&size=${SIZE}&bg=${CUBE_BG}&sch=${SELECTOR_SCH}&case=${enc(moves)}`;
+}
+
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function setView(name){
+  state = name;
+  for(const k in views) views[k].style.display = (k===name) ? "flex" : "none";
+}
+
+// Build the case-number pool to train. Returns {ok, pool, error}.
+// - Custom mode: parse textbox as comma/space/newline-separated case numbers.
+//                Empty textbox → error (point of Custom is to specify cases).
+// - Subset mode: union of selectedSubsets' filled cases, sorted asc.
+function parseReview(raw){
+  if(customMode){
+    const txt = (raw || "").trim();
+    if(!txt) return { ok:false, error:`paste at least one case number.` };
+    const tokens = txt.split(/[\s,]+/).filter(t => t.length);
+    const nums = [];
+    for(const t of tokens){
+      if(!/^\d+$/.test(t)) return { ok:false, error:`"${t}" isn't a number.` };
+      const n = parseInt(t,10);
+      if(n < 1 || n > activeAlgs().length) return { ok:false, error:`${n} is out of range (1–${activeAlgs().length}).` };
+      if(activeAlgs()[n - 1] == null)      return { ok:false, error:`case ${n} has no alg yet.` };
+      nums.push(n);
+    }
+    return { ok:true, pool:[...new Set(nums)].sort((a,b)=>a-b) };
+  }
+  // subset mode: union the cases of every selected subset (already null-filtered)
+  const set = new Set();
+  for(const n of selectedSubsets) for(const c of subsetCases(n)) set.add(c);
+  if(set.size === 0) return { ok:false, error:`no cases available — pick a subset.` };
+  return { ok:true, pool:[...set].sort((a,b)=>a-b) };
+}
+
+function showReviewMsg(text, cls){
+  const el = $("reviewMsg");
+  el.textContent = text;
+  el.className = "review-msg" + (cls ? " " + cls : "");
+}
+
+function startTraining(){
+  // angleKey is already set by the tile picker (defaults to "A")
+  const res = parseReview($("reviewInput").value);
+  if(!res.ok){
+    showReviewMsg(res.error + "  Valid example: 3, 28, 46, 52", "err");
+    return;   // stay on setup
+  }
+  showReviewMsg("", "");
+
+  sessionPool = res.pool.slice();             // case numbers trained this run (sorted)
+  order = shuffle(res.pool.slice());          // shuffled case numbers
+  randomizers = order.map(() => randSuffix());
+  marked = new Set();                         // fresh marks each run
+  ptr = 0;
+  $("angleTag").textContent = SETS[setKey].label + " · " + ANGLES[angleKey].label;
+  $("total").textContent = order.length;      // counter denominator reflects subset size
+  setView("training");
+  renderCase();
+}
+
+function renderCase(){
+  const caseNum = order[ptr];
+  const alg = activeAlgs()[caseNum - 1];
+
+  // counter + progress
+  const cur = ptr + 1;
+  $("cur").textContent = String(cur).padStart(2,"0");
+  $("progress").style.width = (cur / order.length * 100) + "%";
+  $("backBtn").disabled = (ptr === 0);
+
+  // mark button reflects whether THIS case is marked
+  const mb = $("markBtn");
+  const isMarked = marked.has(caseNum);
+  mb.classList.toggle("marked", isMarked);
+  mb.innerHTML = (isMarked ? "&#9733; marked" : "&#9733; mark") + ` <span style="opacity:.6">#${caseNum}</span>`;
+
+  // reset reveal each case
+  revealed = false;
+  const algEl = $("algText");
+  algEl.textContent = alg;
+  algEl.classList.remove("show");
+  $("revealBtn").textContent = "reveal alg";
+
+  // image (fade on swap)
+  const img = $("cube");
+  img.onerror = () => {
+    img.removeAttribute("src");
+    if(!img.parentNode.querySelector(".cube-err")){
+      const e = document.createElement("div");
+      e.className = "cube-err";
+      e.textContent = "⚠ image failed to load — check connection / API URL";
+      img.parentNode.appendChild(e);
+    }
+  };
+  img.onload = () => {
+    const e = img.parentNode.querySelector(".cube-err");
+    if(e) e.remove();
+  };
+  img.classList.remove("fade");
+  void img.offsetWidth;            // restart animation
+  img.src = buildUrl(alg, ANGLES[angleKey].code, randomizers[ptr]);
+  img.classList.add("fade");
+
+  // preload next image
+  if(ptr < order.length - 1){
+    const pre = new Image();
+    pre.src = buildUrl(activeAlgs()[order[ptr+1] - 1], ANGLES[angleKey].code, randomizers[ptr+1]);
+  }
+}
+
+function nextCase(){
+  if(ptr < order.length - 1){
+    ptr++;
+    renderCase();
+  } else {
+    $("progress").style.width = "100%";
+    finish();
+  }
+}
+
+function toggleMark(){
+  const caseNum = order[ptr];
+  if(marked.has(caseNum)) marked.delete(caseNum);
+  else marked.add(caseNum);
+  renderCase();   // refresh button state
+}
+
+// Build the done screen with copyable case-number lists.
+function finish(){
+  $("doneCount").textContent = order.length + " / " + order.length;
+  const reviewNums = [...marked].sort((a,b)=>a-b);
+  const block = $("copyBlock");
+  block.innerHTML = "";
+
+  // Line 1: "trained this run" — only meaningful for a subset (a full 72 line is useless to copy)
+  if(sessionPool.length < availableCases().length){
+    block.appendChild(copyLine("trained this run", sessionPool.join(", ")));
+  }
+  // Line 2: cases still marked for review
+  if(reviewNums.length){
+    block.appendChild(copyLine("marked for review", reviewNums.join(", ")));
+  } else {
+    const none = document.createElement("div");
+    none.className = "done-label";
+    none.textContent = "no cases marked for review";
+    block.appendChild(none);
+  }
+  setView("done");
+}
+
+function copyText(text){
+  // execCommand on a temp textarea works in sandboxed iframes where
+  // navigator.clipboard is blocked. Try it first, fall back to the async API.
+  try{
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.top = "-1000px";
+    ta.setAttribute("readonly","");
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    const ok = document.execCommand("copy");
+    document.body.removeChild(ta);
+    if(ok) return Promise.resolve(true);
+  }catch(e){ /* fall through */ }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    return navigator.clipboard.writeText(text).then(() => true).catch(() => false);
+  }
+  return Promise.resolve(false);
+}
+
+function copyLine(label, value){
+  const row = document.createElement("div");
+  row.className = "copy-line";
+  const lbl = document.createElement("span"); lbl.className = "lbl"; lbl.textContent = label;
+  const val = document.createElement("span"); val.className = "val"; val.textContent = value;
+  const btn = document.createElement("button"); btn.className = "copy-btn"; btn.textContent = "copy";
+  btn.addEventListener("click", async () => {
+    const ok = await copyText(value);
+    if(ok){
+      btn.textContent = "copied"; btn.classList.add("done");
+      setTimeout(() => { btn.textContent = "copy"; btn.classList.remove("done"); }, 1400);
+    } else {
+      // last resort: select the text so the user can hit Cmd/Ctrl+C manually
+      const r = document.createRange(); r.selectNodeContents(val);
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = "press ⌘/Ctrl+C";
+      setTimeout(() => { btn.textContent = "copy"; }, 2200);
+    }
+  });
+  row.append(lbl, val, btn);
+  return row;
+}
+
+function prevCase(){
+  if(ptr > 0){
+    ptr--;
+    renderCase();
+  }
+}
+
+/* ---- subset picker (multi-select 1..6, mutually-exclusive Custom) ---- */
+// State: selectedSubsets is a Set of ints 1..6, OR "custom" string.
+// Invariant: at least one of {a numbered subset, custom} is always selected.
+let selectedSubsets = new Set([1]);     // default: subset 1 only
+let customMode = false;
+
+// Subset N covers case numbers [12*(N-1)+1 .. 12*N]. Returns case nums in that range
+// that actually have an alg in the current set (skips null slots).
+function subsetCases(n){
+  const start = 12*(n-1) + 1, end = 12*n;
+  const out = [];
+  for(let c=start;c<=end;c++) if(activeAlgs()[c-1] != null) out.push(c);
+  return out;
+}
+// True iff subset N has at least one filled case in the current set (else: grey it out).
+function subsetAvailable(n){ return subsetCases(n).length > 0; }
+
+function selectCustom(){
+  customMode = true;
+  selectedSubsets.clear();
+  renderSubsetTiles();
+  $("customWrap").classList.add("show");
+  showReviewMsg("", "");
+}
+function toggleSubset(n){
+  if(!subsetAvailable(n)) return;
+  if(customMode){
+    // leaving Custom mode → switch to just this subset
+    customMode = false;
+    $("customWrap").classList.remove("show");
+    $("reviewInput").value = "";
+    showReviewMsg("", "");
+    selectedSubsets = new Set([n]);
+  } else if(selectedSubsets.has(n)){
+    // enforce "at least one selected": don't allow deselecting the last one
+    if(selectedSubsets.size === 1) return;
+    selectedSubsets.delete(n);
+  } else {
+    selectedSubsets.add(n);
+  }
+  renderSubsetTiles();
+}
+function renderSubsetTiles(){
+  document.querySelectorAll(".subset-tile").forEach(t => {
+    const v = t.dataset.subset;
+    if(v === "custom"){
+      t.classList.toggle("selected", customMode);
+      t.disabled = false;     // Custom is always available for a ready set
+    } else {
+      const n = parseInt(v,10);
+      const avail = subsetAvailable(n);
+      t.disabled = !avail;
+      t.classList.toggle("selected", !customMode && selectedSubsets.has(n) && avail);
+    }
+  });
+}
+function buildSubsetTiles(){
+  const grid = $("subsetGrid");
+  for(let n=1;n<=6;n++){
+    const b = document.createElement("button");
+    b.className = "subset-tile";
+    b.dataset.subset = String(n);
+    b.textContent = String(n);
+    b.addEventListener("click", () => toggleSubset(n));
+    grid.appendChild(b);
+  }
+  const c = document.createElement("button");
+  c.className = "subset-tile";
+  c.dataset.subset = "custom";
+  c.textContent = "Custom";
+  c.addEventListener("click", () => { if(!customMode) selectCustom(); });
+  grid.appendChild(c);
+}
+
+/* ---- set picker (text tiles; greyed when a set has no algs yet) ---- */
+function selectSet(s){
+  if(!SETS[s].ready) return;
+  setKey = s;
+  document.querySelectorAll(".set-tile").forEach(t =>
+    t.classList.toggle("selected", t.dataset.set === s));
+  renderAngleTiles();                  // angle previews use THIS set's sample alg
+  // Reset subset selection: subsets available differ per set, and case numbers
+  // mean different cases. Default to subset 1 (always available for any ready set
+  // since position 1 must be filled — if not, fall back to first available).
+  customMode = false;
+  $("customWrap").classList.remove("show");
+  $("reviewInput").value = "";
+  showReviewMsg("", "");
+  selectedSubsets = new Set();
+  for(let n=1;n<=6;n++) if(subsetAvailable(n)){ selectedSubsets.add(n); break; }
+  if(selectedSubsets.size === 0) selectedSubsets.add(1); // defensive; shouldn't happen for ready sets
+  renderSubsetTiles();
+}
+
+/* ---- angle picker (4x1 tiles) ---- */
+function selectAngle(a){
+  angleKey = a;
+  document.querySelectorAll(".angle-tile").forEach(t =>
+    t.classList.toggle("selected", t.dataset.angle === a));
+}
+function renderAngleTiles(){
+  // re-point all 4 tile images at the current set's sample alg
+  document.querySelectorAll(".angle-tile").forEach(tile => {
+    tile.querySelector("img").src = buildSelectorUrl(ANGLES[tile.dataset.angle].auf);
+  });
+}
+function initSelectors(){
+  // build set tiles from SET_ORDER — a new set appears just by adding a key + flipping ready
+  const grid = $("setGrid");
+  SET_ORDER.forEach(s => {
+    const b = document.createElement("button");
+    b.className = "set-tile";
+    b.dataset.set = s;
+    b.textContent = SETS[s].label;
+    if(SETS[s].ready) b.addEventListener("click", () => selectSet(s));
+    else b.disabled = true;          // greyed, not clickable
+    grid.appendChild(b);
+  });
+  buildSubsetTiles();
+  // wire angle tile clicks once; their images are (re)rendered per set
+  document.querySelectorAll(".angle-tile").forEach(tile => {
+    tile.addEventListener("click", () => selectAngle(tile.dataset.angle));
+  });
+  selectSet(setKey);     // default T → highlight + render angle previews + subset tiles
+  selectAngle(angleKey); // default A
+}
+
+function toggleAlg(){
+  revealed = !revealed;
+  $("algText").classList.toggle("show", revealed);
+  $("revealBtn").textContent = revealed ? "hide alg" : "reveal alg";
+}
+
+/* ---- wiring ---- */
+$("startBtn").addEventListener("click", startTraining);
+$("againBtn").addEventListener("click", startTraining); // same selected angle, fresh shuffle
+$("changeAngleBtn").addEventListener("click", () => setView("setup"));
+$("restartBtn").addEventListener("click", () => setView("setup"));
+$("revealBtn").addEventListener("click", toggleAlg);
+$("cubePanel").addEventListener("click", toggleAlg);
+$("backBtn").addEventListener("click", prevCase);
+$("markBtn").addEventListener("click", toggleMark);
+
+initSelectors();   // build set picker (default T) + angle previews (default A)
+
+document.addEventListener("keydown", (e) => {
+  // don't hijack keys while typing in the review textbox
+  if(e.target && e.target.id === "reviewInput"){
+    if(e.code === "Space") e.stopPropagation();
+    return;
+  }
+  if(e.code === "Space"){
+    e.preventDefault();          // no page scroll
+    if(e.repeat) return;         // ignore held-key autorepeat
+    if(state === "setup")        startTraining();
+    else if(state === "training") nextCase();
+    else if(state === "done")     startTraining();
+  } else if(state === "training" && e.key === "ArrowLeft"){
+    e.preventDefault();
+    prevCase();
+  } else if(state === "training" && e.key === "ArrowRight"){
+    e.preventDefault();
+    nextCase();
+  } else if((e.key === "r" || e.key === "R") && state === "training"){
+    toggleAlg();
+  } else if((e.key === "m" || e.key === "M") && state === "training"){
+    toggleMark();
+  }
+});
+</script>
+</body>
+</html>

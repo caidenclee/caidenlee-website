@@ -191,17 +191,20 @@ function generateScramble()
         var fixedAngle = (angleStr !== null && angleStr !== 'any') ? parseInt(angleStr) : null;
         var uStr = ['', 'U', 'U2', "U'"];
         var uVal = {'U': 1, 'U2': 2, "U'": 3};
+        var ollAufOffset = {'L': 1};
+        var caseOffset = ollAufOffset[zbllCase.oll] || 0;
+        var effectiveAngle = fixedAngle !== null ? (fixedAngle + caseOffset) % 4 : null;
         for (var i = 0; i < shuffled.length && !finalAlg; i++) {
             finalAlg = zbllScrambler.scrambleFromAlg(shuffled[i], fixedAngle);
-            if (finalAlg && fixedAngle !== null && fixedAngle > 0) {
+            if (finalAlg && effectiveAngle !== null && effectiveAngle > 0) {
                 var tokens = finalAlg.split(' ');
                 var last = tokens[tokens.length - 1];
                 if (uVal.hasOwnProperty(last)) {
-                    var combined = (uVal[last] + fixedAngle) % 4;
+                    var combined = (uVal[last] + effectiveAngle) % 4;
                     if (combined === 0) { tokens.pop(); }
                     else { tokens[tokens.length - 1] = uStr[combined]; }
                 } else {
-                    tokens.push(uStr[fixedAngle]);
+                    tokens.push(uStr[effectiveAngle]);
                 }
                 finalAlg = tokens.join(' ');
             }

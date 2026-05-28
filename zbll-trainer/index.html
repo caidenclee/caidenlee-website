@@ -559,6 +559,8 @@
 			var oll = firstCase.oll || '';
 			var coll = firstCase.coll || '';
 			var imgSrc = 'caseImage/ZBLL/level1/' + oll + '.svg';
+			var ollAufOffset = {'L': 1};
+			var iconOffset = (ollAufOffset[oll] || 0) * 90;
 
 			document.getElementById('startSessionPromptTitle').textContent = 'Choose an angle';
 			document.getElementById('startSessionPromptDesc').textContent = 'Pick which orientation to practice from.';
@@ -567,10 +569,10 @@
 			btns.innerHTML =
 				'<div class="angle-img-grid">' +
 				[
-					{ label: 'Base', angle: 0, deg: 0 },
-					{ label: 'U', angle: 1, deg: 90 },
-					{ label: 'U2', angle: 2, deg: 180 },
-					{ label: "U'", angle: 3, deg: 270 }
+					{ label: 'Base', angle: 0, deg: (0 + iconOffset) % 360 },
+					{ label: 'U', angle: 1, deg: (90 + iconOffset) % 360 },
+					{ label: 'U2', angle: 2, deg: (180 + iconOffset) % 360 },
+					{ label: "U'", angle: 3, deg: (270 + iconOffset) % 360 }
 				].map(function(a) {
 					return '<div class="angle-img-btn" onclick="window._pickAngle(\'' + a.angle + '\')">' +
 						'<img src="' + imgSrc + '" style="transform:rotate(' + a.deg + 'deg);" alt="' + a.label + '">' +
