@@ -268,6 +268,14 @@
       cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.15s;
     }
     .smini-pill.active { background:var(--accent-dim); border-color:rgba(50,173,230,0.35); color:var(--accent); }
+    .name-input {
+      background:var(--bg3); border:1px solid var(--border); border-radius:10px;
+      padding:8px 12px; font-size:14px; font-weight:600; color:var(--text);
+      font-family:'Inter',sans-serif; text-align:right; outline:none; width:130px;
+      transition:border-color 0.18s;
+    }
+    .name-input:focus { border-color:rgba(50,173,230,0.5); }
+    .name-input::placeholder { color:var(--muted); font-weight:400; }
 
     /* ══════════════════════════════════
        BOTTOM NAV
@@ -400,6 +408,46 @@
     .stile { background:var(--bg3); border:1px solid var(--border); border-radius:14px; padding:16px; }
     .sval  { font-size:26px; font-weight:800; color:var(--accent); letter-spacing:-0.02em; }
     .slbl  { font-size:11px; color:var(--muted); font-weight:600; margin-top:4px; line-height:1.3; }
+
+    /* ── Confirm modal ── */
+    #confirm-overlay {
+      display:none; position:fixed; inset:0; z-index:300;
+      background:rgba(0,0,0,0.75); backdrop-filter:blur(10px);
+      align-items:center; justify-content:center; padding:24px;
+    }
+    #confirm-overlay.open { display:flex; animation:fadeIn 0.25s ease both; }
+    #confirm-overlay.open .confirm-card { animation:scaleIn 0.35s cubic-bezier(0.22,1,0.36,1) both; }
+    .confirm-card {
+      background:var(--bg2); border:1px solid var(--border);
+      border-radius:20px; padding:28px 24px 22px;
+      width:100%; max-width:320px; display:flex; flex-direction:column; gap:16px;
+    }
+    .confirm-icon { font-size:36px; text-align:center; }
+    .confirm-title { font-size:17px; font-weight:800; color:var(--text); text-align:center; letter-spacing:-0.01em; }
+    .confirm-sub   { font-size:13px; color:var(--muted); text-align:center; line-height:1.5; margin-top:-6px; }
+    .confirm-input {
+      width:100%; background:var(--bg3); border:1.5px solid var(--border);
+      border-radius:12px; padding:12px 14px; font-size:20px; font-weight:700;
+      color:var(--text); font-family:'Inter',sans-serif; text-align:center;
+      letter-spacing:0.15em; outline:none; transition:border-color 0.18s;
+    }
+    .confirm-input:focus { border-color:rgba(50,173,230,0.5); }
+    .confirm-input.error { border-color:#ff453a; animation:shake 0.35s ease; }
+    @keyframes shake {
+      0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 60%{transform:translateX(8px)} 80%{transform:translateX(-4px)}
+    }
+    .confirm-btns { display:flex; gap:10px; }
+    .confirm-btn {
+      flex:1; padding:12px; border-radius:12px; font-size:14px; font-weight:700;
+      font-family:'Inter',sans-serif; cursor:pointer; border:none; transition:opacity 0.15s, transform 0.1s;
+    }
+    .confirm-btn:active { transform:scale(0.97); }
+    .confirm-btn-cancel { background:var(--bg3); color:var(--muted); }
+    .confirm-btn-cancel:hover { color:var(--text); }
+    .confirm-btn-danger { background:#ff453a; color:#fff; }
+    .confirm-btn-danger:hover { opacity:0.88; }
+    .confirm-btn-confirm { background:var(--accent); color:#fff; }
+    .confirm-btn-confirm:hover { opacity:0.88; }
   </style>
 </head>
 <body>
@@ -431,8 +479,8 @@
 
       <!-- Greeting -->
       <div class="home-greeting">
-        <div class="greeting-label">Welcome back</div>
-        <div class="greeting-title">Your <span>Vault</span></div>
+        <div class="greeting-label" id="greeting-label">Welcome back</div>
+        <div class="greeting-title" id="greeting-title">Your <span>Vault</span></div>
       </div>
 
       <!-- Stats -->
@@ -523,6 +571,20 @@
   </div>
   <div class="scroll">
     <div style="padding:20px 20px calc(var(--nav-h) + 24px); display:flex; flex-direction:column; gap:24px;">
+
+      <!-- Profile -->
+      <div>
+        <p class="settings-group-label">Profile</p>
+        <div class="settings-group">
+          <div class="settings-row">
+            <div class="settings-row-left">
+              <div class="settings-row-title">Your Name</div>
+              <div class="settings-row-sub">Shows on the home screen greeting</div>
+            </div>
+            <input class="name-input" id="name-input" type="text" maxlength="20" placeholder="Enter name" oninput="saveName(this.value)">
+          </div>
+        </div>
+      </div>
 
       <!-- Playback -->
       <div>
@@ -667,6 +729,28 @@
 </div>
 
 <!-- ══ STATS OVERLAY ══ -->
+<!-- ══ CONFIRM MODAL ══ -->
+<div id="confirm-overlay">
+  <div class="confirm-card" onclick="event.stopPropagation()">
+    <div class="confirm-icon" id="confirm-icon">⚠️</div>
+    <div class="confirm-title" id="confirm-title">Are you sure?</div>
+    <div class="confirm-sub"  id="confirm-sub">This action cannot be undone.</div>
+    <div id="confirm-step-1">
+      <div class="confirm-btns">
+        <button class="confirm-btn confirm-btn-cancel" onclick="closeConfirm()">Cancel</button>
+        <button class="confirm-btn confirm-btn-danger" onclick="confirmStep2()">Yes, continue</button>
+      </div>
+    </div>
+    <div id="confirm-step-2" style="display:none; display:flex; flex-direction:column; gap:12px;">
+      <input class="confirm-input" id="confirm-code-input" type="tel" maxlength="5" placeholder="·····" oninput="checkCode()" autocomplete="off">
+      <div class="confirm-btns">
+        <button class="confirm-btn confirm-btn-cancel" onclick="closeConfirm()">Cancel</button>
+        <button class="confirm-btn confirm-btn-confirm" id="confirm-submit-btn" onclick="executeReset()" disabled style="opacity:0.4">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="stats-overlay" onclick="closeStats()">
   <div class="stats-card" onclick="event.stopPropagation()">
     <div class="stats-handle"></div>
@@ -783,6 +867,7 @@ function switchView(name) {
    HOME
 ================================================================ */
 function renderHome() {
+  updateGreeting();
   const s = getStats();
   const statsEl = document.getElementById('home-stats');
   statsEl.innerHTML = `
@@ -985,7 +1070,22 @@ function closeStats() { document.getElementById('stats-overlay').classList.remov
 let skipSec = parseInt(localStorage.getItem('vault-skip') || '30');
 let defaultSpeed = parseFloat(localStorage.getItem('vault-default-speed') || '1');
 
+function saveName(val) {
+  localStorage.setItem('vault-name', val.trim());
+  updateGreeting();
+}
+function updateGreeting() {
+  const name = localStorage.getItem('vault-name') || '';
+  document.getElementById('greeting-label').textContent = name ? 'Welcome back,' : 'Welcome back';
+  const titleEl = document.getElementById('greeting-title');
+  titleEl.innerHTML = name ? `<span>${name}</span>` : 'Your <span>Vault</span>';
+}
+
 function renderSettings() {
+  // Name
+  const nameEl = document.getElementById('name-input');
+  if (nameEl) nameEl.value = localStorage.getItem('vault-name') || '';
+
   // Default speed pills
   const dsp = document.getElementById('default-speed-pills');
   dsp.innerHTML = '';
@@ -1019,18 +1119,62 @@ function renderSettings() {
   });
 }
 
+let _resetType = null;
+
 function confirmReset(type) {
-  const msg = type === 'progress'
-    ? 'Reset all progress? This clears % complete and timestamps for every item.'
-    : 'Reset all stats? This clears your streak, total hours, and time saved.';
-  if (!confirm(msg)) return;
-  if (type === 'progress') {
+  _resetType = type;
+  const isProgress = type === 'progress';
+  document.getElementById('confirm-icon').textContent  = isProgress ? '🗑️' : '📊';
+  document.getElementById('confirm-title').textContent = isProgress ? 'Reset All Progress?' : 'Reset Stats?';
+  document.getElementById('confirm-sub').textContent   = isProgress
+    ? 'This will clear your % complete and timestamps for every item.'
+    : 'This will clear your streak, total hours listened, and time saved.';
+  document.getElementById('confirm-step-1').style.display = 'block';
+  document.getElementById('confirm-step-2').style.display = 'none';
+  document.getElementById('confirm-code-input').value = '';
+  document.getElementById('confirm-submit-btn').disabled = true;
+  document.getElementById('confirm-submit-btn').style.opacity = '0.4';
+  document.getElementById('confirm-overlay').classList.add('open');
+}
+
+function confirmStep2() {
+  document.getElementById('confirm-step-1').style.display = 'none';
+  const step2 = document.getElementById('confirm-step-2');
+  step2.style.display = 'flex';
+  document.getElementById('confirm-title').textContent = 'Enter 12345 to confirm';
+  document.getElementById('confirm-sub').textContent   = 'Type the code below to complete the reset.';
+  document.getElementById('confirm-icon').textContent  = '🔐';
+  setTimeout(() => document.getElementById('confirm-code-input').focus(), 100);
+}
+
+function checkCode() {
+  const val = document.getElementById('confirm-code-input').value;
+  const btn = document.getElementById('confirm-submit-btn');
+  const inp = document.getElementById('confirm-code-input');
+  inp.classList.remove('error');
+  const ready = val === '12345';
+  btn.disabled = !ready;
+  btn.style.opacity = ready ? '1' : '0.4';
+}
+
+function executeReset() {
+  if (document.getElementById('confirm-code-input').value !== '12345') {
+    document.getElementById('confirm-code-input').classList.add('error');
+    return;
+  }
+  if (_resetType === 'progress') {
     CONTENT.forEach(v => localStorage.removeItem('vault-p-' + v.id));
     localStorage.removeItem('vault-recent');
   } else {
     localStorage.removeItem('vault-stats');
   }
+  closeConfirm();
   renderHome();
+}
+
+function closeConfirm() {
+  document.getElementById('confirm-overlay').classList.remove('open');
+  _resetType = null;
 }
 
 // Update skip functions to use skipSec
