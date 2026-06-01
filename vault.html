@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="The Vault">
+  <meta name="theme-color" content="#080d1a">
+  <title>The Vault</title>
+  <link rel="manifest" href="/vault-manifest.json">
+  <link rel="apple-touch-icon" href="/vault-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #080d1a;
+      --bg2:      #0f1629;
+      --bg3:      #161f38;
+      --border:   rgba(255,255,255,0.07);
+      --gold:     #c9a84c;
+      --gold-dim: rgba(201,168,76,0.15);
+      --gold-glow:rgba(201,168,76,0.08);
+      --text:     #e8eaf0;
+      --muted:    #5a6080;
+      --radius:   16px;
+    }
+
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      display: flex; flex-direction: column;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    /* ── Glow ── */
+    body::before {
+      content: '';
+      position: fixed; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 500px; height: 300px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Header ── */
+    header {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px 10px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8,13,26,0.95); backdrop-filter: blur(16px);
+      flex-shrink: 0;
+    }
+    .header-left { display: flex; align-items: center; gap: 10px; }
+    .vault-icon { width: 32px; height: 32px; flex-shrink: 0; }
+    .app-name { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; color: var(--gold); }
+
+    .stats-btn {
+      background: var(--gold-dim); border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 10px; padding: 6px 12px;
+      font-size: 12px; font-weight: 600; color: var(--gold);
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+    .stats-btn:hover { background: rgba(201,168,76,0.25); }
+
+    /* ── Tabs ── */
+    .tabs {
+      display: flex; gap: 4px;
+      padding: 12px 20px 0;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8,13,26,0.95); backdrop-filter: blur(16px);
+      flex-shrink: 0; position: relative; z-index: 9;
+    }
+    .tab {
+      padding: 8px 18px; border-radius: 10px 10px 0 0;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      color: var(--muted); background: transparent; border: none;
+      font-family: 'Inter', sans-serif; transition: color 0.15s;
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+    }
+    .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* ── Filters ── */
+    .filters {
+      display: flex; gap: 8px; padding: 12px 20px;
+      overflow-x: auto; flex-shrink: 0;
+      scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter-pill {
+      padding: 6px 14px; border-radius: 20px; white-space: nowrap;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      border: 1px solid var(--border); background: var(--bg2); color: var(--muted);
+      font-family: 'Inter', sans-serif; transition: all 0.15s; flex-shrink: 0;
+    }
+    .filter-pill.active { background: var(--gold-dim); border-color: rgba(201,168,76,0.35); color: var(--gold); }
+
+    /* ── Scroll area ── */
+    .scroll-area {
+      flex: 1; overflow-y: auto; padding: 0 20px 120px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .scroll-area::-webkit-scrollbar { display: none; }
+
+    /* ── Section headers ── */
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted);
+      margin: 20px 0 12px;
+    }
+
+    /* ── Recently played ── */
+    .recent-row {
+      display: flex; gap: 12px; overflow-x: auto; padding-bottom: 4px;
+      scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    }
+    .recent-row::-webkit-scrollbar { display: none; }
+    .recent-card {
+      flex-shrink: 0; width: 140px; cursor: pointer;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: border-color 0.15s, transform 0.12s;
+    }
+    .recent-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+    .recent-thumb { position: relative; width: 100%; aspect-ratio: 16/9; }
+    .recent-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .recent-progress-bar {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: rgba(255,255,255,0.1);
+    }
+    .recent-progress-fill { height: 100%; background: var(--gold); border-radius: 0 2px 2px 0; }
+    .recent-title { font-size: 11px; font-weight: 600; color: var(--text); padding: 8px 8px 6px; line-height: 1.3; }
+
+    /* ── Card grid ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .video-card {
+      cursor: pointer;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: border-color 0.15s, transform 0.12s;
+      position: relative;
+    }
+    .video-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-2px); }
+    .video-card.finished { opacity: 0.5; }
+
+    .thumb-wrap { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; }
+    .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Progress ring overlay */
+    .ring-wrap {
+      position: absolute; bottom: 6px; right: 6px;
+      width: 32px; height: 32px;
+    }
+    .ring-wrap svg { transform: rotate(-90deg); }
+    .ring-bg { fill: none; stroke: rgba(255,255,255,0.15); stroke-width: 3; }
+    .ring-fill { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 0.4s ease; }
+    .ring-pct {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7px; font-weight: 700; color: var(--gold);
+    }
+
+    .done-badge {
+      position: absolute; top: 6px; left: 6px;
+      background: var(--gold); color: #080d1a;
+      font-size: 9px; font-weight: 800; letter-spacing: 0.05em;
+      padding: 2px 7px; border-radius: 20px; text-transform: uppercase;
+    }
+
+    .card-body { padding: 10px 12px 12px; }
+    .card-title { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.4; margin-bottom: 6px; }
+    .card-meta { display: flex; align-items: center; justify-content: space-between; }
+    .card-tag {
+      font-size: 10px; font-weight: 600; color: var(--muted);
+      background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2px 8px;
+    }
+    .card-pct { font-size: 10px; font-weight: 600; color: var(--gold); }
+
+    .card-desc {
+      font-size: 11px; color: var(--muted); line-height: 1.4;
+      margin-top: 6px; display: none;
+    }
+
+    /* ── Full-screen Player ── */
+    #player-screen {
+      display: none; position: fixed; inset: 0; z-index: 100;
+      background: var(--bg); flex-direction: column;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    #player-screen.open { display: flex; }
+
+    .player-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .close-btn {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 7px 14px;
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      cursor: pointer; font-family: 'Inter', sans-serif; transition: color 0.15s;
+    }
+    .close-btn:hover { color: var(--text); }
+    .player-title-wrap { flex: 1; text-align: center; padding: 0 12px; }
+    .player-title { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .player-category { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    .mark-done-btn {
+      background: transparent; border: 1px solid var(--border);
+      border-radius: 10px; padding: 7px 12px;
+      font-size: 12px; font-weight: 600; color: var(--muted);
+      cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .mark-done-btn.done { background: var(--gold-dim); border-color: rgba(201,168,76,0.3); color: var(--gold); }
+
+    .video-container {
+      width: 100%; aspect-ratio: 16/9; background: #000; flex-shrink: 0;
+    }
+    #yt-iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    .player-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+    .player-body::-webkit-scrollbar { display: none; }
+
+    /* Progress + time */
+    .progress-section { margin-bottom: 18px; }
+    .progress-track {
+      width: 100%; height: 4px; background: var(--bg3);
+      border-radius: 4px; overflow: hidden; margin-bottom: 8px;
+      cursor: pointer;
+    }
+    .progress-track-fill { height: 100%; background: var(--gold); border-radius: 4px; transition: width 0.5s linear; }
+    .progress-times {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--muted); font-weight: 500;
+    }
+    .time-remaining { color: var(--gold); font-weight: 600; }
+
+    /* Controls */
+    .controls { display: flex; align-items: center; justify-content: center; gap: 24px; margin-bottom: 20px; }
+    .ctrl-btn {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 50%; width: 48px; height: 48px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text);
+      font-family: 'Inter', sans-serif; transition: border-color 0.15s, background 0.15s;
+      flex-shrink: 0;
+    }
+    .ctrl-btn:hover { border-color: rgba(201,168,76,0.4); background: var(--bg3); }
+    .ctrl-btn svg { pointer-events: none; }
+
+    /* Speed selector */
+    .speed-section { margin-bottom: 16px; }
+    .speed-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .speed-pills { display: flex; gap: 8px; }
+    .speed-pill {
+      flex: 1; padding: 9px 4px; text-align: center;
+      border-radius: 10px; border: 1px solid var(--border);
+      background: var(--bg2); color: var(--muted);
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: all 0.15s;
+    }
+    .speed-pill.active { background: var(--gold-dim); border-color: rgba(201,168,76,0.35); color: var(--gold); }
+
+    /* Description */
+    .desc-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+    .desc-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .desc-text { font-size: 13px; color: var(--text); line-height: 1.6; }
+
+    /* ── Floating mini player ── */
+    #mini-player {
+      display: none; position: fixed; bottom: 80px; left: 16px; right: 16px;
+      z-index: 90; background: var(--bg2);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 16px; padding: 10px 14px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      align-items: center; gap: 12px;
+      cursor: pointer;
+    }
+    #mini-player.visible { display: flex; }
+    .mini-thumb { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+    .mini-info { flex: 1; min-width: 0; }
+    .mini-title { font-size: 12px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mini-speed { font-size: 10px; color: var(--gold); font-weight: 600; margin-top: 2px; }
+    .mini-expand { font-size: 18px; color: var(--gold); flex-shrink: 0; padding: 4px; }
+
+    /* ── Stats overlay ── */
+    #stats-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      align-items: flex-end; justify-content: center;
+      padding: 0 0 env(safe-area-inset-bottom);
+    }
+    #stats-overlay.open { display: flex; }
+    .stats-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 24px 24px 0 0; padding: 24px 24px 32px;
+      width: 100%; max-width: 480px;
+    }
+    .stats-handle { width: 36px; height: 4px; background: var(--bg3); border-radius: 4px; margin: 0 auto 20px; }
+    .stats-title { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 20px; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-tile {
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px;
+    }
+    .stat-value { font-size: 26px; font-weight: 800; color: var(--gold); letter-spacing: -0.02em; }
+    .stat-label { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 4px; line-height: 1.3; }
+
+    /* ── Empty state ── */
+    .empty { text-align: center; padding: 60px 24px; color: var(--muted); font-size: 14px; font-weight: 500; }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="header-left">
+    <svg class="vault-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="4" width="28" height="24" rx="4" stroke="#c9a84c" stroke-width="2"/>
+      <circle cx="16" cy="16" r="6" stroke="#c9a84c" stroke-width="2"/>
+      <circle cx="16" cy="16" r="2.5" fill="#c9a84c"/>
+      <line x1="16" y1="10" x2="16" y2="7" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+      <line x1="16" y1="25" x2="16" y2="22" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+      <line x1="22" y1="16" x2="25" y2="16" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+      <line x1="7" y1="16" x2="10" y2="16" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+      <rect x="27" y="12" width="3" height="8" rx="1.5" fill="#c9a84c"/>
+    </svg>
+    <span class="app-name">The Vault</span>
+  </div>
+  <button class="stats-btn" onclick="openStats()">Stats</button>
+</header>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('audiobooks', this)">Audiobooks</button>
+  <button class="tab" onclick="switchTab('podcasts', this)">Podcasts</button>
+</div>
+
+<!-- Filters -->
+<div class="filters" id="filters"></div>
+
+<!-- Scroll area -->
+<div class="scroll-area" id="scroll-area">
+  <p class="section-label" id="recent-label" style="display:none">Recently Played</p>
+  <div class="recent-row" id="recent-row"></div>
+  <p class="section-label" id="library-label">Library</p>
+  <div class="card-grid" id="card-grid"></div>
+</div>
+
+<!-- Full-screen player -->
+<div id="player-screen">
+  <div class="player-header">
+    <button class="close-btn" onclick="closePlayer()">↓ Close</button>
+    <div class="player-title-wrap">
+      <div class="player-title" id="player-title">—</div>
+      <div class="player-category" id="player-category">—</div>
+    </div>
+    <button class="mark-done-btn" id="mark-done-btn" onclick="toggleDone()">✓ Done</button>
+  </div>
+
+  <div class="video-container">
+    <iframe id="yt-iframe"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="player-body">
+    <!-- Progress -->
+    <div class="progress-section">
+      <div class="progress-track" id="progress-track">
+        <div class="progress-track-fill" id="progress-track-fill" style="width:0%"></div>
+      </div>
+      <div class="progress-times">
+        <span id="time-elapsed">0:00</span>
+        <span class="time-remaining" id="time-remaining">— left</span>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button class="ctrl-btn" onclick="skipBack()" title="Back 30s">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.62"/>
+          <text x="8.5" y="14" font-size="5.5" fill="currentColor" stroke="none" font-family="Inter" font-weight="700">30</text>
+        </svg>
+      </button>
+      <button class="ctrl-btn" onclick="skipForward()" title="Forward 30s">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.62"/>
+          <text x="8.5" y="14" font-size="5.5" fill="currentColor" stroke="none" font-family="Inter" font-weight="700">30</text>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Speed -->
+    <div class="speed-section">
+      <div class="speed-label">Playback Speed</div>
+      <div class="speed-pills" id="speed-pills"></div>
+    </div>
+
+    <!-- Description -->
+    <div class="desc-section" id="desc-section" style="display:none">
+      <div class="desc-label">About</div>
+      <div class="desc-text" id="desc-text"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Mini player -->
+<div id="mini-player" onclick="openCurrentPlayer()">
+  <img class="mini-thumb" id="mini-thumb" src="" alt="">
+  <div class="mini-info">
+    <div class="mini-title" id="mini-title">—</div>
+    <div class="mini-speed" id="mini-speed">1x</div>
+  </div>
+  <div class="mini-expand">▲</div>
+</div>
+
+<!-- Stats overlay -->
+<div id="stats-overlay" onclick="closeStats()">
+  <div class="stats-card" onclick="event.stopPropagation()">
+    <div class="stats-handle"></div>
+    <div class="stats-title">Your Stats</div>
+    <div class="stats-grid" id="stats-grid"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const CONTENT = [
+  {
+    id: 'XamuvhQibBs',
+    title: 'Up From Slavery',
+    type: 'audiobooks',
+    categories: ['self-help', 'other'],
+    description: 'The autobiography of Booker T. Washington — one of the most inspiring stories of rising from slavery to becoming one of the most influential leaders in American history.',
+  },
+  {
+    id: 'dIgz7DKWx5s',
+    title: 'Think and Grow Rich',
+    type: 'audiobooks',
+    categories: ['business', 'self-help'],
+    description: 'Napoleon Hill\'s classic on the mindset and principles behind achieving wealth and success, based on interviews with hundreds of self-made millionaires.',
+  },
+  {
+    id: 'wp7Lz1svVro',
+    title: 'Rich Dad Poor Dad',
+    type: 'audiobooks',
+    categories: ['business', 'self-help'],
+    description: 'Robert Kiyosaki\'s landmark book on financial education — why the rich don\'t work for money, the power of assets over liabilities, and how to build wealth.',
+  },
+];
+
+const CATEGORIES = [
+  { key: 'all',      label: 'All' },
+  { key: 'business', label: 'Business' },
+  { key: 'faith',    label: 'Faith' },
+  { key: 'self-help',label: 'Self-Help' },
+  { key: 'other',    label: 'Other' },
+];
+
+const SPEEDS = [1, 1.25, 1.5, 1.75, 2];
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let activeTab      = 'audiobooks';
+let activeFilter   = 'all';
+let currentItem    = null;
+let playerOpen     = false;
+let ytPlayer       = null;
+let pollInterval   = null;
+let speed          = parseFloat(localStorage.getItem('vault-speed') || '1');
+
+function getProgress(id)    { try { return JSON.parse(localStorage.getItem('vault-p-' + id)) || { pct: 0, sec: 0, done: false }; } catch { return { pct: 0, sec: 0, done: false }; } }
+function saveProgress(id, p) { localStorage.setItem('vault-p-' + id, JSON.stringify(p)); }
+function getRecent()         { try { return JSON.parse(localStorage.getItem('vault-recent')) || []; } catch { return []; } }
+function addRecent(id) {
+  let r = getRecent().filter(x => x !== id);
+  r.unshift(id);
+  r = r.slice(0, 6);
+  localStorage.setItem('vault-recent', JSON.stringify(r));
+}
+
+/* Streak & hours */
+function getStats() { try { return JSON.parse(localStorage.getItem('vault-stats')) || { streak: 0, lastDay: null, totalSec: 0, savedSec: 0 }; } catch { return { streak: 0, lastDay: null, totalSec: 0, savedSec: 0 }; } }
+function saveStats(s) { localStorage.setItem('vault-stats', JSON.stringify(s)); }
+function recordListened(seconds, spd) {
+  const s = getStats();
+  s.totalSec += seconds;
+  s.savedSec  += seconds * (spd - 1);
+  const today = new Date().toDateString();
+  if (s.lastDay !== today) {
+    s.streak = (s.lastDay === new Date(Date.now() - 86400000).toDateString()) ? s.streak + 1 : 1;
+    s.lastDay = today;
+  }
+  saveStats(s);
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function fmtTime(sec) {
+  if (!sec || isNaN(sec)) return '—';
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = Math.floor(sec % 60);
+  if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  return `${m}:${String(s).padStart(2,'0')}`;
+}
+function fmtHours(sec) {
+  const h = (sec / 3600).toFixed(1);
+  return h + 'h';
+}
+
+function ringHTML(pct) {
+  const r = 13, circ = 2 * Math.PI * r;
+  const offset = circ * (1 - pct / 100);
+  return `<div class="ring-wrap">
+    <svg width="32" height="32" viewBox="0 0 32 32">
+      <circle class="ring-bg" cx="16" cy="16" r="${r}"/>
+      <circle class="ring-fill" cx="16" cy="16" r="${r}"
+        stroke-dasharray="${circ}" stroke-dashoffset="${offset}"/>
+    </svg>
+    <div class="ring-pct">${Math.round(pct)}%</div>
+  </div>`;
+}
+
+function buildCard(item) {
+  const p = getProgress(item.id);
+  const pct = p.pct || 0;
+  const catLabel = item.categories.map(c => CATEGORIES.find(x => x.key === c)?.label || c).join(', ');
+  const div = document.createElement('div');
+  div.className = 'video-card' + (p.done ? ' finished' : '');
+  div.dataset.id = item.id;
+  div.dataset.cats = item.categories.join(' ');
+  div.innerHTML = `
+    <div class="thumb-wrap">
+      <img src="https://img.youtube.com/vi/${item.id}/hqdefault.jpg" alt="${item.title}" loading="lazy">
+      ${p.done ? '<div class="done-badge">✓ Done</div>' : ''}
+      ${ringHTML(pct)}
+    </div>
+    <div class="card-body">
+      <p class="card-title">${item.title}</p>
+      <div class="card-meta">
+        <span class="card-tag">${catLabel}</span>
+        ${pct > 0 ? `<span class="card-pct">${Math.round(pct)}%</span>` : ''}
+      </div>
+    </div>`;
+  div.addEventListener('click', () => openPlayer(item));
+  return div;
+}
+
+function renderGrid() {
+  const grid = document.getElementById('card-grid');
+  grid.innerHTML = '';
+  const items = CONTENT.filter(v => {
+    if (v.type !== activeTab) return false;
+    if (activeFilter === 'all') return true;
+    return v.categories.includes(activeFilter);
+  });
+  if (items.length === 0) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1">Nothing here yet.</div>';
+    return;
+  }
+  items.forEach(v => grid.appendChild(buildCard(v)));
+}
+
+function renderRecent() {
+  const ids = getRecent();
+  const row = document.getElementById('recent-row');
+  const label = document.getElementById('recent-label');
+  row.innerHTML = '';
+  const items = ids.map(id => CONTENT.find(v => v.id === id)).filter(Boolean).filter(v => v.type === activeTab);
+  if (items.length === 0) { label.style.display = 'none'; return; }
+  label.style.display = '';
+  items.forEach(item => {
+    const p = getProgress(item.id);
+    const div = document.createElement('div');
+    div.className = 'recent-card';
+    div.innerHTML = `
+      <div class="recent-thumb">
+        <img src="https://img.youtube.com/vi/${item.id}/hqdefault.jpg" alt="${item.title}" loading="lazy">
+        <div class="recent-progress-bar"><div class="recent-progress-fill" style="width:${p.pct||0}%"></div></div>
+      </div>
+      <div class="recent-title">${item.title}</div>`;
+    div.addEventListener('click', () => openPlayer(item));
+    row.appendChild(div);
+  });
+}
+
+function renderFilters() {
+  const el = document.getElementById('filters');
+  el.innerHTML = '';
+  CATEGORIES.forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'filter-pill' + (c.key === activeFilter ? ' active' : '');
+    b.textContent = c.label;
+    b.addEventListener('click', () => { activeFilter = c.key; renderFilters(); renderGrid(); });
+    el.appendChild(b);
+  });
+}
+
+function renderSpeedPills() {
+  const el = document.getElementById('speed-pills');
+  el.innerHTML = '';
+  SPEEDS.forEach(s => {
+    const b = document.createElement('button');
+    b.className = 'speed-pill' + (s === speed ? ' active' : '');
+    b.textContent = s + 'x';
+    b.addEventListener('click', () => setSpeed(s));
+    el.appendChild(b);
+  });
+}
+
+function renderAll() {
+  renderFilters();
+  renderRecent();
+  renderGrid();
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+function switchTab(tab, el) {
+  activeTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter = 'all';
+  renderAll();
+}
+
+/* ============================================================
+   PLAYER
+   ============================================================ */
+function openPlayer(item) {
+  currentItem = item;
+  const p = getProgress(item.id);
+  const startSec = p.sec || 0;
+
+  document.getElementById('player-title').textContent = item.title;
+  document.getElementById('player-category').textContent =
+    item.categories.map(c => CATEGORIES.find(x => x.key === c)?.label || c).join(' · ');
+
+  const doneBtn = document.getElementById('mark-done-btn');
+  doneBtn.classList.toggle('done', !!p.done);
+
+  const descEl = document.getElementById('desc-section');
+  const descText = document.getElementById('desc-text');
+  if (item.description) {
+    descText.textContent = item.description;
+    descEl.style.display = '';
+  } else {
+    descEl.style.display = 'none';
+  }
+
+  // Load iframe with YT API
+  const src = `https://www.youtube.com/embed/${item.id}?enablejsapi=1&autoplay=1&start=${Math.floor(startSec)}&rel=0&modestbranding=1`;
+  document.getElementById('yt-iframe').src = src;
+
+  renderSpeedPills();
+  document.getElementById('player-screen').classList.add('open');
+  document.getElementById('mini-player').classList.remove('visible');
+  playerOpen = true;
+
+  addRecent(item.id);
+  renderRecent();
+
+  startPoll();
+}
+
+function closePlayer() {
+  stopPoll();
+  document.getElementById('player-screen').classList.remove('open');
+  document.getElementById('yt-iframe').src = '';
+  if (currentItem) {
+    document.getElementById('mini-player').classList.add('visible');
+    document.getElementById('mini-title').textContent = currentItem.title;
+    document.getElementById('mini-speed').textContent = speed + 'x';
+    document.getElementById('mini-thumb').src = `https://img.youtube.com/vi/${currentItem.id}/hqdefault.jpg`;
+  }
+  playerOpen = false;
+  renderGrid();
+}
+
+function openCurrentPlayer() {
+  if (currentItem) openPlayer(currentItem);
+  document.getElementById('mini-player').classList.remove('visible');
+}
+
+function toggleDone() {
+  if (!currentItem) return;
+  const p = getProgress(currentItem.id);
+  p.done = !p.done;
+  saveProgress(currentItem.id, p);
+  const btn = document.getElementById('mark-done-btn');
+  btn.classList.toggle('done', p.done);
+}
+
+/* ============================================================
+   YT IFRAME POLLING
+   ============================================================ */
+let lastSec = 0;
+let duration = 0;
+
+function startPoll() {
+  stopPoll();
+  pollInterval = setInterval(() => {
+    const iframe = document.getElementById('yt-iframe');
+    if (!iframe || !iframe.contentWindow) return;
+    try {
+      iframe.contentWindow.postMessage('{"event":"listening","id":1,"channel":"widget"}', '*');
+    } catch(e) {}
+  }, 1000);
+}
+
+function stopPoll() {
+  if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
+}
+
+window.addEventListener('message', (e) => {
+  if (!e.data) return;
+  let data;
+  try { data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
+
+  if (data.event === 'infoDelivery' && data.info) {
+    const info = data.info;
+    if (info.currentTime !== undefined) {
+      const sec = info.currentTime;
+      const dur = info.duration || duration;
+      duration = dur;
+      const spd = info.playbackRate || speed;
+
+      if (sec !== lastSec) {
+        const diff = Math.abs(sec - lastSec);
+        if (diff < 5 && diff > 0) recordListened(diff, spd);
+        lastSec = sec;
+      }
+
+      const pct = dur > 0 ? (sec / dur * 100) : 0;
+      if (currentItem) {
+        const p = getProgress(currentItem.id);
+        p.pct = pct; p.sec = sec;
+        saveProgress(currentItem.id, p);
+      }
+
+      document.getElementById('progress-track-fill').style.width = pct + '%';
+      document.getElementById('time-elapsed').textContent = fmtTime(sec);
+      const remaining = dur > 0 ? (dur - sec) / spd : null;
+      document.getElementById('time-remaining').textContent = remaining ? fmtTime(remaining) + ' left' : '—';
+    }
+  }
+
+  if (data.event === 'onReady') {
+    setTimeout(() => setSpeed(speed), 500);
+  }
+});
+
+/* ============================================================
+   CONTROLS
+   ============================================================ */
+function skipBack() {
+  document.getElementById('yt-iframe').contentWindow?.postMessage(
+    JSON.stringify({ event: 'command', func: 'seekTo', args: [Math.max(0, lastSec - 30), true] }), '*');
+}
+function skipForward() {
+  document.getElementById('yt-iframe').contentWindow?.postMessage(
+    JSON.stringify({ event: 'command', func: 'seekTo', args: [lastSec + 30, true] }), '*');
+}
+function setSpeed(s) {
+  speed = s;
+  localStorage.setItem('vault-speed', s);
+  document.getElementById('yt-iframe').contentWindow?.postMessage(
+    JSON.stringify({ event: 'command', func: 'setPlaybackRate', args: [s] }), '*');
+  document.getElementById('mini-speed').textContent = s + 'x';
+  renderSpeedPills();
+}
+
+/* ============================================================
+   STATS
+   ============================================================ */
+function openStats() {
+  const s = getStats();
+  const grid = document.getElementById('stats-grid');
+  grid.innerHTML = '';
+  const tiles = [
+    { value: s.streak + ' 🔥', label: 'Day streak' },
+    { value: fmtHours(s.totalSec), label: 'Total listened' },
+    { value: fmtHours(s.savedSec), label: 'Time saved at speed' },
+    { value: CONTENT.filter(v => getProgress(v.id).done).length, label: 'Books / pods finished' },
+  ];
+  tiles.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'stat-tile';
+    div.innerHTML = `<div class="stat-value">${t.value}</div><div class="stat-label">${t.label}</div>`;
+    grid.appendChild(div);
+  });
+  document.getElementById('stats-overlay').classList.add('open');
+}
+function closeStats() {
+  document.getElementById('stats-overlay').classList.remove('open');
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderAll();
+</script>
+</body>
+</html>

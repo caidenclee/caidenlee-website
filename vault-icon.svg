@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" rx="112" fill="#080d1a"/>
+  <!-- Vault door outer ring -->
+  <circle cx="256" cy="256" r="168" fill="none" stroke="#c9a84c" stroke-width="18"/>
+  <!-- Vault door inner ring -->
+  <circle cx="256" cy="256" r="100" fill="none" stroke="#c9a84c" stroke-width="12"/>
+  <!-- Center knob -->
+  <circle cx="256" cy="256" r="32" fill="#c9a84c"/>
+  <!-- Locking bolts -->
+  <circle cx="256" cy="88" r="16" fill="#c9a84c"/>
+  <circle cx="256" cy="424" r="16" fill="#c9a84c"/>
+  <circle cx="88" cy="256" r="16" fill="#c9a84c"/>
+  <circle cx="424" cy="256" r="16" fill="#c9a84c"/>
+  <!-- Handle bar -->
+  <rect x="310" y="242" width="80" height="28" rx="14" fill="#c9a84c"/>
+</svg>
