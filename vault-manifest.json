@@ -2,7 +2,7 @@
   "name": "The Vault",
   "short_name": "The Vault",
   "description": "Caiden's personal podcast and audiobook player",
-  "start_url": "/vault.html",
+  "start_url": "/vault/",
   "display": "standalone",
   "background_color": "#080d1a",
   "theme_color": "#080d1a",
