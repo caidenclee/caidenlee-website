@@ -271,11 +271,11 @@
     .name-input {
       background:var(--bg3); border:1px solid var(--border); border-radius:10px;
       padding:8px 12px; font-size:14px; font-weight:600; color:var(--text);
-      font-family:'Inter',sans-serif; text-align:right; outline:none; width:130px;
+      font-family:'Inter',sans-serif; text-align:center; outline:none; width:130px;
       transition:border-color 0.18s;
     }
     .name-input:focus { border-color:rgba(50,173,230,0.5); }
-    .name-input::placeholder { color:var(--muted); font-weight:400; }
+    .name-input::placeholder { color:var(--muted); font-weight:400; text-align:center; }
 
     /* ══════════════════════════════════
        BOTTOM NAV
@@ -579,9 +579,8 @@
           <div class="settings-row">
             <div class="settings-row-left">
               <div class="settings-row-title">Your Name</div>
-              <div class="settings-row-sub">Shows on the home screen greeting</div>
             </div>
-            <input class="name-input" id="name-input" type="text" maxlength="20" placeholder="Enter name" oninput="saveName(this.value)">
+            <input class="name-input" id="name-input" type="text" maxlength="20" placeholder="Your name" oninput="saveName(this.value)">
           </div>
         </div>
       </div>
@@ -593,14 +592,12 @@
           <div class="settings-row">
             <div class="settings-row-left">
               <div class="settings-row-title">Default Speed</div>
-              <div class="settings-row-sub">Speed when opening a new video</div>
             </div>
             <div class="speed-mini" id="default-speed-pills"></div>
           </div>
           <div class="settings-row">
             <div class="settings-row-left">
               <div class="settings-row-title">Skip Duration</div>
-              <div class="settings-row-sub">Seconds per skip forward/back</div>
             </div>
             <div class="speed-mini" id="skip-pills"></div>
           </div>
@@ -614,14 +611,12 @@
           <div class="settings-row" onclick="confirmReset('progress')" style="cursor:pointer">
             <div class="settings-row-left">
               <div class="settings-row-title" style="color:#ff453a">Reset All Progress</div>
-              <div class="settings-row-sub">Clears % and timestamps on all items</div>
             </div>
             <div class="settings-chevron">›</div>
           </div>
           <div class="settings-row" onclick="confirmReset('stats')" style="cursor:pointer">
             <div class="settings-row-left">
               <div class="settings-row-title" style="color:#ff453a">Reset Stats</div>
-              <div class="settings-row-sub">Clears streak, hours, and time saved</div>
             </div>
             <div class="settings-chevron">›</div>
           </div>
@@ -635,7 +630,6 @@
           <div class="settings-row">
             <div class="settings-row-left">
               <div class="settings-row-title">The Vault</div>
-              <div class="settings-row-sub">Your personal audio library</div>
             </div>
             <div class="settings-chevron" style="color:var(--muted)">v1.0</div>
           </div>
