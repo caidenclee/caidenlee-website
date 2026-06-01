@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caiden's Cross Library</title>
+  <link rel="icon" type="image/png" href="/Caiden Cube Logo black.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #16161a; --bg2: #1e1e24; --bg3: #26262e;
+      --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #8a8a9a;
+      --accent: #7c6ff7;
+      --beginner: #22c55e; --intermediate: #eab308; --advanced: #ef4444;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; -webkit-font-smoothing: antialiased; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -80px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(124,111,247,0.09) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+      animation: fadeIn 1s ease both;
+    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .hero {
+      padding: 3rem 2.5rem 2rem; text-align: center;
+      position: relative; z-index: 1;
+      animation: fadeUp 0.7s ease both;
+    }
+    .hero-lockup { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 14px; }
+    .hero-logo { width: 56px; height: 56px; object-fit: contain; }
+    .hero-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.04em; color: var(--text); line-height: 1.1; }
+
+    .filter-bar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(22,22,26,0.97); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;
+    }
+
+    .pills { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .pill {
+      padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border);
+      background: var(--bg2); color: var(--muted);
+      font-size: 12px; font-weight: 600; font-family: 'Inter', sans-serif;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    }
+    .pill:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+    .pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .grid-wrap { padding: 28px 24px 60px; max-width: 1100px; margin: 0 auto; animation: fadeUp 0.7s ease 0.4s both; }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .video-card {
+      display: block; text-decoration: none; color: inherit;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .video-card:hover { border-color: rgba(124,111,247,0.4); transform: translateY(-2px); }
+    .video-card:active { transform: translateY(0); }
+    .video-card.hidden { display: none; }
+
+    .thumb-wrap {
+      position: relative; width: 100%; aspect-ratio: 16/9;
+      background: var(--bg3); overflow: hidden;
+    }
+    .thumb-wrap img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      opacity: 0.85; transition: opacity 0.2s;
+    }
+    .video-card:hover .thumb-wrap img { opacity: 1; }
+
+    .diff-dot {
+      position: absolute; bottom: 8px; right: 8px;
+      width: 8px; height: 8px; border-radius: 50%;
+      border: 1.5px solid rgba(0,0,0,0.3);
+    }
+    .diff-dot.beginner { background: var(--beginner); }
+    .diff-dot.intermediate { background: var(--intermediate); }
+    .diff-dot.advanced { background: var(--advanced); }
+    .diff-dot.all { background: var(--accent); }
+
+    .card-body { padding: 10px 12px 12px; }
+    .card-title { font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.4; }
+
+    .empty-state {
+      grid-column: 1 / -1; text-align: center;
+      padding: 60px 24px; color: var(--muted);
+      font-size: 14px; font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="hero-lockup">
+      <img class="hero-logo" src="/Caiden Cube Logo black.png" alt="Caiden Lee">
+    </div>
+    <h1 class="hero-title">Caiden's Cross Library</h1>
+  </div>
+
+  <div class="filter-bar">
+    <div class="pills" id="pills">
+      <button class="pill active" data-filter="all">All</button>
+      <button class="pill" data-filter="beginner">Beginner</button>
+      <button class="pill" data-filter="intermediate">Intermediate</button>
+      <button class="pill" data-filter="advanced">Advanced</button>
+    </div>
+  </div>
+
+  <div class="grid-wrap">
+    <div class="video-grid" id="grid"></div>
+  </div>
+
+  <script>
+    const videos = [
+      {
+        id: 'HDlDcRhCR0Q',
+        title: '10 Must Know Cross Tips! [CFOP Method]',
+        difficulty: 'beginner',
+        slug: '10-cross-tips',
+        tags: ['beginner', 'intermediate']
+      },
+      {
+        id: 'IWXpkfwimo0',
+        title: 'Rubik\'s Cube: 7 Tips For An Efficient Cross Every Solve (CFOP)',
+        difficulty: 'beginner',
+        slug: '7-tips-efficient-cross',
+        tags: ['beginner']
+      },
+      {
+        id: 'x93VB_v5ATM',
+        title: 'Rubik\'s Cube: Advanced Cross Tutorial',
+        difficulty: 'advanced',
+        slug: 'advanced-cross-tutorial',
+        tags: ['advanced']
+      },
+      {
+        id: 'iQLnxmRMGdw',
+        title: 'What Level Are You? [Cross Rubik\'s Cube]',
+        difficulty: 'all',
+        slug: 'what-level-are-you',
+        tags: ['all', 'beginner', 'intermediate', 'advanced']
+      },
+      {
+        id: 'VWwj_HaPpYI',
+        title: 'How To Solve the Cross FASTER [Cross Boot Camp]',
+        difficulty: 'intermediate',
+        slug: 'cross-boot-camp',
+        tags: ['intermediate']
+      },
+      {
+        id: 'hsPXw7nkwDU',
+        title: 'The Most Underused Cross Trick (CFOP)',
+        difficulty: 'advanced',
+        slug: 'underused-cross-trick',
+        tags: ['advanced']
+      },
+      {
+        id: 'P9POsBAaKd0',
+        title: 'Rubik\'s Cube: X-Cross Tutorial (CFOP)',
+        difficulty: 'advanced',
+        slug: 'x-cross-tutorial',
+        tags: ['advanced']
+      }
+    ];
+
+    const STEPS = ['watched', 'practiced', 'mastered'];
+
+    function getProgress(slug) {
+      try { return JSON.parse(localStorage.getItem('cross-progress-' + slug)) || {}; } catch { return {}; }
+    }
+
+    function buildCard(v) {
+      const card = document.createElement('a');
+      card.className = 'video-card';
+      card.href = `/cross/${v.slug}/`;
+      card.dataset.tags = v.tags.join(' ');
+      card.innerHTML = `
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" loading="lazy">
+          <div class="diff-dot ${v.difficulty}"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-title">${v.title}</p>
+        </div>`;
+      return card;
+    }
+
+    const grid = document.getElementById('grid');
+    videos.forEach(v => grid.appendChild(buildCard(v)));
+
+    let activeFilter = 'all';
+
+    function applyFilters() {
+      const cards = grid.querySelectorAll('.video-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const show = activeFilter === 'all' || card.dataset.tags.includes(activeFilter);
+        card.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      let empty = grid.querySelector('.empty-state');
+      if (visible === 0) {
+        if (!empty) { empty = document.createElement('div'); empty.className = 'empty-state'; grid.appendChild(empty); }
+        empty.textContent = 'No videos found.';
+      } else if (empty) { empty.remove(); }
+    }
+
+    document.getElementById('pills').addEventListener('click', e => {
+      const pill = e.target.closest('.pill');
+      if (!pill) return;
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeFilter = pill.dataset.filter;
+      applyFilters();
+    });
+  </script>
+</body>
+</html>
