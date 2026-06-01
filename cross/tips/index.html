@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tips — Caiden's Cross Library</title>
+  <link rel="icon" type="image/png" href="/Caiden Cube Logo black.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #16161a; --bg2: #1e1e24; --bg3: #26262e;
+      --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #8a8a9a;
+      --accent: #7c6ff7;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; -webkit-font-smoothing: antialiased; }
+
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; align-items: center;
+      padding: 0 24px; height: 52px;
+      background: rgba(22,22,26,0.97); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { height: 28px; width: auto; object-fit: contain; }
+    .nav-x { font-size: 16px; font-weight: 700; color: #3a3a52; }
+
+    .content { max-width: 1100px; margin: 0 auto; padding: 32px 24px 60px; }
+    .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 28px; }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb span { margin: 0 6px; }
+    .page-title { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 24px; }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .video-card {
+      display: block; text-decoration: none; color: inherit;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .video-card:hover { border-color: rgba(124,111,247,0.4); transform: translateY(-2px); }
+    .video-card:active { transform: translateY(0); }
+
+    .thumb-wrap {
+      position: relative; width: 100%; aspect-ratio: 16/9;
+      background: var(--bg3); overflow: hidden;
+    }
+    .thumb-wrap img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      opacity: 0.85; transition: opacity 0.2s;
+    }
+    .video-card:hover .thumb-wrap img { opacity: 1; }
+
+    .card-body { padding: 10px 12px 12px; }
+    .card-title { font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-logo" href="/cross/">
+      <img src="/Caiden Cube Logo black.png" alt="">
+      <span class="nav-x">×</span>
+      <img src="/cross-3x3.png" alt="Cross" style="height:28px;width:auto;object-fit:contain">
+    </a>
+  </nav>
+  <div class="content">
+    <p class="breadcrumb"><a href="/cross/">Cross Library</a><span>›</span> Tips</p>
+    <h1 class="page-title">Tips</h1>
+    <div class="video-grid">
+      <a href="/cross/10-cross-tips/" class="video-card">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/HDlDcRhCR0Q/hqdefault.jpg" alt="10 Must Know Cross Tips! [CFOP Method]" loading="lazy">
+        </div>
+        <div class="card-body">
+          <p class="card-title">10 Must Know Cross Tips! [CFOP Method]</p>
+        </div>
+      </a>
+      <a href="/cross/7-tips-efficient-cross/" class="video-card">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/IWXpkfwimo0/hqdefault.jpg" alt="Rubik's Cube: 7 Tips For An Efficient Cross Every Solve (CFOP)" loading="lazy">
+        </div>
+        <div class="card-body">
+          <p class="card-title">Rubik's Cube: 7 Tips For An Efficient Cross Every Solve (CFOP)</p>
+        </div>
+      </a>
+      <a href="/cross/underused-cross-trick/" class="video-card">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/hsPXw7nkwDU/hqdefault.jpg" alt="The Most Underused Cross Trick (CFOP)" loading="lazy">
+        </div>
+        <div class="card-body">
+          <p class="card-title">The Most Underused Cross Trick (CFOP)</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
