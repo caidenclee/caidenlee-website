@@ -1,6 +1,10 @@
 # macOS
 .DS_Store
 
+# Large media files (hosted externally)
+*.mp4
+*.mp3
+
 # Zip archives
 *.zip
 

@@ -680,6 +680,7 @@
   </div>
   <div class="video-wrap">
     <iframe id="yt-iframe" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <video id="local-video" style="display:none;width:100%;height:100%;background:#000;"></video>
   </div>
   <div class="player-body">
     <div class="progress-section">
@@ -763,6 +764,7 @@ const CONTENT = [
     title: 'Up From Slavery',
     type: 'audiobooks',
     categories: ['self-help','other'],
+    src: 'https://ia800108.us.archive.org/0/items/up-from-slavery-an-autobiography-version-2-by-booker-t.-washington-full-audio-bo/Up%20From%20Slavery%20An%20Autobiography%20%28version%202%29%20by%20Booker%20T.%20WASHINGTON%20%20Full%20Audio%20Book-1280x720-avc1-mp4a.mp4',
     description: "The autobiography of Booker T. Washington — one of the most inspiring stories of rising from slavery to becoming one of the most influential leaders in American history.",
   },
   {
@@ -965,19 +967,36 @@ function openPlayer(item) {
   if (item.description) { document.getElementById('desc-text').textContent=item.description; desc.style.display=''; }
   else desc.style.display='none';
 
-  document.getElementById('yt-iframe').src = `https://www.youtube.com/embed/${item.id}?enablejsapi=1&autoplay=1&start=${Math.floor(start)}&rel=0&modestbranding=1`;
+  const iframe = document.getElementById('yt-iframe');
+  const video  = document.getElementById('local-video');
+  if (item.src) {
+    iframe.src = ''; iframe.style.display = 'none';
+    video.style.display = 'block';
+    video.src = item.src;
+    video.currentTime = Math.floor(start);
+    video.playbackRate = speed;
+    video.play();
+    attachVideoListeners(video);
+  } else {
+    video.pause(); video.src = ''; video.style.display = 'none';
+    iframe.style.display = 'block';
+    iframe.src = `https://www.youtube.com/embed/${item.id}?enablejsapi=1&autoplay=1&start=${Math.floor(start)}&rel=0&modestbranding=1`;
+    startPoll();
+  }
 
   renderSpeeds();
   document.getElementById('player-screen').classList.add('open');
   document.getElementById('mini-player').classList.remove('visible');
   addR(item.id);
-  startPoll();
 }
 
 function closePlayer() {
   stopPoll();
   document.getElementById('player-screen').classList.remove('open');
   document.getElementById('yt-iframe').src = '';
+  const video = document.getElementById('local-video');
+  video.pause(); video.src = ''; video.style.display = 'none';
+  document.getElementById('yt-iframe').style.display = 'block';
   if (currentItem) {
     document.getElementById('mini-thumb').src  = `https://img.youtube.com/vi/${currentItem.id}/hqdefault.jpg`;
     document.getElementById('mini-title').textContent = currentItem.title;
@@ -1033,9 +1052,31 @@ window.addEventListener('message', e => {
 /* ================================================================
    CONTROLS
 ================================================================ */
+function attachVideoListeners(video) {
+  video.ontimeupdate = () => {
+    const ct = video.currentTime, dur = video.duration||0, spd = video.playbackRate||speed;
+    const diff = Math.abs(ct - lastSec);
+    if (diff < 5 && diff > 0) recordListened(diff, spd);
+    lastSec = ct;
+    if (dur) duration = dur;
+    const pct = dur > 0 ? (ct / dur * 100) : 0;
+    if (currentItem) { const p = getP(currentItem.id); p.pct = pct; p.sec = ct; saveP(currentItem.id, p); }
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('t-elapsed').textContent = fmtT(ct);
+    const rem = dur > 0 ? (dur - ct) / spd : null;
+    document.getElementById('t-remain').textContent = rem ? fmtT(rem) + ' left' : '—';
+  };
+  video.ondurationchange = () => { duration = video.duration; };
+}
+
 function setSpeed(s) {
   speed=s; localStorage.setItem('vault-speed',s);
-  document.getElementById('yt-iframe').contentWindow?.postMessage(JSON.stringify({event:'command',func:'setPlaybackRate',args:[s]}),'*');
+  const video = document.getElementById('local-video');
+  if (currentItem?.src) {
+    video.playbackRate = s;
+  } else {
+    document.getElementById('yt-iframe').contentWindow?.postMessage(JSON.stringify({event:'command',func:'setPlaybackRate',args:[s]}),'*');
+  }
   document.getElementById('mini-speed').textContent=s+'x';
   renderSpeeds();
 }
@@ -1172,8 +1213,14 @@ function closeConfirm() {
 }
 
 // Update skip functions to use skipSec
-function skipBack() { document.getElementById('yt-iframe').contentWindow?.postMessage(JSON.stringify({event:'command',func:'seekTo',args:[Math.max(0,lastSec-skipSec),true]}),'*'); }
-function skipFwd()  { document.getElementById('yt-iframe').contentWindow?.postMessage(JSON.stringify({event:'command',func:'seekTo',args:[lastSec+skipSec,true]}),'*'); }
+function skipBack() {
+  if (currentItem?.src) { document.getElementById('local-video').currentTime = Math.max(0, lastSec - skipSec); }
+  else { document.getElementById('yt-iframe').contentWindow?.postMessage(JSON.stringify({event:'command',func:'seekTo',args:[Math.max(0,lastSec-skipSec),true]}),'*'); }
+}
+function skipFwd() {
+  if (currentItem?.src) { document.getElementById('local-video').currentTime = lastSec + skipSec; }
+  else { document.getElementById('yt-iframe').contentWindow?.postMessage(JSON.stringify({event:'command',func:'seekTo',args:[lastSec+skipSec,true]}),'*'); }
+}
 
 /* ================================================================
    INIT
