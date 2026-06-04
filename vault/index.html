@@ -714,6 +714,10 @@
       <div class="sec-label">Speed</div>
       <div class="speed-pills" id="speed-pills"></div>
     </div>
+    <div class="speed-section">
+      <div class="sec-label">Skip</div>
+      <div class="speed-pills" id="skip-player-pills"></div>
+    </div>
     <div class="desc-box" id="desc-box" style="display:none">
       <div class="sec-label" style="margin-bottom:8px">About</div>
       <div class="desc-text" id="desc-text"></div>
@@ -994,6 +998,7 @@ function openPlayer(item) {
 
   setPlayPauseIcon(true);
   renderSpeeds();
+  renderSkips();
   document.getElementById('player-screen').classList.add('open');
   document.getElementById('mini-player').classList.remove('visible');
   addR(item.id);
@@ -1095,6 +1100,13 @@ function renderSpeeds() {
   SPEEDS.forEach(s=>{
     const b=document.createElement('button'); b.className='spill'+(s===speed?' active':''); b.textContent=s+'x';
     b.addEventListener('click',()=>setSpeed(s)); el.appendChild(b);
+  });
+}
+function renderSkips() {
+  const el=document.getElementById('skip-player-pills'); el.innerHTML='';
+  [10,15,30,45,60].forEach(s=>{
+    const b=document.createElement('button'); b.className='spill'+(s===skipSec?' active':''); b.textContent=s+'s';
+    b.addEventListener('click',()=>{ skipSec=s; localStorage.setItem('vault-skip',s); renderSkips(); renderSettings(); }); el.appendChild(b);
   });
 }
 
