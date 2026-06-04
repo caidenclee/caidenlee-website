@@ -989,6 +989,7 @@ function openPlayer(item) {
     video.playbackRate = speed;
     video.play();
     attachVideoListeners(video);
+    setupMediaSession(item);
   } else {
     video.pause(); video.src = ''; video.style.display = 'none';
     iframe.style.display = 'block';
@@ -1080,8 +1081,26 @@ function attachVideoListeners(video) {
     document.getElementById('t-elapsed').textContent = fmtT(ct);
     const rem = dur > 0 ? (dur - ct) / spd : null;
     document.getElementById('t-remain').textContent = rem ? fmtT(rem) + ' left' : '—';
+    if ('mediaSession' in navigator) navigator.mediaSession.setPositionState({ duration: dur||0, playbackRate: spd, position: ct });
   };
   video.ondurationchange = () => { duration = video.duration; };
+  video.onplay  = () => { setPlayPauseIcon(true);  if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing'; };
+  video.onpause = () => { setPlayPauseIcon(false); if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';  };
+}
+
+function setupMediaSession(item) {
+  if (!('mediaSession' in navigator)) return;
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: item.title,
+    artist: 'Audiobook',
+    album: "Caiden's Vault",
+    artwork: [{ src: `https://img.youtube.com/vi/${item.id}/hqdefault.jpg`, sizes: '480x360', type: 'image/jpeg' }]
+  });
+  const video = document.getElementById('local-video');
+  navigator.mediaSession.setActionHandler('play',         () => { video.play();  });
+  navigator.mediaSession.setActionHandler('pause',        () => { video.pause(); });
+  navigator.mediaSession.setActionHandler('seekbackward', () => { video.currentTime = Math.max(0, video.currentTime - skipSec); });
+  navigator.mediaSession.setActionHandler('seekforward',  () => { video.currentTime = video.currentTime + skipSec; });
 }
 
 function setSpeed(s) {
