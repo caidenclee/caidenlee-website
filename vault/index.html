@@ -696,6 +696,14 @@
           <polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.62"/>
         </svg>
       </button>
+      <button class="cbtn" id="play-pause-btn" onclick="togglePlayPause()" title="Play/Pause">
+        <svg id="pp-play-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+          <polygon points="5,3 19,12 5,21"/>
+        </svg>
+        <svg id="pp-pause-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="display:none">
+          <rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/>
+        </svg>
+      </button>
       <button class="cbtn" onclick="skipFwd()" title="+30s">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.62"/>
@@ -984,6 +992,7 @@ function openPlayer(item) {
     startPoll();
   }
 
+  setPlayPauseIcon(true);
   renderSpeeds();
   document.getElementById('player-screen').classList.add('open');
   document.getElementById('mini-player').classList.remove('visible');
@@ -997,6 +1006,7 @@ function closePlayer() {
   const video = document.getElementById('local-video');
   video.pause(); video.src = ''; video.style.display = 'none';
   document.getElementById('yt-iframe').style.display = 'block';
+  setPlayPauseIcon(false);
   if (currentItem) {
     document.getElementById('mini-thumb').src  = `https://img.youtube.com/vi/${currentItem.id}/hqdefault.jpg`;
     document.getElementById('mini-title').textContent = currentItem.title;
@@ -1220,6 +1230,20 @@ function skipBack() {
 function skipFwd() {
   if (currentItem?.src) { document.getElementById('local-video').currentTime = lastSec + skipSec; }
   else { document.getElementById('yt-iframe').contentWindow?.postMessage(JSON.stringify({event:'command',func:'seekTo',args:[lastSec+skipSec,true]}),'*'); }
+}
+
+function setPlayPauseIcon(playing) {
+  document.getElementById('pp-play-icon').style.display  = playing ? 'none' : '';
+  document.getElementById('pp-pause-icon').style.display = playing ? '' : 'none';
+}
+function togglePlayPause() {
+  const video = document.getElementById('local-video');
+  if (currentItem?.src) {
+    if (video.paused) { video.play(); setPlayPauseIcon(true); }
+    else              { video.pause(); setPlayPauseIcon(false); }
+  } else {
+    document.getElementById('yt-iframe').contentWindow?.postMessage(JSON.stringify({event:'command',func:'pauseVideo',args:[]}),'*');
+  }
 }
 
 /* ================================================================
