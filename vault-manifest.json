@@ -8,6 +8,6 @@
   "theme_color": "#080d1a",
   "orientation": "portrait",
   "icons": [
-    { "src": "/the_vault_icon_v2.png", "sizes": "any", "type": "image/png", "purpose": "any maskable" }
+    { "src": "/vault-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ]
 }
