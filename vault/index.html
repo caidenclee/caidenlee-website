@@ -334,7 +334,8 @@
     }
     .done-btn.done { background:var(--accent-dim); border-color:rgba(50,173,230,0.3); color:var(--accent); }
 
-    .video-wrap { width:100%; aspect-ratio:16/9; background:#000; flex-shrink:0; }
+    .video-wrap { width:100%; aspect-ratio:16/9; background:#000; flex-shrink:0; position:relative; }
+    #audio-cover { display:none; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
     #yt-iframe  { width:100%; height:100%; border:none; display:block; }
 
     .player-body { flex:1; overflow-y:auto; padding:16px 20px; }
@@ -681,6 +682,7 @@
   <div class="video-wrap">
     <iframe id="yt-iframe" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <video id="local-video" playsinline webkit-playsinline style="display:none;width:100%;height:100%;background:#000;"></video>
+    <img id="audio-cover" alt="Cover">
   </div>
   <div class="player-body">
     <div class="progress-section">
@@ -778,6 +780,14 @@ const CONTENT = [
     categories: ['self-help','other'],
     src: 'https://ia800108.us.archive.org/0/items/up-from-slavery-an-autobiography-version-2-by-booker-t.-washington-full-audio-bo/Up%20From%20Slavery%20An%20Autobiography%20%28version%202%29%20by%20Booker%20T.%20WASHINGTON%20%20Full%20Audio%20Book-1280x720-avc1-mp4a.mp4',
     description: "The autobiography of Booker T. Washington — one of the most inspiring stories of rising from slavery to becoming one of the most influential leaders in American history.",
+  },
+  {
+    id: 'd9zUVFzPtJ4',
+    title: 'How to Win Friends and Influence People',
+    type: 'audiobooks',
+    categories: ['business','self-help'],
+    src: 'https://ia601505.us.archive.org/7/items/how-to-win-friends-and-influence-people-by-dale-carnegie-audiobook/How%20To%20Win%20Friends%20And%20Influence%20People%20By%20Dale%20Carnegie%20%28Audiobook%29.mp3',
+    description: "Dale Carnegie's timeless classic on building meaningful relationships — how to make people like you, win them to your way of thinking, and become a more effective leader through empathy, listening, and genuine appreciation.",
   },
   {
     id: 'dIgz7DKWx5s',
@@ -990,6 +1000,10 @@ function openPlayer(item) {
     video.play();
     attachVideoListeners(video);
     setupMediaSession(item);
+    const cover = document.getElementById('audio-cover');
+    const isAudio = item.src.match(/\.mp3$/i);
+    cover.src   = isAudio ? `https://img.youtube.com/vi/${item.id}/maxresdefault.jpg` : '';
+    cover.style.display = isAudio ? 'block' : 'none';
   } else {
     video.pause(); video.src = ''; video.style.display = 'none';
     iframe.style.display = 'block';
@@ -1011,6 +1025,7 @@ function closePlayer() {
   document.getElementById('yt-iframe').src = '';
   const video = document.getElementById('local-video');
   video.pause(); video.src = ''; video.style.display = 'none';
+  document.getElementById('audio-cover').style.display = 'none';
   document.getElementById('yt-iframe').style.display = 'block';
   setPlayPauseIcon(false);
   if (currentItem) {
