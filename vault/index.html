@@ -9,7 +9,7 @@
   <meta name="theme-color" content="#1c1c1e">
   <title>The Vault</title>
   <link rel="manifest" href="/vault-manifest.json">
-  <link rel="icon" type="image/png" href="/vault-icon.png">
+  <link rel="icon" type="image/svg+xml" href="/vault-favicon.svg">
   <link rel="apple-touch-icon" href="/vault-icon.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -782,6 +782,15 @@ const CONTENT = [
     description: "The autobiography of Booker T. Washington — one of the most inspiring stories of rising from slavery to becoming one of the most influential leaders in American history.",
   },
   {
+    id: 'BZGnJImTlfw',
+    title: 'Outwitting the Devil',
+    type: 'audiobooks',
+    categories: ['self-help','other'],
+    src: 'https://archive.org/download/outwitting-the-devil-napoleon-hill-the-audio-book-that-will-open-your-eyes/Outwitting%20The%20Devil%20Napoleon%20Hill%20%28The%20AudioBook%20That%20Will%20Open%20Your%20Eyes%29.mp3',
+    trimStart: 5,
+    description: "Napoleon Hill's long-suppressed masterpiece — a revealing interview with the Devil himself, exposing the forces of fear, procrastination, and drifting that keep people from living freely. Written in 1938, it wasn't published until 2011.",
+  },
+  {
     id: 'd9zUVFzPtJ4',
     title: 'How to Win Friends and Influence People',
     type: 'audiobooks',
@@ -794,6 +803,7 @@ const CONTENT = [
     title: 'Think and Grow Rich',
     type: 'audiobooks',
     categories: ['business','self-help'],
+    src: 'https://archive.org/download/think-and-grow-rich-1937-1st-edition-by-napoleon-hill/Think%20And%20Grow%20Rich%21%20%281937%20-%201st%20Edition%29%20by%20Napoleon%20Hill.mp3',
     description: "Napoleon Hill's classic on the mindset and principles behind achieving wealth and success, based on interviews with hundreds of self-made millionaires.",
   },
   {
@@ -979,7 +989,8 @@ function renderLibrary(type) {
 function openPlayer(item) {
   currentItem = item;
   const p = getP(item.id);
-  const start = p.sec||0;
+  const trimStart = item.trimStart || 0;
+  const start = Math.max(p.sec || trimStart, trimStart);
 
   document.getElementById('ptitle').textContent = item.title;
   document.getElementById('pcat').textContent   = item.categories.map(c=>CATS.find(x=>x.key===c)?.label||c).join(' · ');
