@@ -787,7 +787,7 @@ const CONTENT = [
     type: 'audiobooks',
     categories: ['self-help','other'],
     src: 'https://archive.org/download/outwitting-the-devil-napoleon-hill-the-audio-book-that-will-open-your-eyes/Outwitting%20The%20Devil%20Napoleon%20Hill%20%28The%20AudioBook%20That%20Will%20Open%20Your%20Eyes%29.mp3',
-    trimStart: 5,
+    trimStart: 6,
     description: "Napoleon Hill's long-suppressed masterpiece — a revealing interview with the Devil himself, exposing the forces of fear, procrastination, and drifting that keep people from living freely. Written in 1938, it wasn't published until 2011.",
   },
   {
@@ -1097,6 +1097,8 @@ window.addEventListener('message', e => {
 function attachVideoListeners(video) {
   video.ontimeupdate = () => {
     const ct = video.currentTime, dur = video.duration||0, spd = video.playbackRate||speed;
+    const trim = currentItem?.trimStart || 0;
+    if (trim && ct < trim) { video.currentTime = trim; return; }
     const diff = Math.abs(ct - lastSec);
     if (diff < 5 && diff > 0) recordListened(diff, spd);
     lastSec = ct;
