@@ -714,7 +714,7 @@
 <!-- Center -->
 <div id="centerArea">
   <div id="timerDisplay">0.00</div>
-  <div id="timerLabel">Press Space to begin inspection</div>
+  <div id="timerLabel">Press Space / Tap to begin inspection</div>
   <div id="inspectionLabel"></div>
 
   <div id="ratingWrap">
@@ -1235,7 +1235,7 @@ function goIdle() {
   document.body.className = '';
   cancelAnimationFrame(rafId);
   el('timerDisplay').textContent  = '0.00';
-  el('timerLabel').textContent    = mode === 'timed' ? 'Press Space to begin inspection' : 'Press Space to begin';
+  el('timerLabel').textContent    = mode === 'timed' ? 'Press Space / Tap to begin inspection' : 'Press Space / Tap to begin';
   el('inspectionLabel').textContent = '';
   el('ratingWrap').style.display  = 'none';
   el('nextBtn').style.display     = 'none';
@@ -1380,6 +1380,18 @@ function discardSolve() {
 }
 
 // ── Keyboard & Touch ──────────────────────────────────────────
+document.addEventListener('touchstart', function(e) {
+  const tag = e.target.tagName;
+  if (tag === 'BUTTON' || tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+  if (e.target.closest('.overlay, #settingsOverlay, #ao5Overlay, #moreStatsOverlay, #solveDetailOverlay, #cubePanel')) return;
+  if (el('settingsOverlay').style.display === 'flex') return;
+  if (el('solveDetailOverlay').style.display === 'flex') return;
+  if (el('moreStatsOverlay').style.display === 'flex') return;
+  if (el('ao5Overlay').style.display === 'flex') return;
+  e.preventDefault();
+  handleInput();
+}, { passive: false });
+
 document.addEventListener('keydown', function(e) {
   if (e.repeat) return;
   if (e.code === 'Escape') {
@@ -1809,7 +1821,7 @@ function syncSettingsUI() {
 
 
   if (appState === 'idle') {
-    el('timerLabel').textContent = mode === 'timed' ? 'Press Space to begin inspection' : 'Press Space to begin';
+    el('timerLabel').textContent = mode === 'timed' ? 'Press Space / Tap to begin inspection' : 'Press Space / Tap to begin';
   }
 }
 
