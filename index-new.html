@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caiden Lee | Speedcuber & Coach</title>
+<meta name="description" content="Caiden Lee is a WCA Top 50 US speedcuber, full-time cubing coach, and YouTube content creator. Book coaching, learn the ZB method, and shop my gear.">
+<meta property="og:title" content="Caiden Lee | Speedcuber & Coach">
+<meta property="og:description" content="WCA Top 50 US speedcuber · 6.18s official average · 100+ students taught. Book a coaching session or learn the full ZB method.">
+<meta property="og:image" content="https://caidenlee.com/assets/hero.jpg">
+<meta property="og:url" content="https://caidenlee.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="Caiden Cube Logo black.png">
+<link rel="preload" as="image" href="assets/hero.jpg" fetchpriority="high">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: auto; } /* JS handles eased scrolling */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #16161a; --bg2: #1e1e24; --bg3: #26262e;
+    --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #9a9aab;
+    --accent: #7c6ff7; --accent2: #5b5bd6; --accent-glow: rgba(124,111,247,0.15);
+    --green: #22c55e; --green-glow: rgba(34,197,94,0.15); --white: #ffffff;
+    /* cube colors */
+    --cube-g: #00c853; --cube-r: #ff3b30; --cube-b: #2979ff;
+    --cube-o: #ff9100; --cube-y: #ffd600; --cube-w: #f8f8f8;
+  }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; }
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+
+  /* ── scroll reveal system ── */
+  .rv { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); transition-delay: var(--d, 0s); }
+  .rv.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } }
+
+  /* NAV */
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 2.5rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(22,22,26,0.97); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 100; }
+  .nav-logo img { height: 52px; width: auto; display: block; transition: transform .5s cubic-bezier(.34,1.56,.64,1); }
+  .nav-logo:hover img { transform: rotate(-8deg) scale(1.06); }
+  .nav-links { display: flex; gap: 0.25rem; list-style: none; background: var(--bg2); border: 1px solid var(--border); border-radius: 50px; padding: 0.35rem; position: relative; }
+  .nav-links a { text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 500; padding: 0.4rem 1rem; border-radius: 50px; transition: color 0.2s; display: block; position: relative; z-index: 1; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a.active { color: var(--white); }
+  .nav-indicator { position: absolute; border-radius: 50px; background: var(--accent); z-index: 0; pointer-events: none; opacity: 0; transition: left 0.45s cubic-bezier(0.65,0,0.35,1), width 0.45s cubic-bezier(0.65,0,0.35,1), top 0.45s cubic-bezier(0.65,0,0.35,1), height 0.45s cubic-bezier(0.65,0,0.35,1), opacity 0.3s; }
+  .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; }
+  .nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--white); border-radius: 2px; transition: transform .3s, opacity .3s; }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .mobile-menu { display: none; position: fixed; top: 69px; left: 0; right: 0; background: var(--bg2); border-bottom: 1px solid var(--border); padding: 1rem; z-index: 99; flex-direction: column; gap: 0.25rem; }
+  .mobile-menu.open { display: flex; animation: menuIn .3s cubic-bezier(.22,1,.36,1); }
+  @keyframes menuIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+  .mobile-menu a { text-decoration: none; color: var(--muted); font-size: 15px; font-weight: 500; padding: 0.85rem 1rem; border-radius: 10px; transition: all 0.2s; }
+  .mobile-menu a:hover { color: var(--white); background: var(--bg3); }
+
+  section { padding: 5.5rem 2.5rem; scroll-margin-top: 72px; }
+
+  /* ── scroll progress bar ── */
+  #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent2)); z-index: 200; pointer-events: none; border-radius: 0 2px 2px 0; }
+
+  /* ── back to top ── */
+  #to-top { position: fixed; right: 1.4rem; bottom: 1.4rem; width: 46px; height: 46px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--border); color: var(--text); display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; pointer-events: none; transform: translateY(12px); transition: opacity .3s, transform .3s, border-color .2s, background .2s; z-index: 90; box-shadow: 0 8px 26px rgba(0,0,0,.4); }
+  #to-top.show { opacity: 1; pointer-events: auto; transform: none; }
+  #to-top:hover { border-color: rgba(124,111,247,.5); background: rgba(124,111,247,.1); }
+  #to-top:active { transform: scale(.92); }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0.85rem 1.65rem; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; cursor: pointer; transition: transform .2s, background .2s, border-color .2s, box-shadow .2s; border: none; }
+  .btn-primary { background: var(--accent); color: var(--white); box-shadow: 0 8px 26px rgba(124,111,247,0.35); }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 12px 34px rgba(124,111,247,0.45); }
+  .btn-secondary { background: var(--bg2); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--bg3); transform: translateY(-2px); border-color: rgba(124,111,247,0.4); }
+  .btn-block { width: 100%; }
+  .btn-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .section-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .section-label::before { content: ''; width: 8px; height: 8px; border-radius: 2px; background: var(--dot, var(--accent)); }
+  .section-title { font-size: clamp(2rem, 3.8vw, 2.7rem); font-weight: 800; letter-spacing: -0.03em; color: var(--white); margin-bottom: 1rem; line-height: 1.1; }
+  .section-intro { color: var(--muted); font-size: 15px; max-width: 560px; margin-bottom: 3rem; line-height: 1.8; }
+
+  /* HERO */
+  #home { min-height: 88vh; display: grid; grid-template-columns: 1.05fr 1fr; border-bottom: 1px solid var(--border); overflow: hidden; padding: 0; }
+  .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 3.5rem 2.5rem 3.5rem 3rem; }
+  .hero-title { font-size: clamp(2.4rem, 4.4vw, 4rem); font-weight: 800; line-height: 1.04; letter-spacing: -0.04em; color: var(--white); margin-bottom: 1.4rem; }
+  .hero-title .grad { background: linear-gradient(100deg, var(--accent) 10%, var(--cube-b) 45%, var(--cube-g) 75%, var(--cube-y)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero-stats { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.9rem; }
+  .hstat { display: flex; flex-direction: column; gap: 2px; }
+  .hstat + .hstat { border-left: 1px solid var(--border); padding-left: 1.5rem; }
+  .hstat .num { font-size: clamp(1.7rem, 2.6vw, 2.3rem); font-weight: 800; letter-spacing: -0.03em; color: var(--white); line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .hstat:nth-child(1) .num { color: var(--cube-y); }
+  .hstat:nth-child(2) .num { color: var(--cube-g); }
+  .hstat:nth-child(3) .num { color: var(--cube-o); }
+  .hstat .lbl { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; font-weight: 600; }
+  .hero-ctas { margin-bottom: 2.4rem; }
+  .quad-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+  .quad-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; padding: 1.35rem 1.5rem; text-decoration: none; color: var(--text); transition: border-color .2s, background .2s, transform .25s cubic-bezier(.34,1.4,.5,1); display: flex; flex-direction: row; align-items: center; gap: 1.15rem; }
+  .quad-card:hover { border-color: rgba(124,111,247,0.5); background: rgba(124,111,247,0.06); transform: translateY(-3px); }
+  .quad-icon-img { width: 54px; height: 54px; object-fit: contain; flex-shrink: 0; transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+  .quad-card:hover .quad-icon-img { transform: scale(1.12) rotate(-4deg); }
+  .quad-text { display: flex; flex-direction: column; gap: 0.3rem; }
+  .quad-title { font-size: 16px; font-weight: 700; color: var(--white); line-height: 1.3; }
+  .quad-sub { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .hero-right { position: relative; overflow: hidden; }
+  .hero-right img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; display: block; transform: scale(1.06); animation: heroZoom 2.2s cubic-bezier(.22,1,.36,1) forwards; }
+  @keyframes heroZoom { to { transform: scale(1); } }
+  .hero-right-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(22,22,26,0.45) 0%, transparent 40%), linear-gradient(to top, rgba(22,22,26,0.5) 0%, transparent 50%); }
+
+  /* COACHING */
+  #coaching { border-bottom: 1px solid var(--border); }
+  .coaching-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .coaching-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 2rem; transition: border-color .2s, transform .25s cubic-bezier(.34,1.4,.5,1), box-shadow .25s; display: flex; flex-direction: column; }
+  .coaching-card:hover { border-color: rgba(124,111,247,0.4); transform: translateY(-4px); box-shadow: 0 18px 44px rgba(0,0,0,.35); }
+  .coaching-card.featured { background: rgba(124,111,247,0.1); border-color: rgba(124,111,247,0.5); position: relative; }
+  .coaching-badge { font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.1rem; display: flex; align-items: center; gap: 6px; }
+  .coaching-badge.pop::before { content: '★'; font-size: 11px; }
+  .stars { color: #f59e0b; font-size: 12.5px; margin-bottom: 1rem; }
+  .stars a { color: var(--muted); font-size: 11.5px; text-decoration: none; border-bottom: 1px dotted var(--muted); }
+  .stars a:hover { color: var(--text); }
+  .coaching-duration { font-size: 2.3rem; font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1; margin-bottom: 0.35rem; }
+  .coaching-price { font-size: 1.35rem; font-weight: 700; color: var(--white); margin-bottom: 1.6rem; }
+  .coaching-features { list-style: none; margin-bottom: 2rem; flex: 1; }
+  .coaching-features li { font-size: 13.5px; color: var(--muted); padding: 0.55rem 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .coaching-features li::before { content: '✓'; color: var(--green); font-weight: 700; font-size: 12px; }
+
+  /* ABOUT */
+  #about { border-bottom: 1px solid var(--border); }
+  .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .about-image { border-radius: 20px; overflow: hidden; height: 580px; position: relative; }
+  .about-image img { width: 100%; height: 100%; object-fit: cover; object-position: center 8%; transition: transform .6s cubic-bezier(.22,1,.36,1); }
+  .about-image:hover img { transform: scale(1.03); }
+  .about-text { color: var(--muted); font-size: 15px; margin-bottom: 1rem; line-height: 1.8; }
+  .about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem; }
+  .about-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem; transition: border-color 0.2s, transform .25s; }
+  .about-card:hover { border-color: rgba(124,111,247,0.4); transform: translateY(-2px); }
+  .about-card-num { font-size: 1.7rem; font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 0.3rem; font-variant-numeric: tabular-nums; }
+  .about-card:nth-child(1) .about-card-num { color: var(--cube-y); }
+  .about-card:nth-child(2) .about-card-num { color: var(--cube-g); }
+  .about-card:nth-child(3) .about-card-num { color: var(--cube-o); }
+  .about-card:nth-child(4) .about-card-num { color: var(--cube-b); }
+  .about-card-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500; }
+
+  /* PBs */
+  #pbs { border-bottom: 1px solid var(--border); }
+  .pb-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+  .pb-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .pb-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; transition: border-color .2s, transform .25s cubic-bezier(.34,1.4,.5,1); }
+  .pb-card:hover { border-color: rgba(124,111,247,0.4); transform: translateY(-3px); }
+  .pb-card.highlight { border-color: rgba(124,111,247,0.5); background: rgba(124,111,247,0.08); }
+  .pb-event { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 0.75rem; }
+  .pb-single { font-size: 1.9rem; font-weight: 800; color: var(--white); letter-spacing: -0.03em; line-height: 1; margin-bottom: 0.25rem; font-variant-numeric: tabular-nums; }
+  .pb-avg { font-size: 12.5px; color: var(--muted); font-weight: 500; }
+  .pb-ranks { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
+  .rank-badge { font-size: 10.5px; font-weight: 600; padding: 2px 8px; border-radius: 50px; background: var(--accent-glow); color: var(--accent); border: 1px solid rgba(124,111,247,0.2); }
+  .pb-reaction { border-radius: 20px; overflow: hidden; position: relative; transition: transform .35s cubic-bezier(.22,1,.36,1); }
+  .pb-reaction:hover { transform: scale(1.015) rotate(-.4deg); }
+  .pb-reaction img { width: 100%; object-fit: cover; border-radius: 20px; display: block; }
+  .pb-reaction-label { position: absolute; bottom: 1rem; left: 1rem; background: rgba(22,22,26,0.85); border: 1px solid var(--border); border-radius: 10px; padding: 0.5rem 1rem; font-size: 12.5px; font-weight: 700; color: var(--white); backdrop-filter: blur(6px); }
+  .pb-reaction-label span { color: var(--cube-y); }
+
+  /* ZB */
+  #zb { border-bottom: 1px solid var(--border); }
+  .zb-banner { display: flex; align-items: center; justify-content: space-between; background: rgba(124,111,247,0.08); border: 1px solid rgba(124,111,247,0.3); border-radius: 20px; padding: 2.5rem 3rem; gap: 2rem; }
+  .zb-banner-text { display: flex; flex-direction: column; gap: 1.25rem; }
+  .zb-banner-hook { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: var(--white); line-height: 1.2; letter-spacing: -0.02em; }
+  .zb-banner-hook span { color: var(--cube-g); font-variant-numeric: tabular-nums; }
+  .zb-cta { width: fit-content; position: relative; }
+  .zb-cta.launch { animation: zbLaunch .5s cubic-bezier(.34,1.56,.64,1) forwards; }
+  @keyframes zbLaunch { 0% { transform: scale(1); } 35% { transform: scale(1.14); } 100% { transform: scale(1.05); } }
+  .zb-cta.launch::after { content: ''; position: absolute; inset: -3px; border-radius: 14px; border: 2px solid var(--accent); animation: zbRing .55s ease-out forwards; pointer-events: none; }
+  @keyframes zbRing { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(1.9); } }
+  body.zoom-out { animation: pageOut .5s cubic-bezier(.55,0,.85,.35) forwards; }
+  @keyframes pageOut { to { opacity: 0; transform: scale(1.07); filter: blur(8px); } }
+  .zb-banner-icons { display: flex; align-items: center; gap: 2.5rem; flex-shrink: 0; margin-right: 3rem; }
+  .zb-banner-icon { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .zb-banner-icon img { object-fit: contain; transition: transform .4s cubic-bezier(.34,1.56,.64,1); }
+  .zb-banner-icon:hover img { transform: rotate(-6deg) scale(1.07); }
+  .zb-banner-icon span { font-size: 15px; font-weight: 800; color: var(--white); letter-spacing: -0.02em; }
+
+  /* VIDEOS */
+  #videos { border-bottom: 1px solid var(--border); }
+  .videos-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; gap: 1rem; }
+  .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .video-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; text-decoration: none; color: var(--text); transition: border-color .2s, transform .25s cubic-bezier(.34,1.4,.5,1); display: block; }
+  .video-card:hover { border-color: rgba(124,111,247,0.4); transform: translateY(-4px); }
+  .video-thumb { aspect-ratio: 16/9; background: var(--bg3); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .video-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity .2s, transform .4s cubic-bezier(.22,1,.36,1); }
+  .video-card:hover .video-thumb img { opacity: 1; transform: scale(1.04); }
+  .play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .play-btn { width: 48px; height: 48px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform .25s cubic-bezier(.34,1.56,.64,1); box-shadow: 0 0 20px rgba(124,111,247,0.5); }
+  .video-card:hover .play-btn { transform: scale(1.15); }
+  .video-tag { position: absolute; top: 0.75rem; left: 0.75rem; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); background: rgba(22,22,26,0.85); border: 1px solid rgba(124,111,247,0.3); padding: 2px 8px; border-radius: 50px; }
+  .video-info { padding: 1.25rem; }
+  .video-title { font-size: 14px; font-weight: 600; color: var(--white); margin-bottom: 0.35rem; line-height: 1.4; }
+  .video-meta { font-size: 11.5px; color: var(--muted); }
+
+  /* GEAR */
+  #gear { border-bottom: 1px solid var(--border); }
+  .discount-banner { display: inline-flex; align-items: center; gap: 14px; background: var(--green-glow); border: 1px solid rgba(34,197,94,0.25); border-radius: 14px; padding: 0.85rem 1.25rem; margin-bottom: 2.5rem; cursor: pointer; transition: transform .2s, border-color .2s; border-style: dashed; user-select: none; font-family: 'Inter', sans-serif; text-align: left; }
+  .discount-banner:hover { transform: translateY(-2px); border-color: rgba(34,197,94,0.55); }
+  .discount-banner:active { transform: scale(.98); }
+  .discount-code { font-size: 17px; font-weight: 800; color: var(--green); letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
+  .discount-text { font-size: 12.5px; color: var(--muted); }
+  .discount-copy { font-size: 11px; font-weight: 700; color: var(--green); border: 1px solid rgba(34,197,94,0.4); padding: 4px 10px; border-radius: 50px; }
+  .gear-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .gear-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: border-color .2s, transform .25s cubic-bezier(.34,1.4,.5,1); display: flex; flex-direction: column; }
+  .gear-card:hover { border-color: rgba(124,111,247,0.4); transform: translateY(-4px); }
+  .gear-card-img { height: 220px; overflow: hidden; background: var(--bg3); display: flex; align-items: center; justify-content: center; }
+  .gear-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s cubic-bezier(.22,1,.36,1); }
+  .gear-card:hover .gear-card-img img { transform: scale(1.06); }
+  .gear-card-body { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; }
+  .gear-category { font-size: 10.5px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
+  .gear-name { font-size: 15.5px; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; line-height: 1.3; }
+  .gear-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 1.25rem; flex: 1; }
+
+  /* CONTACT */
+  #contact { border-bottom: 1px solid var(--border); }
+  .contact-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-top: 3rem; }
+  .contact-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 1.75rem; text-decoration: none; color: var(--text); transition: border-color .2s, background .2s, transform .25s cubic-bezier(.34,1.4,.5,1); display: flex; flex-direction: column; gap: 0.75rem; }
+  .contact-card:hover { border-color: rgba(124,111,247,0.5); background: rgba(124,111,247,0.06); transform: translateY(-3px); }
+  .contact-card--featured { grid-column: span 2; flex-direction: row; align-items: center; gap: 1.5rem; background: rgba(124,111,247,0.08); border-color: rgba(124,111,247,0.3); }
+  .contact-card--featured:hover { background: rgba(124,111,247,0.14); border-color: rgba(124,111,247,0.6); }
+  .contact-card-icon { width: 48px; height: 48px; border-radius: 14px; background: var(--bg3); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0; }
+  .contact-card--featured .contact-card-icon { width: 56px; height: 56px; border-radius: 16px; }
+  .contact-card-body { flex: 1; }
+  .contact-card-label { font-size: 11.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
+  .contact-card-name { font-size: 1.05rem; font-weight: 700; color: var(--white); }
+  .contact-card--featured .contact-card-name { font-size: 1.25rem; }
+  .contact-card-handle { font-size: 12.5px; color: var(--muted); margin-top: 0.25rem; }
+  .contact-card-top { display: flex; align-items: flex-start; justify-content: space-between; }
+  .contact-card-arrow { color: var(--accent); font-size: 16px; flex-shrink: 0; }
+
+  /* FOOTER */
+  footer { padding: 3.5rem 2.5rem 2.5rem; display: flex; flex-direction: column; align-items: center; gap: 1.75rem; border-top: 1px solid var(--border); }
+  .footer-cta { text-align: center; }
+  .footer-cta h3 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.1rem; }
+  .footer-links { display: flex; gap: 1.75rem; flex-wrap: wrap; justify-content: center; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color .2s; }
+  .footer-links a:hover { color: var(--white); }
+  .footer-icons { display: flex; gap: 1.5rem; align-items: center; }
+  .footer-icon { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--border); transition: border-color .2s, background .2s, transform .25s; text-decoration: none; }
+  .footer-icon:hover { border-color: rgba(124,111,247,0.5); background: rgba(124,111,247,0.08); transform: translateY(-3px); }
+  .footer-icon img { width: 24px; height: 24px; object-fit: contain; }
+  .footer-icon svg { width: 22px; height: 22px; }
+  .footer-copy { font-size: 12.5px; color: var(--muted); }
+
+  /* confetti */
+  #confetti-layer { position: fixed; inset: 0; pointer-events: none; z-index: 300; overflow: hidden; }
+  #confetti-layer i { position: absolute; width: 8px; height: 12px; border-radius: 2px; animation: confettiPop .9s cubic-bezier(.22,1,.36,1) forwards; }
+  @keyframes confettiPop { to { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; } }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .coaching-grid, .gear-grid, .video-grid { grid-template-columns: 1fr; }
+    .pb-layout, .about-layout { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    section { padding: 3.5rem 1.25rem; }
+    nav { padding: 0.8rem 1.25rem; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    #home { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 2.5rem 1.25rem; }
+    .hero-right { height: 340px; order: -1; }
+    .hero-stats { gap: 1.6rem; }
+    .quad-grid { grid-template-columns: 1fr 1fr; }
+    .quad-card { flex-direction: column; align-items: flex-start; gap: .75rem; padding: 1.1rem; }
+    .quad-title { font-size: 14px; }
+    .quad-sub { font-size: 12px; }
+    .quad-icon-img { width: 44px; height: 44px; }
+    .about-image { height: 380px; }
+    .contact-cards { grid-template-columns: 1fr; }
+    .contact-card--featured { flex-direction: column; grid-column: span 1; align-items: flex-start; }
+    .videos-header { flex-direction: column; align-items: flex-start; }
+    .zb-banner { flex-direction: column; padding: 2rem; }
+    .zb-banner-icons { justify-content: center; margin-right: 0; }
+  }
+  @media (max-width: 480px) {
+    .hero-right { height: 280px; }
+    .about-image { height: 300px; }
+    .quad-grid { gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#home" aria-label="Home">
+    <img src="assets/logo.png" alt="Caiden Lee">
+  </a>
+  <ul class="nav-links">
+    <span class="nav-indicator" id="navIndicator"></span>
+    <li><a href="#coaching">Coaching</a></li>
+    <li><a href="#pbs">Results</a></li>
+    <li><a href="#zb">ZB Method</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#gear">Gear</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#coaching">Coaching</a>
+  <a href="#about">About</a>
+  <a href="#pbs">Results</a>
+  <a href="#zb">ZB Method</a>
+  <a href="#videos">Videos</a>
+  <a href="#gear">Gear</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-left">
+    <h1 class="hero-title rv">Hi, I'm <span class="grad">Caiden.</span></h1>
+    <div class="hero-stats rv" style="--d:.08s">
+      <div class="hstat"><span class="num count" data-to="6.18" data-dec="2" data-suffix="s">0.00s</span><span class="lbl">Official PR Average</span></div>
+      <div class="hstat"><span class="num count" data-to="37" data-prefix="#">#0</span><span class="lbl">US Ranking</span></div>
+      <div class="hstat"><span class="num count" data-to="100" data-suffix="+">0+</span><span class="lbl">Students Taught</span></div>
+    </div>
+    <div class="btn-row hero-ctas rv" style="--d:.16s">
+      <a class="btn btn-primary" href="#coaching">Book a Coaching Session</a>
+      <a class="btn btn-secondary" href="https://www.youtube.com/@TheCaidenLee" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+    </div>
+    <div class="quad-grid rv" style="--d:.24s">
+      <a class="quad-card" href="#coaching">
+        <img class="quad-icon-img" src="assets/icon-cubinggg.png" alt="" loading="lazy">
+        <div class="quad-text">
+          <div class="quad-title">Coaching</div>
+          <div class="quad-sub">1-on-1 sessions for all skill levels</div>
+        </div>
+      </a>
+      <a class="quad-card" href="https://www.youtube.com/@TheCaidenLee" target="_blank" rel="noopener">
+        <img class="quad-icon-img" src="assets/icon-youtube.png" alt="" loading="lazy">
+        <div class="quad-text">
+          <div class="quad-title">YouTube</div>
+          <div class="quad-sub">Tutorials, solves & cubing content</div>
+        </div>
+      </a>
+      <a class="quad-card" href="zb.html">
+        <img class="quad-icon-img" src="assets/icon-zb.png" alt="" loading="lazy">
+        <div class="quad-text">
+          <div class="quad-title">ZB Method</div>
+          <div class="quad-sub">Full ZBLL & ZBLS algorithm sheets</div>
+        </div>
+      </a>
+      <a class="quad-card" href="#about">
+        <img class="quad-icon-img" src="assets/icon-story.png" alt="" loading="lazy">
+        <div class="quad-text">
+          <div class="quad-title">My Story</div>
+          <div class="quad-sub">My journey to professional speedcuber</div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="assets/hero.jpg" alt="Caiden Lee solving a Rubik's Cube" fetchpriority="high">
+    <div class="hero-right-overlay"></div>
+  </div>
+</section>
+
+<!-- COACHING -->
+<section id="coaching">
+  <div class="wrap">
+    <div class="section-label rv" style="--dot:var(--cube-g)">Coaching</div>
+    <h2 class="section-title rv" style="--d:.05s">Let's get you faster.</h2>
+    <p class="section-intro rv" style="--d:.1s">One-on-one live coaching from a WCA Top 50 US competitor. Every session is structured, focused, and built around your goals. Book directly on CubingGG.</p>
+    <div class="coaching-grid rv-group">
+      <div class="coaching-card rv">
+        <div class="coaching-badge">Starter</div>
+        <div class="stars">★★★★★ <a href="https://app.cubing.gg/i/view/coach?id=w7c0j7yc" target="_blank" rel="noopener">3 reviews</a></div>
+        <div class="coaching-duration">10 min</div>
+        <div class="coaching-price">$25</div>
+        <ul class="coaching-features">
+          <li>Fast-paced live 1-on-1</li>
+          <li>Focused feedback session</li>
+          <li>Perfect for quick questions</li>
+          <li>Online via video call</li>
+        </ul>
+        <a class="btn btn-secondary btn-block" href="https://app.cubing.gg/i/view/coach?id=w7c0j7yc" target="_blank" rel="noopener">Book on CubingGG ↗</a>
+      </div>
+      <div class="coaching-card featured rv">
+        <div class="coaching-badge pop">Most Popular</div>
+        <div class="stars">★★★★★ <a href="https://app.cubing.gg/i/view/coach?id=w7c0j7yc" target="_blank" rel="noopener">17 reviews</a></div>
+        <div class="coaching-duration">30 min</div>
+        <div class="coaching-price">$55</div>
+        <ul class="coaching-features">
+          <li>Live 1-on-1 training</li>
+          <li>Clear path & training plan moving forward</li>
+          <li>Teaches proven practice techniques</li>
+          <li>Online via video call</li>
+        </ul>
+        <a class="btn btn-primary btn-block" href="https://app.cubing.gg/i/view/coach?id=w7c0j7yc" target="_blank" rel="noopener">Book on CubingGG ↗</a>
+      </div>
+      <div class="coaching-card rv">
+        <div class="coaching-badge">Full Session</div>
+        <div class="stars">★★★★½ <a href="https://app.cubing.gg/i/view/coach?id=w7c0j7yc" target="_blank" rel="noopener">6 reviews</a></div>
+        <div class="coaching-duration">1 hour</div>
+        <div class="coaching-price">$85</div>
+        <ul class="coaching-features">
+          <li>Ao12 solve breakdown & analysis</li>
+          <li>Custom improvement plan</li>
+          <li>Deep dive into your full solving process</li>
+          <li>Online via video call</li>
+        </ul>
+        <a class="btn btn-secondary btn-block" href="https://app.cubing.gg/i/view/coach?id=w7c0j7yc" target="_blank" rel="noopener">Book on CubingGG ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap about-layout">
+    <div class="about-image rv">
+      <img src="assets/about.jpg" alt="Caiden Lee in New York" loading="lazy">
+    </div>
+    <div>
+      <div class="section-label rv" style="--dot:var(--cube-o)">About Me</div>
+      <h2 class="section-title rv" style="--d:.05s">My Story So Far.</h2>
+      <p class="about-text rv" style="--d:.1s">In 2020 I picked up a Rubik's Cube for the first time and spent about three minutes solving it. Curious, I went online to see how fast people could actually solve one, and I came across Feliks Zemdegs solving a cube in 4.22 seconds. I was completely blown away. That moment changed my life.</p>
+      <p class="about-text rv" style="--d:.15s">By 2021 I was deep into speedcubing, and in 2022 I competed in my first WCA competition and launched my YouTube channel with one mission: to change the cubing space through coaching and content. A year and a half ago I started coaching full time and have since taught over 100 people to solve a cube. In 2025 I hit my first sub-7 official average using the full ZB method and currently sit at #37 in the US. Next up: a sub-6 official average and a sub-5 single. The story's just getting started.</p>
+      <div class="about-cards rv-group">
+        <div class="about-card rv"><div class="about-card-num">2.73s</div><div class="about-card-label">Home Single PB</div></div>
+        <div class="about-card rv"><div class="about-card-num">5.07s</div><div class="about-card-label">Home Avg PB</div></div>
+        <div class="about-card rv"><div class="about-card-num">100+</div><div class="about-card-label">People Taught</div></div>
+        <div class="about-card rv"><div class="about-card-num">Full ZB</div><div class="about-card-label">Method User</div></div>
+      </div>
+      <div class="btn-row rv" style="margin-top:1.75rem;">
+        <a class="btn btn-primary" href="#coaching">Book a Session</a>
+        <a class="btn btn-secondary" href="https://www.youtube.com/@TheCaidenLee" target="_blank" rel="noopener">My YouTube ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PBs -->
+<section id="pbs">
+  <div class="wrap">
+    <div class="section-label rv" style="--dot:var(--cube-y)">Competition Results</div>
+    <h2 class="section-title rv" style="--d:.05s">My WCA personal bests.</h2>
+    <p class="section-intro rv" style="--d:.1s">Official results from WCA competitions. My home PBs are 2.73s single and 5.07s average.</p>
+    <div class="pb-layout">
+      <div class="pb-grid rv-group">
+        <div class="pb-card highlight rv">
+          <div class="pb-event">3×3×3 Cube</div>
+          <div class="pb-single">5.07s</div>
+          <div class="pb-avg">6.18s average</div>
+          <div class="pb-ranks"><span class="rank-badge">Avg NR #37</span><span class="rank-badge">Single NR #86</span></div>
+        </div>
+        <div class="pb-card rv">
+          <div class="pb-event">2×2×2 Cube</div>
+          <div class="pb-single">0.92s</div>
+          <div class="pb-avg">1.79s average</div>
+          <div class="pb-ranks"><span class="rank-badge">NR #154</span><span class="rank-badge">WR #704</span></div>
+        </div>
+        <div class="pb-card rv">
+          <div class="pb-event">4×4×4 Cube</div>
+          <div class="pb-single">32.59s</div>
+          <div class="pb-avg">46.37s average</div>
+          <div class="pb-ranks"><span class="rank-badge">NR #673</span></div>
+        </div>
+        <div class="pb-card rv">
+          <div class="pb-event">3×3 One-Handed</div>
+          <div class="pb-single">11.33s</div>
+          <div class="pb-avg">14.98s average</div>
+          <div class="pb-ranks"><span class="rank-badge">NR #329</span></div>
+        </div>
+        <div class="pb-card rv">
+          <div class="pb-event">Pyraminx</div>
+          <div class="pb-single">5.23s</div>
+          <div class="pb-avg">8.01s average</div>
+          <div class="pb-ranks"><span class="rank-badge">NR #3631</span></div>
+        </div>
+        <div class="pb-card rv">
+          <div class="pb-event">Square-1</div>
+          <div class="pb-single">8.29s</div>
+          <div class="pb-avg">13.02s average</div>
+          <div class="pb-ranks"><span class="rank-badge">NR #240</span><span class="rank-badge">WR #799</span></div>
+        </div>
+      </div>
+      <div class="pb-reaction rv" style="--d:.15s">
+        <img src="assets/pb-reaction.jpg" alt="Caiden's 5.24 PR reaction" loading="lazy">
+        <div class="pb-reaction-label">The <span>5.24s</span> moment 🔥</div>
+      </div>
+    </div>
+    <div class="rv" style="margin-top:2rem;">
+      <a class="btn btn-secondary" href="https://www.worldcubeassociation.org/persons/2022LEEC02" target="_blank" rel="noopener">View Full WCA Profile ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- ZB METHOD -->
+<section id="zb">
+  <div class="wrap">
+    <div class="section-label rv" style="--dot:var(--cube-b)">ZB Method</div>
+    <h2 class="section-title rv" style="--d:.05s">The ZB Method.</h2>
+    <p class="section-intro rv" style="--d:.1s">One of the most advanced ways to solve a 3×3, and the method I use in competition. I've built the complete algorithm sheets and trainers for anyone who wants to learn it.</p>
+    <div class="zb-banner rv" style="--d:.15s">
+      <div class="zb-banner-text">
+        <div class="zb-banner-hook">All <span class="count" data-to="795">0</span> ZB algorithms.</div>
+        <a class="btn btn-primary zb-cta" id="zb-cta" href="zb.html">Learn the ZB Method →</a>
+      </div>
+      <div class="zb-banner-icons">
+        <div class="zb-banner-icon">
+          <img src="zbls-icon.png" alt="ZBLS" style="width:150px;height:150px;" loading="lazy">
+          <span>ZBLS</span>
+        </div>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(124,111,247,0.6)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        <div class="zb-banner-icon">
+          <img src="zbll-icon.png" alt="ZBLL" style="width:136px;height:136px;" loading="lazy">
+          <span>ZBLL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="wrap">
+    <div class="videos-header">
+      <div>
+        <div class="section-label rv" style="--dot:var(--cube-r)">YouTube</div>
+        <h2 class="section-title rv" style="--d:.05s; margin-bottom:0;">Latest videos.</h2>
+      </div>
+      <a class="btn btn-secondary rv" href="https://www.youtube.com/@TheCaidenLee" target="_blank" rel="noopener">View Channel ↗</a>
+    </div>
+    <div class="video-grid rv-group">
+      <a class="video-card rv" href="https://youtu.be/Pkl37peKLTg" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/Pkl37peKLTg/maxresdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/Pkl37peKLTg/hqdefault.jpg'">
+          <div class="play-overlay"><div class="play-btn"><svg width="14" height="16" viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M2 1L13 8L2 15V1Z" fill="white"/></svg></div></div>
+          <span class="video-tag">Latest</span>
+        </div>
+        <div class="video-info">
+          <div class="video-title">Xuanyi's Blueprint To Be The Best In The World</div>
+          <div class="video-meta">@TheCaidenLee</div>
+        </div>
+      </a>
+      <a class="video-card rv" href="https://youtu.be/UvY_e9aj4Po" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/UvY_e9aj4Po/maxresdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/UvY_e9aj4Po/hqdefault.jpg'">
+          <div class="play-overlay"><div class="play-btn"><svg width="14" height="16" viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M2 1L13 8L2 15V1Z" fill="white"/></svg></div></div>
+          <span class="video-tag">My Story</span>
+        </div>
+        <div class="video-info">
+          <div class="video-title">What Happens When You Push Yourself Past Your Limit</div>
+          <div class="video-meta">@TheCaidenLee</div>
+        </div>
+      </a>
+      <a class="video-card rv" href="https://youtu.be/IdaPIVXC9Us" target="_blank" rel="noopener">
+        <div class="video-thumb">
+          <img src="https://img.youtube.com/vi/IdaPIVXC9Us/maxresdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/IdaPIVXC9Us/hqdefault.jpg'">
+          <div class="play-overlay"><div class="play-btn"><svg width="14" height="16" viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M2 1L13 8L2 15V1Z" fill="white"/></svg></div></div>
+          <span class="video-tag">Fan Favourite</span>
+        </div>
+        <div class="video-info">
+          <div class="video-title">The Kid Who Shouldn't Have Gotten a World Record</div>
+          <div class="video-meta">@TheCaidenLee</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- GEAR -->
+<section id="gear">
+  <div class="wrap">
+    <div class="section-label rv" style="--dot:var(--cube-w)">My Gear</div>
+    <h2 class="section-title rv" style="--d:.05s">What I use.</h2>
+    <p class="section-intro rv" style="--d:.1s" style="margin-bottom:1rem;">Everything I use to compete and train. Shop on TheCubicle.com and use my discount code to save 5% and support the channel.</p>
+    <button class="discount-banner rv" id="discount-chip" onclick="copyCode(event)" aria-label="Copy discount code CAIDEN">
+      <div>
+        <div class="discount-code" id="discount-code-text">CAIDEN</div>
+        <div class="discount-text">5% off at TheCubicle.com. Supports the channel!</div>
+      </div>
+      <span class="discount-copy" id="discount-copy-lbl">Tap to copy</span>
+    </button>
+    <div class="gear-grid rv-group">
+      <div class="gear-card rv">
+        <div class="gear-card-img"><img src="assets/gear-caidencube.jpg" alt="The CaidenCube" loading="lazy"></div>
+        <div class="gear-card-body">
+          <div class="gear-category">Signature Cube</div>
+          <div class="gear-name">The CaidenCube</div>
+          <div class="gear-desc">My very own signature 3x3, designed for speed, feel, and consistency. This is what I train and compete with every day.</div>
+          <a class="btn btn-secondary btn-block" href="https://www.thecubicle.com/products/the-caiden-cube" target="_blank" rel="noopener">Shop on TheCubicle ↗</a>
+        </div>
+      </div>
+      <div class="gear-card rv">
+        <div class="gear-card-img"><img src="assets/gear-gan-halo.jpg" alt="GAN Halo Smart Timer" loading="lazy"></div>
+        <div class="gear-card-body">
+          <div class="gear-category">Timer</div>
+          <div class="gear-name">GAN Halo Smart Timer</div>
+          <div class="gear-desc">The Bluetooth smart timer I use for training. Connects to your phone for automatic solve tracking and statistics.</div>
+          <a class="btn btn-secondary btn-block" href="https://www.thecubicle.com/products/gan-halo-smart-timer" target="_blank" rel="noopener">Shop on TheCubicle ↗</a>
+        </div>
+      </div>
+      <div class="gear-card rv">
+        <div class="gear-card-img"><img src="assets/gear-fz-lube.jpg" alt="FZ Lube Bundle" loading="lazy"></div>
+        <div class="gear-card-body">
+          <div class="gear-category">Lube</div>
+          <div class="gear-name">FZ Lube Bundle</div>
+          <div class="gear-desc">My favourite lube setup from TheCubicle. The FZ bundle keeps every cube feeling smooth, fast, and competition-ready.</div>
+          <a class="btn btn-secondary btn-block" href="https://www.thecubicle.com/products/fz-lube-bundle" target="_blank" rel="noopener">Shop on TheCubicle ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="section-label rv" style="--dot:var(--cube-g)">Contact</div>
+    <h2 class="section-title rv" style="--d:.05s">Let's connect.</h2>
+    <div class="contact-cards rv-group">
+      <a class="contact-card contact-card--featured rv" href="https://mail.google.com/mail/?view=cm&to=cubercaiden@gmail.com" target="_blank" rel="noopener">
+        <div class="contact-card-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M2 7l10 7 10-7" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="contact-card-body">
+          <div class="contact-card-label">Email me directly</div>
+          <div class="contact-card-name">cubercaiden@gmail.com</div>
+          <div class="contact-card-handle">The best way to reach me for coaching, collabs, or just cubing chat</div>
+        </div>
+        <span class="contact-card-arrow">↗</span>
+      </a>
+      <a class="contact-card rv" href="https://www.youtube.com/@TheCaidenLee" target="_blank" rel="noopener">
+        <div class="contact-card-top">
+          <div class="contact-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="2" y="5" width="20" height="14" rx="4" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M10 9l6 3-6 3V9z" fill="currentColor"/>
+            </svg>
+          </div>
+          <span class="contact-card-arrow">↗</span>
+        </div>
+        <div class="contact-card-name">YouTube</div>
+        <div class="contact-card-handle">@TheCaidenLee</div>
+      </a>
+      <a class="contact-card rv" href="https://www.instagram.com/thecaidenlee/" target="_blank" rel="noopener">
+        <div class="contact-card-top">
+          <div class="contact-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+            </svg>
+          </div>
+          <span class="contact-card-arrow">↗</span>
+        </div>
+        <div class="contact-card-name">Instagram</div>
+        <div class="contact-card-handle">@thecaidenlee</div>
+      </a>
+      <a class="contact-card rv" href="https://www.worldcubeassociation.org/persons/2022LEEC02" target="_blank" rel="noopener">
+        <div class="contact-card-top">
+          <div class="contact-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2l9 5v10l-9 5-9-5V7l9-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M3 7l9 5 9-5M12 22V12" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <span class="contact-card-arrow">↗</span>
+        </div>
+        <div class="contact-card-name">WCA Profile</div>
+        <div class="contact-card-handle">2022LEEC02</div>
+      </a>
+      <a class="contact-card rv" href="https://app.cubing.gg/i/view/coach?id=w7c0j7yc" target="_blank" rel="noopener">
+        <div class="contact-card-top">
+          <div class="contact-card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="12" cy="13" r="8" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 9v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M9 2h6M12 2v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="contact-card-arrow">↗</span>
+        </div>
+        <div class="contact-card-name">CubingGG</div>
+        <div class="contact-card-handle">Book a session</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-cta rv">
+    <h3>Ready to get faster?</h3>
+    <a class="btn btn-primary" href="#coaching">Book a Coaching Session</a>
+  </div>
+  <div class="footer-links rv">
+    <a href="#coaching">Coaching</a>
+    <a href="#about">About</a>
+    <a href="#pbs">Results</a>
+    <a href="zb.html">ZB Method</a>
+    <a href="#videos">Videos</a>
+    <a href="#gear">Gear</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-icons rv">
+    <a class="footer-icon" href="https://www.youtube.com/@TheCaidenLee" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube">
+      <img src="assets/icon-youtube.png" alt="">
+    </a>
+    <a class="footer-icon" href="https://www.instagram.com/thecaidenlee/" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5" stroke="#f0f0f0" stroke-width="2"/>
+        <circle cx="12" cy="12" r="4" stroke="#f0f0f0" stroke-width="2"/>
+        <circle cx="17.5" cy="6.5" r="1.5" fill="#f0f0f0"/>
+      </svg>
+    </a>
+  </div>
+  <p class="footer-copy">© <span id="year">2026</span> Caiden Lee. All rights reserved.</p>
+</footer>
+
+<div id="confetti-layer"></div>
+<div id="scroll-progress" aria-hidden="true"></div>
+<button id="to-top" aria-label="Back to top" onclick="scrollToY(0)">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+</button>
+
+<script>
+(function () {
+  /* ── mobile menu ── */
+  var hamburger = document.getElementById('hamburger');
+  var mobileMenu = document.getElementById('mobileMenu');
+  window.toggleMobileMenu = function () {
+    var open = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  };
+  mobileMenu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+    });
+  });
+
+  /* ── nav indicator pill ── */
+  var indicator = document.getElementById('navIndicator');
+  var navLinks = document.querySelector('.nav-links');
+  var sectionIds = ['home','coaching','about','pbs','zb','videos','gear','contact'];
+  var linkMap = {};
+  navLinks.querySelectorAll('a').forEach(function (a) {
+    var h = a.getAttribute('href');
+    if (h && h.charAt(0) === '#') linkMap[h.slice(1)] = a;
+  });
+
+  var ignoreScroll = false, settleTimer = null;
+  function moveToLink(a) {
+    if (!a) { indicator.style.opacity = '0'; return; }
+    indicator.style.left = a.offsetLeft + 'px';
+    indicator.style.top = a.offsetTop + 'px';
+    indicator.style.width = a.offsetWidth + 'px';
+    indicator.style.height = a.offsetHeight + 'px';
+    indicator.style.opacity = '1';
+  }
+  function setActive(id) {
+    for (var k in linkMap) linkMap[k].classList.toggle('active', k === id);
+    moveToLink(linkMap[id]);
+  }
+  function initIndicator() {
+    indicator.style.transition = 'none';
+    moveToLink(null);
+    requestAnimationFrame(function () { requestAnimationFrame(function () { indicator.style.transition = ''; }); });
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(initIndicator);
+  else window.addEventListener('load', initIndicator);
+
+  for (var k in linkMap) {
+    (function (id) {
+      linkMap[id].addEventListener('click', function () {
+        ignoreScroll = true;
+        clearTimeout(settleTimer);
+        setActive(id);
+        window.addEventListener('scroll', function onScroll() {
+          clearTimeout(settleTimer);
+          settleTimer = setTimeout(function () {
+            ignoreScroll = false;
+            window.removeEventListener('scroll', onScroll);
+          }, 150);
+        }, { passive: true });
+      });
+    })(k);
+  }
+  var navObserver = new IntersectionObserver(function (entries) {
+    if (ignoreScroll) return;
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) setActive(entry.target.id);
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+  sectionIds.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) navObserver.observe(el);
+  });
+  window.addEventListener('resize', function () {
+    var active = navLinks.querySelector('a.active');
+    if (active) moveToLink(active);
+  });
+
+  /* ── scroll reveal ── */
+  document.querySelectorAll('.rv-group').forEach(function (group) {
+    Array.prototype.forEach.call(group.children, function (child, i) {
+      child.style.setProperty('--d', (i * 0.08) + 's');
+    });
+  });
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) {
+    document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+    runCounters(document);
+  } else {
+    var rvObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in');
+        runCounters(entry.target);
+        rvObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.rv').forEach(function (el) { rvObserver.observe(el); });
+  }
+
+  /* ── count-up numbers ── */
+  function runCounters(root) {
+    var els = root.matches && root.matches('.count') ? [root] : root.querySelectorAll('.count');
+    Array.prototype.forEach.call(els, function (el) {
+      if (el._counted) return;
+      el._counted = true;
+      var to = parseFloat(el.dataset.to);
+      var dec = parseInt(el.dataset.dec || '0');
+      var prefix = el.dataset.prefix || '';
+      var suffix = el.dataset.suffix || '';
+      if (reduce) { el.textContent = prefix + to.toFixed(dec) + suffix; return; }
+      var t0 = null, dur = 1400;
+      function frame(t) {
+        if (!t0) t0 = t;
+        var p = Math.min(1, (t - t0) / dur);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = prefix + (to * eased).toFixed(dec) + suffix;
+        if (p < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+
+  /* ── confetti burst (shared) ── */
+  var CUBE_COLORS = ['#00c853','#ff3b30','#2979ff','#ff9100','#ffd600','#f8f8f8'];
+  function burstAt(el, count) {
+    var r = el.getBoundingClientRect();
+    var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    var layer = document.getElementById('confetti-layer');
+    for (var i = 0; i < (count || 26); i++) {
+      var p = document.createElement('i');
+      var ang = Math.random() * Math.PI * 2;
+      var dist = 60 + Math.random() * 110;
+      p.style.left = cx + 'px';
+      p.style.top = cy + 'px';
+      p.style.background = CUBE_COLORS[Math.floor(Math.random() * CUBE_COLORS.length)];
+      p.style.setProperty('--dx', Math.cos(ang) * dist + 'px');
+      p.style.setProperty('--dy', (Math.sin(ang) * dist - 40) + 'px');
+      p.style.setProperty('--rot', (Math.random() * 540 - 270) + 'deg');
+      layer.appendChild(p);
+      setTimeout(function (el) { el.remove(); }.bind(null, p), 950);
+    }
+  }
+
+  /* ── copy discount code ── */
+  window.copyCode = function () {
+    var write = navigator.clipboard ? navigator.clipboard.writeText('CAIDEN') : Promise.reject();
+    write.catch(function () {}).finally(function () {
+      var lbl = document.getElementById('discount-copy-lbl');
+      lbl.textContent = 'Copied ✓';
+      setTimeout(function () { lbl.textContent = 'Tap to copy'; }, 2200);
+    });
+    burstAt(document.getElementById('discount-chip'));
+  };
+
+  /* ── ZB launch button: burst + pop, then go ── */
+  var zbCta = document.getElementById('zb-cta');
+  zbCta.addEventListener('click', function (e) {
+    if (reduce) return; // reduced motion: navigate immediately
+    e.preventDefault();
+    burstAt(zbCta, 32);
+    zbCta.classList.add('launch');
+    setTimeout(function () { document.body.classList.add('zoom-out'); }, 380);
+    setTimeout(function () {
+      sessionStorage.setItem('zb-zoom', '1');
+      window.location.href = zbCta.href;
+    }, 830);
+  });
+  /* coming back via the back button: make sure the page isn't stuck zoomed out */
+  window.addEventListener('pageshow', function () { document.body.classList.remove('zoom-out'); });
+
+  /* ── eased smooth scrolling for all anchor links ── */
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.scrollToY = function (targetY) {
+    if (reduceMotion) { window.scrollTo(0, targetY); return; }
+    var startY = window.scrollY;
+    var dist = targetY - startY;
+    if (Math.abs(dist) < 2) return;
+    var dur = Math.min(1000, 450 + Math.abs(dist) * 0.12);
+    var t0 = null;
+    function ease(p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; }
+    function frame(t) {
+      if (!t0) t0 = t;
+      var p = Math.min(1, (t - t0) / dur);
+      window.scrollTo(0, startY + dist * ease(p));
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  };
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      var y = id === 'home' ? 0 : target.getBoundingClientRect().top + window.scrollY - 70;
+      scrollToY(Math.max(0, y));
+      history.replaceState(null, '', '#' + id);
+    });
+  });
+
+  /* ── scroll progress bar + back-to-top ── */
+  var progressBar = document.getElementById('scroll-progress');
+  var toTop = document.getElementById('to-top');
+  function onScrollUI() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    progressBar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+    toTop.classList.toggle('show', window.scrollY > 600);
+  }
+  window.addEventListener('scroll', onScrollUI, { passive: true });
+  onScrollUI();
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

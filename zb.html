@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZB Method — Caiden Lee</title>
+<title>ZB Method | Caiden Lee</title>
 <meta name="description" content="Caiden Lee's ZB method algorithm sheets and trainers for ZBLL and ZBLS.">
 <link rel="icon" type="image/png" href="Caiden Cube Logo black.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -53,12 +53,39 @@
     main { padding: 3rem 1.25rem; }
     .zb-grid { grid-template-columns: 1fr; }
   }
+
+  /* entrance zoom when arriving from the homepage launch button */
+  body.zoom-in { animation: pageIn .75s cubic-bezier(.22,1,.36,1) both; }
+  @keyframes pageIn { from { opacity: 0; transform: scale(.9); filter: blur(14px); } to { opacity: 1; transform: none; filter: none; } }
+  @media (prefers-reduced-motion: reduce) { body.zoom-in { animation: none; } }
+
+  /* exit zoom when heading into a sheet */
+  body.zoom-out { animation: pageOut .5s cubic-bezier(.55,0,.85,.35) forwards; }
+  @keyframes pageOut { to { opacity: 0; transform: scale(1.07); filter: blur(8px); } }
+  .btn.launch { animation: btnPop .45s cubic-bezier(.34,1.56,.64,1) forwards; }
+  @keyframes btnPop { 0% { transform: scale(1); } 40% { transform: scale(1.1); } 100% { transform: scale(1.04); } }
 </style>
 </head>
 <body>
+<script>
+  if (sessionStorage.getItem('zb-zoom')
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    sessionStorage.removeItem('zb-zoom');
+    /* hide until first paint, then run the zoom so it's actually visible */
+    document.body.style.opacity = '0';
+    window.addEventListener('DOMContentLoaded', function () {
+      requestAnimationFrame(function () {
+        document.body.style.opacity = '';
+        document.body.classList.add('zoom-in');
+      });
+    });
+  } else {
+    sessionStorage.removeItem('zb-zoom');
+  }
+</script>
 
 <nav>
-  <a class="nav-back" href="index.html">
+  <a class="nav-back" href="index-new.html">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
     Home
   </a>
@@ -69,7 +96,7 @@
 <main>
   <div class="section-label">ZB Method</div>
   <h1 class="section-title">Algorithm sets & trainers.</h1>
-  <p class="section-intro">I use the full ZB method — one of the most advanced 3×3 solving systems in speedcubing. Below you'll find my complete algorithm sheets and interactive trainers for both ZBLL and ZBLS.</p>
+  <p class="section-intro">I use the full ZB method, one of the most advanced 3×3 solving systems in speedcubing. Below you'll find my complete algorithm sheets and interactive trainers for both ZBLL and ZBLS.</p>
 
   <div class="zb-grid">
 
@@ -106,5 +133,23 @@
   </div>
 </main>
 
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('.zb-actions .btn').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      if (reduce) return;
+      e.preventDefault();
+      btn.classList.add('launch');
+      setTimeout(function () { document.body.classList.add('zoom-out'); }, 120);
+      setTimeout(function () {
+        sessionStorage.setItem('zb-zoom', '1');
+        window.location.href = btn.href;
+      }, 600);
+    });
+  });
+  window.addEventListener('pageshow', function () { document.body.classList.remove('zoom-out'); });
+})();
+</script>
 </body>
 </html>

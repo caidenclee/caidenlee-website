@@ -7,9 +7,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="The Vault">
   <meta name="theme-color" content="#1c1c1e">
-  <meta name="description" content="The Vault — a personal audiobook library. Stream classic books, keep a listening streak, and save timestamped notes.">
+  <meta name="description" content="The Vault, a personal audiobook library. Stream classic books, keep a listening streak, and save timestamped notes.">
   <meta property="og:title" content="The Vault">
-  <meta property="og:description" content="A personal audiobook library — stream classics, keep a streak, save timestamped notes.">
+  <meta property="og:description" content="A personal audiobook library. Stream classics, keep a streak, save timestamped notes.">
   <meta property="og:image" content="https://caidenlee.com/vault-icon.png">
   <meta property="og:url" content="https://caidenlee.com/vault/">
   <meta property="og:type" content="website">
@@ -1153,11 +1153,11 @@ function renderStats(){
    });
   const mEl=document.getElementById('milestone');
   if(s.totalSec<60){
-    mEl.innerHTML=`Press play on your first book — your stats start counting the moment you do. <b>Two minutes a day</b> keeps the streak alive.`;
+    mEl.innerHTML=`Press play on your first book. Your stats start counting the moment you do, and <b>two minutes a day</b> keeps the streak alive.`;
   }else{
     const nextH=Math.ceil((s.totalSec/3600+0.001)/10)*10;
     const toGo=Math.max(0,nextH-s.totalSec/3600);
-    mEl.innerHTML=`Next milestone: <b>${nextH} hours listened</b>. ${toGo.toFixed(1)}h to go — keep the streak alive.`;
+    mEl.innerHTML=`Next milestone: <b>${nextH} hours listened</b>. ${toGo.toFixed(1)}h to go. Keep the streak alive.`;
   }
   renderAllNotes();
 }
@@ -1178,7 +1178,7 @@ function renderAllNotes(){
     notes.forEach((n,i)=>list.appendChild(noteRow(item,n,i,()=>renderStats())));
     wrap.appendChild(sec);
   });
-  if(!any)wrap.innerHTML=`<div class="anno-empty">No annotations yet. While listening, write a thought in the Notes box — it saves with the exact timestamp so you can jump back to that moment.</div>`;
+  if(!any)wrap.innerHTML=`<div class="anno-empty">No annotations yet. While listening, write a thought in the Notes box. It saves with the exact timestamp so you can jump back to that moment.</div>`;
 }
 
 /* One note row, shared by the player sheet and the global list. */
@@ -1521,7 +1521,7 @@ function attachVideoListeners(video){
     if(!video.src)return;
     wrap.classList.remove('loading');
     setPlayPauseIcon(false);
-    showToast('Audio failed to load — check your connection and try again');
+    showToast('Audio failed to load. Check your connection and try again');
   };
   video.onstalled=()=>wrap.classList.add('loading');
   video.onended=()=>{
@@ -1581,7 +1581,7 @@ function setSleep(v){
   else{
     sleepEndAt=Date.now()+v*60000;
     sleepTicker=setInterval(sleepTick,1000);
-    showToast(`Sleep timer set — ${v} minutes`);
+    showToast(`Sleep timer set for ${v} minutes`);
   }
   updateSleepUI();
 }
@@ -1590,7 +1590,7 @@ function sleepTick(){
   if(Date.now()>=sleepEndAt){
     document.getElementById('local-video').pause();
     setSleep(0);
-    showToast('Sleep timer — playback paused');
+    showToast('Sleep timer ended. Playback paused');
     return;
   }
   updateSleepUI();

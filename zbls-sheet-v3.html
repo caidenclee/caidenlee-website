@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZBLS Algorithm Sheet — Caiden Lee</title>
+<title>ZBLS Algorithm Sheet | Caiden Lee</title>
 <link rel="icon" type="image/png" href="Caiden Cube Logo black.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -312,9 +312,29 @@ html, body { min-height: 100%; font-family: 'Inter', sans-serif; background: var
 .set-switcher-btn img { width: 28px; height: 28px; object-fit: contain; }
 .set-switcher-btn span { font-size: 10px; font-weight: 600; color: var(--muted); }
 .set-switcher-btn.active span { color: var(--accent); }
+
+/* entrance zoom when arriving from the ZB method page */
+body.zoom-in { animation: pageIn .75s cubic-bezier(.22,1,.36,1) both; }
+@keyframes pageIn { from { opacity: 0; transform: scale(.9); filter: blur(14px); } to { opacity: 1; transform: none; filter: none; } }
+@media (prefers-reduced-motion: reduce) { body.zoom-in { animation: none; } }
 </style>
 </head>
 <body>
+<script>
+  if (sessionStorage.getItem('zb-zoom')
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    sessionStorage.removeItem('zb-zoom');
+    document.body.style.opacity = '0';
+    window.addEventListener('DOMContentLoaded', function () {
+      requestAnimationFrame(function () {
+        document.body.style.opacity = '';
+        document.body.classList.add('zoom-in');
+      });
+    });
+  } else {
+    sessionStorage.removeItem('zb-zoom');
+  }
+</script>
 
 <!-- ══ VIEW: WELCOME ══ -->
 <div id="view-welcome" class="view">
@@ -607,7 +627,7 @@ function renderCases(cat) {
   renderCatSwitcher('casesSwitcher', cat);
   document.getElementById('casesHeaderTitle').innerHTML = meta.display + ' <span style="color:var(--accent)">Cases</span>';
   document.getElementById('casesHeroTitle').textContent = 'Choose an F2L case';
-  document.getElementById('casesHeroDesc').textContent = meta.cases.length + ' cases — ' + meta.desc;
+  document.getElementById('casesHeroDesc').textContent = meta.cases.length + ' cases · ' + meta.desc;
 
   var grid = document.getElementById('casesGrid');
   grid.innerHTML = '';
@@ -637,8 +657,8 @@ function renderOrients(cat, num) {
   var orients = getOrients(cat, num);
   document.getElementById('orientsHeaderTitle').innerHTML = meta.display + ' <span style="color:var(--accent)">F2L ' + num + '</span>';
   document.getElementById('orientsBackLabel').textContent = meta.display + ' cases';
-  document.getElementById('orientsHeroTitle').textContent = 'F2L ' + num + ' — ' + meta.display;
-  document.getElementById('orientsHeroDesc').textContent = orients.length + ' orientations — click an image to see its algorithms';
+  document.getElementById('orientsHeroTitle').textContent = 'F2L ' + num + ': ' + meta.display;
+  document.getElementById('orientsHeroDesc').textContent = orients.length + ' orientations. Click an image to see its algorithms.';
 
   var grid = document.getElementById('orientsGrid');
   grid.innerHTML = '';
@@ -682,7 +702,7 @@ function renderDetail() {
 
   document.getElementById('detailImg').src = imgPath3(cat, num, orient);
   document.getElementById('detailImg').alt = 'F2L ' + num + ' Orient ' + orient;
-  document.getElementById('detailTitle').textContent = 'F2L ' + num + ' — Orient ' + orient;
+  document.getElementById('detailTitle').textContent = 'F2L ' + num + ' · Orient ' + orient;
   document.getElementById('detailSubtitle').textContent = CAT_META[cat].display + ' \u2014 Orientation ' + orient;
 
   var container = document.getElementById('detailAlgs');

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZBLL Algorithm Sheet — Caiden Lee</title>
+<title>ZBLL Algorithm Sheet | Caiden Lee</title>
 <link rel="icon" type="image/png" href="Caiden Cube Logo black.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -313,9 +313,29 @@ html, body { min-height: 100%; font-family: 'Inter', sans-serif; background: var
 .set-switcher-btn img { width: 28px; height: 28px; object-fit: contain; }
 .set-switcher-btn span { font-size: 10px; font-weight: 600; color: var(--muted); }
 .set-switcher-btn.active span { color: var(--accent); }
+
+/* entrance zoom when arriving from the ZB method page */
+body.zoom-in { animation: pageIn .75s cubic-bezier(.22,1,.36,1) both; }
+@keyframes pageIn { from { opacity: 0; transform: scale(.9); filter: blur(14px); } to { opacity: 1; transform: none; filter: none; } }
+@media (prefers-reduced-motion: reduce) { body.zoom-in { animation: none; } }
 </style>
 </head>
 <body>
+<script>
+  if (sessionStorage.getItem('zb-zoom')
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    sessionStorage.removeItem('zb-zoom');
+    document.body.style.opacity = '0';
+    window.addEventListener('DOMContentLoaded', function () {
+      requestAnimationFrame(function () {
+        document.body.style.opacity = '';
+        document.body.classList.add('zoom-in');
+      });
+    });
+  } else {
+    sessionStorage.removeItem('zb-zoom');
+  }
+</script>
 
 <!-- ══ VIEW: WELCOME ══ -->
 <div id="view-welcome" class="view">
@@ -462,11 +482,11 @@ const SET_ORDER = ['T','U','L','Pi','H','Sune','As'];
 const SET_META = {
   T:    { img: 'T ZBLL.png',    desc: 'Two adjacent corners need a U-perm swap',   cases: 6 },
   U:    { img: 'U ZBLL.png',    desc: 'Corner cycle forming a U shape',              cases: 6 },
-  L:    { img: 'L ZBLL.png',    desc: 'Adjacent corner twist — L shape',             cases: 6 },
-  H:    { img: 'H ZBLL.png',    desc: 'Opposite corner swap — H shape',              cases: 4 },
-  Pi:   { img: 'PI ZBLL.png',   desc: 'Two twisted corners — Pi shape',              cases: 6 },
-  Sune: { img: 'SUNE ZBLL.png', desc: 'Three corners twisted — Sune',                cases: 6 },
-  As:   { img: 'AS ZBLL.png',   desc: 'Three corners twisted — Anti-Sune',           cases: 6 },
+  L:    { img: 'L ZBLL.png',    desc: 'Adjacent corner twist · L shape',             cases: 6 },
+  H:    { img: 'H ZBLL.png',    desc: 'Opposite corner swap · H shape',              cases: 4 },
+  Pi:   { img: 'PI ZBLL.png',   desc: 'Two twisted corners · Pi shape',              cases: 6 },
+  Sune: { img: 'SUNE ZBLL.png', desc: 'Three corners twisted · Sune',                cases: 6 },
+  As:   { img: 'AS ZBLL.png',   desc: 'Three corners twisted · Anti-Sune',           cases: 6 },
 };
 
 /* ── NAV STATE ── */
@@ -580,7 +600,7 @@ function renderSubcases(set, caseIdx) {
   document.getElementById('subcasesHeaderTitle').innerHTML = set + ' <span style="color:var(--accent)">Set</span>';
   document.getElementById('subcasesBackLabel').textContent = set + ' corners';
   document.getElementById('subcasesHeroTitle').textContent = caseData.name;
-  document.getElementById('subcasesHeroDesc').textContent = caseData.subcases.length + ' cases — click an image to see its algorithms';
+  document.getElementById('subcasesHeroDesc').textContent = caseData.subcases.length + ' cases. Click an image to see its algorithms.';
 
   const grid = document.getElementById('subcasesGrid');
   grid.innerHTML = '';
