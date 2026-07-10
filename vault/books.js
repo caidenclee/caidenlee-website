@@ -1,9 +1,9 @@
 /* ================================================================
-   THE VAULT — LIBRARY
+   THE VAULT LIBRARY
    To add a book:
    1. Upload the audio to archive.org and copy the direct file link.
    2. Save a portrait cover image (2:3 ratio) into vault/covers/.
-   3. Add an entry below. `id` must be unique and never change —
+   3. Add an entry below. `id` must be unique and never change;
       it is the key your progress and notes are stored under.
    Optional fields: trimStart (seconds to skip at the start),
    chapters: [{t: seconds, title: 'Chapter name'}, ...]

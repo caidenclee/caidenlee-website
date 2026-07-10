@@ -883,7 +883,7 @@ const icon=(n,s=20)=>`<svg class="icn" width="${s}" height="${s}" viewBox="0 0 2
 document.querySelectorAll('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon,parseInt(el.dataset.size||'20'));});
 
 /* ================================================================
-   DATA (see books.js — add new books there)
+   DATA (see books.js to add new books)
 ================================================================ */
 const CONTENT = window.VAULT_BOOKS || [];
 const CATS = [
@@ -897,7 +897,7 @@ const SKIPS  = [10, 15, 30, 45, 60];
 const STREAK_MIN_SEC = 120;   // 2 minutes of listening earns the day
 
 /* ================================================================
-   STATE + STORAGE (same keys as before — progress carries over)
+   STATE + STORAGE (same keys as before, progress carries over)
 ================================================================ */
 let currentView  = 'home';
 let currentItem  = null;
@@ -941,7 +941,7 @@ function recordListened(sec, spd){
   }
   saveStats(s);
 }
-/* A streak that wasn't fed yesterday or today is over — show 0, not the stale number. */
+/* A streak that wasn't fed yesterday or today is over; show 0, not the stale number. */
 function effectiveStreak(){
   const s = getStats();
   const today = new Date().toDateString();
@@ -1339,7 +1339,7 @@ function openPlayer(item, at){
   else coverBox.innerHTML='';
 
   video.src=item.src;
-  /* Seek only once metadata is in — setting currentTime on an unloaded
+  /* Seek only once metadata is in; setting currentTime on an unloaded
      element is silently dropped on iOS, which loses your place. */
   const target=Math.floor(start);
   if(target>0){
@@ -1475,7 +1475,7 @@ function renderSpeeds(){
 
 /* ── progress + completion ──
    A book only auto-completes after ≥20s of continuous playback reaching
-   the end — scrubbing to 99% (even if it then plays a moment) doesn't count. */
+   the end; scrubbing to 99% (even if it then plays a moment) doesn't count. */
 const COMPLETE_MIN_RUN=20;
 function updateProgressUI(ct,dur,spd,fromPlayback){
   const pct=dur>0?(ct/dur*100):0;
