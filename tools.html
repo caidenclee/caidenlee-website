@@ -60,6 +60,7 @@
   h1 { font-size: clamp(2rem, 3.8vw, 2.7rem); font-weight: 800; letter-spacing: -0.03em; color: var(--white); margin-bottom: 2.5rem; line-height: 1.1; }
 
   .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .tools-grid > .tool-card:last-child:nth-child(odd) { grid-column: 1 / -1; width: calc(50% - 0.75rem); margin-inline: auto; }
   .tool-card {
     --c: var(--accent);
     background: var(--bg2); border: 1px solid var(--border); border-radius: 22px; overflow: hidden;
@@ -71,6 +72,7 @@
   .tool-card.b { --c: var(--cube-b); }
   .tool-card.o { --c: var(--cube-o); }
   .tool-card.y { --c: var(--cube-y); }
+  .tool-card.r { --c: var(--cube-r); }
   .tool-img { position: relative; aspect-ratio: 16/6.5; overflow: hidden; background: var(--bg3); border-bottom: 1px solid var(--border); }
   .tool-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s cubic-bezier(.22,1,.36,1); }
   .tool-card:hover .tool-img img { transform: scale(1.05); }
@@ -106,6 +108,7 @@
     nav { padding: 0.8rem 1.25rem; }
     .nav-title { position: static; transform: none; }
     .tools-grid { grid-template-columns: 1fr; }
+    .tools-grid > .tool-card:last-child:nth-child(odd) { grid-column: auto; width: 100%; }
   }
 </style>
 </head>
@@ -149,7 +152,18 @@
       </div>
     </a>
 
-    <a class="tool-card o rv" style="--d:.27s" href="wca-sim.html">
+    <a class="tool-card r rv" style="--d:.27s" href="f2l/">
+      <div class="tool-img">
+        <img src="assets/tools/cover-f2l.svg" alt="F2L Library preview" loading="lazy">
+        <span class="tool-tag">F2L</span>
+      </div>
+      <div class="tool-body">
+        <div class="tool-name">F2L Library</div>
+        <span class="tool-go">Open library <span aria-hidden="true">→</span></span>
+      </div>
+    </a>
+
+    <a class="tool-card o rv" style="--d:.33s" href="wca-sim.html">
       <div class="tool-img">
         <img src="assets/tools/cover-compsim.svg" alt="Comp Sim Trainer preview" loading="lazy">
         <span class="tool-tag">Competition</span>
@@ -160,7 +174,7 @@
       </div>
     </a>
 
-    <a class="tool-card y rv" style="--d:.33s" href="zbll-trainer-sameer.html">
+    <a class="tool-card y rv" style="--d:.39s" href="zbll-trainer-sameer.html">
       <div class="tool-img">
         <img src="assets/tools/cover-zbll.svg" alt="ZBLL Recognition Trainer preview" loading="lazy">
         <span class="tool-tag">ZBLL</span>

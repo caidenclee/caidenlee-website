@@ -29,6 +29,23 @@
     @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+    nav {
+      display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 2.5rem;
+      border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 110;
+      background: rgba(22,22,26,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+      color: var(--muted); font-size: 13px; font-weight: 700;
+      padding: 0.65rem 1.25rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2);
+      transition: color .2s, border-color .2s, background .2s, transform .2s;
+    }
+    .nav-back:hover { color: #fff; border-color: rgba(124,111,247,0.5); background: rgba(124,111,247,0.1); }
+    .nav-back:active { transform: scale(.94); }
+    .nav-title { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; color: #fff; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-title span { color: var(--accent); }
+    @media (max-width: 768px) { nav { padding: 0.8rem 1.25rem; } .nav-title { position: static; transform: none; } }
+
     .hero {
       padding: 3rem 2.5rem 2rem; text-align: center;
       position: relative; z-index: 1;
@@ -42,7 +59,7 @@
 
     /* ── Filter bar ── */
     .filter-bar {
-      position: sticky; top: 0; z-index: 100;
+      position: sticky; top: 69px; z-index: 100;
       background: rgba(22,22,26,0.97); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 14px 24px;
@@ -81,9 +98,12 @@
       display: block; text-decoration: none; color: inherit;
       background: var(--bg2); border: 1px solid var(--border);
       border-radius: 14px; overflow: hidden;
-      transition: border-color 0.2s, transform 0.15s;
+      transition: border-color 0.2s, transform .25s cubic-bezier(.34,1.4,.5,1), box-shadow .25s;
+      animation: cardIn .55s cubic-bezier(.34,1.4,.5,1) both;
     }
-    .video-card:hover { border-color: rgba(124,111,247,0.4); transform: translateY(-2px); }
+    @keyframes cardIn { from { opacity: 0; transform: translateY(22px) scale(.96); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .video-card { animation: none; } }
+    .video-card:hover { border-color: rgba(124,111,247,0.45); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.35); }
     .video-card:active { transform: translateY(0); }
     .video-card.hidden { display: none; }
 
@@ -93,9 +113,9 @@
     }
     .thumb-wrap img {
       width: 100%; height: 100%; object-fit: cover; display: block;
-      opacity: 0.85; transition: opacity 0.2s;
+      opacity: 0.85; transition: opacity 0.2s, transform .4s cubic-bezier(.22,1,.36,1);
     }
-    .video-card:hover .thumb-wrap img { opacity: 1; }
+    .video-card:hover .thumb-wrap img { opacity: 1; transform: scale(1.05); }
 
     .diff-dot {
       position: absolute; bottom: 8px; right: 8px;
@@ -112,7 +132,7 @@
     .pdot.filled { background: #fff; border-color: #fff; }
 
     .card-body { padding: 10px 12px 12px; }
-    .card-title { font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.4; }
+    .card-title { font-size: 13px; font-weight: 600; color: #c9c9d6; line-height: 1.45; }
 
     /* ── Empty state ── */
     .empty-state {
@@ -123,6 +143,15 @@
   </style>
 </head>
 <body>
+
+  <nav>
+    <a class="nav-back" href="/tools.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Tools
+    </a>
+    <div class="nav-title">F2L <span>Library</span></div>
+    <div style="width:96px" aria-hidden="true"></div>
+  </nav>
 
   <div class="hero">
     <div class="hero-lockup">
@@ -219,7 +248,11 @@
 
     // Build grid
     const grid = document.getElementById('grid');
-    videos.forEach(v => grid.appendChild(buildCard(v)));
+    videos.forEach((v, i) => {
+      const card = buildCard(v);
+      card.style.animationDelay = (i * 0.07) + 's';
+      grid.appendChild(card);
+    });
 
     let activeFilter = 'all';
 
@@ -258,5 +291,7 @@
     });
 
   </script>
+  <footer style="padding:2rem;text-align:center;font-size:12.5px;color:var(--muted);border-top:1px solid var(--border);">© <span id="year">2026</span> <a href="/index.html" style="color:var(--muted);text-decoration:none;">Caiden Lee</a></footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
