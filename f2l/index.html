@@ -3,295 +3,190 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Caiden's F2L Library</title>
+  <title>F2L Library | Caiden Lee</title>
+  <meta name="description" content="Caiden Lee's free F2L video library.">
   <link rel="icon" type="image/png" href="/Caiden Cube Logo black.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg: #16161a; --bg2: #1e1e24; --bg3: #26262e;
-      --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #8a8a9a;
-      --accent: #7c6ff7;
-      --beginner: #22c55e; --intermediate: #eab308; --advanced: #ef4444;
+      --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #9a9aab;
+      --accent: #7c6ff7; --white: #ffffff;
     }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 14px; -webkit-font-smoothing: antialiased; }
-
-    /* ── Hero ── */
-    body::before {
-      content: '';
-      position: fixed;
-      top: -80px; left: 50%; transform: translateX(-50%);
-      width: 600px; height: 300px;
-      background: radial-gradient(ellipse, rgba(124,111,247,0.09) 0%, transparent 70%);
-      pointer-events: none; z-index: 0;
-      animation: fadeIn 1s ease both;
-    }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    nav {
-      display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 2.5rem;
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; }
+    :focus { outline: none; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+    #ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(120% 48% at 50% -8%, rgba(124,111,247,0.13), transparent 62%); }
+    .rv { animation: rvIn .6s cubic-bezier(.22,1,.36,1) both; animation-delay: var(--d, 0s); }
+    @keyframes rvIn { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .rv { animation: none; } }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 2.5rem;
       border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 110;
-      background: rgba(22,22,26,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    }
-    .nav-back {
-      display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+      background: rgba(22,22,26,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    .nav-back { display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
       color: var(--muted); font-size: 13px; font-weight: 700;
       padding: 0.65rem 1.25rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2);
-      transition: color .2s, border-color .2s, background .2s, transform .2s;
-    }
-    .nav-back:hover { color: #fff; border-color: rgba(124,111,247,0.5); background: rgba(124,111,247,0.1); }
+      transition: color .2s, border-color .2s, background .2s, transform .2s; }
+    .nav-back:hover { color: var(--white); border-color: rgba(124,111,247,0.5); background: rgba(124,111,247,0.1); }
     .nav-back:active { transform: scale(.94); }
-    .nav-title { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; color: #fff; position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-title { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; color: var(--white); position: absolute; left: 50%; transform: translateX(-50%); }
     .nav-title span { color: var(--accent); }
+    footer { position: relative; z-index: 1; padding: 2rem; text-align: center; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--border); }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--white); }
     @media (max-width: 768px) { nav { padding: 0.8rem 1.25rem; } .nav-title { position: static; transform: none; } }
 
-    .hero {
-      padding: 3rem 2.5rem 2rem; text-align: center;
-      position: relative; z-index: 1;
-      animation: fadeUp 0.7s ease both;
-    }
-    .hero-lockup { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 14px; }
-    .hero-logo { width: 56px; height: 56px; object-fit: contain; }
-    .hero-f2l-img { width: 56px; height: 56px; object-fit: contain; }
-    .hero-x { font-size: 22px; font-weight: 700; color: #3a3a52; }
-    .hero-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.04em; color: var(--text); line-height: 1.1; }
-
-    /* ── Filter bar ── */
-    .filter-bar {
-      position: sticky; top: 69px; z-index: 100;
-      background: rgba(22,22,26,0.97); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 24px;
-      display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;
-    }
-
-
-    .pills { display: flex; gap: 6px; flex-wrap: wrap; }
-
-    .pill {
-      padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border);
-      background: var(--bg2); color: var(--muted);
-      font-size: 12px; font-weight: 600; font-family: 'Inter', sans-serif;
-      cursor: pointer; transition: all 0.15s; white-space: nowrap;
-    }
-    .pill:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
-    .pill.active {
-      background: var(--accent); border-color: var(--accent);
-      color: #fff;
-    }
-
-    /* ── Grid ── */
-    .grid-wrap { padding: 28px 24px 60px; max-width: 1100px; margin: 0 auto; animation: fadeUp 0.7s ease 0.4s both; }
-
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
-
-    @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 600px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
-
-    /* ── Card ── */
-    .video-card {
-      display: block; text-decoration: none; color: inherit;
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 14px; overflow: hidden;
-      transition: border-color 0.2s, transform .25s cubic-bezier(.34,1.4,.5,1), box-shadow .25s;
-      animation: cardIn .55s cubic-bezier(.34,1.4,.5,1) both;
-    }
-    @keyframes cardIn { from { opacity: 0; transform: translateY(22px) scale(.96); } to { opacity: 1; transform: none; } }
-    @media (prefers-reduced-motion: reduce) { .video-card { animation: none; } }
+    
+    main { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 3rem 1.5rem 3.5rem; }
+    .hero { text-align: center; margin-bottom: 1.75rem; }
+    .hero-lockup { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 14px; }
+    .hero-lockup img { height: 52px; width: auto; object-fit: contain; }
+    .hero-x { font-size: 20px; font-weight: 700; color: #3a3a52; }
+    h1 { font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 800; letter-spacing: -0.03em; color: var(--white); line-height: 1.1; }
+    .pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 2.25rem; }
+    .pill { padding: 8px 17px; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2); color: var(--muted);
+      font-size: 12.5px; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer;
+      transition: color .2s, border-color .2s, background .2s, transform .2s; }
+    .pill:hover { color: var(--white); border-color: rgba(124,111,247,0.4); }
+    .pill:active { transform: scale(.94); }
+    .pill.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 6px 18px rgba(124,111,247,0.35); }
+    .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+    @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .video-grid { grid-template-columns: 1fr; } }
+    .video-card { display: block; text-decoration: none; color: inherit; background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      transition: border-color .2s, transform .25s cubic-bezier(.34,1.4,.5,1), box-shadow .25s, opacity .3s; }
     .video-card:hover { border-color: rgba(124,111,247,0.45); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.35); }
-    .video-card:active { transform: translateY(0); }
     .video-card.hidden { display: none; }
-
-    .thumb-wrap {
-      position: relative; width: 100%; aspect-ratio: 16/9;
-      background: var(--bg3); overflow: hidden;
-    }
-    .thumb-wrap img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-      opacity: 0.85; transition: opacity 0.2s, transform .4s cubic-bezier(.22,1,.36,1);
-    }
+    .thumb-wrap { position: relative; width: 100%; aspect-ratio: 16/9; background: var(--bg3); overflow: hidden; }
+    .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.88;
+      transition: opacity .2s, transform .4s cubic-bezier(.22,1,.36,1); }
     .video-card:hover .thumb-wrap img { opacity: 1; transform: scale(1.05); }
-
-    .diff-dot {
-      position: absolute; bottom: 8px; right: 8px;
-      width: 8px; height: 8px; border-radius: 50%;
-      border: 1.5px solid rgba(0,0,0,0.3);
-    }
-    .diff-dot.beginner { background: var(--beginner); }
-    .diff-dot.intermediate { background: var(--intermediate); }
-    .diff-dot.advanced { background: var(--advanced); }
-    .diff-dot.all { background: var(--accent); }
-
-    .progress-dots { position: absolute; bottom: 7px; left: 7px; display: flex; gap: 4px; }
-    .pdot { width: 6px; height: 6px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.5); background: transparent; }
+    .vpill { position: absolute; top: 9px; left: 9px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--c); background: rgba(16,16,20,0.85); backdrop-filter: blur(5px);
+      border: 1px solid color-mix(in srgb, var(--c) 35%, transparent); padding: 2px 8px; border-radius: 50px; }
+    .progress-dots { position: absolute; bottom: 8px; left: 9px; display: flex; gap: 4px; }
+    .pdot { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.55); background: transparent; }
     .pdot.filled { background: #fff; border-color: #fff; }
-
-    .card-body { padding: 10px 12px 12px; }
+    .card-body { padding: 11px 13px 13px; }
     .card-title { font-size: 13px; font-weight: 600; color: #c9c9d6; line-height: 1.45; }
-
-    /* ── Empty state ── */
-    .empty-state {
-      grid-column: 1 / -1; text-align: center;
-      padding: 60px 24px; color: var(--muted);
-      font-size: 14px; font-weight: 500;
-    }
+    .empty-state { grid-column: 1 / -1; text-align: center; padding: 50px 24px; color: var(--muted); font-weight: 500; }
   </style>
 </head>
 <body>
-
-  <nav>
-    <a class="nav-back" href="/tools.html">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      Tools
-    </a>
-    <div class="nav-title">F2L <span>Library</span></div>
-    <div style="width:96px" aria-hidden="true"></div>
-  </nav>
-
-  <div class="hero">
+<div id="ambient"></div>
+<nav>
+  <a class="nav-back" href="/tools.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Tools
+  </a>
+  <div class="nav-title">F2L <span>Library</span></div>
+  <div style="width:96px" aria-hidden="true"></div>
+</nav>
+<main>
+  <div class="hero rv">
     <div class="hero-lockup">
-      <img class="hero-logo" src="/Caiden Cube Logo black.png" alt="Caiden Lee">
-      <span class="hero-x">×</span>
-      <img class="hero-f2l-img" src="/F2L.png" alt="F2L">
+      <img src="/Caiden Cube Logo black.png" alt="Caiden Lee">
+      <span class="hero-x">&times;</span>
+      <img src="/F2L.png" alt="F2L">
     </div>
-    <h1 class="hero-title">Caiden's F2L Library</h1>
+    <h1>Caiden's F2L Library</h1>
   </div>
-
-  <div class="filter-bar">
-<div class="pills" id="pills">
+  <div class="pills rv" style="--d:.06s" id="pills">
       <button class="pill active" data-filter="all">All</button>
       <button class="pill" data-filter="beginner">Beginner</button>
       <button class="pill" data-filter="intermediate">Intermediate</button>
       <button class="pill" data-filter="advanced">Advanced</button>
-    </div>
   </div>
-
-  <div class="grid-wrap">
-    <div class="video-grid" id="grid"></div>
-  </div>
-
-  <script>
-    const videos = [
-      {
-        id: '3tYj-9f4dA0',
-        title: 'All 41 F2L Cases',
-        difficulty: 'all',
-        slug: 'all-41-cases',
-        tags: ['all', 'beginner', 'intermediate', 'advanced']
-      },
-      {
-        id: '1TzHHPJ_2HY',
-        title: 'How to Solve F2L Pairs in the Back',
-        difficulty: 'intermediate',
-        slug: 'f2l-back-permutation',
-        tags: ['intermediate']
-      },
-      {
-        id: 'bJiPHMW8mmw',
-        title: '5 Beginner F2L Cases (Both Pieces In Top)',
-        difficulty: 'beginner',
-        slug: 'beginner-both-pieces-top',
-        tags: ['beginner', 'connected']
-      },
-      {
-        id: 'FnnEW2jaZyQ',
-        title: '5 Intermediate F2L Cases (Pieces in the Top Touching)',
-        difficulty: 'intermediate',
-        slug: 'intermediate-top-touching',
-        tags: ['intermediate', 'connected']
-      },
-      {
-        id: 'SHtI0C5LHkY',
-        title: '4 Intermediate F2L Cases (Edge In Slot)',
-        difficulty: 'intermediate',
-        slug: 'intermediate-edge-in-slot',
-        tags: ['intermediate', 'edge']
-      },
-      {
-        id: 'j6QQfTSCgb8',
-        title: '3 Intermediate F2L Cases (Corner In Slot)',
-        difficulty: 'intermediate',
-        slug: 'intermediate-corner-in-slot',
-        tags: ['intermediate', 'corner']
-      }
-    ];
-
-    const STEPS = ['watched', 'practiced', 'mastered'];
-
-    function getProgress(slug) {
-      try { return JSON.parse(localStorage.getItem('f2l-progress-' + slug)) || {}; } catch { return {}; }
-    }
-
-    function buildCard(v) {
-      const p = getProgress(v.slug);
-      const dots = STEPS.map(k => `<div class="pdot ${p[k] ? 'filled' : ''}"></div>`).join('');
-      const card = document.createElement('a');
-      card.className = 'video-card';
-      card.href = `/f2l/${v.slug}/`;
-      card.dataset.tags = v.tags.join(' ');
-      card.dataset.title = v.title.toLowerCase();
-      card.innerHTML = `
+  <div class="video-grid" id="grid">
+      <a class="video-card rv" style="--d:0.10s" href="/f2l/all-41-cases/" data-tags="all beginner boot-camp intermediate advanced" data-slug="all-41-cases">
         <div class="thumb-wrap">
-          <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}" loading="lazy">
-          <div class="diff-dot ${v.difficulty}"></div>
+          <img src="https://img.youtube.com/vi/3tYj-9f4dA0/hqdefault.jpg" alt="All 41 F2L Cases" loading="lazy">
+          <span class="vpill" style="--c:#7c6ff7">all</span>
+          <div class="progress-dots" data-dots="all-41-cases"></div>
         </div>
-        <div class="card-body">
-          <p class="card-title">${v.title}</p>
-        </div>`;
-      return card;
-    }
-
-    // Build grid
-    const grid = document.getElementById('grid');
-    videos.forEach((v, i) => {
-      const card = buildCard(v);
-      card.style.animationDelay = (i * 0.07) + 's';
-      grid.appendChild(card);
+        <div class="card-body"><p class="card-title">All 41 F2L Cases</p></div>
+      </a>
+      <a class="video-card rv" style="--d:0.16s" href="/f2l/f2l-back-permutation/" data-tags="all intermediate" data-slug="f2l-back-permutation">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/1TzHHPJ_2HY/hqdefault.jpg" alt="How to Solve F2L Pairs in the Back" loading="lazy">
+          <span class="vpill" style="--c:#7c6ff7">intermediate</span>
+          <div class="progress-dots" data-dots="f2l-back-permutation"></div>
+        </div>
+        <div class="card-body"><p class="card-title">How to Solve F2L Pairs in the Back</p></div>
+      </a>
+      <a class="video-card rv" style="--d:0.22s" href="/f2l/beginner-both-pieces-top/" data-tags="all beginner" data-slug="beginner-both-pieces-top">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/bJiPHMW8mmw/hqdefault.jpg" alt="5 Beginner F2L Cases (Both Pieces In Top)" loading="lazy">
+          <span class="vpill" style="--c:#7c6ff7">beginner</span>
+          <div class="progress-dots" data-dots="beginner-both-pieces-top"></div>
+        </div>
+        <div class="card-body"><p class="card-title">5 Beginner F2L Cases (Both Pieces In Top)</p></div>
+      </a>
+      <a class="video-card rv" style="--d:0.28s" href="/f2l/intermediate-top-touching/" data-tags="all intermediate" data-slug="intermediate-top-touching">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/FnnEW2jaZyQ/hqdefault.jpg" alt="5 Intermediate F2L Cases (Pieces in the Top Touching)" loading="lazy">
+          <span class="vpill" style="--c:#7c6ff7">intermediate</span>
+          <div class="progress-dots" data-dots="intermediate-top-touching"></div>
+        </div>
+        <div class="card-body"><p class="card-title">5 Intermediate F2L Cases (Pieces in the Top Touching)</p></div>
+      </a>
+      <a class="video-card rv" style="--d:0.34s" href="/f2l/intermediate-edge-in-slot/" data-tags="all intermediate" data-slug="intermediate-edge-in-slot">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/SHtI0C5LHkY/hqdefault.jpg" alt="4 Intermediate F2L Cases (Edge In Slot)" loading="lazy">
+          <span class="vpill" style="--c:#7c6ff7">intermediate</span>
+          <div class="progress-dots" data-dots="intermediate-edge-in-slot"></div>
+        </div>
+        <div class="card-body"><p class="card-title">4 Intermediate F2L Cases (Edge In Slot)</p></div>
+      </a>
+      <a class="video-card rv" style="--d:0.40s" href="/f2l/intermediate-corner-in-slot/" data-tags="all intermediate" data-slug="intermediate-corner-in-slot">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/j6QQfTSCgb8/hqdefault.jpg" alt="3 Intermediate F2L Cases (Corner In Slot)" loading="lazy">
+          <span class="vpill" style="--c:#7c6ff7">intermediate</span>
+          <div class="progress-dots" data-dots="intermediate-corner-in-slot"></div>
+        </div>
+        <div class="card-body"><p class="card-title">3 Intermediate F2L Cases (Corner In Slot)</p></div>
+      </a>
+  </div>
+</main>
+<footer>&copy; <span id="year">2026</span> <a href="/index.html">Caiden Lee</a></footer>
+<script>
+(function () {
+  /* progress dots from saved per-video progress */
+  var STEPS = ['watched', 'practiced', 'mastered'];
+  document.querySelectorAll('.progress-dots').forEach(function (box) {
+    var p = {};
+    try { p = JSON.parse(localStorage.getItem('f2l-progress-' + box.dataset.dots)) || {}; } catch (e) {}
+    box.innerHTML = STEPS.map(function (k) { return '<div class="pdot ' + (p[k] ? 'filled' : '') + '"></div>'; }).join('');
+  });
+  /* filters */
+  var active = 'all';
+  function apply() {
+    var visible = 0;
+    document.querySelectorAll('.video-card').forEach(function (card) {
+      var show = active === 'all' || card.dataset.tags.split(' ').indexOf(active) !== -1;
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
     });
-
-    let activeFilter = 'all';
-
-    function applyFilters() {
-      const cards = grid.querySelectorAll('.video-card');
-      let visible = 0;
-      cards.forEach(card => {
-        const matchesFilter = activeFilter === 'all' || card.dataset.tags.includes(activeFilter);
-        const show = matchesFilter;
-        card.classList.toggle('hidden', !show);
-        if (show) visible++;
-      });
-
-      // Empty state
-      let empty = grid.querySelector('.empty-state');
-      if (visible === 0) {
-        if (!empty) {
-          empty = document.createElement('div');
-          empty.className = 'empty-state';
-          grid.appendChild(empty);
-        }
-        empty.textContent = 'No cases found.';
-      } else if (empty) {
-        empty.remove();
-      }
-    }
-
-    // Pills
-    document.getElementById('pills').addEventListener('click', e => {
-      const pill = e.target.closest('.pill');
-      if (!pill) return;
-      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      activeFilter = pill.dataset.filter;
-      applyFilters();
-    });
-
-  </script>
-  <footer style="padding:2rem;text-align:center;font-size:12.5px;color:var(--muted);border-top:1px solid var(--border);">© <span id="year">2026</span> <a href="/index.html" style="color:var(--muted);text-decoration:none;">Caiden Lee</a></footer>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+    var grid = document.getElementById('grid');
+    var empty = grid.querySelector('.empty-state');
+    if (!visible) {
+      if (!empty) { empty = document.createElement('div'); empty.className = 'empty-state'; grid.appendChild(empty); }
+      empty.textContent = 'No videos here yet.';
+    } else if (empty) empty.remove();
+  }
+  document.getElementById('pills').addEventListener('click', function (e) {
+    var pill = e.target.closest('.pill');
+    if (!pill) return;
+    document.querySelectorAll('.pill').forEach(function (p) { p.classList.remove('active'); });
+    pill.classList.add('active');
+    active = pill.dataset.filter;
+    apply();
+  });
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
 </body>
 </html>

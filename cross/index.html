@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cross Library | Caiden Lee</title>
-  <meta name="description" content="Caiden Lee's cross video library: beginner tips, boot camp, and advanced cross technique.">
+  <meta name="description" content="Caiden Lee's free Cross video library.">
   <link rel="icon" type="image/png" href="/Caiden Cube Logo black.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -13,93 +13,70 @@
       --bg: #16161a; --bg2: #1e1e24; --bg3: #26262e;
       --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #9a9aab;
       --accent: #7c6ff7; --white: #ffffff;
-      --lvl-beginner: #00c853; --lvl-bootcamp: #ff9100; --lvl-advanced: #ff3b30;
     }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; }
     :focus { outline: none; }
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
-
-    #ambient {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background: radial-gradient(120% 48% at 50% -8%, rgba(124,111,247,0.14), transparent 62%);
-    }
-
-    .rv { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); transition-delay: var(--d, 0s); }
-    .rv.in { opacity: 1; transform: none; }
-    @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } }
-
-    nav {
-      display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 2.5rem;
-      border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
-      background: rgba(22,22,26,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    }
-    .nav-back {
-      display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+    #ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(120% 48% at 50% -8%, rgba(124,111,247,0.13), transparent 62%); }
+    .rv { animation: rvIn .6s cubic-bezier(.22,1,.36,1) both; animation-delay: var(--d, 0s); }
+    @keyframes rvIn { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .rv { animation: none; } }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 2.5rem;
+      border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 110;
+      background: rgba(22,22,26,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    .nav-back { display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
       color: var(--muted); font-size: 13px; font-weight: 700;
       padding: 0.65rem 1.25rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2);
-      transition: color .2s, border-color .2s, background .2s, transform .2s;
-    }
+      transition: color .2s, border-color .2s, background .2s, transform .2s; }
     .nav-back:hover { color: var(--white); border-color: rgba(124,111,247,0.5); background: rgba(124,111,247,0.1); }
     .nav-back:active { transform: scale(.94); }
     .nav-title { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; color: var(--white); position: absolute; left: 50%; transform: translateX(-50%); }
     .nav-title span { color: var(--accent); }
-
-    main { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 4rem 1.5rem 3.5rem; }
-    .hero { text-align: center; margin-bottom: 2.75rem; }
-    .hero-lockup { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 16px; }
-    .hero-logo { width: 54px; height: 54px; object-fit: contain; }
-    .hero-cross-img { height: 54px; width: auto; object-fit: contain; }
-    .hero-x { font-size: 20px; font-weight: 700; color: #3a3a52; }
-    h1 { font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 800; letter-spacing: -0.03em; color: var(--white); line-height: 1.1; }
-
-    .categories { display: flex; flex-direction: column; gap: 14px; }
-    .cat-card {
-      --c: var(--accent);
-      display: flex; align-items: center; gap: 1.1rem;
-      padding: 1.35rem 1.6rem;
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 18px; text-decoration: none; color: var(--text);
-      transition: border-color .2s, background .2s, transform .25s cubic-bezier(.34,1.4,.5,1), box-shadow .25s;
-    }
-    .cat-card:hover {
-      transform: translateY(-3px);
-      border-color: color-mix(in srgb, var(--c) 55%, transparent);
-      background: color-mix(in srgb, var(--c) 5%, var(--bg2));
-      box-shadow: 0 16px 40px color-mix(in srgb, var(--c) 12%, transparent);
-    }
-    .cat-card:active { transform: scale(.98); }
-    .cat-card.beginner { --c: var(--lvl-beginner); }
-    .cat-card.bootcamp { --c: var(--lvl-bootcamp); }
-    .cat-card.advanced { --c: var(--lvl-advanced); }
-    .cat-icon {
-      width: 46px; height: 46px; border-radius: 14px; flex-shrink: 0;
-      background: color-mix(in srgb, var(--c) 12%, transparent);
-      border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
-      color: var(--c);
-      display: flex; align-items: center; justify-content: center;
-      transition: transform .3s cubic-bezier(.34,1.56,.64,1);
-    }
-    .cat-card:hover .cat-icon { transform: scale(1.12) rotate(-5deg); }
-    .cat-info { flex: 1; min-width: 0; }
-    .cat-name { font-size: 16px; font-weight: 700; color: var(--white); }
-    .cat-count { font-size: 12px; color: var(--muted); font-weight: 500; margin-top: 2px; }
-    .cat-arrow { font-size: 19px; color: var(--c); font-weight: 700; transition: transform .25s; }
-    .cat-card:hover .cat-arrow { transform: translateX(4px); }
-
     footer { position: relative; z-index: 1; padding: 2rem; text-align: center; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--border); }
     footer a { color: var(--muted); text-decoration: none; }
     footer a:hover { color: var(--white); }
+    @media (max-width: 768px) { nav { padding: 0.8rem 1.25rem; } .nav-title { position: static; transform: none; } }
 
-    @media (max-width: 768px) {
-      nav { padding: 0.8rem 1.25rem; }
-      .nav-title { position: static; transform: none; }
-      main { padding: 3rem 1.25rem 2.5rem; }
-    }
+    
+    main { position: relative; z-index: 1; max-width: 1080px; margin: 0 auto; padding: 3rem 1.5rem 3.5rem; }
+    .hero { text-align: center; margin-bottom: 1.75rem; }
+    .hero-lockup { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 14px; }
+    .hero-lockup img { height: 52px; width: auto; object-fit: contain; }
+    .hero-x { font-size: 20px; font-weight: 700; color: #3a3a52; }
+    h1 { font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 800; letter-spacing: -0.03em; color: var(--white); line-height: 1.1; }
+    .pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 2.25rem; }
+    .pill { padding: 8px 17px; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2); color: var(--muted);
+      font-size: 12.5px; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer;
+      transition: color .2s, border-color .2s, background .2s, transform .2s; }
+    .pill:hover { color: var(--white); border-color: rgba(124,111,247,0.4); }
+    .pill:active { transform: scale(.94); }
+    .pill.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 6px 18px rgba(124,111,247,0.35); }
+    .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+    @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .video-grid { grid-template-columns: 1fr; } }
+    .video-card { display: block; text-decoration: none; color: inherit; background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      transition: border-color .2s, transform .25s cubic-bezier(.34,1.4,.5,1), box-shadow .25s, opacity .3s; }
+    .video-card:hover { border-color: rgba(124,111,247,0.45); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.35); }
+    .video-card.hidden { display: none; }
+    .thumb-wrap { position: relative; width: 100%; aspect-ratio: 16/9; background: var(--bg3); overflow: hidden; }
+    .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.88;
+      transition: opacity .2s, transform .4s cubic-bezier(.22,1,.36,1); }
+    .video-card:hover .thumb-wrap img { opacity: 1; transform: scale(1.05); }
+    .vpill { position: absolute; top: 9px; left: 9px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--c); background: rgba(16,16,20,0.85); backdrop-filter: blur(5px);
+      border: 1px solid color-mix(in srgb, var(--c) 35%, transparent); padding: 2px 8px; border-radius: 50px; }
+    .progress-dots { position: absolute; bottom: 8px; left: 9px; display: flex; gap: 4px; }
+    .pdot { width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.55); background: transparent; }
+    .pdot.filled { background: #fff; border-color: #fff; }
+    .card-body { padding: 11px 13px 13px; }
+    .card-title { font-size: 13px; font-weight: 600; color: #c9c9d6; line-height: 1.45; }
+    .empty-state { grid-column: 1 / -1; text-align: center; padding: 50px 24px; color: var(--muted); font-weight: 500; }
   </style>
 </head>
 <body>
 <div id="ambient"></div>
-
 <nav>
   <a class="nav-back" href="/tools.html">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
@@ -108,68 +85,114 @@
   <div class="nav-title">Cross <span>Library</span></div>
   <div style="width:96px" aria-hidden="true"></div>
 </nav>
-
 <main>
   <div class="hero rv">
     <div class="hero-lockup">
-      <img class="hero-logo" src="/Caiden Cube Logo black.png" alt="Caiden Lee">
-      <span class="hero-x">×</span>
-      <img class="hero-cross-img" src="/cross-3x3.png" alt="Cross">
+      <img src="/Caiden Cube Logo black.png" alt="Caiden Lee">
+      <span class="hero-x">&times;</span>
+      <img src="/cross-3x3.png" alt="Cross">
     </div>
     <h1>Caiden's Cross Library</h1>
   </div>
-
-  <div class="categories">
-    <a href="/cross/tips/" class="cat-card beginner rv" style="--d:.08s">
-      <div class="cat-icon">
-        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a7 7 0 0 1 4 12.7V17a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1v-2.3A7 7 0 0 1 12 2z"/><path d="M9 21h6"/></svg>
-      </div>
-      <div class="cat-info">
-        <div class="cat-name">Beginner Tips</div>
-        <div class="cat-count">3 videos</div>
-      </div>
-      <span class="cat-arrow">→</span>
-    </a>
-    <a href="/cross/boot-camp/" class="cat-card bootcamp rv" style="--d:.14s">
-      <div class="cat-icon">
-        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      </div>
-      <div class="cat-info">
-        <div class="cat-name">Boot Camp</div>
-        <div class="cat-count">2 videos</div>
-      </div>
-      <span class="cat-arrow">→</span>
-    </a>
-    <a href="/cross/advanced/" class="cat-card advanced rv" style="--d:.2s">
-      <div class="cat-icon">
-        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg>
-      </div>
-      <div class="cat-info">
-        <div class="cat-name">Advanced Tips</div>
-        <div class="cat-count">2 videos</div>
-      </div>
-      <span class="cat-arrow">→</span>
-    </a>
+  <div class="pills rv" style="--d:.06s" id="pills">
+      <button class="pill active" data-filter="all">All</button>
+      <button class="pill" data-filter="beginner">Beginner</button>
+      <button class="pill" data-filter="boot-camp">Boot Camp</button>
+      <button class="pill" data-filter="advanced">Advanced</button>
+  </div>
+  <div class="video-grid" id="grid">
+      <a class="video-card rv" style="--d:0.10s" href="/cross/10-cross-tips/" data-tags="all beginner" data-slug="10-cross-tips">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/HDlDcRhCR0Q/hqdefault.jpg" alt="10 Must Know Cross Tips! [CFOP Method]" loading="lazy">
+          <span class="vpill" style="--c:#00c853">Beginner</span>
+          <div class="progress-dots" data-dots="10-cross-tips"></div>
+        </div>
+        <div class="card-body"><p class="card-title">10 Must Know Cross Tips! [CFOP Method]</p></div>
+      </a>
+      <a class="video-card rv" style="--d:0.16s" href="/cross/7-tips-efficient-cross/" data-tags="all beginner" data-slug="7-tips-efficient-cross">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/IWXpkfwimo0/hqdefault.jpg" alt="Rubik&#x27;s Cube: 7 Tips For An Efficient Cross Every Solve (CFOP)" loading="lazy">
+          <span class="vpill" style="--c:#00c853">Beginner</span>
+          <div class="progress-dots" data-dots="7-tips-efficient-cross"></div>
+        </div>
+        <div class="card-body"><p class="card-title">Rubik&#x27;s Cube: 7 Tips For An Efficient Cross Every Solve (CFOP)</p></div>
+      </a>
+      <a class="video-card rv" style="--d:0.22s" href="/cross/underused-cross-trick/" data-tags="all beginner" data-slug="underused-cross-trick">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/hsPXw7nkwDU/hqdefault.jpg" alt="The Most Underused Cross Trick (CFOP)" loading="lazy">
+          <span class="vpill" style="--c:#00c853">Beginner</span>
+          <div class="progress-dots" data-dots="underused-cross-trick"></div>
+        </div>
+        <div class="card-body"><p class="card-title">The Most Underused Cross Trick (CFOP)</p></div>
+      </a>
+      <a class="video-card rv" style="--d:0.28s" href="/cross/what-level-are-you/" data-tags="all boot-camp" data-slug="what-level-are-you">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/iQLnxmRMGdw/hqdefault.jpg" alt="What Level Are You? [Cross Rubik&#x27;s Cube]" loading="lazy">
+          <span class="vpill" style="--c:#ff9100">Boot Camp</span>
+          <div class="progress-dots" data-dots="what-level-are-you"></div>
+        </div>
+        <div class="card-body"><p class="card-title">What Level Are You? [Cross Rubik&#x27;s Cube]</p></div>
+      </a>
+      <a class="video-card rv" style="--d:0.34s" href="/cross/cross-boot-camp/" data-tags="all boot-camp" data-slug="cross-boot-camp">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/VWwj_HaPpYI/hqdefault.jpg" alt="How To Solve the Cross FASTER [Cross Boot Camp]" loading="lazy">
+          <span class="vpill" style="--c:#ff9100">Boot Camp</span>
+          <div class="progress-dots" data-dots="cross-boot-camp"></div>
+        </div>
+        <div class="card-body"><p class="card-title">How To Solve the Cross FASTER [Cross Boot Camp]</p></div>
+      </a>
+      <a class="video-card rv" style="--d:0.40s" href="/cross/advanced-cross-tutorial/" data-tags="all advanced" data-slug="advanced-cross-tutorial">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/x93VB_v5ATM/hqdefault.jpg" alt="Rubik&#x27;s Cube: Advanced Cross Tutorial" loading="lazy">
+          <span class="vpill" style="--c:#ff3b30">Advanced</span>
+          <div class="progress-dots" data-dots="advanced-cross-tutorial"></div>
+        </div>
+        <div class="card-body"><p class="card-title">Rubik&#x27;s Cube: Advanced Cross Tutorial</p></div>
+      </a>
+      <a class="video-card rv" style="--d:0.46s" href="/cross/x-cross-tutorial/" data-tags="all advanced" data-slug="x-cross-tutorial">
+        <div class="thumb-wrap">
+          <img src="https://img.youtube.com/vi/P9POsBAaKd0/hqdefault.jpg" alt="Rubik&#x27;s Cube: X-Cross Tutorial (CFOP)" loading="lazy">
+          <span class="vpill" style="--c:#ff3b30">Advanced</span>
+          <div class="progress-dots" data-dots="x-cross-tutorial"></div>
+        </div>
+        <div class="card-body"><p class="card-title">Rubik&#x27;s Cube: X-Cross Tutorial (CFOP)</p></div>
+      </a>
   </div>
 </main>
-
-<footer>© <span id="year">2026</span> <a href="/index.html">Caiden Lee</a></footer>
-
+<footer>&copy; <span id="year">2026</span> <a href="/index.html">Caiden Lee</a></footer>
 <script>
 (function () {
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce) {
-    document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
-  } else {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('in');
-        io.unobserve(entry.target);
-      });
-    }, { threshold: 0.15 });
-    document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+  /* progress dots from saved per-video progress */
+  var STEPS = ['watched', 'practiced', 'mastered'];
+  document.querySelectorAll('.progress-dots').forEach(function (box) {
+    var p = {};
+    try { p = JSON.parse(localStorage.getItem('cross-progress-' + box.dataset.dots)) || {}; } catch (e) {}
+    box.innerHTML = STEPS.map(function (k) { return '<div class="pdot ' + (p[k] ? 'filled' : '') + '"></div>'; }).join('');
+  });
+  /* filters */
+  var active = 'all';
+  function apply() {
+    var visible = 0;
+    document.querySelectorAll('.video-card').forEach(function (card) {
+      var show = active === 'all' || card.dataset.tags.split(' ').indexOf(active) !== -1;
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    var grid = document.getElementById('grid');
+    var empty = grid.querySelector('.empty-state');
+    if (!visible) {
+      if (!empty) { empty = document.createElement('div'); empty.className = 'empty-state'; grid.appendChild(empty); }
+      empty.textContent = 'No videos here yet.';
+    } else if (empty) empty.remove();
   }
+  document.getElementById('pills').addEventListener('click', function (e) {
+    var pill = e.target.closest('.pill');
+    if (!pill) return;
+    document.querySelectorAll('.pill').forEach(function (p) { p.classList.remove('active'); });
+    pill.classList.add('active');
+    active = pill.dataset.filter;
+    apply();
+  });
   document.getElementById('year').textContent = new Date().getFullYear();
 })();
 </script>

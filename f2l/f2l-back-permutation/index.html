@@ -3,169 +3,161 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>F2L Permutation to the Back — Caiden Lee</title>
+  <title>How to Solve F2L Pairs in the Back | Caiden Lee</title>
+  <link rel="icon" type="image/png" href="/Caiden Cube Logo black.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0a0a0f; --surface: #111118; --border: rgba(255,255,255,0.07);
-      --text: #e8e8f0; --muted: #5a5a6a; --accent: #7c3aed;
+      --bg: #16161a; --bg2: #1e1e24; --bg3: #26262e;
+      --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #9a9aab;
+      --accent: #7c6ff7; --white: #ffffff;
     }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; }
+    :focus { outline: none; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+    #ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(120% 48% at 50% -8%, rgba(124,111,247,0.13), transparent 62%); }
+    .rv { animation: rvIn .6s cubic-bezier(.22,1,.36,1) both; animation-delay: var(--d, 0s); }
+    @keyframes rvIn { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .rv { animation: none; } }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 2.5rem;
+      border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 110;
+      background: rgba(22,22,26,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    .nav-back { display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+      color: var(--muted); font-size: 13px; font-weight: 700;
+      padding: 0.65rem 1.25rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2);
+      transition: color .2s, border-color .2s, background .2s, transform .2s; }
+    .nav-back:hover { color: var(--white); border-color: rgba(124,111,247,0.5); background: rgba(124,111,247,0.1); }
+    .nav-back:active { transform: scale(.94); }
+    .nav-title { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; color: var(--white); position: absolute; left: 50%; transform: translateX(-50%); }
+    .nav-title span { color: var(--accent); }
+    footer { position: relative; z-index: 1; padding: 2rem; text-align: center; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--border); }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--white); }
+    @media (max-width: 768px) { nav { padding: 0.8rem 1.25rem; } .nav-title { position: static; transform: none; } }
 
-    nav {
-      position: sticky; top: 0; z-index: 50;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 24px; height: 52px;
-      background: rgba(10,10,15,0.92); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo img { height: 28px; width: auto; object-fit: contain; }
-
-    .content { max-width: 760px; margin: 0 auto; padding: 36px 24px 80px; }
-
-    .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 24px; }
-    .breadcrumb a { color: var(--muted); text-decoration: none; }
-    .breadcrumb a:hover { color: var(--text); }
-    .breadcrumb span { margin: 0 6px; }
-
-    .embed-wrap { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; background: #0d0d14; margin-bottom: 20px; }
+    main { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 2.5rem 1.5rem 3.5rem; }
+    .embed-wrap { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 18px; overflow: hidden;
+      background: #101014; border: 1px solid var(--border); box-shadow: 0 24px 70px rgba(0,0,0,0.45); margin-bottom: 1.4rem; }
     .embed-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
-    .video-overlay { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: transparent; }
-
-    .video-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-    .difficulty-pill {
-      display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
-      text-transform: uppercase; padding: 3px 9px; border-radius: 20px;
-      background: rgba(234,179,8,0.12); color: #eab308;
-    }
-    .video-title { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 28px; line-height: 1.3; }
-
-    .checklist-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 16px;
-    }
-    .checklist-header { padding: 16px 20px 14px; border-bottom: 1px solid var(--border); }
-    .checklist-header h2 { font-size: 13px; font-weight: 700; color: var(--text); letter-spacing: 0.01em; }
-
-    .checklist-step {
-      display: flex; align-items: center; gap: 14px;
-      padding: 16px 20px; border-bottom: 1px solid var(--border);
-      cursor: pointer; transition: background 0.12s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .checklist-step:last-child { border-bottom: none; }
-    .checklist-step:hover { background: rgba(255,255,255,0.02); }
-
-    .step-checkbox {
-      flex-shrink: 0; width: 22px; height: 22px; border-radius: 6px;
-      border: 1.5px solid rgba(255,255,255,0.15); background: transparent;
+    .diff-pill { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 50px; margin-bottom: 0.7rem;
+      color: #ffd600; background: color-mix(in srgb, #ffd600 12%, transparent); border: 1px solid color-mix(in srgb, #ffd600 30%, transparent); }
+    h1 { font-size: clamp(1.35rem, 3vw, 1.8rem); font-weight: 800; letter-spacing: -0.02em; color: var(--white); line-height: 1.3; margin-bottom: 1.75rem; }
+    .checklist { background: var(--bg2); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; margin-bottom: 1.25rem; }
+    .checklist-header { padding: 1rem 1.4rem .9rem; border-bottom: 1px solid var(--border);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+    .step { display: flex; align-items: center; gap: 14px; padding: 1rem 1.4rem; border-bottom: 1px solid var(--border);
+      cursor: pointer; transition: background .15s; -webkit-tap-highlight-color: transparent; }
+    .step:hover { background: rgba(124,111,247,0.05); }
+    .cb { flex-shrink: 0; width: 23px; height: 23px; border-radius: 7px; border: 1.5px solid rgba(255,255,255,0.18);
       display: flex; align-items: center; justify-content: center;
-      transition: background 0.15s, border-color 0.15s;
-    }
-    .step-checkbox.checked { background: var(--accent); border-color: var(--accent); }
-    .step-checkbox svg { display: none; }
-    .step-checkbox.checked svg { display: block; }
-
-    .step-info { flex: 1; }
-    .step-label { font-size: 14px; font-weight: 600; color: var(--text); }
-    .step-badge { flex-shrink: 0; font-size: 10px; font-weight: 700; color: var(--muted); background: rgba(255,255,255,0.05); border-radius: 20px; padding: 3px 9px; }
-
-    .progress-wrap { padding: 0 20px 20px; }
-    .progress-label { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
-    .progress-bar { height: 4px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.3s ease; }
+      transition: background .2s, border-color .2s, transform .25s cubic-bezier(.34,1.56,.64,1); }
+    .cb.checked { background: var(--accent); border-color: var(--accent); transform: scale(1.08); }
+    .cb svg { display: none; }
+    .cb.checked svg { display: block; }
+    .step-label { flex: 1; font-size: 14.5px; font-weight: 600; }
+    .step-badge { font-size: 10px; font-weight: 700; color: var(--muted); background: var(--bg3); border-radius: 50px; padding: 3px 10px; }
+    .progress-wrap { padding: 0.9rem 1.4rem 1.2rem; }
+    .progress-label { font-size: 11.5px; color: var(--muted); margin-bottom: 8px; font-weight: 600; }
+    .progress-bar { height: 5px; background: rgba(255,255,255,0.07); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width .5s cubic-bezier(.22,1,.36,1); }
+    .next-card { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1.1rem; text-decoration: none; color: var(--text);
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+      transition: border-color .2s, transform .25s cubic-bezier(.34,1.4,.5,1); }
+    .next-card:hover { border-color: rgba(124,111,247,0.45); transform: translateY(-3px); }
+    .next-thumb { width: 108px; aspect-ratio: 16/9; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
+    .next-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .next-title { font-size: 13.5px; font-weight: 700; color: var(--white); margin-top: 2px; line-height: 1.35; }
+    .next-arrow { margin-left: auto; color: var(--accent); font-size: 18px; font-weight: 700; transition: transform .25s; }
+    .next-card:hover .next-arrow { transform: translateX(4px); }
+    #confetti-layer { position: fixed; inset: 0; pointer-events: none; z-index: 300; overflow: hidden; }
+    #confetti-layer i { position: absolute; width: 8px; height: 12px; border-radius: 2px;
+      animation: confettiPop .9s cubic-bezier(.22,1,.36,1) forwards; }
+    @keyframes confettiPop { to { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0; } }
   </style>
 </head>
 <body>
-
-  <nav>
-    <a class="nav-logo" href="/f2l/"><img src="/Caiden Cube Logo black.png" alt=""><span style="font-size:16px;font-weight:700;color:#3a3a52">×</span><img src="/F2L.png" alt="F2L" style="height:28px;width:auto;object-fit:contain"></a>
-  </nav>
-
-  <div class="content">
-    <p class="breadcrumb"><a href="/f2l/">F2L Library</a><span>›</span> Intermediate</p>
-
-    <div class="embed-wrap">
-      <iframe src="https://www.youtube.com/embed/1TzHHPJ_2HY?rel=0&modestbranding=1&autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
-      <div class="video-overlay" id="video-overlay"></div>
-    </div>
-
-    <div class="video-meta">
-      <span class="difficulty-pill">Intermediate</span>
-    </div>
-    <h1 class="video-title">How to Solve F2L Pairs in the Back</h1>
-
-    <div class="checklist-card">
-      <div class="checklist-header">
-        <h2>Your Progress</h2>
-      </div>
-
-      <div class="checklist-step" data-key="watched">
-        <div class="step-checkbox" id="cb-watched">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="step-info"><p class="step-label">Watched</p></div>
-        <span class="step-badge">Step 1</span>
-      </div>
-
-      <div class="checklist-step" data-key="practiced">
-        <div class="step-checkbox" id="cb-practiced">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="step-info"><p class="step-label">Practiced</p></div>
-        <span class="step-badge">Step 2</span>
-      </div>
-
-      <div class="checklist-step" data-key="mastered">
-        <div class="step-checkbox" id="cb-mastered">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="step-info"><p class="step-label">Mastered</p></div>
-        <span class="step-badge">Step 3</span>
-      </div>
-
-      <div class="progress-wrap">
-        <p class="progress-label" id="progress-label">0 / 3 complete</p>
-        <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-      </div>
+<div id="ambient"></div>
+<nav>
+  <a class="nav-back" href="/f2l/">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Library
+  </a>
+  <div class="nav-title">F2L <span>Library</span></div>
+  <div style="width:96px" aria-hidden="true"></div>
+</nav>
+<main>
+  <div class="embed-wrap rv">
+    <iframe src="https://www.youtube.com/embed/1TzHHPJ_2HY?rel=0&modestbranding=1" allow="autoplay; fullscreen" allowfullscreen title="How to Solve F2L Pairs in the Back"></iframe>
+  </div>
+  <div class="rv" style="--d:.08s">
+    <span class="diff-pill">Intermediate</span>
+    <h1>How to Solve F2L Pairs in the Back</h1>
+  </div>
+  <div class="checklist rv" style="--d:.16s">
+    <div class="checklist-header">Your Progress</div>
+    <div class="step" data-key="watched"><div class="cb" id="cb-watched"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="step-label">Watched</span><span class="step-badge">Step 1</span></div>
+    <div class="step" data-key="practiced"><div class="cb" id="cb-practiced"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="step-label">Practiced</span><span class="step-badge">Step 2</span></div>
+    <div class="step" data-key="mastered"><div class="cb" id="cb-mastered"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6.5l3 3 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="step-label">Mastered</span><span class="step-badge">Step 3</span></div>
+    <div class="progress-wrap">
+      <p class="progress-label" id="progress-label">0 / 3 complete</p>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
     </div>
   </div>
-
-  <script>
-    const wrap = document.querySelector('.embed-wrap');
-    const overlay = document.getElementById('video-overlay');
-    wrap.addEventListener('mouseenter', () => { overlay.style.pointerEvents = 'none'; });
-    wrap.addEventListener('mouseleave', () => { overlay.style.pointerEvents = 'auto'; });
-  </script>
-  <script>
-    const SLUG = 'f2l-back-permutation';
-    const KEY = 'f2l-progress-' + SLUG;
-    const STEPS = ['watched', 'practiced', 'mastered'];
-
-    function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
-    function save(p) { localStorage.setItem(KEY, JSON.stringify(p)); }
-
-    function render(p) {
-      const count = STEPS.filter(k => p[k]).length;
-      STEPS.forEach(k => {
-        document.getElementById('cb-' + k).classList.toggle('checked', !!p[k]);
-      });
-      document.getElementById('progress-label').textContent = count + ' / 3 complete';
-      document.getElementById('progress-fill').style.width = (count / 3 * 100) + '%';
+  <a class="next-card rv" style="--d:.24s" href="/f2l/beginner-both-pieces-top/">
+    <img class="next-thumb" src="https://img.youtube.com/vi/bJiPHMW8mmw/hqdefault.jpg" alt="" loading="lazy">
+    <div><div class="next-label">Up next</div><div class="next-title">5 Beginner F2L Cases (Both Pieces In Top)</div></div>
+    <span class="next-arrow">&rarr;</span>
+  </a>
+</main>
+<footer>&copy; <span id="year">2026</span> <a href="/index.html">Caiden Lee</a></footer>
+<div id="confetti-layer"></div>
+<script>
+(function () {
+  var KEY = 'f2l-progress-f2l-back-permutation';
+  var STEPS = ['watched', 'practiced', 'mastered'];
+  function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
+  function save(p) { localStorage.setItem(KEY, JSON.stringify(p)); }
+  function count(p) { return STEPS.filter(function (k) { return p[k]; }).length; }
+  function render(p) {
+    STEPS.forEach(function (k) { document.getElementById('cb-' + k).classList.toggle('checked', !!p[k]); });
+    var c = count(p);
+    document.getElementById('progress-label').textContent = c + ' / 3 complete';
+    document.getElementById('progress-fill').style.width = (c / 3 * 100) + '%';
+  }
+  var progress = load();
+  render(progress);
+  var COLORS = ['#00c853', '#ff3b30', '#2979ff', '#ff9100', '#ffd600', '#f8f8f8'];
+  function burst() {
+    var bar = document.getElementById('progress-fill').getBoundingClientRect();
+    var cx = bar.left + bar.width / 2, cy = bar.top;
+    var layer = document.getElementById('confetti-layer');
+    for (var i = 0; i < 26; i++) {
+      var p = document.createElement('i');
+      var ang = Math.random() * Math.PI * 2, dist = 60 + Math.random() * 110;
+      p.style.left = cx + 'px'; p.style.top = cy + 'px';
+      p.style.background = COLORS[Math.floor(Math.random() * COLORS.length)];
+      p.style.setProperty('--dx', Math.cos(ang) * dist + 'px');
+      p.style.setProperty('--dy', (Math.sin(ang) * dist - 40) + 'px');
+      p.style.setProperty('--rot', (Math.random() * 540 - 270) + 'deg');
+      layer.appendChild(p);
+      setTimeout(function (el) { el.remove(); }.bind(null, p), 950);
     }
-
-    let progress = load();
-    render(progress);
-
-    document.querySelectorAll('.checklist-step').forEach(row => {
-      row.addEventListener('click', () => {
-        const k = row.dataset.key;
-        progress[k] = !progress[k];
-        save(progress);
-        render(progress);
-      });
+  }
+  document.querySelectorAll('.step').forEach(function (row) {
+    row.addEventListener('click', function () {
+      var was = count(progress);
+      var k = row.dataset.key;
+      progress[k] = !progress[k];
+      save(progress);
+      render(progress);
+      if (count(progress) === 3 && was < 3) burst();
     });
-  </script>
+  });
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
 </body>
 </html>
