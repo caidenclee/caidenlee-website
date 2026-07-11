@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 534">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="#1c1c22"/><stop offset="100%" stop-color="#131318"/>
+</linearGradient>
+<radialGradient id="glow" cx="50%" cy="40%" r="62%">
+<stop offset="0%" stop-color="#ffd600" stop-opacity="0.20"/>
+<stop offset="100%" stop-color="#ffd600" stop-opacity="0"/>
+</radialGradient>
+</defs>
+<rect width="900" height="534" fill="url(#bg)"/>
+<rect width="900" height="534" fill="url(#glow)"/>
+<g opacity="0.05" stroke="#ffffff" stroke-width="2" fill="none">
+<rect x="-60" y="360" width="240" height="240" rx="28"/>
+<rect x="740" y="-80" width="240" height="240" rx="28"/>
+</g>
+
+<g transform="translate(300 267) rotate(-8)"><rect x="-100" y="-100" width="60" height="60" rx="10" fill="#ffd600" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="-30" y="-100" width="60" height="60" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="40" y="-100" width="60" height="60" rx="10" fill="#ffd600" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="-100" y="-30" width="60" height="60" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="-30" y="-30" width="60" height="60" rx="10" fill="#ffd600" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="40" y="-30" width="60" height="60" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="-100" y="40" width="60" height="60" rx="10" fill="#ffd600" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="-30" y="40" width="60" height="60" rx="10" fill="#ffd600" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="40" y="40" width="60" height="60" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/></g>
+<g transform="translate(600 267) rotate(8)"><rect x="-100" y="-100" width="60" height="60" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="-30" y="-100" width="60" height="60" rx="10" fill="#ffd600" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="40" y="-100" width="60" height="60" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="-100" y="-30" width="60" height="60" rx="10" fill="#ffd600" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="-30" y="-30" width="60" height="60" rx="10" fill="#ffd600" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="40" y="-30" width="60" height="60" rx="10" fill="#ffd600" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="-100" y="40" width="60" height="60" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="-30" y="40" width="60" height="60" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="40" y="40" width="60" height="60" rx="10" fill="#ffd600" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/></g>
+<circle cx="450" cy="267" r="34" fill="#1f1f27" stroke="#ffd600" stroke-opacity="0.5" stroke-width="3"/>
+<text x="450" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="34" font-weight="bold" fill="#ffd600">?</text>
+
+</svg>

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 534">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="#1c1c22"/><stop offset="100%" stop-color="#131318"/>
+</linearGradient>
+<radialGradient id="glow" cx="50%" cy="40%" r="62%">
+<stop offset="0%" stop-color="#00c853" stop-opacity="0.20"/>
+<stop offset="100%" stop-color="#00c853" stop-opacity="0"/>
+</radialGradient>
+</defs>
+<rect width="900" height="534" fill="url(#bg)"/>
+<rect width="900" height="534" fill="url(#glow)"/>
+<g opacity="0.05" stroke="#ffffff" stroke-width="2" fill="none">
+<rect x="-60" y="360" width="240" height="240" rx="28"/>
+<rect x="740" y="-80" width="240" height="240" rx="28"/>
+</g>
+
+<circle cx="450" cy="267" r="185" fill="none" stroke="#00c853" stroke-opacity="0.25" stroke-width="3" stroke-dasharray="10 14"/>
+<path d="M 450 82 A 185 185 0 0 1 610 174" fill="none" stroke="#00c853" stroke-width="6" stroke-linecap="round"/>
+<circle cx="610" cy="174" r="9" fill="#00c853"/>
+<rect x="330" y="147" width="72" height="72" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="414" y="147" width="72" height="72" rx="10" fill="#00c853" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="498" y="147" width="72" height="72" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="330" y="231" width="72" height="72" rx="10" fill="#00c853" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="414" y="231" width="72" height="72" rx="10" fill="#00c853" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="498" y="231" width="72" height="72" rx="10" fill="#00c853" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="330" y="315" width="72" height="72" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="414" y="315" width="72" height="72" rx="10" fill="#00c853" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+<rect x="498" y="315" width="72" height="72" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+
+</svg>
