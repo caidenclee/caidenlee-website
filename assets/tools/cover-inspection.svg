@@ -14,7 +14,7 @@
 <rect x="-60" y="360" width="240" height="240" rx="28"/>
 <rect x="740" y="-80" width="240" height="240" rx="28"/>
 </g>
-
+<g id="art" transform="translate(450 267) scale(0.72) translate(-450 -267)">
 <circle cx="450" cy="267" r="185" fill="none" stroke="#00c853" stroke-opacity="0.25" stroke-width="3" stroke-dasharray="10 14"/>
 <path d="M 450 82 A 185 185 0 0 1 610 174" fill="none" stroke="#00c853" stroke-width="6" stroke-linecap="round"/>
 <circle cx="610" cy="174" r="9" fill="#00c853"/>
@@ -28,4 +28,5 @@
 <rect x="414" y="315" width="72" height="72" rx="10" fill="#00c853" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
 <rect x="498" y="315" width="72" height="72" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
 
+</g>
 </svg>

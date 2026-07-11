@@ -14,7 +14,7 @@
 <rect x="-60" y="360" width="240" height="240" rx="28"/>
 <rect x="740" y="-80" width="240" height="240" rx="28"/>
 </g>
-
+<g id="art" transform="translate(450 267) scale(0.72) translate(-450 -267)">
 <g transform="translate(300 267) rotate(-8)"><rect x="-100" y="-100" width="60" height="60" rx="10" fill="#ffd600" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
 <rect x="-30" y="-100" width="60" height="60" rx="10" fill="#2a2a33" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
 <rect x="40" y="-100" width="60" height="60" rx="10" fill="#ffd600" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
@@ -36,4 +36,5 @@
 <circle cx="450" cy="267" r="34" fill="#1f1f27" stroke="#ffd600" stroke-opacity="0.5" stroke-width="3"/>
 <text x="450" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="34" font-weight="bold" fill="#ffd600">?</text>
 
+</g>
 </svg>
