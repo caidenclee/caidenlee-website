@@ -1,165 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Caiden's Tools</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caiden's Tools | Caiden Lee</title>
+<meta name="description" content="Free speedcubing trainers built by Caiden Lee: cross trainer, cross library, competition simulator, and ZBLL recognition practice.">
+<meta property="og:title" content="Caiden's Tools | Caiden Lee">
+<meta property="og:description" content="Free speedcubing trainers: cross practice, comp simulation, and ZBLL recognition.">
+<meta property="og:image" content="https://caidenlee.com/assets/hero.jpg">
+<meta property="og:url" content="https://caidenlee.com/tools.html">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="Caiden Cube Logo black.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #16161a; --bg2: #1e1e24; --bg3: #26262e;
+    --border: rgba(255,255,255,0.08); --text: #f0f0f0; --muted: #9a9aab;
+    --accent: #7c6ff7; --white: #ffffff;
+    --cube-g: #00c853; --cube-r: #ff3b30; --cube-b: #2979ff;
+    --cube-o: #ff9100; --cube-y: #ffd600;
+  }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.65; }
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
 
-    body {
-      background: #0a0a0f;
-      font-family: 'Inter', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 80px 24px 0;
-      overflow: hidden;
-    }
+  #ambient {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(120% 48% at 50% -8%, rgba(124,111,247,0.14), transparent 62%);
+  }
 
-    .top {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 40px;
-    }
+  /* ── reveal system ── */
+  .rv { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); transition-delay: var(--d, 0s); }
+  .rv.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .rv { opacity: 1; transform: none; transition: none; } }
 
-    .middle {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-    }
+  /* ── nav ── */
+  nav {
+    display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 2.5rem;
+    border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+    background: rgba(22,22,26,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    transition: background .3s, box-shadow .3s;
+  }
+  nav.scrolled { background: rgba(22,22,26,0.99); box-shadow: 0 10px 34px rgba(0,0,0,0.4); }
+  .nav-back {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+    color: var(--muted); font-size: 13px; font-weight: 700;
+    padding: 0.65rem 1.25rem; border-radius: 50px; border: 1px solid var(--border); background: var(--bg2);
+    transition: color .2s, border-color .2s, background .2s, transform .2s;
+  }
+  .nav-back:hover { color: var(--white); border-color: rgba(124,111,247,0.5); background: rgba(124,111,247,0.1); }
+  .nav-back:active { transform: scale(.94); }
+  .nav-title { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; color: var(--white); position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-title span { color: var(--accent); }
 
-    body::before {
-      content: '';
-      position: fixed;
-      top: -120px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 600px;
-      height: 400px;
-      background: radial-gradient(ellipse, rgba(109,40,217,0.1) 0%, transparent 70%);
-      filter: blur(30px);
-      pointer-events: none;
-    }
+  /* ── main ── */
+  main { position: relative; z-index: 1; padding: 5rem 2.5rem 3.5rem; max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  h1 { font-size: clamp(2rem, 3.8vw, 2.7rem); font-weight: 800; letter-spacing: -0.03em; color: var(--white); margin-bottom: 1rem; line-height: 1.1; }
+  .section-intro { color: var(--muted); font-size: 15px; max-width: 520px; margin-bottom: 3rem; line-height: 1.8; }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+  .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .tool-card {
+    --c: var(--accent);
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 22px; overflow: hidden;
+    display: flex; flex-direction: column; text-decoration: none; color: var(--text);
+    transition: border-color .25s, transform .3s cubic-bezier(.34,1.4,.5,1), box-shadow .3s;
+  }
+  .tool-card:hover { transform: translateY(-5px); border-color: color-mix(in srgb, var(--c) 55%, transparent); box-shadow: 0 22px 60px color-mix(in srgb, var(--c) 14%, transparent); }
+  .tool-card.g { --c: var(--cube-g); }
+  .tool-card.b { --c: var(--cube-b); }
+  .tool-card.o { --c: var(--cube-o); }
+  .tool-card.y { --c: var(--cube-y); }
+  .tool-img { position: relative; aspect-ratio: 16/9.5; overflow: hidden; background: var(--bg3); border-bottom: 1px solid var(--border); }
+  .tool-img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .5s cubic-bezier(.22,1,.36,1); }
+  .tool-card:hover .tool-img img { transform: scale(1.05); }
+  .tool-img::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.14) 50%, transparent 60%);
+    transform: translateX(-130%); transition: transform .65s ease;
+  }
+  .tool-card:hover .tool-img::after { transform: translateX(130%); }
+  .tool-tag {
+    position: absolute; top: 0.9rem; left: 0.9rem;
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--c); background: rgba(22,22,26,0.88); backdrop-filter: blur(6px);
+    border: 1px solid color-mix(in srgb, var(--c) 35%, transparent);
+    padding: 3px 11px; border-radius: 50px;
+  }
+  .tool-body { padding: 1.4rem 1.6rem 1.6rem; display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
+  .tool-name { font-size: 19px; font-weight: 800; color: var(--white); letter-spacing: -0.01em; }
+  .tool-desc { font-size: 13.5px; color: var(--muted); line-height: 1.65; flex: 1; }
+  .tool-go {
+    margin-top: 0.9rem; display: inline-flex; align-items: center; gap: 7px; width: fit-content;
+    color: var(--c); font-weight: 800; font-size: 14px;
+    transition: gap .2s;
+  }
+  .tool-card:hover .tool-go { gap: 12px; }
 
-    @keyframes fadeSlow {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
+  footer { position: relative; z-index: 1; padding: 2rem; text-align: center; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--border); }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--white); }
 
-    .wordmark {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #3a3a52;
-      margin-bottom: 12px;
-    }
-
-    h1 {
-      font-size: 72px;
-      font-weight: 900;
-      color: #ede8ff;
-      letter-spacing: -0.04em;
-      margin-bottom: 6px;
-      animation: fadeSlow 0.7s ease both;
-    }
-
-    .subtitle {
-      font-size: 14px;
-      color: #3a3a52;
-      margin-bottom: 0;
-      font-weight: 500;
-      animation: fadeSlow 0.7s ease 0.2s both;
-    }
-
-    .tools {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      width: 100%;
-      max-width: 420px;
-      animation: fadeSlow 0.7s ease 0.4s both;
-    }
-
-    .tool-link {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 28px;
-      border-radius: 18px;
-      background: #13131e;
-      border: 1px solid rgba(109,40,217,0.3);
-      color: #e8e8f0;
-      font-size: 15px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: background 0.15s, border-color 0.15s, transform 0.1s;
-    }
-
-    .tool-link:hover {
-      background: #1a1a2e;
-      border-color: #6d28d9;
-      color: #fff;
-    }
-
-    .tool-link:active {
-      transform: scale(0.98);
-    }
-
-    .tool-link .arrow {
-      font-size: 18px;
-      color: rgba(109,40,217,0.7);
-      transition: color 0.15s, transform 0.15s;
-    }
-
-    .tool-link:hover .arrow {
-      color: #6d28d9;
-      transform: translateX(3px);
-    }
-
-    .divider {
-      width: 40px;
-      height: 1px;
-      background: #1e1e2e;
-      margin: 8px auto 0;
-    }
-  </style>
+  @media (max-width: 768px) {
+    main { padding: 3rem 1.25rem 2.5rem; }
+    nav { padding: 0.8rem 1.25rem; }
+    .nav-title { position: static; transform: none; }
+    .tools-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
-  <div class="top">
-    <h1>Caiden's Tools</h1>
-    <div style="width:200px;height:2px;background:rgba(255,255,255,0.12);margin-top:20px;border-radius:2px;"></div>
-  </div>
+<div id="ambient"></div>
 
-  <div class="middle">
-    <div class="tools">
-      <a href="cross-trainer.html" class="tool-link">
-        <span>Cross+3 Trainer</span>
-        <span class="arrow">→</span>
-      </a>
-      <a href="/cross/" class="tool-link">
-        <span>Cross Library</span>
-        <span class="arrow">→</span>
-      </a>
-      <a href="wca-sim.html" class="tool-link">
-        <span>Comp Sim Trainer</span>
-        <span class="arrow">→</span>
-      </a>
-      <a href="zbll-trainer-sameer.html" class="tool-link">
-        <span>Sameer's ZBLL Trainer</span>
-        <span class="arrow">→</span>
-      </a>
-    </div>
-  </div>
+<nav>
+  <a class="nav-back" href="index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Home
+  </a>
+  <div class="nav-title">Caiden's <span>Tools</span></div>
+  <div style="width:96px" aria-hidden="true"></div>
+</nav>
 
+<main>
+  <div class="section-label rv">Free Tools</div>
+  <h1 class="rv" style="--d:.05s">Train like I train.</h1>
+  <p class="section-intro rv" style="--d:.1s">Trainers I built for my own practice. Free, no sign-up, just open and solve.</p>
+
+  <div class="tools-grid">
+    <a class="tool-card g rv" style="--d:.15s" href="cross-trainer.html">
+      <div class="tool-img">
+        <img src="assets/tools/cross-trainer.jpg" alt="Cross+3 Trainer preview" loading="lazy">
+        <span class="tool-tag">Cross</span>
+      </div>
+      <div class="tool-body">
+        <div class="tool-name">Cross+3 Trainer</div>
+        <div class="tool-desc">Drill your cross and first pairs with fresh scrambles every solve.</div>
+        <span class="tool-go">Open trainer <span aria-hidden="true">→</span></span>
+      </div>
+    </a>
+
+    <a class="tool-card b rv" style="--d:.21s" href="cross/">
+      <div class="tool-img">
+        <img src="assets/tools/cross-library.jpg" alt="Cross Library preview" loading="lazy">
+        <span class="tool-tag">Library</span>
+      </div>
+      <div class="tool-body">
+        <div class="tool-name">Cross Library</div>
+        <div class="tool-desc">Cross solutions organized by case, ready to study.</div>
+        <span class="tool-go">Open library <span aria-hidden="true">→</span></span>
+      </div>
+    </a>
+
+    <a class="tool-card o rv" style="--d:.27s" href="wca-sim.html">
+      <div class="tool-img">
+        <img src="assets/tools/wca-sim.jpg" alt="Comp Sim Trainer preview" loading="lazy">
+        <span class="tool-tag">Competition</span>
+      </div>
+      <div class="tool-body">
+        <div class="tool-name">Comp Sim Trainer</div>
+        <div class="tool-desc">Feel real competition pressure with simulated WCA rounds.</div>
+        <span class="tool-go">Start a round <span aria-hidden="true">→</span></span>
+      </div>
+    </a>
+
+    <a class="tool-card y rv" style="--d:.33s" href="zbll-trainer-sameer.html">
+      <div class="tool-img">
+        <img src="assets/tools/zbll-sameer.jpg" alt="ZBLL Recognition Trainer preview" loading="lazy">
+        <span class="tool-tag">ZBLL</span>
+      </div>
+      <div class="tool-body">
+        <div class="tool-name">Sameer's ZBLL Trainer</div>
+        <div class="tool-desc">Sharpen 2-sided ZBLL recognition, case by case.</div>
+        <span class="tool-go">Start recognizing <span aria-hidden="true">→</span></span>
+      </div>
+    </a>
+  </div>
+</main>
+
+<footer>© <span id="year">2026</span> <a href="index.html">Caiden Lee</a></footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) {
+    document.querySelectorAll('.rv').forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+  }
+  var navEl = document.querySelector('nav');
+  window.addEventListener('scroll', function () {
+    navEl.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
 </body>
 </html>
