@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<title>Burst</title>
+
+<!-- iOS Add to Home Screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Burst">
+<meta name="theme-color" content="#0D0E11">
+<link rel="apple-touch-icon" href="burst-icon.png">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { background: #0D0E11; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+    color: #F5F5F7;
+    min-height: 100vh;
+    padding: calc(env(safe-area-inset-top) + 26px) 18px calc(env(safe-area-inset-bottom) + 40px);
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .wrap { max-width: 460px; margin: 0 auto; }
+
+  .apptitle { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 6px; }
+  .apptitle span { color: #FB923C; }
+  .sub { color: #84848C; font-size: 15px; font-weight: 600; margin-bottom: 22px; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .tile {
+    border-radius: 24px;
+    min-height: 158px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 18px;
+    cursor: pointer;
+    transition: transform 0.12s ease;
+    animation: gridIn 0.3s ease both;
+    position: relative;
+  }
+  .tile:active { transform: scale(0.94); }
+  .tile.wide { grid-column: 1 / -1; min-height: 108px; }
+  .tile .ticon { font-size: 34px; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25)); }
+  .tile .tday { font-size: 13px; font-weight: 800; color: rgba(255,255,255,0.8); margin-bottom: 2px; }
+  .tile .tname { font-size: 19px; font-weight: 800; color: #fff; letter-spacing: -0.3px; line-height: 1.15; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+  .tile .tprog {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 13px; font-weight: 800; color: #fff;
+    background: rgba(0,0,0,0.28); padding: 4px 9px; border-radius: 999px;
+  }
+
+  .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+  .back { display: inline-flex; align-items: center; gap: 6px; color: #84848C; font-size: 16px; font-weight: 600; cursor: pointer; }
+  .reset { color: #84848C; font-size: 14px; font-weight: 700; cursor: pointer; padding: 6px 10px; border-radius: 10px; background: #17181C; }
+  .reset:active { transform: scale(0.95); }
+
+  .hero {
+    border-radius: 28px;
+    padding: 24px 22px 24px;
+    margin-bottom: 14px;
+    animation: heroPop 0.42s cubic-bezier(0.34, 1.4, 0.5, 1) both;
+  }
+  .heroTop { display: flex; justify-content: space-between; align-items: flex-start; }
+  .heroDay { font-size: 14px; font-weight: 800; color: rgba(255,255,255,0.8); margin-bottom: 2px; }
+  .heroName { font-size: 30px; font-weight: 800; letter-spacing: -0.7px; line-height: 1.1; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+  .heroIcon { font-size: 40px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.25)); display: inline-block; animation: iconBounce 0.55s cubic-bezier(0.34, 1.5, 0.5, 1) 0.08s both; }
+  .chip {
+    display: inline-block; margin-top: 12px;
+    font-size: 13px; font-weight: 800; color: #fff;
+    background: rgba(0,0,0,0.25); padding: 5px 11px; border-radius: 999px;
+  }
+  .heroCount { font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.85); margin-top: 12px; }
+  .heroBar { height: 8px; border-radius: 999px; background: rgba(0,0,0,0.25); margin-top: 10px; overflow: hidden; }
+  .heroFill { height: 100%; border-radius: 999px; background: #fff; transition: width 0.35s cubic-bezier(0.2, 0.8, 0.3, 1); }
+
+  .card {
+    border-radius: 24px;
+    padding: 18px 18px 14px;
+    margin-bottom: 12px;
+    animation: rise 0.4s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+  }
+  .cardTitle { font-size: 13px; font-weight: 800; margin-bottom: 8px; }
+
+  .item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 13px 0;
+    cursor: pointer;
+    transition: transform 0.12s ease;
+  }
+  .item:active { transform: scale(0.98); }
+  .item + .item, .rule + .rule { border-top: 1px solid rgba(255,255,255,0.06); }
+  .box {
+    width: 26px; height: 26px; flex: none;
+    border-radius: 9px;
+    border: 2px solid rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 900; color: #0D0E11;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  }
+  .item.on .box { border-color: transparent; animation: pop 0.28s cubic-bezier(0.34, 1.5, 0.5, 1); }
+  .txt { font-size: 17px; font-weight: 700; line-height: 1.3; letter-spacing: -0.2px; transition: opacity 0.15s ease; }
+  .note { font-size: 14px; color: #A1A1AA; font-weight: 700; margin-top: 3px; transition: opacity 0.15s ease; }
+  .item.on .txt { text-decoration: line-through; opacity: 0.45; }
+  .item.on .note { opacity: 0.45; }
+
+  .rule { padding: 13px 0; }
+  .rule .txt { font-size: 16px; }
+  .rule .note { font-weight: 600; line-height: 1.4; }
+
+  @keyframes heroPop {
+    0% { opacity: 0; transform: scale(0.86) translateY(14px); }
+    60% { opacity: 1; transform: scale(1.02) translateY(-2px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  @keyframes rise {
+    0% { opacity: 0; transform: translateY(24px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes iconBounce {
+    0% { transform: scale(0.3) rotate(-12deg); opacity: 0; }
+    55% { transform: scale(1.18) rotate(4deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+  }
+  @keyframes gridIn {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes pop {
+    0% { transform: scale(0.6); }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tile, .hero, .heroIcon, .card, .box { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+const WARMUP = { title: "Warmup", items: [{ t: "Ladder warmup", n: "4 patterns" }] };
+
+const DAYS = [
+  {
+    id: "d1", day: "Day 1", name: "Vertical Power", icon: "🚀", level: "Hard day",
+    g: ["#F87171", "#DC2626"], accent: "#F87171",
+    sections: [
+      WARMUP,
+      { title: "Plyos", items: [
+        { t: "Seated box jump", n: "4 x 3" },
+        { t: "Depth drop or depth jump", n: "3 x 4, 12 to 18 inch box" },
+        { t: "Pause squat jump", n: "3 x 3, hold the bottom 2 seconds" },
+      ] },
+      { title: "Footwork", items: [
+        { t: "Get offs from a 3 point stance", n: "6 reps" },
+        { t: "Kick slides to a 5 yard cone", n: "4 each side" },
+      ] },
+    ],
+  },
+  {
+    id: "d2", day: "Day 2", name: "Lateral Power", icon: "↔️", level: "Moderate day",
+    g: ["#A78BFA", "#7C3AED"], accent: "#A78BFA",
+    sections: [
+      WARMUP,
+      { title: "Plyos", items: [
+        { t: "Lateral bounds", n: "3 x 4 each side, stick each landing" },
+        { t: "Skater hops", n: "3 x 6 each side, continuous" },
+        { t: "Lateral hurdle hops", n: "3 x 5" },
+      ] },
+      { title: "Footwork", items: [
+        { t: "Mirror drill with a partner", n: "6 x 10 seconds" },
+        { t: "Kick slide into a quick redirect", n: "5 each side" },
+      ] },
+    ],
+  },
+  {
+    id: "d3", day: "Day 3", name: "Quick Feet", icon: "⚡️", level: "Light day",
+    g: ["#2DD4BF", "#0D9488"], accent: "#2DD4BF",
+    sections: [
+      { title: "Plyos", items: [
+        { t: "Pogo hops", n: "3 x 15" },
+        { t: "Line hops, front to back", n: "3 x 10 seconds" },
+        { t: "Line hops, side to side", n: "3 x 10 seconds" },
+      ] },
+      { title: "Footwork", items: [
+        { t: "Agility ladder", n: "6 to 8 patterns" },
+        { t: "Short sets (quick 2 step pass set)", n: "6 each side" },
+      ] },
+    ],
+  },
+  {
+    id: "d4", day: "Day 4", name: "Horizontal Power", icon: "🦘", level: "Hard day",
+    g: ["#FBBF24", "#D97706"], accent: "#FBBF24",
+    sections: [
+      WARMUP,
+      { title: "Plyos", items: [
+        { t: "Broad jump", n: "5 x 3" },
+        { t: "Depth jump into a broad jump", n: "3 x 3" },
+        { t: "Single leg bounds", n: "3 x 3 each leg" },
+      ] },
+      { title: "Footwork", items: [
+        { t: "Get off into a 5 yard burst", n: "6 reps" },
+        { t: "Short shuttle (5, 10, 5 yards)", n: "4 reps" },
+      ] },
+    ],
+  },
+  {
+    id: "d5", day: "Day 5", name: "Reactive", icon: "👀", level: "Moderate day",
+    g: ["#60A5FA", "#2563EB"], accent: "#60A5FA", wide: true,
+    sections: [
+      WARMUP,
+      { title: "Plyos", items: [
+        { t: "Hurdle hops", n: "3 x 5, minimal ground time" },
+        { t: "Split squat jumps", n: "3 x 4 each leg" },
+      ] },
+      { title: "Footwork", items: [
+        { t: "Reaction drill", n: "6 x 5 seconds, partner points and you kick slide or burst" },
+        { t: "Get offs on a partner's clap", n: "6 reps" },
+      ] },
+    ],
+  },
+];
+
+const RULES = {
+  id: "rules", name: "The Rules", icon: "📋",
+  g: ["#94A3B8", "#475569"], accent: "#94A3B8",
+  items: [
+    { t: "Plyos first, fresh", n: "Rest 60 to 90 seconds between sets. Every rep at full speed." },
+    { t: "Stop when you slow down", n: "Shorter or slower jumps mean you're done. Tired plyos are just conditioning." },
+    { t: "Watch the landings", n: "60 to 100 total landings on hard days, 40 to 60 on the others." },
+    { t: "Earn the depth jumps", n: "Two weeks of depth drops (land and stick) before full depth jumps. Hard days only." },
+    { t: "Protect the legs", n: "Knees, shins, or Achilles barking? Drop Day 3 or Day 5 first." },
+    { t: "Footwork is game reps", n: "Good stance, flat back, quick first step on every kick slide and get off." },
+  ],
+};
+
+const app = document.getElementById("app");
+function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;"); }
+function todayKey() { const d = new Date(); return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`; }
+function storeKey(day) { return `burst:${day.id}:${todayKey()}`; }
+function load(day) { try { const r = localStorage.getItem(storeKey(day)); return r ? JSON.parse(r) : {}; } catch { return {}; } }
+function save(day, state) { try { localStorage.setItem(storeKey(day), JSON.stringify(state)); } catch {} }
+function counts(day) {
+  const st = load(day);
+  const all = day.sections.flatMap(s => s.items);
+  return { done: all.filter(i => st[i.t]).length, total: all.length };
+}
+function dateLabel() {
+  return new Date().toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" });
+}
+
+function renderHome() {
+  const tiles = DAYS.map((d, i) => {
+    const c = counts(d);
+    return `
+      <div class="tile ${d.wide ? "wide" : ""}" data-i="${i}"
+           style="animation-delay:${i * 0.04}s;
+                  background:linear-gradient(145deg, ${d.g[0]}, ${d.g[1]});
+                  box-shadow:0 8px 24px -12px ${d.g[1]}66;">
+        <div class="tprog">${c.done}/${c.total}</div>
+        <div class="ticon">${d.icon}</div>
+        <div>
+          <div class="tday">${esc(d.day)}</div>
+          <div class="tname">${esc(d.name)}</div>
+        </div>
+      </div>`;
+  }).join("");
+
+  app.innerHTML = `
+    <div class="apptitle">Burst<span>.</span></div>
+    <div class="sub">${esc(dateLabel())}</div>
+    <div class="grid">
+      ${tiles}
+      <div class="tile wide" id="rulesTile"
+           style="animation-delay:${DAYS.length * 0.04}s;
+                  background:linear-gradient(145deg, ${RULES.g[0]}, ${RULES.g[1]});
+                  box-shadow:0 8px 24px -12px ${RULES.g[1]}66;">
+        <div class="ticon">${RULES.icon}</div>
+        <div class="tname">${esc(RULES.name)}</div>
+      </div>
+    </div>
+  `;
+  app.querySelectorAll(".tile[data-i]").forEach(el => el.addEventListener("click", () => renderDay(Number(el.dataset.i))));
+  document.getElementById("rulesTile").addEventListener("click", renderRules);
+  window.scrollTo(0, 0);
+}
+
+function renderDay(i) {
+  const d = DAYS[i];
+  const st = load(d);
+  const c = counts(d);
+  const pct = c.total ? Math.round(c.done / c.total * 100) : 0;
+  app.innerHTML = `
+    <div class="topbar">
+      <div class="back" id="back">‹ Back</div>
+      <div class="reset" id="reset">Reset</div>
+    </div>
+    <div class="hero" style="background:linear-gradient(155deg, ${d.g[0]}, ${d.g[1]});
+         box-shadow:0 14px 38px -14px ${d.g[1]}99;">
+      <div class="heroTop">
+        <div>
+          <div class="heroDay">${esc(d.day)}</div>
+          <div class="heroName">${esc(d.name)}</div>
+        </div>
+        <span class="heroIcon">${d.icon}</span>
+      </div>
+      <div class="chip">${esc(d.level)}</div>
+      <div class="heroCount" id="hc">${c.done} of ${c.total} done today</div>
+      <div class="heroBar"><div class="heroFill" id="hf" style="width:${pct}%"></div></div>
+    </div>
+    ${d.sections.map((s, si) => `
+      <div class="card" style="animation-delay:${0.1 + si * 0.06}s;
+           background:linear-gradient(180deg, ${d.accent}1F, ${d.accent}0A), #17181C;
+           border:1px solid ${d.accent}33;">
+        <div class="cardTitle" style="color:${d.accent}">${esc(s.title)}</div>
+        ${s.items.map(it => `
+          <div class="item ${st[it.t] ? "on" : ""}" data-item="${esc(it.t)}">
+            <div class="box" style="${st[it.t] ? `background:${d.accent}` : ""}">${st[it.t] ? "✓" : ""}</div>
+            <div>
+              <div class="txt">${esc(it.t)}</div>
+              <div class="note">${esc(it.n)}</div>
+            </div>
+          </div>`).join("")}
+      </div>
+    `).join("")}
+  `;
+  document.getElementById("back").addEventListener("click", renderHome);
+  document.getElementById("reset").addEventListener("click", () => { save(d, {}); renderDay(i); });
+  app.querySelectorAll(".item").forEach(el => {
+    el.addEventListener("click", () => {
+      const key = el.dataset.item;
+      const state = load(d);
+      state[key] = !state[key];
+      save(d, state);
+      el.classList.toggle("on", !!state[key]);
+      const box = el.querySelector(".box");
+      box.style.background = state[key] ? d.accent : "";
+      box.textContent = state[key] ? "✓" : "";
+      const nc = counts(d);
+      document.getElementById("hc").textContent = `${nc.done} of ${nc.total} done today`;
+      document.getElementById("hf").style.width = `${nc.total ? Math.round(nc.done / nc.total * 100) : 0}%`;
+    });
+  });
+  window.scrollTo(0, 0);
+}
+
+function renderRules() {
+  const r = RULES;
+  app.innerHTML = `
+    <div class="topbar">
+      <div class="back" id="back">‹ Back</div>
+    </div>
+    <div class="hero" style="background:linear-gradient(155deg, ${r.g[0]}, ${r.g[1]});
+         box-shadow:0 14px 38px -14px ${r.g[1]}99;">
+      <div class="heroTop">
+        <div class="heroName">${esc(r.name)}</div>
+        <span class="heroIcon">${r.icon}</span>
+      </div>
+      <div class="heroCount">What makes the plan actually work</div>
+    </div>
+    <div class="card" style="animation-delay:0.1s;
+         background:linear-gradient(180deg, ${r.accent}1F, ${r.accent}0A), #17181C;
+         border:1px solid ${r.accent}33;">
+      ${r.items.map(it => `
+        <div class="rule">
+          <div class="txt">${esc(it.t)}</div>
+          <div class="note">${esc(it.n)}</div>
+        </div>`).join("")}
+    </div>
+  `;
+  document.getElementById("back").addEventListener("click", renderHome);
+  window.scrollTo(0, 0);
+}
+
+renderHome();
+</script>
+</body>
+</html>
