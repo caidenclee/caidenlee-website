@@ -1,0 +1,76 @@
+{
+  "sample": true,
+  "generatedAt": "2026-10-28T22:00:00Z",
+  "headline": "Sample data. Once Grokbot runs, this becomes your real brief, Caiden.",
+  "items": [
+    {
+      "id": "sample-1",
+      "from": "Coach Dan <coach@example.com>",
+      "subject": "Practice moved to 4pm Thursday",
+      "date": "2026-10-28T15:10:00Z",
+      "category": "VIP",
+      "summary": "Thursday practice now starts at 4pm instead of 3pm; bring the new jersey.",
+      "action": "Confirm you can make 4pm Thursday",
+      "due": "2026-10-30",
+      "urgent": true,
+      "link": "https://mail.google.com/"
+    },
+    {
+      "id": "sample-2",
+      "from": "Canvas <notifications@instructure.com>",
+      "subject": "Assignment due: Chapter 7 problem set",
+      "date": "2026-10-28T13:00:00Z",
+      "category": "School",
+      "summary": "Chapter 7 problem set is due Friday at 11:59pm in Canvas.",
+      "action": "Submit the Chapter 7 problem set",
+      "due": "2026-10-31",
+      "urgent": false,
+      "link": "https://mail.google.com/"
+    },
+    {
+      "id": "sample-3",
+      "from": "TheCubicle <orders@thecubicle.com>",
+      "subject": "Your order has shipped",
+      "date": "2026-10-28T09:30:00Z",
+      "category": "Bills & orders",
+      "summary": "Your cube order shipped and should arrive Monday.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/"
+    },
+    {
+      "id": "sample-4",
+      "from": "YouTube <noreply@youtube.com>",
+      "subject": "Your video got 1,000 views",
+      "date": "2026-10-28T08:00:00Z",
+      "category": "Updates",
+      "summary": "Your latest upload passed 1,000 views.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/"
+    },
+    {
+      "id": "sample-5",
+      "from": "GAN Cube <news@gancube.com>",
+      "subject": "Fall sale: 20% off this week",
+      "date": "2026-10-27T18:00:00Z",
+      "category": "Promos",
+      "summary": "Store-wide 20% off sale through Sunday.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/"
+    }
+  ],
+  "events": [
+    { "title": "Coaching session with Luna", "start": "2026-10-29T16:00:00", "end": "2026-10-29T16:30:00", "allDay": false, "where": "Video call", "link": "https://calendar.google.com/" },
+    { "title": "Practice", "start": "2026-10-30T16:00:00", "end": "2026-10-30T18:00:00", "allDay": false, "where": "Gym", "link": "https://calendar.google.com/" },
+    { "title": "Film day", "start": "2026-11-01", "end": "2026-11-02", "allDay": true, "where": "", "link": "https://calendar.google.com/" }
+  ],
+  "school": [
+    { "title": "Chapter 7 problem set", "course": "Algebra II", "start": "2026-10-31T23:59:00", "link": "https://canvas.instructure.com/" },
+    { "title": "Lab report", "course": "Chemistry", "start": "2026-11-04T23:59:00", "link": "https://canvas.instructure.com/" }
+  ]
+}
