@@ -110,6 +110,30 @@ EMAILS:
 Map each returned `i` back to its thread to fill in `id`, `from`, `subject`,
 `date`, and `link`.
 
+## Send Email (browser → Grokbot)
+
+The Write tab can POST a draft to a Grokbot webhook so Caiden can approve
+sending from the Grok Bot app. The webhook URL and sender key live only in the
+browser (`localStorage` keys `ihq:webhookUrl` and `ihq:senderKey`, set in the
+You tab). Never commit a URL or key to this repo.
+
+Payload shape:
+
+```json
+{
+  "to": "someone@example.com",
+  "cc": "",
+  "subject": "…",
+  "body": "…",
+  "replyToThreadId": "<gmail thread id, optional>",
+  "source": "inbox-hq",
+  "sentAt": "2026-10-29T12:00:00.000Z"
+}
+```
+
+A Test connection button posts `{ "test": true, "source": "inbox-hq" }` with the
+same `Authorization: Bearer <key>` header.
+
 ## Checking it worked
 
 Open caidenlee.com/inbox. The Today tab should say "Updated by Grokbot N min
