@@ -5,8 +5,8 @@ Inbox HQ (caidenlee.com/inbox) is a viewer. It never reads email itself. A bot
 and pushes it to this repo. The page displays whatever is in that file.
 
 Schedule: once an hour.
-File the bot owns: `inbox/data.json`
-Everything else in `inbox/` belongs to the website and should not be touched.
+Files the bot owns: `inbox/data.json` (hourly inbox) and `inbox/todo.json` (Plan my day list).
+Do not change other files in `inbox/` unless Caiden asks for an app edit.
 
 ## What the bot does every hour
 
@@ -95,15 +95,75 @@ Field rules:
 
 The page (not the bot) builds these sections, in order:
 
-1. **Today** — a personal to-do list Caiden writes himself each morning. Stored in the browser (`localStorage` key `ihq:dayTodos`, keyed by `YYYY-MM-DD`). It does **not** come from `data.json`. Yesterday's unfinished items can be carried over with one tap. Empty state: "Plan your day".
+1. **Today** — Plan my day + to-do list (see below). Not from `data.json`.
 2. **Work** — today's and upcoming Badger Mountain Detailing calendar events (`events` with `"calendar": "business"`) plus every email with `"category": "Work"`.
 3. **Personal** — emails with category `Personal`, `VIP`, or `School` (mail from real people).
 4. **Alerts** — emails with category `Updates` (automated / system / app notices). These must never appear under a "Needs you" list.
 5. **The rest** — `Bills & orders` (open), then `Promos` (collapsed).
 
-The old "Needs you" list (email actions) is gone. Circles on Today are only for Caiden's own to-dos.
+The old "Needs you" list (email actions) is gone.
 
 `urgent: true` is only highlighted on the page for **Personal / VIP / School** and **Bills & orders**. Do not mark Badger / Work mail urgent just because a job is soon — the Work section and calendar already surface those jobs.
+
+## Plan my day (`inbox/todo.json`)
+
+Caiden types a paragraph in the **Plan my day** box and taps **Send to Grok Bot**. The page POSTs to the same webhook as Send Email:
+
+```json
+{
+  "kind": "plan",
+  "text": "wash the truck, call two clients, study for the quiz…",
+  "date": "2026-10-29",
+  "source": "inbox-hq",
+  "sentAt": "2026-10-29T15:00:00.000Z"
+}
+```
+
+When the webhook fires, Grok Bot turns that paragraph into a structured checklist and writes `inbox/todo.json`, then commits and pushes. The page polls that file (cache-busted) every 10 seconds for up to 3 minutes until `generatedAt` changes, then renders it.
+
+Shape of `inbox/todo.json`:
+
+```json
+{
+  "date": "2026-10-29",
+  "generatedAt": "2026-10-29T15:02:11.000Z",
+  "tasks": [
+    {
+      "id": "wash-truck",
+      "text": "Wash the truck",
+      "subtasks": [
+        { "id": "soap", "text": "Soap and rinse" },
+        { "id": "dry", "text": "Dry and tire shine" }
+      ],
+      "repeat": ""
+    },
+    {
+      "id": "open-shop",
+      "text": "Open the shop",
+      "subtasks": [],
+      "repeat": "Weekdays"
+    }
+  ]
+}
+```
+
+Field rules:
+
+- `date`: local `YYYY-MM-DD` for the day this plan belongs to (same value the page sent).
+- `generatedAt`: ISO timestamp of this write. The page uses it to detect a fresh plan.
+- `tasks[].id`: stable string id (slug is fine). Checkmarks live in the browser keyed by date + id.
+- `tasks[].text`: short checklist label.
+- `tasks[].subtasks`: optional nested checklist items (`id` + `text`). Use for "checklists and different stuff".
+- `tasks[].repeat`: `""` (one-off for that date), `"Daily"`, `"Weekdays"`, or a weekday name like `"Monday"`.
+
+How the page shows tasks:
+
+- If `todo.json.date` is today and the day has not been reset, show every task from the file.
+- If Caiden pressed **Reset to-do list**, clear check states and local extras for today, hide one-off bot tasks for that `generatedAt`, and keep repeating tasks (unchecked) so they reappear.
+- If `todo.json.date` is not today, show only repeating tasks that apply today, plus the Plan my day box.
+- Manual "Add" items stay in `localStorage` (`ihq:dayTodos`) alongside bot tasks. Reset clears those too.
+
+When building the list from a plan paragraph: break it into concrete tasks, add subtasks when he named steps, and set `repeat` only when he clearly said something is daily / weekdays / every Monday (etc.). Prefer short verb-first labels. Never copy passwords, codes, or account numbers from the paragraph into the file.
 
 ## Categorization rules (hourly update)
 
@@ -148,10 +208,13 @@ sending from the Grok Bot app. The webhook URL and sender key live only in the
 browser (`localStorage` keys `ihq:webhookUrl` and `ihq:senderKey`, set in the
 You tab). Never commit a URL or key to this repo.
 
-Payload shape:
+The same webhook also receives Plan my day payloads (`"kind": "plan"`). Email drafts use `"kind": "email"`.
+
+Email payload shape:
 
 ```json
 {
+  "kind": "email",
   "to": "someone@example.com",
   "cc": "",
   "subject": "…",
@@ -167,7 +230,7 @@ same `Authorization: Bearer <key>` header.
 
 ## Checking it worked
 
-Open caidenlee.com/inbox. The Today tab should show the personal to-do list, then Work,
+Open caidenlee.com/inbox. The Today tab should show Plan my day / the to-do list, then Work,
 Personal, Alerts, and The rest. The stamp should say "Updated by Grokbot N min ago". If it says the file is missing, the push did not land. If it says the
 passphrase did not unlock the data, the bot used a different passphrase than
-the one saved on the device.
+the one saved on the device. After a Plan my day send, `inbox/todo.json` should update within a few minutes.

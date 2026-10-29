@@ -175,7 +175,17 @@ details.grp .list { padding: 0 10px 10px; }
 .todo-row .del { border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 16px; line-height: 1; padding: 4px 6px; border-radius: 8px; }
 .todo-row .del:hover { color: var(--bad); background: var(--bad-soft); }
 .todo-row .acts-row { display: flex; gap: 6px; align-items: center; justify-content: flex-end; }
-.carry { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 12px; border-radius: var(--r); background: var(--soft); border: 1.5px dashed var(--line); font-size: 13.5px; }
+.plan-box { display: grid; gap: 10px; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r); padding: 14px; }
+.plan-box textarea.in { min-height: 7rem; }
+.plan-box .plan-acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.todo-tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.subtasks { display: grid; gap: 6px; margin-top: 6px; }
+.subtodo { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: start; }
+.subtodo .chk { width: 1.35rem; height: 1.35rem; margin-top: 1px; font-size: 11px; grid-row: auto; }
+.subtodo.done { opacity: .55; }
+.subtodo.done .stxt { text-decoration: line-through; }
+.ttl-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pill.repeat { background: var(--soft); color: var(--muted); font-size: 11px; }
 .work-ev { border-left: 4px solid #d93b3b; }
 .sec-empty { font-size: 13.5px; }
 
@@ -244,13 +254,25 @@ details.grp .list { padding: 0 10px 10px; }
     <!-- TODAY -->
     <section class="panel" id="p-today" role="tabpanel">
       <div class="sec-h"><h2>Today</h2><span class="note" id="todo-left"></span></div>
-      <p class="note" style="margin:0">Your personal to-do list for today. Add what you want to get done — it stays on this device and resets each morning.</p>
-      <div id="carry-box"></div>
+      <p class="note" style="margin:0">Type out your day in a paragraph, send it to Grok Bot, and your checklist appears here. Add quick extras yourself. Reset clears the day when you are done — repeating tasks come back next time.</p>
+      <div class="plan-box" id="plan-box">
+        <label class="field" for="plan-text"><span>Plan my day</span>
+          <textarea class="in" id="plan-text" maxlength="4000" placeholder="Write everything you want to get done today… e.g. wash the truck, call two clients, study for the quiz, pick up groceries" aria-label="Plan my day"></textarea>
+        </label>
+        <div class="plan-acts">
+          <button type="button" class="btn accent sm" id="plan-send">Send to Grok Bot</button>
+          <span class="status" id="plan-status" role="status"></span>
+        </div>
+      </div>
       <form class="todo-add" id="todo-form" autocomplete="off">
-        <input class="in" id="todo-input" type="text" maxlength="160" placeholder="Add a to-do…" aria-label="Add a to-do">
+        <input class="in" id="todo-input" type="text" maxlength="160" placeholder="Add a quick to-do…" aria-label="Add a to-do">
         <button type="submit" class="btn primary sm">Add</button>
       </form>
       <div class="list" id="todos"></div>
+      <div class="todo-tools">
+        <button type="button" class="btn sm ghost" id="todo-reset">Reset to-do list</button>
+        <span class="note" id="todo-stamp"></span>
+      </div>
 
       <div class="sec-h"><h2>Work</h2><span class="note" id="work-left"></span></div>
       <div class="list" id="work-list"></div>
@@ -558,15 +580,15 @@ details.grp .list { padding: 0 10px 10px; }
     $('b-hello').textContent = (h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening') + ', ' + (P.name || 'there');
     $('b-eyebrow').textContent = 'Inbox HQ · ' + new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
     const items = (R && R.items) || [];
-    const dayTodos = loadDayTodos(ymd(new Date()));
+    const openTodos = countOpenTodos();
     const personalN = items.filter((i) => ['Personal', 'VIP', 'School'].includes(i.category)).length;
-    $('t-todo').textContent = String(dayTodos.filter((t) => !t.done).length);
+    $('t-todo').textContent = String(openTodos);
     $('t-vip').textContent = R ? String(personalN) : '—';
     $('t-new').textContent = R ? String(items.length) : '—';
     $('t-ev').textContent = week ? String(week.length) : '—';
     $('b-take').textContent = R && R.headline ? R.headline : (P.gmail ? 'Your bot\'s latest update will appear here.' : 'Waiting for your bot\'s first update. Setup is in the You tab.');
     $('b-stamp').textContent = R && R.at ? 'Updated ' + new Date(R.at).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' }) : '';
-    $('n-today').textContent = String(dayTodos.filter((t) => !t.done).length || '');
+    $('n-today').textContent = String(openTodos || '');
   }
 
   // ---------- recap ----------
@@ -577,6 +599,7 @@ details.grp .list { padding: 0 10px 10px; }
     btn.disabled = true; btn.replaceChildren(el('span', 'spin'), document.createTextNode(' Checking for updates…')); st.textContent = ''; st.className = 'note';
     try {
       applyData(await fetchData());
+      await refreshTodoFile();
       st.textContent = (R.sample ? 'Showing sample data until your bot\'s first update. ' : '✓ ') + 'Updated by Grokbot ' + ago(R.at); st.className = R.sample ? 'note' : 'status ok';
     } catch (e) { dataErr = dataCopy(e && e.code); st.textContent = dataErr; st.className = 'status bad'; }
     resetBtn(); renderBrief(); renderToday(); refreshWeek(); renderSchool();
@@ -593,7 +616,57 @@ details.grp .list { padding: 0 10px 10px; }
   const shortFrom = (f) => String(f || '').replace(/<.*>/, '').replace(/"/g, '').trim() || f;
   const emailOf = (f) => { const m = String(f || '').match(/[\w.+-]+@[\w-]+\.[\w.-]+/); return m ? m[0] : ''; };
 
-  // ---------- personal day to-dos (localStorage, keyed by date) ----------
+  // ---------- personal day to-dos (bot plan + local extras) ----------
+  const TODO_URL = 'todo.json';
+  let TODO = { date: '', generatedAt: '', tasks: [] };
+  let planPollTimer = null;
+  const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  function normalizeTodo(obj) {
+    const tasks = Array.isArray(obj && obj.tasks) ? obj.tasks : [];
+    return {
+      date: /^\d{4}-\d{2}-\d{2}$/.test((obj && obj.date) || '') ? obj.date : '',
+      generatedAt: String((obj && obj.generatedAt) || ''),
+      tasks: tasks.map((t, i) => ({
+        id: String(t.id || ('task_' + i)),
+        text: String(t.text || '').trim(),
+        repeat: normalizeRepeat(t.repeat),
+        subtasks: (Array.isArray(t.subtasks) ? t.subtasks : []).map((s, j) => ({
+          id: String(s.id || ('sub_' + i + '_' + j)),
+          text: String(s.text || '').trim(),
+        })).filter((s) => s.text),
+      })).filter((t) => t.text),
+    };
+  }
+  function normalizeRepeat(r) {
+    if (!r) return '';
+    const s = String(r).trim();
+    if (!s) return '';
+    const low = s.toLowerCase();
+    if (low === 'daily') return 'Daily';
+    if (low === 'weekdays' || low === 'weekday') return 'Weekdays';
+    const hit = WEEKDAYS.find((d) => d.toLowerCase() === low);
+    return hit || s;
+  }
+  async function fetchTodo() {
+    const res = await fetch(TODO_URL + '?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('todo missing');
+    return normalizeTodo(await res.json());
+  }
+  async function refreshTodoFile() {
+    try {
+      const next = await fetchTodo();
+      const today = ymd(new Date());
+      if (next.date === today && next.generatedAt && next.generatedAt !== TODO.generatedAt) {
+        // A fresh plan for today replaces a prior reset.
+        const cleared = store.get('todoCleared') || {};
+        if (cleared[today] && cleared[today] !== next.generatedAt) {
+          delete cleared[today];
+          store.set('todoCleared', cleared);
+        }
+      }
+      TODO = next;
+    } catch (e) { /* keep prior */ }
+  }
   function loadDayTodos(day) {
     const all = store.get('dayTodos') || {};
     const list = Array.isArray(all[day]) ? all[day] : [];
@@ -602,13 +675,92 @@ details.grp .list { padding: 0 10px 10px; }
   function saveDayTodos(day, list) {
     const all = store.get('dayTodos') || {};
     all[day] = list;
-    // keep ~14 days of history
     const keys = Object.keys(all).sort();
     while (keys.length > 14) { delete all[keys.shift()]; }
     store.set('dayTodos', all);
   }
+  function loadTodoChecks(day) {
+    const all = store.get('todoChecks') || {};
+    return (all[day] && typeof all[day] === 'object') ? all[day] : {};
+  }
+  function saveTodoChecks(day, map) {
+    const all = store.get('todoChecks') || {};
+    all[day] = map;
+    const keys = Object.keys(all).sort();
+    while (keys.length > 14) { delete all[keys.shift()]; }
+    store.set('todoChecks', all);
+  }
+  function isTodoChecked(day, key) { return !!loadTodoChecks(day)[key]; }
+  function setTodoChecked(day, key, on) {
+    const map = loadTodoChecks(day);
+    if (on) map[key] = true; else delete map[key];
+    saveTodoChecks(day, map);
+  }
+  function isDayCleared(day) {
+    const cleared = store.get('todoCleared') || {};
+    if (!cleared[day]) return false;
+    // Cleared for this plan only; a newer generatedAt shows again.
+    if (TODO.date === day && TODO.generatedAt) return cleared[day] === TODO.generatedAt;
+    return !!cleared[day];
+  }
+  function markDayCleared(day) {
+    const cleared = store.get('todoCleared') || {};
+    cleared[day] = TODO.date === day && TODO.generatedAt ? TODO.generatedAt : true;
+    store.set('todoCleared', cleared);
+  }
+  function weekdayName(d) { return WEEKDAYS[d.getDay()]; }
+  function isWeekday(d) { const n = d.getDay(); return n >= 1 && n <= 5; }
+  function taskAppliesToday(task, today, todoDate) {
+    const r = task.repeat;
+    if (!r) return todoDate === today;
+    if (r === 'Daily') return true;
+    if (r === 'Weekdays') return isWeekday(new Date());
+    return weekdayName(new Date()).toLowerCase() === String(r).toLowerCase();
+  }
+  function visibleBotTasks() {
+    const today = ymd(new Date());
+    const todoDate = TODO.date || '';
+    const cleared = isDayCleared(today);
+    return (TODO.tasks || []).filter((t) => {
+      if (!taskAppliesToday(t, today, todoDate)) return false;
+      if (!t.repeat && (todoDate !== today || cleared)) return false;
+      return true;
+    });
+  }
+  function countOpenTodos() {
+    const today = ymd(new Date());
+    const local = loadDayTodos(today).filter((t) => !t.done).length;
+    const bot = visibleBotTasks().filter((t) => !isTodoChecked(today, t.id)).length;
+    return local + bot;
+  }
   function newTodoId() { return 't_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 7); }
-  function yesterdayYmd() { return ymd(new Date(Date.now() - 864e5)); }
+  function botTaskCard(t, day) {
+    const done = isTodoChecked(day, t.id);
+    const c = el('article', 'item todo todo-row' + (done ? ' done' : ''));
+    const b = el('button', 'chk', '✓'); b.type = 'button';
+    b.setAttribute('aria-label', (done ? 'Mark not done: ' : 'Mark done: ') + t.text);
+    b.addEventListener('click', () => { setTodoChecked(day, t.id, !isTodoChecked(day, t.id)); renderBrief(); renderToday(); });
+    const wrap = el('div', null);
+    const row = el('div', 'ttl-row');
+    row.append(el('div', 'ttl', t.text));
+    if (t.repeat) row.append(el('span', 'pill repeat', t.repeat));
+    wrap.append(row);
+    if (t.subtasks && t.subtasks.length) {
+      const box = el('div', 'subtasks');
+      t.subtasks.forEach((s) => {
+        const sd = isTodoChecked(day, t.id + '::' + s.id);
+        const row2 = el('div', 'subtodo' + (sd ? ' done' : ''));
+        const sb = el('button', 'chk', '✓'); sb.type = 'button';
+        sb.setAttribute('aria-label', (sd ? 'Mark not done: ' : 'Mark done: ') + s.text);
+        sb.addEventListener('click', () => { setTodoChecked(day, t.id + '::' + s.id, !isTodoChecked(day, t.id + '::' + s.id)); renderToday(); });
+        row2.append(sb, el('span', 'stxt', s.text));
+        box.append(row2);
+      });
+      wrap.append(box);
+    }
+    c.append(b, wrap);
+    return c;
+  }
   function dayTodoCard(t, day) {
     const c = el('article', 'item todo todo-row' + (t.done ? ' done' : ''));
     const b = el('button', 'chk', '✓'); b.type = 'button'; b.setAttribute('aria-label', (t.done ? 'Mark not done: ' : 'Mark done: ') + t.text);
@@ -628,38 +780,52 @@ details.grp .list { padding: 0 10px 10px; }
   }
   function renderDayTodos() {
     const today = ymd(new Date());
-    const list = loadDayTodos(today);
+    const local = loadDayTodos(today);
+    const bot = visibleBotTasks();
     const tb = $('todos'); tb.replaceChildren();
-    const carry = $('carry-box'); if (carry) carry.replaceChildren();
-    const yKey = yesterdayYmd();
-    const leftover = loadDayTodos(yKey).filter((t) => !t.done);
-    if (carry && leftover.length) {
-      const box = el('div', 'carry');
-      box.append(el('span', null, leftover.length + ' unfinished from yesterday'));
-      const btn = el('button', 'btn sm', 'Carry over'); btn.type = 'button';
-      btn.addEventListener('click', () => {
-        const cur = loadDayTodos(today);
-        const ids = new Set(cur.map((t) => t.text.toLowerCase()));
-        leftover.forEach((t) => { if (!ids.has(t.text.toLowerCase())) cur.push({ id: newTodoId(), text: t.text, done: false }); });
-        saveDayTodos(today, cur);
-        // mark yesterday leftovers as done so the banner goes away
-        saveDayTodos(yKey, loadDayTodos(yKey).map((t) => t.done ? t : { ...t, done: true }));
-        renderBrief(); renderToday();
-      });
-      const dismiss = el('button', 'btn sm ghost', 'Dismiss'); dismiss.type = 'button';
-      dismiss.addEventListener('click', () => {
-        saveDayTodos(yKey, loadDayTodos(yKey).map((t) => ({ ...t, done: true })));
-        renderToday();
-      });
-      box.append(btn, dismiss); carry.append(box);
-    }
-    if (!list.length) {
-      tb.append(el('div', 'empty', 'Plan your day — add the things you want to get done today.'));
+    if (!bot.length && !local.length) {
+      tb.append(el('div', 'empty', 'No to-dos yet — plan your day above, or add a quick item.'));
     } else {
-      list.slice().sort((a, b) => a.done - b.done).forEach((t) => tb.append(dayTodoCard(t, today)));
+      bot.slice().sort((a, b) => Number(isTodoChecked(today, a.id)) - Number(isTodoChecked(today, b.id)))
+        .forEach((t) => tb.append(botTaskCard(t, today)));
+      local.slice().sort((a, b) => a.done - b.done).forEach((t) => tb.append(dayTodoCard(t, today)));
     }
-    const left = list.filter((t) => !t.done).length;
-    $('todo-left').textContent = list.length ? (left ? left + ' to go' : 'all done') : 'Plan your day';
+    const left = countOpenTodos();
+    const total = bot.length + local.length;
+    $('todo-left').textContent = total ? (left ? left + ' to go' : 'all done') : 'Plan your day';
+    const stamp = $('todo-stamp');
+    if (stamp) {
+      if (TODO.date === today && TODO.generatedAt) stamp.textContent = 'Grok Bot list · ' + ago(TODO.generatedAt);
+      else if (bot.length) stamp.textContent = 'Repeating tasks for today';
+      else stamp.textContent = '';
+    }
+  }
+  function stopPlanPoll() {
+    if (planPollTimer) { clearTimeout(planPollTimer); planPollTimer = null; }
+  }
+  function sleep(ms) { return new Promise((r) => { planPollTimer = setTimeout(r, ms); }); }
+  async function pollTodoUntil(prevAt, statusEl) {
+    const deadline = Date.now() + 3 * 60 * 1000;
+    while (Date.now() < deadline) {
+      await sleep(10000);
+      try {
+        const next = await fetchTodo();
+        if (next.generatedAt && next.generatedAt !== prevAt) {
+          TODO = next;
+          const today = ymd(new Date());
+          if (next.date === today) {
+            const cleared = store.get('todoCleared') || {};
+            delete cleared[today];
+            store.set('todoCleared', cleared);
+          }
+          renderBrief(); renderToday();
+          if (statusEl) { statusEl.textContent = 'List ready ✓'; statusEl.className = 'status ok'; }
+          return true;
+        }
+      } catch (e) { /* keep waiting */ }
+    }
+    if (statusEl) { statusEl.textContent = 'Still waiting — tap Refresh up top in a minute.'; statusEl.className = 'status'; }
+    return false;
   }
   (function bindTodoForm() {
     const form = $('todo-form'); if (!form || form.dataset.bound) return; form.dataset.bound = '1';
@@ -669,6 +835,56 @@ details.grp .list { padding: 0 10px 10px; }
       const today = ymd(new Date());
       const list = loadDayTodos(today); list.push({ id: newTodoId(), text: text.slice(0, 160), done: false });
       saveDayTodos(today, list); if (input) input.value = ''; renderBrief(); renderToday();
+    });
+  })();
+  (function bindPlanSend() {
+    const btn = $('plan-send'); if (!btn || btn.dataset.bound) return; btn.dataset.bound = '1';
+    btn.addEventListener('click', async () => {
+      const ta = $('plan-text');
+      const status = $('plan-status');
+      const text = (ta && ta.value || '').trim();
+      if (!text) { if (status) { status.textContent = 'Write your plan first.'; status.className = 'status bad'; } return; }
+      if (!webhookConfigured()) {
+        if (status) { status.textContent = 'Add the Grokbot webhook URL and sender key in the You tab.'; status.className = 'status bad'; }
+        return;
+      }
+      btn.disabled = true;
+      stopPlanPoll();
+      const prevAt = TODO.generatedAt || '';
+      if (status) { status.textContent = 'Sending…'; status.className = 'status'; }
+      const payload = {
+        kind: 'plan',
+        text: text.slice(0, 4000),
+        date: ymd(new Date()),
+        source: 'inbox-hq',
+        sentAt: new Date().toISOString(),
+      };
+      try {
+        const { res, text: body } = await postToGrokbot(payload);
+        if (res.ok) {
+          if (status) { status.textContent = 'Sent, Grok Bot is building your list'; status.className = 'status ok'; }
+          pollTodoUntil(prevAt, status).finally(() => { btn.disabled = false; });
+          return;
+        }
+        if (status) { status.textContent = 'Failed (' + res.status + '): ' + (body || res.statusText || 'unknown error').slice(0, 240); status.className = 'status bad'; }
+      } catch (e) {
+        if (status) { status.textContent = 'Failed: ' + (e && e.message ? e.message : 'network error'); status.className = 'status bad'; }
+      }
+      btn.disabled = false;
+    });
+  })();
+  (function bindTodoReset() {
+    const btn = $('todo-reset'); if (!btn || btn.dataset.bound) return; btn.dataset.bound = '1';
+    btn.addEventListener('click', () => {
+      if (!confirm("Reset today's to-do list? This clears checkmarks and one-off tasks. Repeating tasks stay and come back unchecked.")) return;
+      const today = ymd(new Date());
+      saveDayTodos(today, []);
+      saveTodoChecks(today, {});
+      markDayCleared(today);
+      const status = $('plan-status');
+      if (status) { status.textContent = 'Reset for today. Repeating tasks are back.'; status.className = 'status ok'; }
+      const ta = $('plan-text'); if (ta) ta.value = '';
+      renderBrief(); renderToday();
     });
   })();
 
@@ -981,6 +1197,7 @@ details.grp .list { padding: 0 10px 10px; }
     $('m-status').textContent = 'Sending to Grokbot…';
     $('m-status').className = 'status';
     const payload = {
+      kind: 'email',
       to,
       cc: '',
       subject: $('m-sub').value,
@@ -1028,8 +1245,8 @@ details.grp .list { padding: 0 10px 10px; }
     const vf = el('div', 'field'); vf.append(el('span', null, 'Your people (always on top)'), vipEditor()); box.append(vf);
     const tf = el('div', 'field'); tf.append(el('span', null, 'Colors'), swatches()); box.append(tf);
     const gf = el('div', 'field');
-    gf.append(el('span', null, 'Grokbot webhook (Send Email)'));
-    gf.append(el('p', 'note', 'Stored only in this browser. Never put these in the GitHub repo. Grokbot still needs your approval before anything sends.'));
+    gf.append(el('span', null, 'Grokbot webhook (Send Email & Plan my day)'));
+    gf.append(el('p', 'note', 'Stored only in this browser. Never put these in the GitHub repo. Used for Send Email and Plan my day. Emails still need your approval before anything sends.'));
     const uf = el('label', 'field'); uf.append(el('span', null, 'Grokbot webhook URL'));
     const ui = el('input', 'in'); ui.type = 'url'; ui.autocomplete = 'off'; ui.spellcheck = false; ui.id = 'y-webhook-url';
     ui.placeholder = 'https://…'; ui.value = store.get('webhookUrl') || '';
@@ -1070,6 +1287,7 @@ details.grp .list { padding: 0 10px 10px; }
     const mp = $('m-polish'); if (mp) mp.hidden = true;
     syncSendBtn();
     applyPalette(P.palette);
+    try { TODO = await fetchTodo(); } catch (e) { /* empty until first plan */ }
     if (P.setupDone) { showApp(); show(location.hash.slice(1) || 'today'); } else showWizard();
     buildRecap();
     setInterval(() => { if (!document.hidden) buildRecap(); }, 5 * 60 * 1000);
