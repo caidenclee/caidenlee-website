@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T12:09:33Z",
+  "generatedAt": "2026-10-29T13:06:13Z",
   "headline": "Caiden, today has missionaries at 9:30, Miriam's dive meet at 1, Badger jobs at 3 and 4:15, and Netlify is out of credits.",
   "items": [
     {
@@ -577,6 +577,16 @@
       "calendar": "personal",
       "description": "",
       "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMDRUMjAwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "Call with Adam",
+      "start": "2026-11-05T13:00:00",
+      "end": "2026-11-05T14:00:00",
+      "allDay": false,
+      "where": "Next Level Pros office, 5715 Bedford St",
+      "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+      "calendar": "personal",
+      "description": "Biweekly call with Adam, taken from the office."
     }
   ]
 }
