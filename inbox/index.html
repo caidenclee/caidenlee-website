@@ -177,6 +177,8 @@ details.grp .list { padding: 0 10px 10px; }
 .todo-row .acts-row { display: flex; gap: 6px; align-items: center; justify-content: flex-end; }
 .plan-box { display: grid; gap: 10px; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r); padding: 14px; }
 .plan-box textarea.in { min-height: 7rem; }
+#w-ai textarea.in { min-height: 10rem; }
+.write-mode { margin: 0 0 12px; }
 .plan-box .plan-acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .todo-tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
 .subtasks { display: grid; gap: 6px; margin-top: 6px; }
@@ -316,26 +318,54 @@ details.grp .list { padding: 0 10px 10px; }
     <!-- WRITE -->
     <section class="panel" id="p-write" role="tabpanel" hidden>
       <div class="sec-h"><h2>Write an email</h2></div>
-      <p class="note">Pick what you need to say. I'll draft it. You read it, change anything, and send it yourself from Gmail.</p>
-      <div id="w-topics" style="display:grid;gap:12px"></div>
-      <div class="form">
-        <div class="two">
-          <label class="field"><span>To (email address)</span><input class="in" id="m-to" type="email" autocomplete="off" placeholder="name@example.com"></label>
-          <label class="field"><span>Their name (for the greeting)</span><input class="in" id="m-name" type="text" placeholder="Mrs. Rivera"></label>
-        </div>
-        <label class="field"><span>What's it about?</span><input class="in" id="m-about" type="text" placeholder="Chapter 4 quiz, Tuesday's meeting, Saturday's party…"></label>
-        <label class="field"><span>Subject</span><input class="in" id="m-sub" type="text"></label>
-        <label class="field"><span>Message</span><textarea class="in" id="m-body"></textarea></label>
-        <div class="warnline" id="m-warn" hidden>Fill in the [brackets] before you send.</div>
-        <div class="safe">🔒 Inbox HQ never sends email by itself. “Open in Gmail” opens a draft there. “Send Email” asks Grokbot to handle it — nothing goes out until you approve it in the Grok Bot app.</div>
+      <div class="chips write-mode" role="tablist" aria-label="Write mode" id="write-mode">
+        <button type="button" class="chip" role="tab" data-mode="ai" aria-selected="true" aria-pressed="true">AI</button>
+        <button type="button" class="chip" role="tab" data-mode="manual" aria-selected="false" aria-pressed="false">Manual</button>
+      </div>
+
+      <div id="w-ai" class="form">
+        <p class="note" style="margin:0">Tell Grok Bot what you want in plain words. It writes a polished email and brings it here as a draft card — nothing goes out until you approve it in the Grok Bot app.</p>
+        <label class="field"><span>To (optional — leave blank if Grok Bot should figure it out)</span><input class="in" id="ai-to" type="email" autocomplete="off" placeholder="name@example.com"></label>
+        <label class="field"><span>Tone</span>
+          <select class="in" id="ai-tone" aria-label="Tone">
+            <option value="Professional" selected>Professional</option>
+            <option value="Friendly">Friendly</option>
+            <option value="Brief">Brief</option>
+          </select>
+        </label>
+        <label class="field" for="ai-prompt"><span>What do you want to say?</span>
+          <textarea class="in" id="ai-prompt" maxlength="4000" placeholder="Tell Grok Bot what you want to say…" aria-label="Tell Grok Bot what you want to say"></textarea>
+        </label>
+        <div class="safe">🔒 Inbox HQ never sends email by itself. “Send to Grok Bot” only asks it to write a draft — nothing goes out until you approve it in the Grok Bot app.</div>
         <div class="chips" style="align-items:center">
-          <a class="btn primary" id="m-open" href="https://mail.google.com/" target="_blank" rel="noopener">Open in Gmail →</a>
-          <button type="button" class="btn accent" id="m-send" disabled title="Add Grokbot webhook URL and sender key in the You tab">Send Email</button>
-          <button type="button" class="btn" id="m-copy">Copy</button>
-          <button type="button" class="btn" id="m-polish">✨ Make it sound like me</button>
-          <span class="status" id="m-status" role="status"></span>
+          <button type="button" class="btn accent" id="ai-send" disabled title="Add Grokbot webhook URL and sender key in the You tab">Send to Grok Bot</button>
+          <span class="status" id="ai-status" role="status"></span>
         </div>
-        <p class="note" id="m-send-hint">To enable Send Email, add your Grokbot webhook URL and sender key in the You tab.</p>
+        <p class="note" id="ai-send-hint">To enable this, add your Grokbot webhook URL and sender key in the You tab.</p>
+      </div>
+
+      <div id="w-manual" hidden>
+        <p class="note">Pick what you need to say. I'll draft it. You read it, change anything, and send it yourself from Gmail — or use Send Email for one-tap approval in the Grok Bot app.</p>
+        <div id="w-topics" style="display:grid;gap:12px"></div>
+        <div class="form">
+          <div class="two">
+            <label class="field"><span>To (email address)</span><input class="in" id="m-to" type="email" autocomplete="off" placeholder="name@example.com"></label>
+            <label class="field"><span>Their name (for the greeting)</span><input class="in" id="m-name" type="text" placeholder="Mrs. Rivera"></label>
+          </div>
+          <label class="field"><span>What's it about?</span><input class="in" id="m-about" type="text" placeholder="Chapter 4 quiz, Tuesday's meeting, Saturday's party…"></label>
+          <label class="field"><span>Subject</span><input class="in" id="m-sub" type="text"></label>
+          <label class="field"><span>Message</span><textarea class="in" id="m-body"></textarea></label>
+          <div class="warnline" id="m-warn" hidden>Fill in the [brackets] before you send.</div>
+          <div class="safe">🔒 Inbox HQ never sends email by itself. “Open in Gmail” opens a draft there. “Send Email” asks Grokbot to handle it — nothing goes out until you approve it in the Grok Bot app.</div>
+          <div class="chips" style="align-items:center">
+            <a class="btn primary" id="m-open" href="https://mail.google.com/" target="_blank" rel="noopener">Open in Gmail →</a>
+            <button type="button" class="btn accent" id="m-send" disabled title="Add Grokbot webhook URL and sender key in the You tab">Send Email</button>
+            <button type="button" class="btn" id="m-copy">Copy</button>
+            <button type="button" class="btn" id="m-polish">✨ Make it sound like me</button>
+            <span class="status" id="m-status" role="status"></span>
+          </div>
+          <p class="note" id="m-send-hint">To enable Send Email, add your Grokbot webhook URL and sender key in the You tab.</p>
+        </div>
       </div>
     </section>
 
@@ -901,7 +931,7 @@ details.grp .list { padding: 0 10px 10px; }
     if (i.action) c.append(el('div', 'act', '👉 ' + i.action));
     if (['VIP', 'School', 'Work', 'Personal'].includes(i.category)) {
       const a = el('div', 'acts'); const w = el('button', 'btn sm', '✉️ Reply'); w.type = 'button';
-      w.addEventListener('click', () => openWriter({ to: emailOf(i.from), name: shortFrom(i.from).split(' ')[0], about: i.subject, role: i.category === 'Work' ? 'work' : i.category === 'School' ? 'school' : 'personal', topic: 'reply', replyToThreadId: i.id || '' }));
+      w.addEventListener('click', () => openWriter({ mode: 'ai', to: emailOf(i.from), name: shortFrom(i.from).split(' ')[0], about: i.subject, role: i.category === 'Work' ? 'work' : i.category === 'School' ? 'school' : 'personal', topic: 'reply', replyToThreadId: i.id || '' }));
       a.append(w); c.append(a);
     }
     return c;
@@ -1129,6 +1159,44 @@ details.grp .list { padding: 0 10px 10px; }
   };
   const REPLY = ['reply', 'Reply', 'Re: [about]', '[your reply]'];
   let wState = { role: null, topic: null, replyToThreadId: null };
+  function getWriteMode() {
+    const m = store.get('writeMode');
+    return m === 'manual' ? 'manual' : 'ai';
+  }
+  function setWriteMode(mode, opts) {
+    const m = mode === 'manual' ? 'manual' : 'ai';
+    store.set('writeMode', m);
+    document.querySelectorAll('#write-mode .chip').forEach((b) => {
+      const on = b.dataset.mode === m;
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    const ai = $('w-ai'), man = $('w-manual');
+    if (ai) ai.hidden = m !== 'ai';
+    if (man) man.hidden = m !== 'manual';
+    syncSendBtn();
+    syncAiSendBtn();
+    if (!(opts && opts.skipFocus)) {
+      if (m === 'ai' && $('ai-prompt')) $('ai-prompt').focus();
+      else if (m === 'manual' && $('m-to')) $('m-to').focus();
+    }
+  }
+  function syncAiSendBtn() {
+    const btn = $('ai-send'), hint = $('ai-send-hint');
+    if (!btn) return;
+    const prompt = ($('ai-prompt') && $('ai-prompt').value || '').trim();
+    const cfg = webhookConfigured();
+    const ok = cfg && !!prompt;
+    btn.disabled = !ok;
+    btn.title = !cfg ? 'Add Grokbot webhook URL and sender key in the You tab' : (!prompt ? 'Tell Grok Bot what you want to say' : 'Send to Grok Bot to draft the email');
+    if (hint) hint.hidden = cfg;
+  }
+  (function bindWriteMode() {
+    const box = $('write-mode'); if (!box || box.dataset.bound) return; box.dataset.bound = '1';
+    box.querySelectorAll('.chip').forEach((b) => {
+      b.addEventListener('click', () => setWriteMode(b.dataset.mode));
+    });
+  })();
   function renderWriteTopics() {
     const box = $('w-topics'); box.replaceChildren();
     const roles = P.roles.length ? P.roles : ['personal'];
@@ -1156,14 +1224,16 @@ details.grp .list { padding: 0 10px 10px; }
   }
   function syncSendBtn() {
     const btn = $('m-send'), hint = $('m-send-hint');
-    if (!btn) return;
-    const to = $('m-to').value.trim();
-    const warnShowing = $('m-warn') && !$('m-warn').hidden;
-    const cfg = webhookConfigured();
-    const ok = cfg && !!to && !warnShowing;
-    btn.disabled = !ok;
-    btn.title = !cfg ? 'Add Grokbot webhook URL and sender key in the You tab' : (!to ? 'Enter a To address' : (warnShowing ? 'Fill in the [brackets] first' : 'Send to Grokbot for your approval'));
-    if (hint) hint.hidden = cfg;
+    if (btn) {
+      const to = $('m-to').value.trim();
+      const warnShowing = $('m-warn') && !$('m-warn').hidden;
+      const cfg = webhookConfigured();
+      const ok = cfg && !!to && !warnShowing;
+      btn.disabled = !ok;
+      btn.title = !cfg ? 'Add Grokbot webhook URL and sender key in the You tab' : (!to ? 'Enter a To address' : (warnShowing ? 'Fill in the [brackets] first' : 'Send to Grokbot for your approval'));
+      if (hint) hint.hidden = cfg;
+    }
+    syncAiSendBtn();
   }
   function updateMail() {
     const to = $('m-to').value.trim(), sub = $('m-sub').value, body = $('m-body').value;
@@ -1222,11 +1292,75 @@ details.grp .list { padding: 0 10px 10px; }
     syncSendBtn();
   });
   function openWriter(o) {
-    $('m-to').value = o.to || ''; $('m-name').value = o.name || ''; $('m-about').value = o.about || '';
+    o = o || {};
+    const mode = o.mode === 'manual' ? 'manual' : (o.mode === 'ai' ? 'ai' : getWriteMode());
     wState = { role: o.role || 'personal', topic: o.topic || null, replyToThreadId: o.replyToThreadId || null };
-    show('write'); if (wState.topic) compose(); else updateMail();
-    $('m-to').focus();
+    if (o.to != null) {
+      $('m-to').value = o.to || '';
+      if ($('ai-to')) $('ai-to').value = o.to || '';
+    }
+    if (o.name != null) $('m-name').value = o.name || '';
+    if (o.about != null) {
+      $('m-about').value = o.about || '';
+      if (mode === 'ai' && $('ai-prompt') && !($('ai-prompt').value || '').trim() && o.about) {
+        const who = o.name || o.to || 'them';
+        $('ai-prompt').value = 'Reply about: ' + o.about + (who ? ' (to ' + who + ')' : '');
+      }
+    }
+    show('write');
+    setWriteMode(mode, { skipFocus: true });
+    if (mode === 'manual') {
+      if (wState.topic) compose(); else updateMail();
+      $('m-to').focus();
+    } else {
+      syncAiSendBtn();
+      if ($('ai-prompt')) $('ai-prompt').focus();
+    }
   }
+  (function bindAiSend() {
+    const btn = $('ai-send'); if (!btn || btn.dataset.bound) return; btn.dataset.bound = '1';
+    const promptEl = $('ai-prompt');
+    if (promptEl) promptEl.addEventListener('input', syncAiSendBtn);
+    if ($('ai-to')) $('ai-to').addEventListener('input', syncAiSendBtn);
+    if ($('ai-tone')) $('ai-tone').addEventListener('change', () => store.set('aiTone', $('ai-tone').value));
+    btn.addEventListener('click', async () => {
+      if (btn.disabled) return;
+      const prompt = ($('ai-prompt') && $('ai-prompt').value || '').trim();
+      if (!prompt || !webhookConfigured()) { syncAiSendBtn(); return; }
+      btn.disabled = true;
+      const status = $('ai-status');
+      if (status) { status.textContent = 'Sending to Grok Bot…'; status.className = 'status'; }
+      const payload = {
+        kind: 'ai_email',
+        prompt: prompt.slice(0, 4000),
+        to: ($('ai-to') && $('ai-to').value || '').trim(),
+        tone: ($('ai-tone') && $('ai-tone').value) || 'Professional',
+        source: 'inbox-hq',
+        sentAt: new Date().toISOString(),
+      };
+      if (wState.replyToThreadId) payload.replyToThreadId = wState.replyToThreadId;
+      try {
+        const { res, text } = await postToGrokbot(payload);
+        if (res.ok) {
+          if (status) {
+            status.textContent = "Sent. Grok Bot is writing it, and you'll approve it in the Grok Bot app before it goes out.";
+            status.className = 'status ok';
+          }
+        } else {
+          if (status) {
+            status.textContent = 'Failed (' + res.status + '): ' + (text || res.statusText || 'unknown error').slice(0, 240);
+            status.className = 'status bad';
+          }
+        }
+      } catch (e) {
+        if (status) {
+          status.textContent = 'Failed: ' + (e && e.message ? e.message : 'network error');
+          status.className = 'status bad';
+        }
+      }
+      syncAiSendBtn();
+    });
+  })();
 
   // ---------- you ----------
   function renderYou() {
@@ -1245,8 +1379,8 @@ details.grp .list { padding: 0 10px 10px; }
     const vf = el('div', 'field'); vf.append(el('span', null, 'Your people (always on top)'), vipEditor()); box.append(vf);
     const tf = el('div', 'field'); tf.append(el('span', null, 'Colors'), swatches()); box.append(tf);
     const gf = el('div', 'field');
-    gf.append(el('span', null, 'Grokbot webhook (Send Email & Plan my day)'));
-    gf.append(el('p', 'note', 'Stored only in this browser. Never put these in the GitHub repo. Used for Send Email and Plan my day. Emails still need your approval before anything sends.'));
+    gf.append(el('span', null, 'Grokbot webhook (Send Email, AI write & Plan my day)'));
+    gf.append(el('p', 'note', 'Stored only in this browser. Never put these in the GitHub repo. Used for Send Email, AI write, and Plan my day. Emails still need your approval before anything sends.'));
     const uf = el('label', 'field'); uf.append(el('span', null, 'Grokbot webhook URL'));
     const ui = el('input', 'in'); ui.type = 'url'; ui.autocomplete = 'off'; ui.spellcheck = false; ui.id = 'y-webhook-url';
     ui.placeholder = 'https://…'; ui.value = store.get('webhookUrl') || '';
@@ -1276,7 +1410,7 @@ details.grp .list { padding: 0 10px 10px; }
     const row = el('div', 'chips');
     const again = el('button', 'btn', 'Run setup again'); again.type = 'button'; again.addEventListener('click', () => showWizard('start'));
     row.append(again); box.append(row);
-    box.append(el('p', 'note', 'Your setup lives only in this browser. Inbox HQ displays what your bot publishes. Send Email only notifies Grokbot; nothing leaves until you approve it there.'));
+    box.append(el('p', 'note', 'Your setup lives only in this browser. Inbox HQ displays what your bot publishes. Send Email and AI write only notify Grokbot; nothing leaves until you approve it there.'));
   }
 
   // ================= BOOT =================
@@ -1285,6 +1419,9 @@ details.grp .list { padding: 0 10px 10px; }
     local = true; P = Object.assign(blankProfile(), store.get('profile') || {}); R = store.get('recap');
     const d = store.get('draft'); if (d) { $('m-to').value = d.to || ''; $('m-name').value = d.name || ''; $('m-about').value = d.about || ''; $('m-sub').value = d.sub || ''; $('m-body').value = d.body || ''; if (d.replyToThreadId) wState.replyToThreadId = d.replyToThreadId; }
     const mp = $('m-polish'); if (mp) mp.hidden = true;
+    const savedTone = store.get('aiTone');
+    if ($('ai-tone') && savedTone && ['Professional', 'Friendly', 'Brief'].includes(savedTone)) $('ai-tone').value = savedTone;
+    setWriteMode(getWriteMode(), { skipFocus: true });
     syncSendBtn();
     applyPalette(P.palette);
     try { TODO = await fetchTodo(); } catch (e) { /* empty until first plan */ }

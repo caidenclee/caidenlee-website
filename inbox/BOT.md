@@ -201,16 +201,26 @@ EMAILS:
 Map each returned `i` back to its thread to fill in `id`, `from`, `subject`,
 `date`, and `link`.
 
-## Send Email (browser → Grokbot)
+## Send Email / AI write (browser → Grokbot)
 
-The Write tab can POST a draft to a Grokbot webhook so Caiden can approve
-sending from the Grok Bot app. The webhook URL and sender key live only in the
-browser (`localStorage` keys `ihq:webhookUrl` and `ihq:senderKey`, set in the
-You tab). Never commit a URL or key to this repo.
+The Write tab can POST to a Grokbot webhook so Caiden can approve sending from
+the Grok Bot app. The webhook URL and sender key live only in the browser
+(`localStorage` keys `ihq:webhookUrl` and `ihq:senderKey`, set in the You tab).
+Never commit a URL or key to this repo.
 
-The same webhook also receives Plan my day payloads (`"kind": "plan"`). Email drafts use `"kind": "email"`.
+The Write tab has two modes (toggle remembered in `ihq:writeMode`, default AI):
 
-Email payload shape:
+1. **AI** — Caiden describes what he wants in a textarea (optional To, tone:
+   Professional / Friendly / Brief). The page POSTs `"kind": "ai_email"`. Grok
+   Bot writes a polished draft and brings it back here as a DraftExternalMessage
+   card. Nothing sends until he taps Send on that card. Reply links open Write
+   in AI mode with To and `replyToThreadId` filled in.
+2. **Manual** — the original form (To, name, about, subject, body). Posts
+   `"kind": "email"` with the filled draft. Same approval card flow.
+
+The same webhook also receives Plan my day payloads (`"kind": "plan"`).
+
+Manual email payload shape:
 
 ```json
 {
@@ -224,6 +234,24 @@ Email payload shape:
   "sentAt": "2026-10-29T12:00:00.000Z"
 }
 ```
+
+AI write payload shape:
+
+```json
+{
+  "kind": "ai_email",
+  "prompt": "Tell the client the truck is done and ready for pickup Friday…",
+  "to": "someone@example.com",
+  "tone": "Professional",
+  "replyToThreadId": "<gmail thread id, optional>",
+  "source": "inbox-hq",
+  "sentAt": "2026-10-29T12:00:00.000Z"
+}
+```
+
+`to` may be `""` when Caiden left it blank so Grok Bot can figure out the
+recipient from the prompt / reply thread. `tone` is one of `Professional`
+(default), `Friendly`, or `Brief`.
 
 A Test connection button posts `{ "test": true, "source": "inbox-hq" }` with the
 same `Authorization: Bearer <key>` header.
