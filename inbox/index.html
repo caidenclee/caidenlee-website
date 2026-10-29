@@ -148,6 +148,23 @@ details.grp .list { padding: 0 10px 10px; }
 @keyframes sp { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
 @media (max-width: 480px) { .day { grid-template-columns: 1fr; gap: 6px; } }
+
+/* ---------- dual calendar (personal | business) ---------- */
+.cal-toggle { display: flex; flex-wrap: wrap; gap: 6px; }
+.week-cols { display: grid; gap: 14px; }
+.cal-col-h { display: flex; align-items: baseline; gap: 8px; margin: 2px 0 8px; }
+.cal-col-h h3 { font: 800 15px var(--display); letter-spacing: -.005em; margin: 0; }
+.cal-col-h .pill { font-size: 11px; }
+@media (min-width: 760px) {
+  .week-cols { grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+  .cal-toggle { display: none; }
+  .cal-col .cal-col-h { display: flex; }
+}
+@media (max-width: 759px) {
+  .cal-col { display: none; }
+  .cal-col.on { display: block; }
+  .cal-col .cal-col-h { display: none; }
+}
 </style>
 
 <div class="wrap">
@@ -205,7 +222,20 @@ details.grp .list { padding: 0 10px 10px; }
     <!-- WEEK -->
     <section class="panel" id="p-week" role="tabpanel" hidden>
       <div class="sec-h"><h2>Next 7 days</h2><span class="note" id="week-status" role="status"></span></div>
-      <div class="item" id="week"><div class="empty">Your calendar shows up here once Google Calendar is connected.</div></div>
+      <div class="cal-toggle chips" role="tablist" aria-label="Which calendar" id="cal-toggle">
+        <button type="button" class="chip" role="tab" data-cal="personal" aria-selected="true" aria-pressed="true">Personal</button>
+        <button type="button" class="chip" role="tab" data-cal="business" aria-selected="false" aria-pressed="false">Badger Mountain</button>
+      </div>
+      <div class="week-cols" id="week-cols">
+        <div class="cal-col on" data-cal="personal" id="cal-personal">
+          <div class="cal-col-h"><h3>Personal</h3><span class="pill" id="week-personal-n"></span></div>
+          <div class="item" id="week-personal"><div class="empty">Your personal calendar shows up here once Google Calendar is connected.</div></div>
+        </div>
+        <div class="cal-col" data-cal="business" id="cal-business">
+          <div class="cal-col-h"><h3>Badger Mountain</h3><span class="pill" id="week-business-n"></span></div>
+          <div class="item" id="week-business"><div class="empty">Badger Mountain jobs show up here once that calendar is in the data file.</div></div>
+        </div>
+      </div>
     </section>
 
     <!-- SCHOOL -->
@@ -342,7 +372,7 @@ details.grp .list { padding: 0 10px 10px; }
         urgent: !!i.urgent, link: i.link || '',
       })),
     };
-    week = (obj.events || []).map((e) => ({ title: e.title || '(no title)', start: e.start || '', end: e.end || '', allDay: !!e.allDay, where: e.where || '', link: e.link || '' }));
+    week = (obj.events || []).map((e) => ({ title: e.title || '(no title)', start: e.start || '', end: e.end || '', allDay: !!e.allDay, where: e.where || '', link: e.link || '', calendar: e.calendar === 'business' ? 'business' : 'personal' }));
     school = Array.isArray(obj.school) ? obj.school : null;
     P.gmail = P.calendar = P.bot = true;
     saveRecap(); saveProfile();
@@ -553,23 +583,34 @@ details.grp .list { padding: 0 10px 10px; }
     });
   }
 
-  // ---------- week ----------
-  let week = null, weekUnsub = null;
+  // ---------- week (personal | business calendars) ----------
+  let week = null, weekUnsub = null, weekCal = 'personal';
   function refreshWeek() {
     if (week) { $('week-status').textContent = R && R.at ? 'Updated ' + ago(R.at) : ''; renderWeek(); }
     else renderWeek(dataErr || 'Waiting for your bot\'s first update.', true);
   }
-  function startWeek() { refreshWeek(); }
-  function renderWeek(err, retry) {
-    const box = $('week'); box.replaceChildren();
+  function startWeek() {
+    document.querySelectorAll('#cal-toggle .chip').forEach((b) => {
+      b.addEventListener('click', () => {
+        weekCal = b.getAttribute('data-cal') || 'personal';
+        document.querySelectorAll('#cal-toggle .chip').forEach((x) => {
+          const on = x === b; x.setAttribute('aria-selected', on ? 'true' : 'false'); x.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        document.querySelectorAll('.cal-col').forEach((c) => c.classList.toggle('on', c.getAttribute('data-cal') === weekCal));
+      });
+    });
+    refreshWeek();
+  }
+  function fillWeekBox(box, list, emptyMsg, err, retry) {
+    box.replaceChildren();
     if (err) {
       const e = el('div', 'empty', err); box.append(e);
       if (retry) { const b = el('button', 'btn sm primary', 'Refresh'); b.type = 'button'; b.style.marginTop = '10px'; b.addEventListener('click', buildRecap); e.append(el('br'), b); }
       return;
     }
-    if (!week) { box.append(el('div', 'empty', 'Loading your calendar…')); return; }
-    if (!week.length) { box.append(el('div', 'empty', 'Nothing on your calendar for the next 7 days.')); return; }
-    const by = new Map(); week.forEach((e) => { const k = String(e.start).slice(0, 10); if (!by.has(k)) by.set(k, []); by.get(k).push(e); });
+    if (!list) { box.append(el('div', 'empty', 'Loading your calendar…')); return; }
+    if (!list.length) { box.append(el('div', 'empty', emptyMsg)); return; }
+    const by = new Map(); list.forEach((e) => { const k = String(e.start).slice(0, 10); if (!by.has(k)) by.set(k, []); by.get(k).push(e); });
     const today = ymd(new Date()), tmr = ymd(new Date(Date.now() + 864e5));
     [...by.keys()].sort().forEach((k) => {
       const d = el('div', 'day' + (k === today ? ' today' : ''));
@@ -578,11 +619,23 @@ details.grp .list { padding: 0 10px 10px; }
       const evs = el('div');
       by.get(k).forEach((e) => {
         const v = el('div', 'ev'); v.append(link(e.title, safeUrl(e.link, ['google.com'])));
-        const tm = e.allDay ? 'All day' : new Date(e.start).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) + (e.end ? '–' + new Date(e.end).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '');
+        const start = e.allDay ? null : new Date(e.start.length === 10 ? e.start + 'T12:00:00' : e.start);
+        const end = (!e.allDay && e.end) ? new Date(e.end.length === 10 ? e.end + 'T12:00:00' : e.end) : null;
+        const tm = e.allDay ? 'All day' : (start ? start.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '') + (end ? '–' + end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '');
         v.append(el('span', 't', tm + (e.where ? ' · ' + e.where : ''))); evs.append(v);
       });
       d.append(dn, evs); box.append(d);
     });
+  }
+  function renderWeek(err, retry) {
+    const personal = week ? week.filter((e) => (e.calendar || 'personal') !== 'business') : null;
+    const business = week ? week.filter((e) => e.calendar === 'business') : null;
+    const pn = $('week-personal-n'), bn = $('week-business-n');
+    if (pn) pn.textContent = personal ? String(personal.length) : '';
+    if (bn) bn.textContent = business ? String(business.length) : '';
+    fillWeekBox($('week-personal'), personal, 'Nothing on your personal calendar for the next 7 days.', err, retry);
+    fillWeekBox($('week-business'), business, 'No Badger Mountain jobs on the calendar for the next 7 days.', err && !week ? err : null, retry && !week);
+    document.querySelectorAll('.cal-col').forEach((c) => c.classList.toggle('on', c.getAttribute('data-cal') === weekCal));
   }
 
   // ---------- school (assignments your bot includes in the data file) ----------

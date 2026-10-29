@@ -13,7 +13,7 @@ Everything else in `inbox/` belongs to the website and should not be touched.
 1. Search Gmail for `in:inbox newer_than:2d` (up to 40 threads). For each thread
    note the Gmail thread id, sender, subject, date, snippet, and the "open in
    Gmail" link.
-2. List Google Calendar events for the next 7 days.
+2. List Google Calendar events for the next 7 days from the primary/personal calendar and from the Badger Mountain Detailing calendar. Tag each event with `"calendar": "personal"` or `"calendar": "business"`.
 3. Optional: list Canvas assignments for the next 3 weeks (from the Canvas
    calendar feed) for the `school` list.
 4. Sort and summarize the emails with the prompt below, producing one item per
@@ -69,7 +69,7 @@ straight to `inbox/data.json`; the page accepts both.
     }
   ],
   "events": [
-    { "title": "Practice", "start": "2026-10-30T16:00:00", "end": "2026-10-30T18:00:00", "allDay": false, "where": "Gym", "link": "https://calendar.google.com/..." }
+    { "title": "Practice", "start": "2026-10-30T16:00:00", "end": "2026-10-30T18:00:00", "allDay": false, "where": "Gym", "calendar": "personal", "link": "https://calendar.google.com/..." }
   ],
   "school": [
     { "title": "Chapter 7 problem set", "course": "Algebra II", "start": "2026-10-31T23:59:00", "link": "https://canvas.instructure.com/..." }
@@ -86,6 +86,7 @@ Field rules:
 - `due`: `YYYY-MM-DD` only when the email names a real deadline or event date, else `""`.
 - `urgent`: `true` only for something due within 2 days or a real problem.
 - `events.allDay`: `true` for all-day events; then `start` and `end` are dates (`YYYY-MM-DD`).
+- `events.calendar`: `"personal"` (primary Google Calendar) or `"business"` (Badger Mountain Detailing calendar). The Week tab shows personal on the left and business on the right; missing `calendar` is treated as personal.
 - `school`: optional. Leave it out entirely if there is nothing to show.
 - Do not include `"sample": true`. That key marks the placeholder file and makes the page say "sample data".
 

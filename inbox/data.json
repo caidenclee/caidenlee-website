@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-29T06:44:40Z",
-  "headline": "Caiden, tomorrow: missionaries at 9:30, Miriam's dive meet at 1, and a call with Dilan at 5.",
+  "generatedAt": "2026-10-29T07:06:03Z",
+  "headline": "Caiden, today you've got missionaries at 9:30, Miriam's dive meet at 1, and Badger jobs this afternoon.",
   "items": [
     {
       "id": "1a1865da840a5d31",
@@ -346,6 +346,7 @@
       "end": "2026-10-29T11:00:00",
       "allDay": false,
       "where": "",
+      "calendar": "personal",
       "link": "https://www.google.com/calendar/event?eid=cjZ1cjFpMTk4MWwwcTVrMWdwODBsODhsMjQgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles"
     },
     {
@@ -354,6 +355,7 @@
       "end": "2026-10-29T15:00:00",
       "allDay": false,
       "where": "",
+      "calendar": "personal",
       "link": "https://www.google.com/calendar/event?eid=aXQ0ZHVwMWNta2VvbHNiNmxxbjE4NXN1Nm8gY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles"
     },
     {
@@ -362,6 +364,7 @@
       "end": "2026-10-29T18:00:00",
       "allDay": false,
       "where": "",
+      "calendar": "personal",
       "link": "https://www.google.com/calendar/event?eid=NjViZzIxdmc5cW8wMnE1dnE3ajhxcWJxMzQgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles"
     },
     {
@@ -370,6 +373,7 @@
       "end": "2026-10-30T15:45:00",
       "allDay": false,
       "where": "",
+      "calendar": "personal",
       "link": "https://www.google.com/calendar/event?eid=b2poYmVlNmlydGNqb20wa3VuaTA4N2M0aWcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles"
     },
     {
@@ -378,6 +382,7 @@
       "end": "2026-10-31T16:00:00",
       "allDay": false,
       "where": "",
+      "calendar": "personal",
       "link": "https://www.google.com/calendar/event?eid=djhsbm81NmliMnRmNmVwcnJidWcyMTMyNWMgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles"
     },
     {
@@ -386,6 +391,7 @@
       "end": "2026-11-01T11:00:00",
       "allDay": false,
       "where": "",
+      "calendar": "personal",
       "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDFUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles"
     },
     {
@@ -394,6 +400,7 @@
       "end": "2026-11-04T09:30:00",
       "allDay": false,
       "where": "",
+      "calendar": "personal",
       "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMDRUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles"
     },
     {
@@ -402,6 +409,7 @@
       "end": "2026-11-04T13:30:00",
       "allDay": false,
       "where": "",
+      "calendar": "personal",
       "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMDRUMjAwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles"
     },
     {
@@ -410,7 +418,107 @@
       "end": "2026-11-05T14:00:00",
       "allDay": false,
       "where": "Next Level Pros office, 5715 Bedford St",
+      "calendar": "personal",
       "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "[Cory] Full Detail: Michelle (2000 Lexus SUV)",
+      "start": "2026-10-29T15:00:00",
+      "end": "2026-10-29T18:00:00",
+      "allDay": false,
+      "where": "5814 west 11th place",
+      "calendar": "business",
+      "link": "https://www.google.com/calendar/event?eid=YnQ0N3Y5ZzVxYWVvN2I0djI0Y3RobGhzNGsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "[Ammon] Finish-Up (Partial): Courtney (2024 Ford Expedition)",
+      "start": "2026-10-29T16:15:00",
+      "end": "2026-10-29T17:45:00",
+      "allDay": false,
+      "where": "91 Fraser Dr, Pasco, WA",
+      "calendar": "business",
+      "link": "https://www.google.com/calendar/event?eid=dTk5ZHQ1cG40bDdhYmIwOHFwb2Y2YWR2MWsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "[Talib] Full Detail: Jonathon (2024 Hyundai PALISADE)",
+      "start": "2026-10-30T15:00:00",
+      "end": "2026-10-30T18:00:00",
+      "allDay": false,
+      "where": "5715 Bedford St",
+      "calendar": "business",
+      "link": "https://www.google.com/calendar/event?eid=Y3M3ZmNjYW1qb3AzajlmbjQyazY4YTBnbTQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "[ammon] Full Detail + Pet Hair: Jeremy (Toyota Tundra)",
+      "start": "2026-10-30T15:00:00",
+      "end": "2026-10-30T18:00:00",
+      "allDay": false,
+      "where": "517 N Jean St, Kennewick, WA 99336",
+      "calendar": "business",
+      "link": "https://www.google.com/calendar/event?eid=ZGlwbm51cnJnazhjNWp2dGlhNTRiYTZzYjggZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "[cory] Interior Detail: Jose (2018 Honda Accord)",
+      "start": "2026-10-30T15:00:00",
+      "end": "2026-10-30T18:00:00",
+      "allDay": false,
+      "where": "4322 Parley Dr, Pasco, WA",
+      "calendar": "business",
+      "link": "https://www.google.com/calendar/event?eid=b2h1MHAwODVlajcxOGc0amx1NzExN2Vwc2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "[ian + James ]Fleet Exterior: All Set (6 vans)",
+      "start": "2026-10-31T08:00:00",
+      "end": "2026-10-31T12:00:00",
+      "allDay": false,
+      "where": "5715 Bedford St",
+      "calendar": "business",
+      "link": "https://www.google.com/calendar/event?eid=Z28yNnZxaXAzcnYyOTgwNHRxYWY5djFsaXZfMjAyNjEwMzFUMTUwMDAwWiBlOGMwYWJhNzA0MjZhYmQwMWQxYmY0NGEzNjI0MTVlNGVmNDA1YTFjZjY2ZGNkMzg5YjYwNmUwN2RjZGJlZGMzQGc&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "Full Detail: Miguel (vehicle TBD)",
+      "start": "2026-10-31T09:00:00",
+      "end": "2026-10-31T12:00:00",
+      "allDay": false,
+      "where": "3002 Blaine St, Pasco, WA",
+      "calendar": "business",
+      "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "(Ethan) Full Detail: Carly (2021 Ford EcoSport)",
+      "start": "2026-10-31T09:00:00",
+      "end": "2026-10-31T12:00:00",
+      "allDay": false,
+      "where": "5715 Bedford St, Pasco, WA",
+      "calendar": "business",
+      "link": "https://www.google.com/calendar/event?eid=b2c3N2xuYXJjMHVxaDk3am11ZHNmOGhwZjQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "( Cory) Full Detail: Easton (Ford Fusion SE)",
+      "start": "2026-10-31T11:00:00",
+      "end": "2026-10-31T14:00:00",
+      "allDay": false,
+      "where": "7112 W 13th Ave, Kennewick, WA",
+      "calendar": "business",
+      "link": "https://www.google.com/calendar/event?eid=dTRqZzdmbnFhNGhzbDY0bzM2ajJvYjdsbDQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "(Ethan) Full Detail: Sam (2019 Gmc SIERRA)",
+      "start": "2026-10-31T13:30:00",
+      "end": "2026-10-31T16:30:00",
+      "allDay": false,
+      "where": "5820 west argent road Pasco",
+      "calendar": "business",
+      "link": "https://www.google.com/calendar/event?eid=Z21pcmh0dWNsZmNlOW5ndjhubXBmY2xpN3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "Full Detail + Pet Hair: Jeremy (Truck)",
+      "start": "2026-11-03T15:00:00",
+      "end": "2026-11-03T18:00:00",
+      "allDay": false,
+      "where": "517 N Jean St, Kennewick, WA 99336",
+      "calendar": "business",
+      "link": "https://www.google.com/calendar/event?eid=bjM2dWYwZmtjdXI5NjIzcWxkY2s4MG43NXMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
     }
   ]
 }
