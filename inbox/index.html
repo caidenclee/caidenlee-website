@@ -269,6 +269,19 @@ img, video { max-width: 100%; height: auto; }
   .set-sheet { max-width: 480px; max-height: 86vh; border-radius: 20px; padding-bottom: 24px; animation: setpop .2s ease; }
 }
 @keyframes setpop { from { transform: scale(.96); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* swipe, counts, toast */
+.sec-h .note:not(:empty)[id$="-left"] { background: var(--soft); color: var(--ink); font-weight: 700; border-radius: 999px; padding: 1px 9px; font-size: 12.5px; }
+.sec-h .sec-btn { margin-left: auto; }
+.item.swipe { position: relative; touch-action: pan-y; transition: transform .25s ease, opacity .25s ease, max-height .3s ease, margin .3s ease, padding .3s ease; }
+.item.swipe.dragging { transition: none; }
+.item.swipe.gone { opacity: 0; transform: translateX(-110%) !important; }
+.item .hide-x { position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--card); color: var(--muted); cursor: pointer; display: none; font-size: 13px; line-height: 1; }
+@media (hover: hover) and (pointer: fine) { .item.swipe:hover .hide-x, .item.swipe .hide-x:focus-visible { display: block; } .item.swipe .hide-x:hover { color: var(--bad); border-color: var(--bad); } }
+.show-hidden { background: none; border: 0; color: var(--brand); font-weight: 600; cursor: pointer; padding: 10px 0; text-align: left; min-height: 44px; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); z-index: 60; background: var(--ink); color: var(--bg); border-radius: 999px; padding: 10px 10px 10px 18px; display: flex; gap: 12px; align-items: center; box-shadow: 0 8px 24px rgba(0,0,0,.25); max-width: calc(100vw - 24px); font-weight: 600; }
+.toast[hidden] { display: none; }
+.toast-btn { background: transparent; border: 1.5px solid currentColor; color: inherit; border-radius: 999px; padding: 6px 14px; font-weight: 700; cursor: pointer; min-height: 36px; }
 </style>
 
 <div class="wrap">
@@ -344,10 +357,11 @@ img, video { max-width: 100%; height: auto; }
       <div class="sec-h"><h2>Personal</h2><span class="note" id="personal-left"></span></div>
       <div class="list" id="personal-list"></div>
 
-      <div class="sec-h"><h2>Alerts</h2><span class="note" id="alerts-left"></span></div>
+      <div class="sec-h"><h2>Alerts</h2><span class="note" id="alerts-left"></span><button type="button" class="btn sm ghost sec-btn" id="cleanup-btn">🧹 Clean up inbox</button></div>
+      <span class="status" id="cleanup-status" role="status"></span>
       <div class="list" id="alerts-list"></div>
 
-      <div class="sec-h"><h2>The rest</h2><span class="note" id="recap-status" role="status"></span></div>
+      <div class="sec-h"><h2>The rest</h2><span class="note" id="rest-left"></span><span class="note" id="recap-status" role="status"></span></div>
       <div class="list" id="groups"></div>
       </div>
     </section>
@@ -703,7 +717,7 @@ img, video { max-width: 100%; height: auto; }
   function renderBrief() {
     updateGreeting();
     $('b-eyebrow').textContent = 'Inbox HQ · ' + new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-    const items = (R && R.items) || [];
+    const items = ((R && R.items) || []).filter((i) => !isHidden(i));
     const openTodos = countOpenTodos();
     const personalN = items.filter((i) => ['Personal', 'VIP', 'School'].includes(i.category)).length;
     $('t-todo').textContent = String(openTodos);
@@ -997,6 +1011,25 @@ img, video { max-width: 100%; height: auto; }
       btn.disabled = false;
     });
   })();
+  (function bindCleanup() {
+    const btn = $('cleanup-btn'); if (!btn) return; const st = $('cleanup-status');
+    const LOCK = 120000;
+    const lockLeft = () => Math.max(0, (Number(store.get('cleanupAt')) || 0) + LOCK - Date.now());
+    const sync = () => { const l = lockLeft(); btn.disabled = l > 0; if (l > 0) setTimeout(sync, l + 50); };
+    sync();
+    btn.addEventListener('click', async () => {
+      if (lockLeft() > 0) return;
+      if (!webhookConfigured()) { st.textContent = 'Add the Relay URL and Relay key in Settings (⚙️).'; st.className = 'status bad'; return; }
+      if (!confirm('Archive promos, newsletters and old notices? Nothing is deleted.')) return;
+      btn.disabled = true; st.textContent = 'Sending…'; st.className = 'status';
+      try {
+        const { res, text } = await postToGrokbot({ kind: 'cleanup', source: 'inbox-hq', sentAt: new Date().toISOString() });
+        if (res.ok) { store.set('cleanupAt', Date.now()); st.textContent = 'Cleanup started. Your page will refresh when it\'s done.'; st.className = 'status ok'; sync(); return; }
+        st.textContent = formatWebhookError(null, res, text); st.className = 'status bad';
+      } catch (e) { st.textContent = formatWebhookError(e); st.className = 'status bad'; }
+      btn.disabled = false;
+    });
+  })();
   (function bindTodoReset() {
     const btn = $('todo-reset'); if (!btn || btn.dataset.bound) return; btn.dataset.bound = '1';
     btn.addEventListener('click', () => {
@@ -1012,6 +1045,51 @@ img, video { max-width: 100%; height: auto; }
     });
   })();
 
+  // ---------- hidden items, toast, to-do from email ----------
+  const itemKey = (i) => String(i.id || ((i.from || '') + '|' + (i.subject || '')));
+  const getHidden = () => { const h = store.get('hidden'); return h && typeof h === 'object' ? h : {}; };
+  const isHidden = (i) => !!getHidden()[itemKey(i)];
+  function setHidden(keys, on) { const h = getHidden(); keys.forEach((k) => { if (on) h[k] = Date.now(); else delete h[k]; }); const ks = Object.keys(h).sort((a, b) => h[a] - h[b]); while (ks.length > 500) delete h[ks.shift()]; store.set('hidden', h); }
+  let toastT = null;
+  function toast(msg, undo) {
+    const t = $('toast'); if (!t) return; $('toast-msg').textContent = msg;
+    const u = $('toast-undo'); u.hidden = !undo; u.onclick = () => { t.hidden = true; clearTimeout(toastT); if (undo) undo(); };
+    t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 5000);
+  }
+  function hideItem(i, card) {
+    const k = itemKey(i);
+    const done = () => { setHidden([k], true); renderToday(); renderBrief(); toast('Hidden', () => { setHidden([k], false); renderToday(); renderBrief(); }); };
+    if (card) { card.classList.add('gone'); setTimeout(done, 230); } else done();
+  }
+  const clip = (t, n) => { t = String(t || '').replace(/\s+/g, ' ').trim(); return t.length > n ? t.slice(0, n - 1).trimEnd() + '…' : t; };
+  function todoFromEmail(i) {
+    const who = clip(shortFrom(i.from) || 'sender', 30);
+    const sub = clip(String(i.subject || '').replace(/^(re|fwd?):\s*/i, ''), 60);
+    const text = clip('Reply to ' + who + (sub ? ' about ' + sub : ''), 160);
+    const day = ymd(new Date()); const list = loadDayTodos(day);
+    list.push({ id: newTodoId(), text, done: false }); saveDayTodos(day, list);
+    renderBrief(); renderToday(); toast('Added to Today');
+  }
+  function addSwipe(card, onHide) {
+    card.classList.add('swipe');
+    let x0 = 0, y0 = 0, dx = 0, mode = null;
+    card.addEventListener('touchstart', (e) => { if (e.touches.length !== 1) return; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; dx = 0; mode = null; }, { passive: true });
+    card.addEventListener('touchmove', (e) => {
+      const t = e.touches[0]; const ddx = t.clientX - x0, ddy = t.clientY - y0;
+      if (!mode) { if (Math.abs(ddx) > 10 && Math.abs(ddx) > Math.abs(ddy) * 1.3) mode = 'x'; else if (Math.abs(ddy) > 10) mode = 'y'; }
+      if (mode !== 'x') return;
+      dx = Math.min(0, ddx); card.classList.add('dragging'); card.style.transform = 'translateX(' + dx + 'px)'; card.style.opacity = String(1 + dx / 400);
+    }, { passive: true });
+    const end = () => {
+      card.classList.remove('dragging');
+      if (mode === 'x' && dx < -Math.min(110, card.offsetWidth * 0.3)) onHide();
+      else { card.style.transform = ''; card.style.opacity = ''; }
+      mode = null;
+    };
+    card.addEventListener('touchend', end); card.addEventListener('touchcancel', end);
+    const x = el('button', 'hide-x', '✕'); x.type = 'button'; x.setAttribute('aria-label', 'Hide this'); x.title = 'Hide';
+    x.addEventListener('click', (e) => { e.stopPropagation(); onHide(); }); card.append(x);
+  }
   function itemCard(i) {
     const c = el('article', 'item' + (i.category === 'VIP' ? ' vipline' : ''));
     const meta = el('div', 'meta');
@@ -1028,6 +1106,10 @@ img, video { max-width: 100%; height: auto; }
       w.addEventListener('click', () => openWriter({ mode: 'ai', to: emailOf(i.from), name: shortFrom(i.from).split(' ')[0], about: i.subject, role: i.category === 'Work' ? 'work' : i.category === 'School' ? 'school' : 'personal', topic: 'reply', replyToThreadId: i.id || '' }));
       a.append(w); c.append(a);
     }
+    let acts = c.querySelector('.acts'); if (!acts) { acts = el('div', 'acts'); c.append(acts); }
+    const td = el('button', 'btn sm', '+ To-do'); td.type = 'button'; td.setAttribute('aria-label', 'Add a to-do to reply to this email');
+    td.addEventListener('click', () => todoFromEmail(i)); acts.append(td);
+    addSwipe(c, () => hideItem(i, c));
     return c;
   }
   function workEventCard(e) {
@@ -1050,11 +1132,18 @@ img, video { max-width: 100%; height: auto; }
     c.append(a);
     return c;
   }
-  function fillSection(boxId, noteId, nodes, emptyMsg, noteText) {
+  function showHiddenBtn(items) {
+    const keys = items.filter(isHidden).map(itemKey); if (!keys.length) return null;
+    const b = el('button', 'show-hidden', 'Show hidden (' + keys.length + ')'); b.type = 'button';
+    b.addEventListener('click', () => { setHidden(keys, false); renderToday(); renderBrief(); });
+    return b;
+  }
+  function fillSection(boxId, noteId, nodes, emptyMsg, noteText, all) {
     const box = $(boxId); if (!box) return;
     box.replaceChildren();
     if (!nodes.length) box.append(el('div', 'empty sec-empty', emptyMsg));
     else nodes.forEach((n) => box.append(n));
+    const sh = all ? showHiddenBtn(all) : null; if (sh) box.append(sh);
     const note = $(noteId); if (note) note.textContent = noteText || (nodes.length ? String(nodes.length) : '');
   }
   function renderToday() {
@@ -1070,30 +1159,38 @@ img, video { max-width: 100%; height: auto; }
     const today = ymd(new Date());
     const biz = (week || []).filter((e) => e.calendar === 'business' && String(e.start).slice(0, 10) >= today)
       .slice().sort((a, b) => String(a.start).localeCompare(String(b.start)));
-    const workMail = R.items.filter((i) => i.category === 'Work');
+    const allWork = R.items.filter((i) => i.category === 'Work');
+    const workMail = allWork.filter((i) => !isHidden(i));
     const workNodes = [];
     biz.forEach((e) => workNodes.push(workEventCard(e)));
     workMail.forEach((i) => workNodes.push(itemCard(i)));
     fillSection('work-list', 'work-left', workNodes,
       'No Badger Mountain jobs or work email right now.',
-      (biz.length || workMail.length) ? ((biz.length ? biz.length + ' job' + (biz.length === 1 ? '' : 's') : '') + (biz.length && workMail.length ? ' · ' : '') + (workMail.length ? workMail.length + ' email' + (workMail.length === 1 ? '' : 's') : '')) : '');
+      (biz.length || workMail.length) ? ((biz.length ? biz.length + ' job' + (biz.length === 1 ? '' : 's') : '') + (biz.length && workMail.length ? ' · ' : '') + (workMail.length ? workMail.length + ' email' + (workMail.length === 1 ? '' : 's') : '')) : '', allWork);
 
-    const personal = R.items.filter((i) => PERSONAL_CATS.includes(i.category));
+    const allPersonal = R.items.filter((i) => PERSONAL_CATS.includes(i.category));
+    const personal = allPersonal.filter((i) => !isHidden(i));
     fillSection('personal-list', 'personal-left', personal.map(itemCard),
       'No personal email from people right now.',
-      personal.length ? String(personal.length) : '');
+      personal.length ? String(personal.length) : '', allPersonal);
 
-    const alerts = R.items.filter((i) => ALERT_CATS.includes(i.category));
+    const allAlerts = R.items.filter((i) => ALERT_CATS.includes(i.category));
+    const alerts = allAlerts.filter((i) => !isHidden(i));
     fillSection('alerts-list', 'alerts-left', alerts.map(itemCard),
       'No alerts right now.',
-      alerts.length ? String(alerts.length) : '');
+      alerts.length ? String(alerts.length) : '', allAlerts);
+    let restN = 0;
 
     REST_CATS.forEach((cat) => {
-      const its = R.items.filter((i) => i.category === cat); if (!its.length) return;
+      const allIts = R.items.filter((i) => i.category === cat); const its = allIts.filter((i) => !isHidden(i));
+      if (!allIts.length) return; restN += its.length;
       const d = el('details', 'grp'); d.open = cat !== 'Promos';
       const s = el('summary'); s.append(el('span', null, (CAT_ICON[cat] || '') + ' ' + cat), el('span', 'pill', String(its.length))); d.append(s);
-      const l = el('div', 'list'); its.forEach((i) => l.append(itemCard(i))); d.append(l); gb.append(d);
+      const l = el('div', 'list'); its.forEach((i) => l.append(itemCard(i)));
+      if (!its.length) l.append(el('div', 'empty sec-empty', 'All hidden.'));
+      const sh = showHiddenBtn(allIts); if (sh) l.append(sh); d.append(l); gb.append(d);
     });
+    if ($('rest-left')) $('rest-left').textContent = restN ? String(restN) : '';
     if (!gb.childNodes.length) gb.append(el('div', 'empty sec-empty', 'No bills, orders, or promos in this update.'));
   }
 
@@ -1624,4 +1721,5 @@ img, video { max-width: 100%; height: auto; }
 })();
 </script>
 
+<div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toast-msg"></span><button type="button" class="toast-btn" id="toast-undo" hidden>Undo</button></div>
 </body></html>
