@@ -113,6 +113,14 @@ textarea.in { min-height: 13rem; resize: vertical; line-height: 1.5; }
 .tab[aria-selected="true"] { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
 .tab .n { min-width: 1.25rem; padding: 0 5px; border-radius: 99px; background: var(--accent); color: var(--accent-ink); font-size: 11px; line-height: 1.25rem; text-align: center; }
 .tab .n:empty { display: none; }
+.set-backdrop { position: fixed; inset: 0; background: rgba(8,17,28,.5); z-index: 50; display: flex; align-items: flex-end; justify-content: center; padding-top: calc(env(safe-area-inset-top, 0px) + 24px); animation: setfade .2s ease; }
+.set-sheet { background: var(--bg); color: var(--ink); width: 100%; max-width: 680px; max-height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; border-radius: 20px 20px 0 0; padding: 0 18px calc(env(safe-area-inset-bottom, 0px) + 24px); padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); box-shadow: 0 -8px 30px rgba(0,0,0,.25); animation: setup .25s ease; box-sizing: border-box; }
+.set-head { position: sticky; top: 0; background: var(--bg); display: flex; align-items: center; justify-content: space-between; padding: 16px 0 10px; z-index: 1; }
+.set-head h2 { margin: 0; }
+.set-x { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--card); color: var(--ink); font-size: 16px; cursor: pointer; }
+@keyframes setup { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes setfade { from { opacity: 0; } to { opacity: 1; } }
+body.set-open { overflow: hidden; }
 .panel { display: grid; gap: 14px; padding-top: 6px; }
 .sec-h { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
 .sec-h h2 { font: 800 18px var(--display); letter-spacing: -.005em; }
@@ -374,10 +382,12 @@ details.grp .list { padding: 0 10px 10px; }
     </section>
 
     <!-- YOU -->
-    <section class="panel" id="p-you" role="tabpanel" hidden>
-      <div class="sec-h"><h2>Your setup</h2></div>
-      <div class="form" id="you"></div>
-    </section>
+    <div class="set-backdrop" id="set-backdrop" hidden>
+      <section class="set-sheet" id="p-you" role="dialog" aria-modal="true" aria-labelledby="set-title">
+        <div class="set-head"><h2 id="set-title">Settings</h2><button type="button" class="set-x" id="set-close" aria-label="Close">✕</button></div>
+        <div class="form" id="you"></div>
+      </section>
+    </div>
   </div>
 </div>
 
@@ -586,16 +596,34 @@ details.grp .list { padding: 0 10px 10px; }
   // ================= APP =================
   const tabs = [...document.querySelectorAll('.tab')];
   const VIEWS = ['today', 'week', 'school', 'write', 'you'];
+  let lastTab = 'today';
+  function openSettings() {
+    $('set-backdrop').hidden = false; document.body.classList.add('set-open');
+    try { history.replaceState(null, '', '#you'); } catch (e) { /* ignore */ }
+    setTimeout(() => $('set-close').focus(), 0);
+  }
+  function closeSettings() {
+    if ($('set-backdrop').hidden) return;
+    $('set-backdrop').hidden = true; document.body.classList.remove('set-open');
+    try { history.replaceState(null, '', '#' + lastTab); } catch (e) { /* ignore */ }
+    $('gear').focus();
+  }
   function show(name) {
+    if (name === 'you') { if (!document.querySelector('#app .panel:not([hidden])')) show(lastTab); openSettings(); return; }
+    closeSettings();
     if (!VIEWS.includes(name)) name = 'today';
     const t = tabs.find((x) => x.dataset.tab === name); if (name !== 'you' && (!t || t.hidden)) name = 'today';
     tabs.forEach((x) => x.setAttribute('aria-selected', String(x.dataset.tab === name)));
     document.querySelectorAll('#app .panel').forEach((p) => { p.hidden = p.id !== 'p-' + name; });
     try { history.replaceState(null, '', '#' + name); } catch (e) { /* ignore */ }
+    lastTab = name;
     if (name === 'school') renderSchool();
   }
   tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.tab)));
-  $('gear').addEventListener('click', () => show('you'));
+  $('gear').addEventListener('click', openSettings);
+  $('set-close').addEventListener('click', closeSettings);
+  $('set-backdrop').addEventListener('click', (e) => { if (e.target === $('set-backdrop')) closeSettings(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('set-backdrop').hidden) closeSettings(); });
   window.addEventListener('hashchange', () => { if (!$('app').hidden) show(location.hash.slice(1)); });
 
   function showApp() {
