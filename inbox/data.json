@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-29T06:36:47Z",
-  "headline": "Caiden, you've got missionaries at 9:30 tomorrow, Miriam's dive meet at 1, and a call with Dilan at 5.",
+  "generatedAt": "2026-10-29T06:44:40Z",
+  "headline": "Caiden, tomorrow: missionaries at 9:30, Miriam's dive meet at 1, and a call with Dilan at 5.",
   "items": [
     {
       "id": "1a1865da840a5d31",
@@ -403,6 +403,14 @@
       "allDay": false,
       "where": "",
       "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMDRUMjAwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles"
+    },
+    {
+      "title": "Call with Adam",
+      "start": "2026-11-05T13:00:00",
+      "end": "2026-11-05T14:00:00",
+      "allDay": false,
+      "where": "Next Level Pros office, 5715 Bedford St",
+      "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles"
     }
   ]
 }
