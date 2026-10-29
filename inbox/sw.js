@@ -1,5 +1,5 @@
 /* Inbox HQ service worker — cache the shell, always fetch live data. */
-const CACHE = 'inbox-hq-shell-v4';
+const CACHE = 'inbox-hq-shell-v5';
 const SHELL = [
   '/inbox/',
   '/inbox/index.html',
@@ -39,12 +39,26 @@ self.addEventListener('fetch', (event) => {
   // Always network-first for live data so the hourly update is never stale.
   if (isLiveData(url)) {
     event.respondWith(
-      fetch(req).then((res) => res).catch(() => caches.match(req))
+      fetch(req).then((res) => {
+        if (res.ok) { const copy = res.clone(); caches.open(CACHE).then((cache) => cache.put(url.pathname, copy)); }
+        return res;
+      }).catch(() => caches.match(url.pathname))
     );
     return;
   }
 
-  // Shell: cache-first, fall back to network.
+  // Page: network-first so updates show right away, cached copy when offline.
+  if (req.mode === 'navigate') {
+    event.respondWith(
+      fetch(req).then((res) => {
+        if (res.ok) { const copy = res.clone(); caches.open(CACHE).then((cache) => cache.put('/inbox/', copy)); }
+        return res;
+      }).catch(() => caches.match(req, { ignoreSearch: true }).then((hit) => hit || caches.match('/inbox/')))
+    );
+    return;
+  }
+
+  // Shell assets: cache-first, fall back to network.
   event.respondWith(
     caches.match(req).then((hit) => {
       if (hit) return hit;
