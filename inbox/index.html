@@ -338,10 +338,10 @@ details.grp .list { padding: 0 10px 10px; }
         </label>
         <div class="safe">🔒 Inbox HQ never sends email by itself. “Send to Grok Bot” only asks it to write a draft — nothing goes out until you approve it in the Grok Bot app.</div>
         <div class="chips" style="align-items:center">
-          <button type="button" class="btn accent" id="ai-send" disabled title="Add Grokbot webhook URL and sender key in the You tab">Send to Grok Bot</button>
+          <button type="button" class="btn accent" id="ai-send" disabled title="Add the Relay URL and Relay key in the You tab">Send to Grok Bot</button>
           <span class="status" id="ai-status" role="status"></span>
         </div>
-        <p class="note" id="ai-send-hint">To enable this, add your Grokbot webhook URL and sender key in the You tab.</p>
+        <p class="note" id="ai-send-hint">To enable this, add your Relay URL and Relay key in the You tab.</p>
       </div>
 
       <div id="w-manual" hidden>
@@ -359,12 +359,12 @@ details.grp .list { padding: 0 10px 10px; }
           <div class="safe">🔒 Inbox HQ never sends email by itself. “Open in Gmail” opens a draft there. “Send Email” asks Grokbot to handle it — nothing goes out until you approve it in the Grok Bot app.</div>
           <div class="chips" style="align-items:center">
             <a class="btn primary" id="m-open" href="https://mail.google.com/" target="_blank" rel="noopener">Open in Gmail →</a>
-            <button type="button" class="btn accent" id="m-send" disabled title="Add Grokbot webhook URL and sender key in the You tab">Send Email</button>
+            <button type="button" class="btn accent" id="m-send" disabled title="Add the Relay URL and Relay key in the You tab">Send Email</button>
             <button type="button" class="btn" id="m-copy">Copy</button>
             <button type="button" class="btn" id="m-polish">✨ Make it sound like me</button>
             <span class="status" id="m-status" role="status"></span>
           </div>
-          <p class="note" id="m-send-hint">To enable Send Email, add your Grokbot webhook URL and sender key in the You tab.</p>
+          <p class="note" id="m-send-hint">To enable Send Email, add your Relay URL and Relay key in the You tab.</p>
         </div>
       </div>
     </section>
@@ -875,7 +875,7 @@ details.grp .list { padding: 0 10px 10px; }
       const text = (ta && ta.value || '').trim();
       if (!text) { if (status) { status.textContent = 'Write your plan first.'; status.className = 'status bad'; } return; }
       if (!webhookConfigured()) {
-        if (status) { status.textContent = 'Add the Grokbot webhook URL and sender key in the You tab.'; status.className = 'status bad'; }
+        if (status) { status.textContent = 'Add the Relay URL and Relay key in the You tab.'; status.className = 'status bad'; }
         return;
       }
       btn.disabled = true;
@@ -1188,7 +1188,7 @@ details.grp .list { padding: 0 10px 10px; }
     const cfg = webhookConfigured();
     const ok = cfg && !!prompt;
     btn.disabled = !ok;
-    btn.title = !cfg ? 'Add Grokbot webhook URL and sender key in the You tab' : (!prompt ? 'Tell Grok Bot what you want to say' : 'Send to Grok Bot to draft the email');
+    btn.title = !cfg ? 'Add the Relay URL and Relay key in the You tab' : (!prompt ? 'Tell Grok Bot what you want to say' : 'Send to Grok Bot to draft the email');
     if (hint) hint.hidden = cfg;
   }
   (function bindWriteMode() {
@@ -1218,28 +1218,33 @@ details.grp .list { padding: 0 10px 10px; }
     $('m-body').value = (greet ? 'Hi ' + greet + ',' : 'Hi [name],') + '\n\n' + fill(t[3]) + '\n\nThank you,\n' + (P.name || '[your name]');
     updateMail();
   }
-  function normalizeWebhookUrl(raw) {
+  function normalizeRelayUrl(raw) {
     let u = String(raw || '').trim().replace(/^['"]+|['"]+$/g, '');
     const m = u.match(/https?:\/\/\S+/i);
     if (m) u = m[0];
     u = u.replace(/[>,\]\)\}]+$/g, '').trim();
+    // Drop a trailing slash so /health appends cleanly
+    if (u.length > 8 && u.endsWith('/')) u = u.slice(0, -1);
     return u;
   }
-  function normalizeSenderKey(raw) {
+  function normalizeRelayKey(raw) {
     let k = String(raw || '').trim().replace(/^['"]+|['"]+$/g, '');
     k = k.replace(/^authorization\s*:\s*/i, '');
     k = k.replace(/^bearer\s+/i, '');
-    k = k.replace(/\s+/g, '').trim();
-    return k;
+    // Relay key is a passphrase Caiden picks — keep spaces trimmed only at ends
+    return k.trim();
   }
-  function webhookCreds() {
-    return { url: normalizeWebhookUrl(store.get('webhookUrl')), key: normalizeSenderKey(store.get('senderKey')) };
+  function relayCreds() {
+    // Prefer new keys; fall back to old webhookUrl/senderKey if still present
+    const url = normalizeRelayUrl(store.get('relayUrl') || store.get('webhookUrl'));
+    const key = normalizeRelayKey(store.get('relayKey') || store.get('senderKey'));
+    return { url, key };
   }
   function formatWebhookError(err, res, text) {
     if (err) {
       const msg = (err && err.message) ? String(err.message) : 'network error';
       if (/failed to fetch|networkerror|load failed|cors/i.test(msg) || err.name === 'TypeError') {
-        return 'Blocked by browser/CORS. Cursor\'s webhook only allows browser calls from cursor.com — not from caidenlee.com. Your URL and key can be correct and still fail here. Use chat with Grok Bot for now, or ask about a small proxy.';
+        return 'Blocked by browser/CORS. Check that the Relay URL is your Cloudflare Worker (…workers.dev) and that the Worker allows https://caidenlee.com.';
       }
       return 'Failed: ' + msg;
     }
@@ -1247,9 +1252,8 @@ details.grp .list { padding: 0 10px 10px; }
     return 'Failed (' + (res ? res.status : '?') + '): ' + body;
   }
   function webhookConfigured() {
-    const url = normalizeWebhookUrl(store.get('webhookUrl'));
-    const key = normalizeSenderKey(store.get('senderKey'));
-    return !!(url && key);
+    const { url, key } = relayCreds();
+    return !!(url && key && /^https:\/\//i.test(url));
   }
   function syncSendBtn() {
     const btn = $('m-send'), hint = $('m-send-hint');
@@ -1259,7 +1263,7 @@ details.grp .list { padding: 0 10px 10px; }
       const cfg = webhookConfigured();
       const ok = cfg && !!to && !warnShowing;
       btn.disabled = !ok;
-      btn.title = !cfg ? 'Add Grokbot webhook URL and sender key in the You tab' : (!to ? 'Enter a To address' : (warnShowing ? 'Fill in the [brackets] first' : 'Send to Grokbot for your approval'));
+      btn.title = !cfg ? 'Add the Relay URL and Relay key in the You tab' : (!to ? 'Enter a To address' : (warnShowing ? 'Fill in the [brackets] first' : 'Send to Grokbot for your approval'));
       if (hint) hint.hidden = cfg;
     }
     syncAiSendBtn();
@@ -1276,10 +1280,13 @@ details.grp .list { padding: 0 10px 10px; }
   $('m-about').addEventListener('change', () => { if (wState.topic) compose(); else updateMail(); });
   $('m-copy').addEventListener('click', async () => { const t = 'To: ' + $('m-to').value + '\nSubject: ' + $('m-sub').value + '\n\n' + $('m-body').value; try { await navigator.clipboard.writeText(t); $('m-status').textContent = 'Copied'; $('m-status').className = 'status ok'; } catch (e) { $('m-body').select(); $('m-status').textContent = 'Press Ctrl/Cmd+C to copy'; } });
   async function postToGrokbot(payload) {
-    const { url, key } = webhookCreds();
-    if (!url || !key) throw new Error('Webhook URL or sender key missing');
-    if (!/^https:\/\/api2\.cursor\.sh\/automations\/webhook\//i.test(url)) {
-      throw new Error('Webhook URL should look like https://api2.cursor.sh/automations/webhook/…');
+    const { url, key } = relayCreds();
+    if (!url || !key) throw new Error('Relay URL or Relay key missing');
+    if (/^https:\/\/api2\.cursor\.sh\/automations\/webhook\//i.test(url)) {
+      throw new Error('Paste your Cloudflare Worker Relay URL (…workers.dev), not the raw Cursor webhook. The Worker holds the Cursor key.');
+    }
+    if (!/^https:\/\//i.test(url)) {
+      throw new Error('Relay URL should look like https://inboxhq-relay.<you>.workers.dev');
     }
     let res;
     try {
@@ -1288,18 +1295,47 @@ details.grp .list { padding: 0 10px 10px; }
         mode: 'cors',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + key,
-          'X-Automation-Key': key,
+          'X-Relay-Key': key,
         },
         body: JSON.stringify(payload),
       });
     } catch (e) {
-      // Endpoint requires Authorization: Bearer (query/body key rejected). no-cors cannot set that header.
       throw e;
     }
     const text = await res.text().catch(() => '');
     return { res, text };
   }
+  async function testRelayConnection() {
+    const { url, key } = relayCreds();
+    if (!url || !key) throw new Error('Add the Relay URL and Relay key first.');
+    if (/^https:\/\/api2\.cursor\.sh\//i.test(url)) {
+      throw new Error('Use your Cloudflare Worker URL (…workers.dev), not the Cursor webhook.');
+    }
+    // 1) GET /health (CORS + worker up)
+    let healthRes;
+    try {
+      healthRes = await fetch(url + '/health', { method: 'GET', mode: 'cors', cache: 'no-store' });
+    } catch (e) {
+      const err = new Error('Health check blocked or unreachable');
+      err.cause = e;
+      throw err;
+    }
+    const healthText = await healthRes.text().catch(() => '');
+    if (!healthRes.ok) {
+      const e = new Error('Health failed (' + healthRes.status + '): ' + healthText.slice(0, 120));
+      e.res = healthRes;
+      e.text = healthText;
+      throw e;
+    }
+    // 2) POST {kind:'ping'} through the relay (auth + upstream)
+    const { res, text } = await postToGrokbot({
+      kind: 'ping',
+      source: 'inbox-hq',
+      sentAt: new Date().toISOString(),
+    });
+    return { healthRes, res, text };
+  }
+
   $('m-send').addEventListener('click', async () => {
     const btn = $('m-send');
     if (btn.disabled) return;
@@ -1421,40 +1457,43 @@ details.grp .list { padding: 0 10px 10px; }
     const vf = el('div', 'field'); vf.append(el('span', null, 'Your people (always on top)'), vipEditor()); box.append(vf);
     const tf = el('div', 'field'); tf.append(el('span', null, 'Colors'), swatches()); box.append(tf);
     const gf = el('div', 'field');
-    gf.append(el('span', null, 'Grokbot webhook (Send Email, AI write & Plan my day)'));
-    gf.append(el('p', 'note', "Stored only in this browser. Never put these in the GitHub repo. Important: Cursor's webhook blocks browser calls from caidenlee.com (CORS) — Test connection will show that even with the right URL and key. Until a small proxy exists, use chat with Grok Bot for Send Email, AI write, and Plan my day. Emails still need your approval before anything sends."));
-    const uf = el('label', 'field'); uf.append(el('span', null, 'Grokbot webhook URL'));
-    const ui = el('input', 'in'); ui.type = 'url'; ui.autocomplete = 'off'; ui.spellcheck = false; ui.id = 'y-webhook-url';
-    ui.placeholder = 'https://…'; ui.value = store.get('webhookUrl') || '';
-    ui.addEventListener('input', () => { const v = normalizeWebhookUrl(ui.value); if (v) store.set('webhookUrl', v); else localStorage.removeItem('ihq:webhookUrl'); syncSendBtn(); });
-    ui.addEventListener('change', () => { const v = normalizeWebhookUrl(ui.value); ui.value = v; if (v) store.set('webhookUrl', v); else localStorage.removeItem('ihq:webhookUrl'); syncSendBtn(); });
+    gf.append(el('span', null, 'Cloudflare relay (Send Email, AI write & Plan my day)'));
+    gf.append(el('p', 'note', 'Stored only in this browser. Never put these in the GitHub repo. The Relay URL is your Cloudflare Worker (…workers.dev). The Relay key is a passphrase you pick — the same one you set as RELAY_KEY on the Worker. The Worker holds the real Cursor webhook key, so the browser never sees it. Emails still need your approval in Grok Bot before anything sends.'));
+    const uf = el('label', 'field'); uf.append(el('span', null, 'Relay URL'));
+    const ui = el('input', 'in'); ui.type = 'url'; ui.autocomplete = 'off'; ui.spellcheck = false; ui.id = 'y-relay-url';
+    ui.placeholder = 'https://inboxhq-relay.<you>.workers.dev'; ui.value = store.get('relayUrl') || store.get('webhookUrl') || '';
+    ui.addEventListener('input', () => { const v = normalizeRelayUrl(ui.value); if (v) store.set('relayUrl', v); else localStorage.removeItem('ihq:relayUrl'); syncSendBtn(); });
+    ui.addEventListener('change', () => { const v = normalizeRelayUrl(ui.value); ui.value = v; if (v) store.set('relayUrl', v); else localStorage.removeItem('ihq:relayUrl'); syncSendBtn(); });
     uf.append(ui); gf.append(uf);
-    const kf = el('label', 'field'); kf.append(el('span', null, 'Grokbot sender key'));
-    const ki = el('input', 'in'); ki.type = 'password'; ki.autocomplete = 'off'; ki.id = 'y-sender-key';
-    ki.placeholder = 'Bearer token Grokbot gave you'; ki.value = store.get('senderKey') || '';
-    ki.addEventListener('input', () => { const v = normalizeSenderKey(ki.value); if (v) store.set('senderKey', v); else localStorage.removeItem('ihq:senderKey'); syncSendBtn(); });
-    ki.addEventListener('change', () => { const v = normalizeSenderKey(ki.value); ki.value = v; if (v) store.set('senderKey', v); else localStorage.removeItem('ihq:senderKey'); syncSendBtn(); });
+    const kf = el('label', 'field'); kf.append(el('span', null, 'Relay key'));
+    const ki = el('input', 'in'); ki.type = 'password'; ki.autocomplete = 'off'; ki.id = 'y-relay-key';
+    ki.placeholder = 'Passphrase you set as RELAY_KEY on the Worker'; ki.value = store.get('relayKey') || store.get('senderKey') || '';
+    ki.addEventListener('input', () => { const v = normalizeRelayKey(ki.value); if (v) store.set('relayKey', v); else localStorage.removeItem('ihq:relayKey'); syncSendBtn(); });
+    ki.addEventListener('change', () => { const v = normalizeRelayKey(ki.value); ki.value = v; if (v) store.set('relayKey', v); else localStorage.removeItem('ihq:relayKey'); syncSendBtn(); });
     kf.append(ki); gf.append(kf);
     const trow = el('div', 'chips'); trow.style.alignItems = 'center';
     const tb = el('button', 'btn sm', 'Test connection'); tb.type = 'button';
     const ts = el('span', 'status'); ts.id = 'y-webhook-status'; ts.setAttribute('role', 'status');
     tb.addEventListener('click', async () => {
-      if (!webhookConfigured()) { ts.textContent = 'Add the URL and sender key first.'; ts.className = 'status bad'; return; }
-      tb.disabled = true; ts.textContent = 'Testing…'; ts.className = 'status';
+      if (!webhookConfigured()) { ts.textContent = 'Add the Relay URL and Relay key first.'; ts.className = 'status bad'; return; }
+      tb.disabled = true; ts.textContent = 'Testing health…'; ts.className = 'status';
       try {
-        const { res, text } = await postToGrokbot({ test: true, source: 'inbox-hq' });
-        if (res.ok) { ts.textContent = 'Connected ✓'; ts.className = 'status ok'; }
-        else { ts.textContent = formatWebhookError(null, res, text); ts.className = 'status bad'; }
+        const { res, text } = await testRelayConnection();
+        if (res.ok) { ts.textContent = 'Connected ✓ (health + ping)'; ts.className = 'status ok'; }
+        else { ts.textContent = 'Health OK, but ping failed — ' + formatWebhookError(null, res, text); ts.className = 'status bad'; }
       } catch (e) {
-        ts.textContent = formatWebhookError(e); ts.className = 'status bad';
+        if (e && e.cause) ts.textContent = formatWebhookError(e.cause);
+        else if (e && e.res) ts.textContent = formatWebhookError(null, e.res, e.text);
+        else ts.textContent = formatWebhookError(e);
+        ts.className = 'status bad';
       }
       tb.disabled = false;
     });
-    trow.append(tb, ts); gf.append(trow); box.append(gf);
+        trow.append(tb, ts); gf.append(trow); box.append(gf);
     const row = el('div', 'chips');
     const again = el('button', 'btn', 'Run setup again'); again.type = 'button'; again.addEventListener('click', () => showWizard('start'));
     row.append(again); box.append(row);
-    box.append(el('p', 'note', 'Your setup lives only in this browser. Inbox HQ displays what your bot publishes. Send Email and AI write only notify Grokbot; nothing leaves until you approve it there.'));
+    box.append(el('p', 'note', 'Your setup lives only in this browser. Inbox HQ displays what your bot publishes. Send Email and AI write go through your Cloudflare relay to Grokbot; nothing leaves until you approve it there.'));
   }
 
   // ================= BOOT =================

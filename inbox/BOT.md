@@ -107,7 +107,7 @@ The old "Needs you" list (email actions) is gone.
 
 ## Plan my day (`inbox/todo.json`)
 
-Caiden types a paragraph in the **Plan my day** box and taps **Send to Grok Bot**. The page POSTs to the same webhook as Send Email:
+Caiden types a paragraph in the **Plan my day** box and taps **Send to Grok Bot**. The page POSTs through the Cloudflare relay (same path as Send Email):
 
 ```json
 {
@@ -201,12 +201,21 @@ EMAILS:
 Map each returned `i` back to its thread to fill in `id`, `from`, `subject`,
 `date`, and `link`.
 
-## Send Email / AI write (browser → Grokbot)
+## Send Email / AI write (browser → Cloudflare relay → Grokbot)
 
-The Write tab can POST to a Grokbot webhook so Caiden can approve sending from
-the Grok Bot app. The webhook URL and sender key live only in the browser
-(`localStorage` keys `ihq:webhookUrl` and `ihq:senderKey`, set in the You tab).
-Never commit a URL or key to this repo.
+Cursor's webhook (`api2.cursor.sh`) does not allow browser CORS from
+`caidenlee.com`. Inbox HQ therefore POSTs to a **Cloudflare Worker relay** that
+Caiden hosts. The Worker checks `X-Relay-Key`, then forwards the JSON body to
+the real webhook with `Authorization: Bearer <WEBHOOK_KEY>`.
+
+Browser localStorage (You tab only — never commit these):
+
+- `ihq:relayUrl` — Worker URL, e.g. `https://inboxhq-relay.<sub>.workers.dev`
+- `ihq:relayKey` — passphrase matching the Worker's `RELAY_KEY` secret
+
+Worker secrets (Cloudflare dashboard only): `WEBHOOK_URL`, `WEBHOOK_KEY`,
+`RELAY_KEY`. Source for the Worker lives outside this repo
+(`/workspace/inboxhq-relay/worker.js` on the bot box).
 
 The Write tab has two modes (toggle remembered in `ihq:writeMode`, default AI):
 
@@ -218,7 +227,7 @@ The Write tab has two modes (toggle remembered in `ihq:writeMode`, default AI):
 2. **Manual** — the original form (To, name, about, subject, body). Posts
    `"kind": "email"` with the filled draft. Same approval card flow.
 
-The same webhook also receives Plan my day payloads (`"kind": "plan"`).
+The same relay also receives Plan my day payloads (`"kind": "plan"`).
 
 Manual email payload shape:
 
@@ -253,8 +262,15 @@ AI write payload shape:
 recipient from the prompt / reply thread. `tone` is one of `Professional`
 (default), `Friendly`, or `Brief`.
 
-A Test connection button posts `{ "test": true, "source": "inbox-hq" }` with the
-same `Authorization: Bearer <key>` header.
+**Test connection** (You tab):
+
+1. `GET <relayUrl>/health` → expects `{ "ok": true }` (CORS + Worker up).
+2. `POST <relayUrl>` with header `X-Relay-Key: <relayKey>` and body
+   `{ "kind": "ping", "source": "inbox-hq", "sentAt": "…" }`.
+
+The Grok Bot webhook routine must treat `"kind": "ping"` as a no-op: acknowledge
+quietly, do not draft email, do not rebuild the to-do list, and do not message
+Caiden.
 
 ## Checking it worked
 
