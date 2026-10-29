@@ -55,7 +55,7 @@
       "from": "Claude <no-reply-claude@mail.anthropic.com>",
       "subject": "You've been invited to comment on an artifact",
       "date": "2026-10-29T05:55:27Z",
-      "category": "Personal",
+      "category": "Updates",
       "summary": "Claude invited you to view and comment on an Inbox HQ artifact.",
       "action": "Open the Claude artifact invitation",
       "due": "",
@@ -155,7 +155,7 @@
       "summary": "Saturday 11am Cory full detail for Easton's Ford Fusion SE in Kennewick.",
       "action": "",
       "due": "2026-10-31",
-      "urgent": true,
+      "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1830ae8c9395d9"
     },
     {
@@ -179,7 +179,7 @@
       "summary": "Saturday 8am Ian and James fleet exterior job for six All Set vans.",
       "action": "",
       "due": "2026-10-31",
-      "urgent": true,
+      "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a183079f166f2a5"
     },
     {
@@ -191,7 +191,7 @@
       "summary": "Saturday 1:30pm Ethan full detail for Sam's 2019 GMC Sierra in Pasco.",
       "action": "",
       "due": "2026-10-31",
-      "urgent": true,
+      "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a183031141f1e07"
     },
     {
@@ -203,7 +203,7 @@
       "summary": "Saturday 9am Ethan full detail for Carly's 2021 Ford EcoSport.",
       "action": "",
       "due": "2026-10-31",
-      "urgent": true,
+      "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a18302b7a47df5e"
     },
     {
@@ -391,13 +391,13 @@
       "link": "https://www.google.com/calendar/event?eid=djhsbm81NmliMnRmNmVwcnJidWcyMTMyNWMgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles"
     },
     {
-      "title": "⛪ Church",
+      "title": "\u26ea Church",
       "start": "2026-11-01T09:00:00",
       "end": "2026-11-01T11:00:00",
       "allDay": false,
       "where": "",
       "calendar": "personal",
-      "description": "Every Sunday 9–11 AM. Standing commitment — a tech covers any Sunday-morning booking.",
+      "description": "Every Sunday 9\u201311 AM. Standing commitment \u2014 a tech covers any Sunday-morning booking.",
       "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDFUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles"
     },
     {
@@ -437,7 +437,7 @@
       "allDay": false,
       "where": "5814 west 11th place",
       "calendar": "business",
-      "description": "Full Detail for Michelle · 2000 Lexus SUV · Cory · $199 · Water and electricity yes",
+      "description": "Full Detail for Michelle \u00b7 2000 Lexus SUV \u00b7 Cory \u00b7 $199 \u00b7 Water and electricity yes",
       "link": "https://www.google.com/calendar/event?eid=YnQ0N3Y5ZzVxYWVvN2I0djI0Y3RobGhzNGsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
     },
     {
@@ -447,7 +447,7 @@
       "allDay": false,
       "where": "91 Fraser Dr, Pasco, WA",
       "calendar": "business",
-      "description": "Partial finish-up of Oct 26 interior detail · Courtney · 2024 Ford Expedition · Ammon",
+      "description": "Partial finish-up of Oct 26 interior detail \u00b7 Courtney \u00b7 2024 Ford Expedition \u00b7 Ammon",
       "link": "https://www.google.com/calendar/event?eid=dTk5ZHQ1cG40bDdhYmIwOHFwb2Y2YWR2MWsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
     },
     {
@@ -457,7 +457,7 @@
       "allDay": false,
       "where": "5715 Bedford St",
       "calendar": "business",
-      "description": "Full Detail for Jonathon · 2024 Hyundai Palisade · $199 · Tech unassigned · At Bedford St",
+      "description": "Full Detail for Jonathon \u00b7 2024 Hyundai Palisade \u00b7 $199 \u00b7 Tech unassigned \u00b7 At Bedford St",
       "link": "https://www.google.com/calendar/event?eid=Y3M3ZmNjYW1qb3AzajlmbjQyazY4YTBnbTQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
     },
     {
@@ -467,7 +467,7 @@
       "allDay": false,
       "where": "517 N Jean St, Kennewick, WA 99336",
       "calendar": "business",
-      "description": "Full Detail + pet hair · Jeremy · Toyota Tundra · $249 · Ammon · Water and electricity yes",
+      "description": "Full Detail + pet hair \u00b7 Jeremy \u00b7 Toyota Tundra \u00b7 $249 \u00b7 Ammon \u00b7 Water and electricity yes",
       "link": "https://www.google.com/calendar/event?eid=ZGlwbm51cnJnazhjNWp2dGlhNTRiYTZzYjggZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
     },
     {
@@ -477,7 +477,7 @@
       "allDay": false,
       "where": "4322 Parley Dr, Pasco, WA",
       "calendar": "business",
-      "description": "Interior only · Jose · 2018 Honda Accord · $179 · Cory · Water and electricity yes",
+      "description": "Interior only \u00b7 Jose \u00b7 2018 Honda Accord \u00b7 $179 \u00b7 Cory \u00b7 Water and electricity yes",
       "link": "https://www.google.com/calendar/event?eid=b2h1MHAwODVlajcxOGc0amx1NzExN2Vwc2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
     },
     {
@@ -487,7 +487,7 @@
       "allDay": false,
       "where": "5715 Bedford St",
       "calendar": "business",
-      "description": "Fleet exterior · All Set · 6 vans · $80 each · Recurring every 2 weeks Saturday",
+      "description": "Fleet exterior \u00b7 All Set \u00b7 6 vans \u00b7 $80 each \u00b7 Recurring every 2 weeks Saturday",
       "link": "https://www.google.com/calendar/event?eid=Z28yNnZxaXAzcnYyOTgwNHRxYWY5djFsaXZfMjAyNjEwMzFUMTUwMDAwWiBlOGMwYWJhNzA0MjZhYmQwMWQxYmY0NGEzNjI0MTVlNGVmNDA1YTFjZjY2ZGNkMzg5YjYwNmUwN2RjZGJlZGMzQGc&ctz=America/Los_Angeles"
     },
     {
@@ -497,7 +497,7 @@
       "allDay": false,
       "where": "3002 Blaine St, Pasco, WA",
       "calendar": "business",
-      "description": "Full Detail · Miguel · vehicle TBD · $199 · Water and electricity yes",
+      "description": "Full Detail \u00b7 Miguel \u00b7 vehicle TBD \u00b7 $199 \u00b7 Water and electricity yes",
       "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
     },
     {
@@ -507,7 +507,7 @@
       "allDay": false,
       "where": "5715 Bedford St, Pasco, WA",
       "calendar": "business",
-      "description": "Full Detail · Carly · 2021 Ford EcoSport · $199 · Ethan · Extra care on seat belts · At office",
+      "description": "Full Detail \u00b7 Carly \u00b7 2021 Ford EcoSport \u00b7 $199 \u00b7 Ethan \u00b7 Extra care on seat belts \u00b7 At office",
       "link": "https://www.google.com/calendar/event?eid=b2c3N2xuYXJjMHVxaDk3am11ZHNmOGhwZjQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
     },
     {
@@ -517,7 +517,7 @@
       "allDay": false,
       "where": "7112 W 13th Ave, Kennewick, WA",
       "calendar": "business",
-      "description": "Full Detail · Easton · Ford Fusion SE · $199 · Cory · About 3 hours · Pay after job",
+      "description": "Full Detail \u00b7 Easton \u00b7 Ford Fusion SE \u00b7 $199 \u00b7 Cory \u00b7 About 3 hours \u00b7 Pay after job",
       "link": "https://www.google.com/calendar/event?eid=dTRqZzdmbnFhNGhzbDY0bzM2ajJvYjdsbDQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
     },
     {
@@ -527,7 +527,7 @@
       "allDay": false,
       "where": "5820 west argent road Pasco",
       "calendar": "business",
-      "description": "Full Detail · Sam · 2019 GMC Sierra · $249 · Tech unassigned · Water and electricity yes",
+      "description": "Full Detail \u00b7 Sam \u00b7 2019 GMC Sierra \u00b7 $249 \u00b7 Tech unassigned \u00b7 Water and electricity yes",
       "link": "https://www.google.com/calendar/event?eid=Z21pcmh0dWNsZmNlOW5ndjhubXBmY2xpN3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
     },
     {
@@ -537,7 +537,7 @@
       "allDay": false,
       "where": "517 N Jean St, Kennewick, WA 99336",
       "calendar": "business",
-      "description": "Full Detail + pet hair · Jeremy · personal truck · $249 · Two dogs · Water and electricity yes",
+      "description": "Full Detail + pet hair \u00b7 Jeremy \u00b7 personal truck \u00b7 $249 \u00b7 Two dogs \u00b7 Water and electricity yes",
       "link": "https://www.google.com/calendar/event?eid=bjM2dWYwZmtjdXI5NjIzcWxkY2s4MG43NXMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles"
     }
   ]

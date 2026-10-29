@@ -128,11 +128,12 @@ textarea.in { min-height: 13rem; resize: vertical; line-height: 1.5; }
 details.grp { background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r); }
 details.grp summary { cursor: pointer; padding: 12px 14px; font-weight: 700; display: flex; gap: 8px; align-items: center; }
 details.grp .list { padding: 0 10px 10px; }
-.day { display: grid; grid-template-columns: 5.2rem minmax(0, 1fr); gap: 12px; padding: 12px 0; border-top: 1.5px solid var(--line); }
+.day { display: grid; grid-template-columns: 7.75rem minmax(0, 1fr); gap: 16px; padding: 12px 0; border-top: 1.5px solid var(--line); align-items: start; }
 .day:first-child { border-top: 0; }
-.day .dn { font: 800 13px var(--display); text-transform: uppercase; letter-spacing: .02em; }
-.day .dn small { display: block; font: 600 12px var(--body); color: var(--muted); text-transform: none; }
+.day .dn { font: 800 13px/1.25 var(--display); text-transform: uppercase; letter-spacing: .02em; white-space: nowrap; min-width: 0; padding-right: 4px; box-sizing: border-box; }
+.day .dn small { display: block; font: 600 12px/1.3 var(--body); color: var(--muted); text-transform: none; letter-spacing: 0; margin-top: 2px; white-space: nowrap; }
 .day.today .dn { color: var(--brand); }
+.day > :last-child { min-width: 0; }
 .ev { display: grid; gap: 1px; padding: 8px 10px; border-radius: 10px; background: var(--soft); margin-bottom: 6px; min-width: 0; cursor: pointer; border: 0; width: 100%; text-align: left; font: inherit; color: inherit; appearance: none; -webkit-appearance: none; }
 .ev:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .ev .ttl { font-weight: 700; overflow-wrap: anywhere; }
@@ -165,7 +166,18 @@ details.grp .list { padding: 0 10px 10px; }
 .spin { display: inline-block; width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: sp .8s linear infinite; vertical-align: -2px; }
 @keyframes sp { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
-@media (max-width: 480px) { .day { grid-template-columns: 1fr; gap: 6px; } }
+@media (max-width: 640px) { .day { grid-template-columns: 1fr; gap: 6px; } .day .dn { white-space: normal; } }
+
+/* ---------- personal day to-do ---------- */
+.todo-add { display: flex; gap: 8px; align-items: center; }
+.todo-add .in { flex: 1; min-width: 0; }
+.todo-row { position: relative; }
+.todo-row .del { border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 16px; line-height: 1; padding: 4px 6px; border-radius: 8px; }
+.todo-row .del:hover { color: var(--bad); background: var(--bad-soft); }
+.todo-row .acts-row { display: flex; gap: 6px; align-items: center; justify-content: flex-end; }
+.carry { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 10px 12px; border-radius: var(--r); background: var(--soft); border: 1.5px dashed var(--line); font-size: 13.5px; }
+.work-ev { border-left: 4px solid #d93b3b; }
+.sec-empty { font-size: 13.5px; }
 
 /* ---------- dual calendar (personal | business) ---------- */
 .cal-toggle { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -209,7 +221,7 @@ details.grp .list { padding: 0 10px 10px; }
       <p class="take" id="b-take">Tap “Get today's recap” and I'll read your inbox and sort out what needs you.</p>
       <div class="tiles">
         <div class="tile hot"><b id="t-todo">—</b><span>to-dos</span></div>
-        <div class="tile"><b id="t-vip">—</b><span>from your people</span></div>
+        <div class="tile"><b id="t-vip">—</b><span>personal</span></div>
         <div class="tile"><b id="t-new">—</b><span>new emails</span></div>
         <div class="tile"><b id="t-ev">—</b><span>events this week</span></div>
       </div>
@@ -231,9 +243,25 @@ details.grp .list { padding: 0 10px 10px; }
 
     <!-- TODAY -->
     <section class="panel" id="p-today" role="tabpanel">
-      <div class="sec-h"><h2>Needs you</h2><span class="note" id="todo-left"></span></div>
+      <div class="sec-h"><h2>Today</h2><span class="note" id="todo-left"></span></div>
+      <p class="note" style="margin:0">Your personal to-do list for today. Add what you want to get done — it stays on this device and resets each morning.</p>
+      <div id="carry-box"></div>
+      <form class="todo-add" id="todo-form" autocomplete="off">
+        <input class="in" id="todo-input" type="text" maxlength="160" placeholder="Add a to-do…" aria-label="Add a to-do">
+        <button type="submit" class="btn primary sm">Add</button>
+      </form>
       <div class="list" id="todos"></div>
-      <div class="sec-h"><h2>What came in</h2><span class="note" id="recap-status" role="status"></span></div>
+
+      <div class="sec-h"><h2>Work</h2><span class="note" id="work-left"></span></div>
+      <div class="list" id="work-list"></div>
+
+      <div class="sec-h"><h2>Personal</h2><span class="note" id="personal-left"></span></div>
+      <div class="list" id="personal-list"></div>
+
+      <div class="sec-h"><h2>Alerts</h2><span class="note" id="alerts-left"></span></div>
+      <div class="list" id="alerts-list"></div>
+
+      <div class="sec-h"><h2>The rest</h2><span class="note" id="recap-status" role="status"></span></div>
       <div class="list" id="groups"></div>
     </section>
 
@@ -530,14 +558,15 @@ details.grp .list { padding: 0 10px 10px; }
     $('b-hello').textContent = (h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening') + ', ' + (P.name || 'there');
     $('b-eyebrow').textContent = 'Inbox HQ · ' + new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
     const items = (R && R.items) || [];
-    const todos = todoList();
-    $('t-todo').textContent = R ? String(todos.filter((t) => !t.done).length) : '—';
-    $('t-vip').textContent = R ? String(items.filter((i) => i.category === 'VIP').length) : '—';
+    const dayTodos = loadDayTodos(ymd(new Date()));
+    const personalN = items.filter((i) => ['Personal', 'VIP', 'School'].includes(i.category)).length;
+    $('t-todo').textContent = String(dayTodos.filter((t) => !t.done).length);
+    $('t-vip').textContent = R ? String(personalN) : '—';
     $('t-new').textContent = R ? String(items.length) : '—';
     $('t-ev').textContent = week ? String(week.length) : '—';
     $('b-take').textContent = R && R.headline ? R.headline : (P.gmail ? 'Your bot\'s latest update will appear here.' : 'Waiting for your bot\'s first update. Setup is in the You tab.');
     $('b-stamp').textContent = R && R.at ? 'Updated ' + new Date(R.at).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' }) : '';
-    $('n-today').textContent = R ? String(todos.filter((t) => !t.done).length || '') : '';
+    $('n-today').textContent = String(dayTodos.filter((t) => !t.done).length || '');
   }
 
   // ---------- recap ----------
@@ -555,28 +584,105 @@ details.grp .list { padding: 0 10px 10px; }
   function resetBtn() { const b = $('b-recap'); b.disabled = false; b.textContent = '↻ Refresh'; }
   $('b-recap').addEventListener('click', buildRecap);
 
-  const todoList = () => ((R && R.items) || []).filter((i) => i.action).map((i) => ({ ...i, done: ((R && R.done) || []).includes(i.id) }))
-    .sort((a, b) => (a.done - b.done) || (b.category === 'VIP') - (a.category === 'VIP') || (b.urgent - a.urgent) || String(a.due || '9999').localeCompare(String(b.due || '9999')));
+  const PERSONAL_CATS = ['VIP', 'School', 'Personal'];
+  const ALERT_CATS = ['Updates'];
+  const REST_CATS = ['Bills & orders', 'Promos'];
+  const showUrgent = (i) => !!i.urgent && (PERSONAL_CATS.includes(i.category) || i.category === 'Bills & orders');
   const dueLabel = (d) => { if (!d) return null; const n = Math.round((new Date(d + 'T12:00:00') - new Date(ymd(new Date()) + 'T12:00:00')) / 864e5); return n < 0 ? { t: Math.abs(n) + 'd late', c: 'bad' } : n === 0 ? { t: 'Today', c: 'bad' } : n === 1 ? { t: 'Tomorrow', c: 'warn' } : { t: new Date(d + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }), c: n <= 3 ? 'warn' : '' }; };
   const gmailLink = (i) => safeUrl(i.link, ['mail.google.com']) || (i.id ? 'https://mail.google.com/mail/' + (P.email ? '?authuser=' + encodeURIComponent(P.email) : '') + '#all/' + encodeURIComponent(i.id) : null);
   const shortFrom = (f) => String(f || '').replace(/<.*>/, '').replace(/"/g, '').trim() || f;
   const emailOf = (f) => { const m = String(f || '').match(/[\w.+-]+@[\w-]+\.[\w.-]+/); return m ? m[0] : ''; };
-  function itemCard(i, withCheck) {
-    const c = el('article', 'item' + (withCheck ? ' todo' : '') + (i.category === 'VIP' ? ' vipline' : '') + (i.done ? ' done' : ''));
-    if (withCheck) {
-      const b = el('button', 'chk', '✓'); b.type = 'button'; b.setAttribute('aria-label', (i.done ? 'Mark not done: ' : 'Mark done: ') + i.action);
-      b.addEventListener('click', () => { R.done = R.done || []; R.done = i.done ? R.done.filter((x) => x !== i.id) : R.done.concat(i.id); saveRecap(); renderBrief(); renderToday(); });
-      c.append(b);
+
+  // ---------- personal day to-dos (localStorage, keyed by date) ----------
+  function loadDayTodos(day) {
+    const all = store.get('dayTodos') || {};
+    const list = Array.isArray(all[day]) ? all[day] : [];
+    return list.map((t) => ({ id: String(t.id || ''), text: String(t.text || ''), done: !!t.done })).filter((t) => t.id && t.text);
+  }
+  function saveDayTodos(day, list) {
+    const all = store.get('dayTodos') || {};
+    all[day] = list;
+    // keep ~14 days of history
+    const keys = Object.keys(all).sort();
+    while (keys.length > 14) { delete all[keys.shift()]; }
+    store.set('dayTodos', all);
+  }
+  function newTodoId() { return 't_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 7); }
+  function yesterdayYmd() { return ymd(new Date(Date.now() - 864e5)); }
+  function dayTodoCard(t, day) {
+    const c = el('article', 'item todo todo-row' + (t.done ? ' done' : ''));
+    const b = el('button', 'chk', '✓'); b.type = 'button'; b.setAttribute('aria-label', (t.done ? 'Mark not done: ' : 'Mark done: ') + t.text);
+    b.addEventListener('click', () => {
+      const list = loadDayTodos(day).map((x) => x.id === t.id ? { ...x, done: !x.done } : x);
+      saveDayTodos(day, list); renderBrief(); renderToday();
+    });
+    const ttl = el('div', 'ttl', t.text);
+    const acts = el('div', 'acts-row');
+    const del = el('button', 'del', '×'); del.type = 'button'; del.setAttribute('aria-label', 'Delete: ' + t.text);
+    del.addEventListener('click', () => {
+      saveDayTodos(day, loadDayTodos(day).filter((x) => x.id !== t.id)); renderBrief(); renderToday();
+    });
+    acts.append(del);
+    c.append(b, ttl, acts);
+    return c;
+  }
+  function renderDayTodos() {
+    const today = ymd(new Date());
+    const list = loadDayTodos(today);
+    const tb = $('todos'); tb.replaceChildren();
+    const carry = $('carry-box'); if (carry) carry.replaceChildren();
+    const yKey = yesterdayYmd();
+    const leftover = loadDayTodos(yKey).filter((t) => !t.done);
+    if (carry && leftover.length) {
+      const box = el('div', 'carry');
+      box.append(el('span', null, leftover.length + ' unfinished from yesterday'));
+      const btn = el('button', 'btn sm', 'Carry over'); btn.type = 'button';
+      btn.addEventListener('click', () => {
+        const cur = loadDayTodos(today);
+        const ids = new Set(cur.map((t) => t.text.toLowerCase()));
+        leftover.forEach((t) => { if (!ids.has(t.text.toLowerCase())) cur.push({ id: newTodoId(), text: t.text, done: false }); });
+        saveDayTodos(today, cur);
+        // mark yesterday leftovers as done so the banner goes away
+        saveDayTodos(yKey, loadDayTodos(yKey).map((t) => t.done ? t : { ...t, done: true }));
+        renderBrief(); renderToday();
+      });
+      const dismiss = el('button', 'btn sm ghost', 'Dismiss'); dismiss.type = 'button';
+      dismiss.addEventListener('click', () => {
+        saveDayTodos(yKey, loadDayTodos(yKey).map((t) => ({ ...t, done: true })));
+        renderToday();
+      });
+      box.append(btn, dismiss); carry.append(box);
     }
+    if (!list.length) {
+      tb.append(el('div', 'empty', 'Plan your day — add the things you want to get done today.'));
+    } else {
+      list.slice().sort((a, b) => a.done - b.done).forEach((t) => tb.append(dayTodoCard(t, today)));
+    }
+    const left = list.filter((t) => !t.done).length;
+    $('todo-left').textContent = list.length ? (left ? left + ' to go' : 'all done') : 'Plan your day';
+  }
+  (function bindTodoForm() {
+    const form = $('todo-form'); if (!form || form.dataset.bound) return; form.dataset.bound = '1';
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const input = $('todo-input'); const text = (input && input.value || '').trim(); if (!text) return;
+      const today = ymd(new Date());
+      const list = loadDayTodos(today); list.push({ id: newTodoId(), text: text.slice(0, 160), done: false });
+      saveDayTodos(today, list); if (input) input.value = ''; renderBrief(); renderToday();
+    });
+  })();
+
+  function itemCard(i) {
+    const c = el('article', 'item' + (i.category === 'VIP' ? ' vipline' : ''));
     const meta = el('div', 'meta');
     if (i.category === 'VIP') meta.append(el('span', 'pill vip', '⭐ VIP'));
     else meta.append(el('span', 'pill', (CAT_ICON[i.category] || '') + ' ' + i.category));
     const dl = dueLabel(i.due); if (dl) meta.append(el('span', 'pill ' + dl.c, '⏰ ' + dl.t));
-    else if (i.urgent) meta.append(el('span', 'pill warn', 'Soon'));
+    else if (showUrgent(i)) meta.append(el('span', 'pill warn', 'Soon'));
     meta.append(el('span', null, shortFrom(i.from)));
-    const ttl = el('div', 'ttl'); ttl.append(link(withCheck ? i.action : i.subject, gmailLink(i)));
+    const ttl = el('div', 'ttl'); ttl.append(link(i.subject, gmailLink(i)));
     c.append(meta, ttl, el('div', 'sum', i.summary));
-    if (!withCheck && i.action) c.append(el('div', 'act', '👉 ' + i.action));
+    if (i.action) c.append(el('div', 'act', '👉 ' + i.action));
     if (['VIP', 'School', 'Work', 'Personal'].includes(i.category)) {
       const a = el('div', 'acts'); const w = el('button', 'btn sm', '✉️ Reply'); w.type = 'button';
       w.addEventListener('click', () => openWriter({ to: emailOf(i.from), name: shortFrom(i.from).split(' ')[0], about: i.subject, role: i.category === 'Work' ? 'work' : i.category === 'School' ? 'school' : 'personal', topic: 'reply', replyToThreadId: i.id || '' }));
@@ -584,23 +690,71 @@ details.grp .list { padding: 0 10px 10px; }
     }
     return c;
   }
+  function workEventCard(e) {
+    const c = el('article', 'item work-ev');
+    const meta = el('div', 'meta');
+    meta.append(el('span', 'pill bad', 'Badger Mountain'));
+    const day = String(e.start).slice(0, 10);
+    const dl = dueLabel(day); if (dl) meta.append(el('span', 'pill ' + dl.c, '⏰ ' + dl.t));
+    meta.append(el('span', null, eventTimeLine(e)));
+    const ttl = el('div', 'ttl', e.title || '(no title)');
+    c.append(meta, ttl);
+    if (e.where) c.append(el('div', 'sum', '📍 ' + e.where));
+    if (e.description) c.append(el('div', 'sum', e.description));
+    const a = el('div', 'acts');
+    const open = el('button', 'btn sm', 'Details'); open.type = 'button';
+    open.addEventListener('click', () => openEventSheet(e));
+    a.append(open);
+    const gcal = safeUrl(e.link, ['google.com']);
+    if (gcal) { const linkBtn = el('a', 'btn sm', 'Calendar'); linkBtn.href = gcal; linkBtn.target = '_blank'; linkBtn.rel = 'noopener'; a.append(linkBtn); }
+    c.append(a);
+    return c;
+  }
+  function fillSection(boxId, noteId, nodes, emptyMsg, noteText) {
+    const box = $(boxId); if (!box) return;
+    box.replaceChildren();
+    if (!nodes.length) box.append(el('div', 'empty sec-empty', emptyMsg));
+    else nodes.forEach((n) => box.append(n));
+    const note = $(noteId); if (note) note.textContent = noteText || (nodes.length ? String(nodes.length) : '');
+  }
   function renderToday() {
-    const tb = $('todos'); tb.replaceChildren();
-    if (!R) { tb.append(el('div', 'empty', 'Your to-dos from email show up here after your bot\'s first update.')); }
-    else {
-      const ts = todoList();
-      if (!ts.length) tb.append(el('div', 'empty', '🎉 Nothing in your email needs you right now.'));
-      ts.forEach((t) => tb.append(itemCard(t, true)));
-      const left = ts.filter((t) => !t.done).length; $('todo-left').textContent = ts.length ? (left ? left + ' to go' : 'all done') : '';
-    }
+    renderDayTodos();
     const gb = $('groups'); gb.replaceChildren();
-    if (!R) { gb.append(el('div', 'empty', 'Your sorted inbox appears here: your people first, then ' + (P.roles.map((r) => ROLES[r].name.toLowerCase()).join(', ') || 'personal') + ', with promos tucked away.')); return; }
-    CATS.forEach((cat) => {
+    if (!R) {
+      fillSection('work-list', 'work-left', [], 'Badger Mountain jobs and work email show up here after the next update.', '');
+      fillSection('personal-list', 'personal-left', [], 'Personal email from real people shows up here.', '');
+      fillSection('alerts-list', 'alerts-left', [], 'App and account alerts land here — not in your to-do list.', '');
+      gb.append(el('div', 'empty', 'Bills, orders, and promos appear here once your bot posts an update.'));
+      return;
+    }
+    const today = ymd(new Date());
+    const biz = (week || []).filter((e) => e.calendar === 'business' && String(e.start).slice(0, 10) >= today)
+      .slice().sort((a, b) => String(a.start).localeCompare(String(b.start)));
+    const workMail = R.items.filter((i) => i.category === 'Work');
+    const workNodes = [];
+    biz.forEach((e) => workNodes.push(workEventCard(e)));
+    workMail.forEach((i) => workNodes.push(itemCard(i)));
+    fillSection('work-list', 'work-left', workNodes,
+      'No Badger Mountain jobs or work email right now.',
+      (biz.length || workMail.length) ? ((biz.length ? biz.length + ' job' + (biz.length === 1 ? '' : 's') : '') + (biz.length && workMail.length ? ' · ' : '') + (workMail.length ? workMail.length + ' email' + (workMail.length === 1 ? '' : 's') : '')) : '');
+
+    const personal = R.items.filter((i) => PERSONAL_CATS.includes(i.category));
+    fillSection('personal-list', 'personal-left', personal.map(itemCard),
+      'No personal email from people right now.',
+      personal.length ? String(personal.length) : '');
+
+    const alerts = R.items.filter((i) => ALERT_CATS.includes(i.category));
+    fillSection('alerts-list', 'alerts-left', alerts.map(itemCard),
+      'No alerts right now.',
+      alerts.length ? String(alerts.length) : '');
+
+    REST_CATS.forEach((cat) => {
       const its = R.items.filter((i) => i.category === cat); if (!its.length) return;
-      const d = el('details', 'grp'); d.open = !['Promos', 'Updates'].includes(cat);
+      const d = el('details', 'grp'); d.open = cat !== 'Promos';
       const s = el('summary'); s.append(el('span', null, (CAT_ICON[cat] || '') + ' ' + cat), el('span', 'pill', String(its.length))); d.append(s);
-      const l = el('div', 'list'); its.forEach((i) => l.append(itemCard(i, false))); d.append(l); gb.append(d);
+      const l = el('div', 'list'); its.forEach((i) => l.append(itemCard(i))); d.append(l); gb.append(d);
     });
+    if (!gb.childNodes.length) gb.append(el('div', 'empty sec-empty', 'No bills, orders, or promos in this update.'));
   }
 
   // ---------- week (personal | business calendars) ----------
