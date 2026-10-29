@@ -234,15 +234,16 @@ details.grp .list { padding: 0 10px 10px; }
 
   <!-- ================= APP ================= -->
   <div id="app" hidden>
-    <header class="brief">
+    <header class="brief" style="position:relative">
+      <button type="button" id="gear" aria-label="Settings" title="Settings" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:calc(env(safe-area-inset-right,0px) + 12px);width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:inherit;font-size:20px;cursor:pointer;z-index:5">⚙️</button>
       <div class="eyebrow" id="b-eyebrow">Inbox HQ</div>
       <h1 id="b-hello">Good morning</h1>
       <p class="take" id="b-take">Tap “Get today's recap” and I'll read your inbox and sort out what needs you.</p>
       <div class="tiles">
-        <div class="tile hot"><b id="t-todo">—</b><span>to-dos</span></div>
-        <div class="tile"><b id="t-vip">—</b><span>personal</span></div>
-        <div class="tile"><b id="t-new">—</b><span>new emails</span></div>
-        <div class="tile"><b id="t-ev">—</b><span>events this week</span></div>
+        <div class="tile hot"><b id="t-todo">·</b><span>to-dos</span></div>
+        <div class="tile"><b id="t-vip">·</b><span>personal</span></div>
+        <div class="tile"><b id="t-new">·</b><span>new emails</span></div>
+        <div class="tile"><b id="t-ev">·</b><span>events this week</span></div>
       </div>
       <div class="acts">
         <button type="button" class="btn accent" id="b-recap">✨ Get today's recap</button>
@@ -257,16 +258,14 @@ details.grp .list { padding: 0 10px 10px; }
       <button type="button" class="tab" role="tab" data-tab="week" aria-selected="false">📅 Week</button>
       <button type="button" class="tab" role="tab" data-tab="school" aria-selected="false" hidden>🎒 School <span class="n" id="n-school"></span></button>
       <button type="button" class="tab" role="tab" data-tab="write" aria-selected="false">✉️ Write</button>
-      <button type="button" class="tab" role="tab" data-tab="you" aria-selected="false">⚙️ You</button>
     </nav>
 
     <!-- TODAY -->
     <section class="panel" id="p-today" role="tabpanel">
       <div class="sec-h"><h2>Today</h2><span class="note" id="todo-left"></span></div>
-      <p class="note" style="margin:0">Type out your day in a paragraph, send it to Grok Bot, and your checklist appears here. Add quick extras yourself. Reset clears the day when you are done — repeating tasks come back next time.</p>
-      <div class="plan-box" id="plan-box">
+            <div class="plan-box" id="plan-box">
         <label class="field" for="plan-text"><span>Plan my day</span>
-          <textarea class="in" id="plan-text" maxlength="4000" placeholder="Write everything you want to get done today… e.g. wash the truck, call two clients, study for the quiz, pick up groceries" aria-label="Plan my day"></textarea>
+          <textarea class="in" id="plan-text" maxlength="4000" placeholder="Type here" aria-label="Plan my day"></textarea>
         </label>
         <div class="plan-acts">
           <button type="button" class="btn accent sm" id="plan-send">Send to Grok Bot</button>
@@ -274,7 +273,7 @@ details.grp .list { padding: 0 10px 10px; }
         </div>
       </div>
       <form class="todo-add" id="todo-form" autocomplete="off">
-        <input class="in" id="todo-input" type="text" maxlength="160" placeholder="Add a quick to-do…" aria-label="Add a to-do">
+        <input class="in" id="todo-input" type="text" maxlength="160" placeholder="Add to-do" aria-label="Add a to-do">
         <button type="submit" class="btn primary sm">Add</button>
       </form>
       <div class="list" id="todos"></div>
@@ -331,8 +330,7 @@ details.grp .list { padding: 0 10px 10px; }
       </div>
 
       <div id="w-ai" class="form">
-        <p class="note" style="margin:0">Tell Grok Bot what you want in plain words. It writes a polished email and brings it here as a draft card — nothing goes out until you approve it in the Grok Bot app.</p>
-        <label class="field"><span>To (optional — leave blank if Grok Bot should figure it out)</span><input class="in" id="ai-to" type="email" autocomplete="off" placeholder="name@example.com"></label>
+        <label class="field"><span>To (optional, leave blank if Grok Bot should figure it out)</span><input class="in" id="ai-to" type="email" autocomplete="off" placeholder="To"></label>
         <label class="field"><span>Tone</span>
           <select class="in" id="ai-tone" aria-label="Tone">
             <option value="Professional" selected>Professional</option>
@@ -341,9 +339,9 @@ details.grp .list { padding: 0 10px 10px; }
           </select>
         </label>
         <label class="field" for="ai-prompt"><span>What do you want to say?</span>
-          <textarea class="in" id="ai-prompt" maxlength="4000" placeholder="Tell Grok Bot what you want to say…" aria-label="Tell Grok Bot what you want to say"></textarea>
+          <textarea class="in" id="ai-prompt" maxlength="4000" placeholder="Type here" aria-label="Tell Grok Bot what you want to say"></textarea>
         </label>
-        <div class="safe">🔒 Inbox HQ never sends email by itself. “Send to Grok Bot” only asks it to write a draft — nothing goes out until you approve it in the Grok Bot app.</div>
+        <div class="safe">🔒 Inbox HQ never sends email by itself. “Send to Grok Bot” only asks it to write a draft. Nothing goes out until you approve it in the Grok Bot app.</div>
         <div class="chips" style="align-items:center">
           <button type="button" class="btn accent" id="ai-send" disabled title="Add the Relay URL and Relay key in the You tab">Send to Grok Bot</button>
           <span class="status" id="ai-status" role="status"></span>
@@ -352,18 +350,17 @@ details.grp .list { padding: 0 10px 10px; }
       </div>
 
       <div id="w-manual" hidden>
-        <p class="note">Pick what you need to say. I'll draft it. You read it, change anything, and send it yourself from Gmail — or use Send Email for one-tap approval in the Grok Bot app.</p>
         <div id="w-topics" style="display:grid;gap:12px"></div>
         <div class="form">
           <div class="two">
-            <label class="field"><span>To (email address)</span><input class="in" id="m-to" type="email" autocomplete="off" placeholder="name@example.com"></label>
-            <label class="field"><span>Their name (for the greeting)</span><input class="in" id="m-name" type="text" placeholder="Mrs. Rivera"></label>
+            <label class="field"><span>To (email address)</span><input class="in" id="m-to" type="email" autocomplete="off" placeholder="To"></label>
+            <label class="field"><span>Their name (for the greeting)</span><input class="in" id="m-name" type="text" placeholder="Name"></label>
           </div>
-          <label class="field"><span>What's it about?</span><input class="in" id="m-about" type="text" placeholder="Chapter 4 quiz, Tuesday's meeting, Saturday's party…"></label>
-          <label class="field"><span>Subject</span><input class="in" id="m-sub" type="text"></label>
-          <label class="field"><span>Message</span><textarea class="in" id="m-body"></textarea></label>
+          <label class="field"><span>What's it about?</span><input class="in" id="m-about" type="text" placeholder="Topic"></label>
+          <label class="field"><span>Subject</span><input class="in" id="m-sub" type="text" placeholder="Subject"></label>
+          <label class="field"><span>Message</span><textarea class="in" id="m-body" placeholder="Message"></textarea></label>
           <div class="warnline" id="m-warn" hidden>Fill in the [brackets] before you send.</div>
-          <div class="safe">🔒 Inbox HQ never sends email by itself. “Open in Gmail” opens a draft there. “Send Email” asks Grokbot to handle it — nothing goes out until you approve it in the Grok Bot app.</div>
+          <div class="safe">🔒 Inbox HQ never sends email by itself. “Open in Gmail” opens a draft there. “Send Email” asks Grokbot to handle it. Nothing goes out until you approve it in the Grok Bot app.</div>
           <div class="chips" style="align-items:center">
             <a class="btn primary" id="m-open" href="https://mail.google.com/" target="_blank" rel="noopener">Open in Gmail →</a>
             <button type="button" class="btn accent" id="m-send" disabled title="Add the Relay URL and Relay key in the You tab">Send Email</button>
@@ -499,7 +496,7 @@ details.grp .list { padding: 0 10px 10px; }
       box.append(el('div', 'eyebrow muted', 'Welcome to Inbox HQ'), el('h2', null, 'Let\'s set up your inbox brief.'),
         el('p', 'muted', 'Every hour, your bot reads your new email, sorts out what needs you, and lines it up with your calendar. Inbox HQ shows the result. First, what should I call you?'));
       const f = el('label', 'field'); f.append(el('span', null, 'Your first name'));
-      const i = el('input', 'in'); i.id = 'w-name'; i.autocomplete = 'given-name'; i.value = P.name; i.placeholder = 'Alex';
+      const i = el('input', 'in'); i.id = 'w-name'; i.autocomplete = 'given-name'; i.value = P.name; i.placeholder = 'Name';
       i.addEventListener('input', () => { P.name = i.value.trim(); $('w-next').disabled = !P.name; });
       i.addEventListener('keydown', (e) => { if (e.key === 'Enter' && P.name) next(); });
       f.append(i); box.append(f); $('w-next').disabled = !P.name; setTimeout(() => i.focus(), 0);
@@ -518,7 +515,7 @@ details.grp .list { padding: 0 10px 10px; }
       box.append(el('h2', null, 'Connect your bot'), el('p', 'muted', 'Inbox HQ never reads your email itself. Your bot (Grokbot) reads Gmail and Google Calendar on a schedule and publishes a summary file that this page displays. The step-by-step setup lives in inbox/BOT.md.'));
       box.append(botRow(), passField());
       const em = el('label', 'field'); em.append(el('span', null, 'Your Gmail address (optional, so "Open in Gmail" uses the right account)'));
-      const ei = el('input', 'in'); ei.type = 'email'; ei.id = 'w-email'; ei.value = P.email || ''; ei.placeholder = 'you@gmail.com';
+      const ei = el('input', 'in'); ei.type = 'email'; ei.id = 'w-email'; ei.value = P.email || ''; ei.placeholder = 'Email';
       ei.addEventListener('input', () => { P.email = ei.value.trim(); }); em.append(ei); box.append(em);
       $('w-next').disabled = false;
     } else if (s === 'people') {
@@ -551,7 +548,7 @@ details.grp .list { padding: 0 10px 10px; }
   }
   function passField() {
     const f = el('label', 'field'); f.append(el('span', null, 'Passphrase (only if your bot encrypts the file)'));
-    const i = el('input', 'in'); i.type = 'password'; i.autocomplete = 'off'; i.value = store.get('pass') || ''; i.placeholder = 'Same passphrase your bot uses';
+    const i = el('input', 'in'); i.type = 'password'; i.autocomplete = 'off'; i.value = store.get('pass') || ''; i.placeholder = 'Passphrase';
     i.addEventListener('input', () => { if (i.value) store.set('pass', i.value); else localStorage.removeItem('ihq:pass'); });
     f.append(i); return f;
   }
@@ -561,7 +558,7 @@ details.grp .list { padding: 0 10px 10px; }
     const chips = el('div', 'chipsin');
     const draw = () => { chips.replaceChildren(...P.vips.map((v, i) => { const p = el('span', 'pill vip', v); const x = el('button', null, '×'); x.type = 'button'; x.setAttribute('aria-label', 'Remove ' + v); x.addEventListener('click', () => { P.vips.splice(i, 1); draw(); saveProfile(); if (!$('wizard').hidden) renderWizard(); }); p.append(x); return p; })); };
     const row = el('div', 'row'); row.style.display = 'flex'; row.style.gap = '8px';
-    const i = el('input', 'in'); i.id = 'vip-in'; i.placeholder = 'Coach Davis or coach@school.org'; i.setAttribute('aria-label', 'Add a person');
+    const i = el('input', 'in'); i.id = 'vip-in'; i.placeholder = 'Name or email'; i.setAttribute('aria-label', 'Add a person');
     const add = () => { const v = i.value.trim(); if (!v || P.vips.includes(v)) return; P.vips.push(v); i.value = ''; draw(); saveProfile(); if (!$('wizard').hidden && STEPS[step] === 'people') $('w-next').textContent = 'Next'; };
     i.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); add(); } });
     const b = el('button', 'btn', 'Add'); b.type = 'button'; b.addEventListener('click', add);
@@ -591,13 +588,14 @@ details.grp .list { padding: 0 10px 10px; }
   const VIEWS = ['today', 'week', 'school', 'write', 'you'];
   function show(name) {
     if (!VIEWS.includes(name)) name = 'today';
-    const t = tabs.find((x) => x.dataset.tab === name); if (!t || t.hidden) name = 'today';
+    const t = tabs.find((x) => x.dataset.tab === name); if (name !== 'you' && (!t || t.hidden)) name = 'today';
     tabs.forEach((x) => x.setAttribute('aria-selected', String(x.dataset.tab === name)));
     document.querySelectorAll('#app .panel').forEach((p) => { p.hidden = p.id !== 'p-' + name; });
     try { history.replaceState(null, '', '#' + name); } catch (e) { /* ignore */ }
     if (name === 'school') renderSchool();
   }
   tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.tab)));
+  $('gear').addEventListener('click', () => show('you'));
   window.addEventListener('hashchange', () => { if (!$('app').hidden) show(location.hash.slice(1)); });
 
   function showApp() {
@@ -612,17 +610,21 @@ details.grp .list { padding: 0 10px 10px; }
   }
 
   // ---------- brief ----------
+  function greetingFor(d) { const h = d.getHours(); return h >= 5 && h < 12 ? 'Good morning' : h >= 12 && h < 17 ? 'Good afternoon' : h >= 17 && h < 22 ? 'Good evening' : 'Good night'; }
+  function updateGreeting() { const e = $('b-hello'); if (!e) return; const t = greetingFor(new Date()) + ', ' + ((P && P.name) || 'there'); if (e.textContent !== t) e.textContent = t; }
+  setInterval(updateGreeting, 60000);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') updateGreeting(); });
+  window.addEventListener('pageshow', updateGreeting);
   function renderBrief() {
-    const h = new Date().getHours();
-    $('b-hello').textContent = (h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening') + ', ' + (P.name || 'there');
+    updateGreeting();
     $('b-eyebrow').textContent = 'Inbox HQ · ' + new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
     const items = (R && R.items) || [];
     const openTodos = countOpenTodos();
     const personalN = items.filter((i) => ['Personal', 'VIP', 'School'].includes(i.category)).length;
     $('t-todo').textContent = String(openTodos);
-    $('t-vip').textContent = R ? String(personalN) : '—';
-    $('t-new').textContent = R ? String(items.length) : '—';
-    $('t-ev').textContent = week ? String(week.length) : '—';
+    $('t-vip').textContent = R ? String(personalN) : '·';
+    $('t-new').textContent = R ? String(items.length) : '·';
+    $('t-ev').textContent = week ? String(week.length) : '·';
     $('b-take').textContent = R && R.headline ? R.headline : (P.gmail ? 'Your bot\'s latest update will appear here.' : 'Waiting for your bot\'s first update. Setup is in the You tab.');
     $('b-stamp').textContent = R && R.at ? 'Updated ' + new Date(R.at).toLocaleString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' }) : '';
     $('n-today').textContent = String(openTodos || '');
@@ -821,7 +823,7 @@ details.grp .list { padding: 0 10px 10px; }
     const bot = visibleBotTasks();
     const tb = $('todos'); tb.replaceChildren();
     if (!bot.length && !local.length) {
-      tb.append(el('div', 'empty', 'No to-dos yet — plan your day above, or add a quick item.'));
+      tb.append(el('div', 'empty', 'No to-dos yet. Plan your day above, or add a quick item.'));
     } else {
       bot.slice().sort((a, b) => Number(isTodoChecked(today, a.id)) - Number(isTodoChecked(today, b.id)))
         .forEach((t) => tb.append(botTaskCard(t, today)));
@@ -861,7 +863,7 @@ details.grp .list { padding: 0 10px 10px; }
         }
       } catch (e) { /* keep waiting */ }
     }
-    if (statusEl) { statusEl.textContent = 'Still waiting — tap Refresh up top in a minute.'; statusEl.className = 'status'; }
+    if (statusEl) { statusEl.textContent = 'Still waiting. Tap Refresh up top in a minute.'; statusEl.className = 'status'; }
     return false;
   }
   (function bindTodoForm() {
@@ -976,7 +978,7 @@ details.grp .list { padding: 0 10px 10px; }
     if (!R) {
       fillSection('work-list', 'work-left', [], 'Badger Mountain jobs and work email show up here after the next update.', '');
       fillSection('personal-list', 'personal-left', [], 'Personal email from real people shows up here.', '');
-      fillSection('alerts-list', 'alerts-left', [], 'App and account alerts land here — not in your to-do list.', '');
+      fillSection('alerts-list', 'alerts-left', [], 'App and account alerts land here, not in your to-do list.', '');
       gb.append(el('div', 'empty', 'Bills, orders, and promos appear here once your bot posts an update.'));
       return;
     }
@@ -1034,14 +1036,14 @@ details.grp .list { padding: 0 10px 10px; }
     if (e.allDay) return dayLabel + ' · All day';
     const start = new Date(e.start.length === 10 ? e.start + 'T12:00:00' : e.start);
     const end = e.end ? new Date(e.end.length === 10 ? e.end + 'T12:00:00' : e.end) : null;
-    const tm = (start ? start.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '') + (end ? '–' + end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '');
+    const tm = (start ? start.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '') + (end ? ' to ' + end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '');
     return dayLabel + ' · ' + tm;
   }
   function eventTimeLine(e) {
     if (e.allDay) return 'All day';
     const start = new Date(e.start.length === 10 ? e.start + 'T12:00:00' : e.start);
     const end = e.end ? new Date(e.end.length === 10 ? e.end + 'T12:00:00' : e.end) : null;
-    return (start ? start.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '') + (end ? '–' + end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '');
+    return (start ? start.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '') + (end ? ' to ' + end.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '');
   }
   let evSheetEl = null, evSheetKeyHandler = null;
   function closeEventSheet() {
@@ -1364,7 +1366,7 @@ details.grp .list { padding: 0 10px 10px; }
     try {
       const { res, text } = await postToGrokbot(payload);
       if (res.ok) {
-        $('m-status').textContent = 'Sent to Grokbot — approve it in the Grok Bot app';
+        $('m-status').textContent = 'Sent to Grokbot. Approve it in the Grok Bot app';
         $('m-status').className = 'status ok';
       } else {
         $('m-status').textContent = formatWebhookError(null, res, text);
@@ -1451,7 +1453,7 @@ details.grp .list { padding: 0 10px 10px; }
   function renderYou() {
     const box = $('you'); box.replaceChildren();
     const nf = el('label', 'field'); nf.append(el('span', null, 'Name'));
-    const ni = el('input', 'in'); ni.id = 'y-name'; ni.value = P.name; ni.addEventListener('change', () => { P.name = ni.value.trim() || P.name; saveProfile(); renderBrief(); }); nf.append(ni); box.append(nf);
+    const ni = el('input', 'in'); ni.id = 'y-name'; ni.placeholder = 'Name'; ni.value = P.name; ni.addEventListener('change', () => { P.name = ni.value.trim() || P.name; saveProfile(); renderBrief(); }); nf.append(ni); box.append(nf);
     const rf = el('div', 'field'); rf.append(el('span', null, 'Use it for'));
     const rc = el('div', 'chips'); Object.entries(ROLES).forEach(([k, r]) => { const b = el('button', 'chip', r.icon + ' ' + r.name); b.type = 'button'; b.setAttribute('aria-pressed', String(P.roles.includes(k))); b.addEventListener('click', () => { const on = P.roles.includes(k); if (on && P.roles.length === 1) return; P.roles = on ? P.roles.filter((x) => x !== k) : P.roles.concat(k); saveProfile(); showApp(); show('you'); }); rc.append(b); });
     rf.append(rc); box.append(rf);
@@ -1465,17 +1467,17 @@ details.grp .list { padding: 0 10px 10px; }
     const tf = el('div', 'field'); tf.append(el('span', null, 'Colors'), swatches()); box.append(tf);
     const gf = el('div', 'field');
     gf.append(el('span', null, 'Cloudflare relay (Send Email, AI write & Plan my day)'));
-    gf.append(el('p', 'note', 'Stored only in this browser. Never put these in the GitHub repo. The Relay URL is your Cloudflare Worker (…workers.dev). The Relay key is a passphrase you pick — the same one you set as RELAY_KEY on the Worker. The Worker holds the real Cursor webhook key, so the browser never sees it. Emails still need your approval in Grok Bot before anything sends.'));
-    gf.append(el('p', 'note', 'On iPhone, Add to Home Screen uses its own storage — re-enter the Relay URL and Relay key once inside the app.'));
+    gf.append(el('p', 'note', 'Stored only in this browser. Never put these in the GitHub repo. The Relay URL is your Cloudflare Worker (…workers.dev). The Relay key is a passphrase you pick, the same one you set as RELAY_KEY on the Worker. The Worker holds the real Cursor webhook key, so the browser never sees it. Emails still need your approval in Grok Bot before anything sends.'));
+    gf.append(el('p', 'note', 'On iPhone, Add to Home Screen uses its own storage, so re-enter the Relay URL and Relay key once inside the app.'));
     const uf = el('label', 'field'); uf.append(el('span', null, 'Relay URL'));
     const ui = el('input', 'in'); ui.type = 'url'; ui.autocomplete = 'off'; ui.spellcheck = false; ui.id = 'y-relay-url';
-    ui.placeholder = 'https://inboxhq-relay.<you>.workers.dev'; ui.value = store.get('relayUrl') || store.get('webhookUrl') || '';
+    ui.placeholder = 'Relay URL'; ui.value = store.get('relayUrl') || store.get('webhookUrl') || '';
     ui.addEventListener('input', () => { const v = normalizeRelayUrl(ui.value); if (v) store.set('relayUrl', v); else localStorage.removeItem('ihq:relayUrl'); syncSendBtn(); });
     ui.addEventListener('change', () => { const v = normalizeRelayUrl(ui.value); ui.value = v; if (v) store.set('relayUrl', v); else localStorage.removeItem('ihq:relayUrl'); syncSendBtn(); });
     uf.append(ui); gf.append(uf);
     const kf = el('label', 'field'); kf.append(el('span', null, 'Relay key'));
     const ki = el('input', 'in'); ki.type = 'password'; ki.autocomplete = 'off'; ki.id = 'y-relay-key';
-    ki.placeholder = 'Passphrase you set as RELAY_KEY on the Worker'; ki.value = store.get('relayKey') || store.get('senderKey') || '';
+    ki.placeholder = 'Relay key'; ki.value = store.get('relayKey') || store.get('senderKey') || '';
     ki.addEventListener('input', () => { const v = normalizeRelayKey(ki.value); if (v) store.set('relayKey', v); else localStorage.removeItem('ihq:relayKey'); syncSendBtn(); });
     ki.addEventListener('change', () => { const v = normalizeRelayKey(ki.value); ki.value = v; if (v) store.set('relayKey', v); else localStorage.removeItem('ihq:relayKey'); syncSendBtn(); });
     kf.append(ki); gf.append(kf);
@@ -1488,7 +1490,7 @@ details.grp .list { padding: 0 10px 10px; }
       try {
         const { res, text } = await testRelayConnection();
         if (res.ok) { ts.textContent = 'Connected ✓ (health + ping)'; ts.className = 'status ok'; }
-        else { ts.textContent = 'Health OK, but ping failed — ' + formatWebhookError(null, res, text); ts.className = 'status bad'; }
+        else { ts.textContent = 'Health OK, but ping failed: ' + formatWebhookError(null, res, text); ts.className = 'status bad'; }
       } catch (e) {
         if (e && e.cause) ts.textContent = formatWebhookError(e.cause);
         else if (e && e.res) ts.textContent = formatWebhookError(null, e.res, e.text);
@@ -1501,6 +1503,16 @@ details.grp .list { padding: 0 10px 10px; }
     const row = el('div', 'chips');
     const again = el('button', 'btn', 'Run setup again'); again.type = 'button'; again.addEventListener('click', () => showWizard('start'));
     row.append(again); box.append(row);
+    const sr = el('div', 'chips'); sr.style.alignItems = 'center';
+    const sb = el('button', 'btn', 'Save'); sb.type = 'button'; sb.id = 'y-save';
+    const ss = el('span', 'status ok'); ss.setAttribute('role', 'status');
+    sb.addEventListener('click', () => {
+      const n = ni.value.trim(); if (n) P.name = n; saveProfile();
+      const u = normalizeRelayUrl(ui.value); ui.value = u; if (u) store.set('relayUrl', u); else localStorage.removeItem('ihq:relayUrl');
+      const k = normalizeRelayKey(ki.value); ki.value = k; if (k) store.set('relayKey', k); else localStorage.removeItem('ihq:relayKey');
+      syncSendBtn(); renderBrief(); ss.textContent = 'Saved ✓'; setTimeout(() => { ss.textContent = ''; }, 2000);
+    });
+    sr.append(sb, ss); box.append(sr);
     box.append(el('p', 'note', 'Your setup lives only in this browser. Inbox HQ displays what your bot publishes. Send Email and AI write go through your Cloudflare relay to Grokbot; nothing leaves until you approve it there.'));
   }
 
