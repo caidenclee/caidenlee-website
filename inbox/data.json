@@ -1,7 +1,55 @@
 {
-  "generatedAt": "2026-10-29T08:01:04Z",
+  "generatedAt": "2026-10-29T09:10:58Z",
   "headline": "Caiden, today you've got missionaries at 9:30, Miriam's dive meet at 1, and Badger jobs at 3 and 4:15.",
   "items": [
+    {
+      "id": "1a186d1a143a54ab",
+      "from": "Netlify <team@netlify.com>",
+      "subject": "[Netlify] You've used 75% of your credits on Caiden Lee",
+      "date": "2026-10-29T08:40:45Z",
+      "category": "Updates",
+      "summary": "Netlify says your Caiden Lee team has used 75% of its 300 credits for the cycle ending November 14.",
+      "action": "Check your Netlify credit usage before it runs out",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a186d1a143a54ab"
+    },
+    {
+      "id": "1a186c627fff1463",
+      "from": "Luna <luna@partner.solbridgemedia.com>",
+      "subject": "Paid collaboration for your video content-Flova",
+      "date": "2026-10-29T08:28:06Z",
+      "category": "Promos",
+      "summary": "A marketing firm called Solbridge is pitching a paid video collaboration for a product called Flova.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a186c627fff1463"
+    },
+    {
+      "id": "1a1863f1be736e22",
+      "from": "Google <no-reply@accounts.google.com>",
+      "subject": "Security alert for caidenclee@gmail.com",
+      "date": "2026-10-29T08:03:02Z",
+      "category": "Updates",
+      "summary": "Recovery inbox got a copy of a Google security alert about new Grok access.",
+      "action": "Confirm the Google security alerts were you",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1863f1be736e22"
+    },
+    {
+      "id": "1a1847a4a5c83d58",
+      "from": "Google <no-reply@accounts.google.com>",
+      "subject": "Security alert",
+      "date": "2026-10-29T08:03:02Z",
+      "category": "Updates",
+      "summary": "Several Google security alerts about new sign-ins and granting Grok account access.",
+      "action": "Confirm the Google security alerts were you",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1847a4a5c83d58"
+    },
     {
       "id": "1a186971882e27a6",
       "from": "Netlify <team@netlify.com>",
@@ -37,30 +85,6 @@
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a18659ce70887a8"
-    },
-    {
-      "id": "1a1863f1be736e22",
-      "from": "Google <no-reply@accounts.google.com>",
-      "subject": "Security alert for caidenclee@gmail.com",
-      "date": "2026-10-29T06:00:52Z",
-      "category": "Updates",
-      "summary": "Recovery inbox got a copy of a Google security alert about new Grok access.",
-      "action": "Confirm the Google security alerts were you",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1863f1be736e22"
-    },
-    {
-      "id": "1a1847a4a5c83d58",
-      "from": "Google <no-reply@accounts.google.com>",
-      "subject": "Security alert",
-      "date": "2026-10-29T06:00:52Z",
-      "category": "Updates",
-      "summary": "Several Google security alerts about new sign-ins and granting Grok account access.",
-      "action": "Confirm the Google security alerts were you",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1847a4a5c83d58"
     },
     {
       "id": "1a1863a449519174",
@@ -241,6 +265,114 @@
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1803d2a4ce6219"
+    },
+    {
+      "id": "1a17f430056692e0",
+      "from": "Perplexity <team@mail.perplexity.ai>",
+      "subject": "Welcome to Perplexity",
+      "date": "2026-10-27T21:27:39Z",
+      "category": "Promos",
+      "summary": "Perplexity sent a welcome email after you signed up.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a17f430056692e0"
+    },
+    {
+      "id": "1a17f3e7076d1655",
+      "from": "Google <noreply-accounts@google.com>",
+      "subject": "You shared some Google Account data with Perplexity",
+      "date": "2026-10-27T21:22:40Z",
+      "category": "Updates",
+      "summary": "Google confirms you shared some account data with Perplexity when you signed in with Google.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a17f3e7076d1655"
+    },
+    {
+      "id": "1a17f0a59b07ead3",
+      "from": "Google <no-reply@google.com>",
+      "subject": "Welcome to Google on your Linux",
+      "date": "2026-10-27T20:25:47Z",
+      "category": "Updates",
+      "summary": "Google welcomed you after signing in on a new Linux device.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a17f0a59b07ead3"
+    },
+    {
+      "id": "1a17f0968082a2bc",
+      "from": "Google <no-reply@accounts.google.com>",
+      "subject": "Security alert",
+      "date": "2026-10-27T20:25:32Z",
+      "category": "Updates",
+      "summary": "Google flagged a new Linux sign-in and a selfie video added to your account.",
+      "action": "Confirm the Linux sign-in and selfie were you",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a17f0968082a2bc"
+    },
+    {
+      "id": "1a17f05095a4885e",
+      "from": "BriarStorm <store+78368440573@t.shopifyemail.com>",
+      "subject": "Shipping update for order #2681",
+      "date": "2026-10-27T20:19:58Z",
+      "category": "Bills & orders",
+      "summary": "BriarStorm updated the shipping status for order #2681.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a17f05095a4885e"
+    },
+    {
+      "id": "1a17f05095122f37",
+      "from": "BriarStorm <store+78368440573@t.shopifyemail.com>",
+      "subject": "A shipment from order #2681 is out for delivery",
+      "date": "2026-10-27T20:19:58Z",
+      "category": "Bills & orders",
+      "summary": "BriarStorm says a shipment from order #2681 was out for delivery.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a17f05095122f37"
+    },
+    {
+      "id": "1a17ed304b3005b8",
+      "from": "17TRACK <no-reply@bounce4.17track.net>",
+      "subject": "Your order is out for delivery.",
+      "date": "2026-10-27T19:25:19Z",
+      "category": "Updates",
+      "summary": "17TRACK says your BriarStorm order was out for delivery.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a17ed304b3005b8"
+    },
+    {
+      "id": "1a17ebc4ccd6ba37",
+      "from": "Square <noreply@messaging.squareup.com>",
+      "subject": "We’ve updated our Terms of Service",
+      "date": "2026-10-27T19:00:31Z",
+      "category": "Updates",
+      "summary": "Square updated its Terms of Service.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a17ebc4ccd6ba37"
+    },
+    {
+      "id": "1a17e17739503ab2",
+      "from": "Hudl <noreply@app.hudl.com>",
+      "subject": "Latest: 1 Playlist",
+      "date": "2026-10-27T16:00:27Z",
+      "category": "Updates",
+      "summary": "Wes Mason shared a Hudl playlist with you called Hanford RUN PLAYS.",
+      "action": "Watch the Hanford run plays playlist on Hudl",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a17e17739503ab2"
     }
   ],
   "events": [
@@ -401,7 +533,7 @@
       "allDay": false,
       "where": "",
       "calendar": "personal",
-      "description": "Every Sunday 9–11 AM. Standing commitment — a tech covers any Sunday-morning booking.",
+      "description": "Every Sunday 9 to 11 AM. Standing commitment, a tech covers any Sunday-morning booking.",
       "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDFUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles"
     },
     {
