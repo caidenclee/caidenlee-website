@@ -1,7 +1,19 @@
 {
-  "generatedAt": "2026-10-29T09:10:58Z",
-  "headline": "Caiden, today you've got missionaries at 9:30, Miriam's dive meet at 1, and Badger jobs at 3 and 4:15.",
+  "generatedAt": "2026-10-29T10:12:00Z",
+  "headline": "Caiden, today has missionaries at 9:30, Miriam's dive meet at 1, Badger jobs at 3 and 4:15, and Netlify is out of credits.",
   "items": [
+    {
+      "id": "1a186f04e83f536a",
+      "from": "Netlify <team@netlify.com>",
+      "subject": "[Netlify] Action needed: Caiden Lee has used all available credits, upgrade to restore full service",
+      "date": "2026-10-29T09:14:15Z",
+      "category": "Updates",
+      "summary": "Netlify says your team used all its credits, so production deploys are paused, though published sites stay online for now.",
+      "action": "Decide whether to upgrade Netlify or wait for the credit reset",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a186f04e83f536a"
+    },
     {
       "id": "1a186d1a143a54ab",
       "from": "Netlify <team@netlify.com>",
