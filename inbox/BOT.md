@@ -69,7 +69,7 @@ straight to `inbox/data.json`; the page accepts both.
     }
   ],
   "events": [
-    { "title": "Practice", "start": "2026-10-30T16:00:00", "end": "2026-10-30T18:00:00", "allDay": false, "where": "Gym", "calendar": "personal", "link": "https://calendar.google.com/..." }
+    { "title": "Practice", "start": "2026-10-30T16:00:00", "end": "2026-10-30T18:00:00", "allDay": false, "where": "Gym", "calendar": "personal", "description": "Bring the new jersey.", "link": "https://calendar.google.com/..." }
   ],
   "school": [
     { "title": "Chapter 7 problem set", "course": "Algebra II", "start": "2026-10-31T23:59:00", "link": "https://canvas.instructure.com/..." }
@@ -87,6 +87,7 @@ Field rules:
 - `urgent`: `true` only for something due within 2 days or a real problem.
 - `events.allDay`: `true` for all-day events; then `start` and `end` are dates (`YYYY-MM-DD`).
 - `events.calendar`: `"personal"` (primary Google Calendar) or `"business"` (Badger Mountain Detailing calendar). The Week tab shows personal on the left and business on the right; missing `calendar` is treated as personal.
+- `events.description`: optional short plain-text note for the event detail sheet. Omit phones, codes, and account numbers. Leave `""` or omit when there is nothing useful.
 - `school`: optional. Leave it out entirely if there is nothing to show.
 - Do not include `"sample": true`. That key marks the placeholder file and makes the page say "sample data".
 
