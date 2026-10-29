@@ -222,6 +222,50 @@ details.grp .list { padding: 0 10px 10px; }
   .cal-col.on { display: block; }
   .cal-col .cal-col-h { display: none; }
 }
+
+/* ---------- responsive pass ---------- */
+html, body { overflow-x: hidden; }
+.col { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.list, .item, .form, .field { min-width: 0; }
+img, video { max-width: 100%; height: auto; }
+.btn, .chip, .tab { transition: background-color .15s, border-color .15s, box-shadow .15s, transform .1s; }
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  .in, input, select, textarea { font-size: 16px !important; }
+  .btn, .btn.sm, .tab, .chip, .set-x, #gear { min-height: 44px; }
+  .btn.sm { padding: 8px 14px; font-size: 14px; }
+  .chip { padding: 8px 14px; font-size: 14px; }
+  .item .chk { min-width: 28px; min-height: 28px; }
+  .tabs { padding: 10px 0; gap: 8px; }
+  .tab { padding: 10px 16px; }
+  .wrap { padding-left: max(14px, env(safe-area-inset-left, 0px)); padding-right: max(14px, env(safe-area-inset-right, 0px)); }
+  .set-backdrop { padding-top: calc(env(safe-area-inset-top, 0px) + 8px); }
+  .set-sheet { max-height: calc(100dvh - env(safe-area-inset-top, 0px) - 8px); min-height: 85dvh; }
+}
+@media (min-width: 601px) and (max-width: 1023px) {
+  .wrap { max-width: 900px; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+  .panel { gap: 16px; }
+  .set-sheet { max-width: 640px; max-height: 88dvh; }
+}
+@media (min-width: 1024px) {
+  body { font-size: 15.5px; }
+  .wrap { max-width: 1200px; padding-left: 32px; padding-right: 32px; padding-top: 24px; }
+  .panel { gap: 20px; }
+  #p-today:not([hidden]) { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 28px; align-items: start; }
+  .col-todo { position: sticky; top: 72px; }
+  .col { gap: 16px; }
+  .week-cols { gap: 24px; }
+  .sec-h h2 { font-size: 20px; }
+  .item { padding: 14px 16px; }
+  .item:hover { border-color: color-mix(in srgb, var(--brand) 40%, var(--line)); box-shadow: 0 4px 14px rgba(15,30,46,.06); }
+  .btn:hover { transform: translateY(-1px); }
+  .tab:hover:not([aria-selected="true"]) { border-color: var(--brand); color: var(--ink); }
+  .chip:hover { border-color: var(--brand); }
+  #gear:hover { background: rgba(255,255,255,.3); }
+  .set-backdrop { align-items: center; padding: 32px; }
+  .set-sheet { max-width: 480px; max-height: 86vh; border-radius: 20px; padding-bottom: 24px; animation: setpop .2s ease; }
+}
+@keyframes setpop { from { transform: scale(.96); opacity: 0; } to { transform: none; opacity: 1; } }
 </style>
 
 <div class="wrap">
@@ -270,6 +314,7 @@ details.grp .list { padding: 0 10px 10px; }
 
     <!-- TODAY -->
     <section class="panel" id="p-today" role="tabpanel">
+      <div class="col col-todo">
       <div class="sec-h"><h2>Today</h2><span class="note" id="todo-left"></span></div>
             <div class="plan-box" id="plan-box">
         <label class="field" for="plan-text"><span>Plan my day</span>
@@ -289,6 +334,8 @@ details.grp .list { padding: 0 10px 10px; }
         <button type="button" class="btn sm ghost" id="todo-reset">Reset to-do list</button>
         <span class="note" id="todo-stamp"></span>
       </div>
+      </div>
+      <div class="col col-feed">
 
       <div class="sec-h"><h2>Work</h2><span class="note" id="work-left"></span></div>
       <div class="list" id="work-list"></div>
@@ -301,6 +348,7 @@ details.grp .list { padding: 0 10px 10px; }
 
       <div class="sec-h"><h2>The rest</h2><span class="note" id="recap-status" role="status"></span></div>
       <div class="list" id="groups"></div>
+      </div>
     </section>
 
     <!-- WEEK -->
