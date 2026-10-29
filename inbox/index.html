@@ -1,5 +1,12 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Inbox HQ</title>
+<meta name="theme-color" content="#0d2c52">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Inbox HQ">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="/inbox/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/inbox/apple-touch-icon.png">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +37,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 a { color: var(--brand); }
 button, input, select, textarea { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.wrap { max-width: 920px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 16px 48px; }
+.wrap { max-width: 920px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-top: 16px; padding-bottom: max(48px, calc(24px + env(safe-area-inset-bottom, 0px))); }
 h1, h2, h3 { text-wrap: balance; margin: 0; }
 .eyebrow { font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
 .muted { color: var(--muted); }
@@ -1459,6 +1466,7 @@ details.grp .list { padding: 0 10px 10px; }
     const gf = el('div', 'field');
     gf.append(el('span', null, 'Cloudflare relay (Send Email, AI write & Plan my day)'));
     gf.append(el('p', 'note', 'Stored only in this browser. Never put these in the GitHub repo. The Relay URL is your Cloudflare Worker (…workers.dev). The Relay key is a passphrase you pick — the same one you set as RELAY_KEY on the Worker. The Worker holds the real Cursor webhook key, so the browser never sees it. Emails still need your approval in Grok Bot before anything sends.'));
+    gf.append(el('p', 'note', 'On iPhone, Add to Home Screen uses its own storage — re-enter the Relay URL and Relay key once inside the app.'));
     const uf = el('label', 'field'); uf.append(el('span', null, 'Relay URL'));
     const ui = el('input', 'in'); ui.type = 'url'; ui.autocomplete = 'off'; ui.spellcheck = false; ui.id = 'y-relay-url';
     ui.placeholder = 'https://inboxhq-relay.<you>.workers.dev'; ui.value = store.get('relayUrl') || store.get('webhookUrl') || '';
@@ -1512,6 +1520,9 @@ details.grp .list { padding: 0 10px 10px; }
     buildRecap();
     setInterval(() => { if (!document.hidden) buildRecap(); }, 5 * 60 * 1000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) buildRecap(); });
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/inbox/sw.js', { scope: '/inbox/' }).catch(() => { /* offline shell is optional */ });
+    }
   })();
 })();
 </script>
