@@ -896,9 +896,9 @@ details.grp .list { padding: 0 10px 10px; }
           pollTodoUntil(prevAt, status).finally(() => { btn.disabled = false; });
           return;
         }
-        if (status) { status.textContent = 'Failed (' + res.status + '): ' + (body || res.statusText || 'unknown error').slice(0, 240); status.className = 'status bad'; }
+        if (status) { status.textContent = formatWebhookError(null, res, body); status.className = 'status bad'; }
       } catch (e) {
-        if (status) { status.textContent = 'Failed: ' + (e && e.message ? e.message : 'network error'); status.className = 'status bad'; }
+        if (status) { status.textContent = formatWebhookError(e); status.className = 'status bad'; }
       }
       btn.disabled = false;
     });
@@ -1218,9 +1218,38 @@ details.grp .list { padding: 0 10px 10px; }
     $('m-body').value = (greet ? 'Hi ' + greet + ',' : 'Hi [name],') + '\n\n' + fill(t[3]) + '\n\nThank you,\n' + (P.name || '[your name]');
     updateMail();
   }
+  function normalizeWebhookUrl(raw) {
+    let u = String(raw || '').trim().replace(/^['"]+|['"]+$/g, '');
+    const m = u.match(/https?:\/\/\S+/i);
+    if (m) u = m[0];
+    u = u.replace(/[>,\]\)\}]+$/g, '').trim();
+    return u;
+  }
+  function normalizeSenderKey(raw) {
+    let k = String(raw || '').trim().replace(/^['"]+|['"]+$/g, '');
+    k = k.replace(/^authorization\s*:\s*/i, '');
+    k = k.replace(/^bearer\s+/i, '');
+    k = k.replace(/\s+/g, '').trim();
+    return k;
+  }
+  function webhookCreds() {
+    return { url: normalizeWebhookUrl(store.get('webhookUrl')), key: normalizeSenderKey(store.get('senderKey')) };
+  }
+  function formatWebhookError(err, res, text) {
+    if (err) {
+      const msg = (err && err.message) ? String(err.message) : 'network error';
+      if (/failed to fetch|networkerror|load failed|cors/i.test(msg) || err.name === 'TypeError') {
+        return 'Blocked by browser/CORS. Cursor\'s webhook only allows browser calls from cursor.com — not from caidenlee.com. Your URL and key can be correct and still fail here. Use chat with Grok Bot for now, or ask about a small proxy.';
+      }
+      return 'Failed: ' + msg;
+    }
+    const body = (text || (res && res.statusText) || 'unknown error').slice(0, 240);
+    return 'Failed (' + (res ? res.status : '?') + '): ' + body;
+  }
   function webhookConfigured() {
-    const url = store.get('webhookUrl'), key = store.get('senderKey');
-    return !!(url && String(url).trim() && key && String(key));
+    const url = normalizeWebhookUrl(store.get('webhookUrl'));
+    const key = normalizeSenderKey(store.get('senderKey'));
+    return !!(url && key);
   }
   function syncSendBtn() {
     const btn = $('m-send'), hint = $('m-send-hint');
@@ -1247,14 +1276,27 @@ details.grp .list { padding: 0 10px 10px; }
   $('m-about').addEventListener('change', () => { if (wState.topic) compose(); else updateMail(); });
   $('m-copy').addEventListener('click', async () => { const t = 'To: ' + $('m-to').value + '\nSubject: ' + $('m-sub').value + '\n\n' + $('m-body').value; try { await navigator.clipboard.writeText(t); $('m-status').textContent = 'Copied'; $('m-status').className = 'status ok'; } catch (e) { $('m-body').select(); $('m-status').textContent = 'Press Ctrl/Cmd+C to copy'; } });
   async function postToGrokbot(payload) {
-    const url = String(store.get('webhookUrl') || '').trim();
-    const key = String(store.get('senderKey') || '');
+    const { url, key } = webhookCreds();
     if (!url || !key) throw new Error('Webhook URL or sender key missing');
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-      body: JSON.stringify(payload),
-    });
+    if (!/^https:\/\/api2\.cursor\.sh\/automations\/webhook\//i.test(url)) {
+      throw new Error('Webhook URL should look like https://api2.cursor.sh/automations/webhook/…');
+    }
+    let res;
+    try {
+      res = await fetch(url, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + key,
+          'X-Automation-Key': key,
+        },
+        body: JSON.stringify(payload),
+      });
+    } catch (e) {
+      // Endpoint requires Authorization: Bearer (query/body key rejected). no-cors cannot set that header.
+      throw e;
+    }
     const text = await res.text().catch(() => '');
     return { res, text };
   }
@@ -1282,11 +1324,11 @@ details.grp .list { padding: 0 10px 10px; }
         $('m-status').textContent = 'Sent to Grokbot — approve it in the Grok Bot app';
         $('m-status').className = 'status ok';
       } else {
-        $('m-status').textContent = 'Failed (' + res.status + '): ' + (text || res.statusText || 'unknown error').slice(0, 240);
+        $('m-status').textContent = formatWebhookError(null, res, text);
         $('m-status').className = 'status bad';
       }
     } catch (e) {
-      $('m-status').textContent = 'Failed: ' + (e && e.message ? e.message : 'network error');
+      $('m-status').textContent = formatWebhookError(e);
       $('m-status').className = 'status bad';
     }
     syncSendBtn();
@@ -1348,13 +1390,13 @@ details.grp .list { padding: 0 10px 10px; }
           }
         } else {
           if (status) {
-            status.textContent = 'Failed (' + res.status + '): ' + (text || res.statusText || 'unknown error').slice(0, 240);
+            status.textContent = formatWebhookError(null, res, text);
             status.className = 'status bad';
           }
         }
       } catch (e) {
         if (status) {
-          status.textContent = 'Failed: ' + (e && e.message ? e.message : 'network error');
+          status.textContent = formatWebhookError(e);
           status.className = 'status bad';
         }
       }
@@ -1380,16 +1422,18 @@ details.grp .list { padding: 0 10px 10px; }
     const tf = el('div', 'field'); tf.append(el('span', null, 'Colors'), swatches()); box.append(tf);
     const gf = el('div', 'field');
     gf.append(el('span', null, 'Grokbot webhook (Send Email, AI write & Plan my day)'));
-    gf.append(el('p', 'note', 'Stored only in this browser. Never put these in the GitHub repo. Used for Send Email, AI write, and Plan my day. Emails still need your approval before anything sends.'));
+    gf.append(el('p', 'note', "Stored only in this browser. Never put these in the GitHub repo. Important: Cursor's webhook blocks browser calls from caidenlee.com (CORS) — Test connection will show that even with the right URL and key. Until a small proxy exists, use chat with Grok Bot for Send Email, AI write, and Plan my day. Emails still need your approval before anything sends."));
     const uf = el('label', 'field'); uf.append(el('span', null, 'Grokbot webhook URL'));
     const ui = el('input', 'in'); ui.type = 'url'; ui.autocomplete = 'off'; ui.spellcheck = false; ui.id = 'y-webhook-url';
     ui.placeholder = 'https://…'; ui.value = store.get('webhookUrl') || '';
-    ui.addEventListener('input', () => { const v = ui.value.trim(); if (v) store.set('webhookUrl', v); else localStorage.removeItem('ihq:webhookUrl'); syncSendBtn(); });
+    ui.addEventListener('input', () => { const v = normalizeWebhookUrl(ui.value); if (v) store.set('webhookUrl', v); else localStorage.removeItem('ihq:webhookUrl'); syncSendBtn(); });
+    ui.addEventListener('change', () => { const v = normalizeWebhookUrl(ui.value); ui.value = v; if (v) store.set('webhookUrl', v); else localStorage.removeItem('ihq:webhookUrl'); syncSendBtn(); });
     uf.append(ui); gf.append(uf);
     const kf = el('label', 'field'); kf.append(el('span', null, 'Grokbot sender key'));
     const ki = el('input', 'in'); ki.type = 'password'; ki.autocomplete = 'off'; ki.id = 'y-sender-key';
     ki.placeholder = 'Bearer token Grokbot gave you'; ki.value = store.get('senderKey') || '';
-    ki.addEventListener('input', () => { if (ki.value) store.set('senderKey', ki.value); else localStorage.removeItem('ihq:senderKey'); syncSendBtn(); });
+    ki.addEventListener('input', () => { const v = normalizeSenderKey(ki.value); if (v) store.set('senderKey', v); else localStorage.removeItem('ihq:senderKey'); syncSendBtn(); });
+    ki.addEventListener('change', () => { const v = normalizeSenderKey(ki.value); ki.value = v; if (v) store.set('senderKey', v); else localStorage.removeItem('ihq:senderKey'); syncSendBtn(); });
     kf.append(ki); gf.append(kf);
     const trow = el('div', 'chips'); trow.style.alignItems = 'center';
     const tb = el('button', 'btn sm', 'Test connection'); tb.type = 'button';
@@ -1400,9 +1444,9 @@ details.grp .list { padding: 0 10px 10px; }
       try {
         const { res, text } = await postToGrokbot({ test: true, source: 'inbox-hq' });
         if (res.ok) { ts.textContent = 'Connected ✓'; ts.className = 'status ok'; }
-        else { ts.textContent = 'Failed (' + res.status + '): ' + (text || res.statusText || 'unknown error').slice(0, 240); ts.className = 'status bad'; }
+        else { ts.textContent = formatWebhookError(null, res, text); ts.className = 'status bad'; }
       } catch (e) {
-        ts.textContent = 'Failed: ' + (e && e.message ? e.message : 'network error'); ts.className = 'status bad';
+        ts.textContent = formatWebhookError(e); ts.className = 'status bad';
       }
       tb.disabled = false;
     });
