@@ -202,7 +202,10 @@ body.set-open { overflow: hidden; }
 .item.done .chk { background: var(--ok); border-color: var(--ok); color: #fff; }
 .vipline { border-left: 4px solid var(--accent); }
 details.grp { background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r); }
-details.grp summary { cursor: pointer; padding: 12px 14px; font-weight: 700; display: flex; gap: 8px; align-items: center; }
+details.grp summary { cursor: pointer; padding: 12px 14px; font-weight: 700; display: flex; gap: 8px; align-items: center; list-style: none; }
+details.grp summary::-webkit-details-marker { display: none; }
+details.grp summary .ico-wrap { margin-left: auto; opacity: .7; transition: transform .15s ease; }
+details.grp[open] summary .ico-wrap { transform: rotate(180deg); }
 details.grp .list { padding: 0 10px 10px; }
 .day { display: grid; grid-template-columns: 7.75rem minmax(0, 1fr); gap: 16px; padding: 12px 0; border-top: 1.5px solid var(--line); align-items: start; }
 .day:first-child { border-top: 0; }
@@ -424,7 +427,7 @@ img, video { max-width: 100%; height: auto; }
     <nav class="tabs" role="tablist" aria-label="Sections" id="tabs">
       <button type="button" class="tab" role="tab" data-tab="today" aria-selected="true" data-ico="sun">Today <span class="n" id="n-today"></span></button>
       <button type="button" class="tab" role="tab" data-tab="week" aria-selected="false" data-ico="calendar">Week</button>
-      <button type="button" class="tab" role="tab" data-tab="school" aria-selected="false" hidden>🎒 School <span class="n" id="n-school"></span></button>
+      <button type="button" class="tab" role="tab" data-tab="school" aria-selected="false" hidden data-ico="backpack">School <span class="n" id="n-school"></span></button>
       <button type="button" class="tab" role="tab" data-tab="write" aria-selected="false" data-ico="mail">Write</button>
     </nav>
 
@@ -537,7 +540,7 @@ img, video { max-width: 100%; height: auto; }
             <a class="btn primary" id="m-open" href="https://mail.google.com/" target="_blank" rel="noopener">Open in Gmail →</a>
             <button type="button" class="btn accent" id="m-send" disabled title="Add the Relay URL and Relay key in Settings">Send Email</button>
             <button type="button" class="btn" id="m-copy">Copy</button>
-            <button type="button" class="btn" id="m-polish">✨ Make it sound like me</button>
+            <button type="button" class="btn" id="m-polish" data-ico="sparkles">Make it sound like me</button>
             <span class="status" id="m-status" role="status"></span>
           </div>
           <p class="note" id="m-send-hint">To enable Send Email, add your Relay URL and Relay key in Settings.</p>
@@ -548,7 +551,7 @@ img, video { max-width: 100%; height: auto; }
     <!-- YOU -->
     <div class="set-backdrop" id="set-backdrop" hidden>
       <section class="set-sheet" id="p-you" role="dialog" aria-modal="true" aria-labelledby="set-title">
-        <div class="set-head"><h2 id="set-title">Settings</h2><button type="button" class="set-x" id="set-close" aria-label="Close">✕</button></div>
+        <div class="set-head"><h2 id="set-title">Settings</h2><button type="button" class="set-x" id="set-close" aria-label="Close" data-ico="x"></button></div>
         <div class="form" id="you"></div>
       </section>
     </div>
@@ -576,6 +579,15 @@ img, video { max-width: 100%; height: auto; }
       broom: '<path d="m13 11 9-9"/><path d="M14.6 12.6a2 2 0 0 1 2.8.9l.5 1.1a2 2 0 0 1-.9 2.8l-8.2 3.5a2 2 0 0 1-2.5-.7L3.1 13a2 2 0 0 1 .7-2.5Z"/><path d="m5 15 4 4"/>',
       x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
       'refresh-cw': '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+      tag: '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>',
+      star: '<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>',
+      briefcase: '<path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/>',
+      backpack: '<path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M8 21v-5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v5"/><path d="M8 10h8"/><path d="M8 18h8"/>',
+      sparkles: '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>',
+      bot: '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>',
+      check: '<path d="M20 6 9 17l-5-5"/>',
+      'chevron-down': '<path d="m6 9 6 6 6-6"/>',
+      'alert-triangle': '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
     };
     const svg = '<svg xmlns="http://www.w3.org/2000/svg" class="ico" width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || '') + '</svg>';
     const s = el('span', 'ico-wrap'); s.innerHTML = svg; return s;
@@ -621,8 +633,8 @@ img, video { max-width: 100%; height: auto; }
 
   // ---------- state ----------
   const ROLES = {
-    school: { icon: '🎒', lucide: null, name: 'School', sub: 'Teachers, classes, Canvas, clubs and sports' },
-    work: { icon: '💼', lucide: null, name: 'Work', sub: 'Your boss, coworkers, shifts, meetings and clients' },
+    school: { icon: '', lucide: 'backpack', name: 'School', sub: 'Teachers, classes, Canvas, clubs and sports' },
+    work: { icon: '', lucide: 'briefcase', name: 'Work', sub: 'Your boss, coworkers, shifts, meetings and clients' },
     personal: { icon: '', lucide: 'home', name: 'Personal', sub: 'Family, friends, bills, orders and plans' },
   };
   const blankProfile = () => ({ name: '', roles: [], vips: [], palette: 'harbor', email: '', canvasCal: null, gmail: false, calendar: false, bot: false, setupDone: false });
@@ -708,7 +720,7 @@ img, video { max-width: 100%; height: auto; }
       Object.entries(ROLES).forEach(([k, r]) => {
         const b = el('button', 'pick'); b.type = 'button'; b.setAttribute('aria-pressed', String(P.roles.includes(k)));
         const t = el('div'); t.append(el('b', null, r.name), el('small', null, r.sub));
-        const icn = el('span', 'ic'); if (r.lucide) icn.append(ico(r.lucide, 22)); else icn.textContent = r.icon; b.append(icn, t, el('span', 'tick', '✓'));
+        const icn = el('span', 'ic'); if (r.lucide) icn.append(ico(r.lucide, 22)); else icn.textContent = r.icon; const tick = el('span', 'tick'); tick.append(ico('check', 14)); b.append(icn, t, tick);
         b.addEventListener('click', () => { P.roles = P.roles.includes(k) ? P.roles.filter((x) => x !== k) : P.roles.concat(k); renderWizard(); });
         g.append(b);
       });
@@ -733,16 +745,16 @@ img, video { max-width: 100%; height: auto; }
     $('w-next').textContent = s === 'look' ? 'Finish setup' : s === 'people' && !P.vips.length ? 'Skip' : s === 'bot' && !P.gmail ? 'Skip for now' : 'Next';
   }
   function botRow() {
-    const r = el('div', 'conn'); r.append(el('span', 'ic', '🤖'));
+    const r = el('div', 'conn'); const bic = el('span', 'ic'); bic.append(ico('bot', 22)); r.append(bic);
     const top = el('div', 'row'); top.append(el('b', null, 'Grokbot'));
-    const st = el('span', 'pill' + (P.bot ? ' ok' : ''), P.bot ? '✓ Linked' : 'Waiting for first update'); top.append(st);
+    const st = el('span', 'pill' + (P.bot ? ' ok' : ''), P.bot ? 'Linked' : 'Waiting for first update'); top.append(st);
     const msg = el('div', 'note', P.bot && R && R.at ? 'Last update ' + ago(R.at) + '.' : 'Publishes inbox/data.json every hour.');
     const row = el('div', 'row'); const b = el('button', 'btn sm primary', 'Check for data'); b.type = 'button';
     b.addEventListener('click', async () => {
       b.disabled = true; b.replaceChildren(el('span', 'spin'), document.createTextNode(' Checking…'));
-      try { applyData(await fetchData()); msg.textContent = (R.sample ? 'Sample data loaded. Your bot\'s real update will replace it. ' : '✓ Linked. ') + 'Last update ' + ago(R.at) + '.'; msg.className = 'status ok'; }
+      try { applyData(await fetchData()); msg.textContent = (R.sample ? 'Sample data loaded. Your bot\'s real update will replace it. ' : 'Linked. ') + 'Last update ' + ago(R.at) + '.'; msg.className = 'status ok'; }
       catch (e) { msg.textContent = dataCopy(e && e.code); msg.className = 'status bad'; }
-      st.className = 'pill' + (P.bot ? ' ok' : ''); st.textContent = P.bot ? '✓ Linked' : 'Waiting for first update';
+      st.className = 'pill' + (P.bot ? ' ok' : ''); st.textContent = P.bot ? 'Linked' : 'Waiting for first update';
       b.disabled = false; b.textContent = 'Check again';
       if (STEPS[step] === 'bot' && !$('wizard').hidden) $('w-next').textContent = P.bot ? 'Next' : 'Skip for now';
     });
@@ -844,7 +856,7 @@ img, video { max-width: 100%; height: auto; }
     if (!lastUpdated) return { text: '', stale: false, title: '' };
     const old = Date.now() - new Date(lastUpdated).getTime() > 2 * 3600e3;
     return {
-      text: (old ? '⚠️ ' : '') + 'Updated ' + ago(lastUpdated) + (old ? '. The hourly update may be late.' : ''),
+      text: (old ? 'Late · ' : '') + 'Updated ' + ago(lastUpdated) + (old ? '. The hourly update may be late.' : ''),
       stale: old,
       title: new Date(lastUpdated).toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }),
     };
@@ -1048,8 +1060,8 @@ img, video { max-width: 100%; height: auto; }
 
   // ---------- recap ----------
   const CATS = ['VIP', 'School', 'Work', 'Personal', 'Bills & orders', 'Updates', 'Promos'];
-  const CAT_ICON = { VIP: '⭐', School: '🎒', Work: '💼', Personal: '', 'Bills & orders': '', Updates: '', Promos: '🏷️' };
-  const CAT_ICO = { Personal: 'home', 'Bills & orders': 'receipt', Updates: 'bell' };
+  const CAT_ICON = { VIP: '', School: '', Work: '', Personal: '', 'Bills & orders': '', Updates: '', Promos: '' };
+  const CAT_ICO = { VIP: 'star', School: 'backpack', Work: 'briefcase', Personal: 'home', 'Bills & orders': 'receipt', Updates: 'bell', Promos: 'tag' };
   let lastFetchAt = Date.now();
   async function buildRecap() {
     const btn = $('b-recap'), st = $('recap-status');
@@ -1058,7 +1070,7 @@ img, video { max-width: 100%; height: auto; }
     try {
       applyData(await fetchData());
       await refreshTodoFile();
-      if (st) { st.textContent = (R.sample ? 'Showing sample data until your bot\'s first update. ' : '✓ ') + 'Updated by Grokbot ' + ago(R.at); st.className = R.sample ? 'note' : 'status ok'; }
+      if (st) { st.textContent = (R.sample ? 'Showing sample data until your bot\'s first update. ' : '') + 'Updated by Grokbot ' + ago(R.at); st.className = R.sample ? 'note' : 'status ok'; }
     } catch (err) { dataErr = dataCopy(err && err.code); if (st) { st.textContent = dataErr; st.className = 'status bad'; } }
     lastFetchAt = Date.now();
     resetBtn(); renderBrief(); renderToday(); refreshWeek(); renderSchool();
@@ -1251,7 +1263,7 @@ img, video { max-width: 100%; height: auto; }
   function botTaskCard(t, day) {
     const done = isTodoChecked(day, t.id);
     const c = el('article', 'item todo todo-row' + (done ? ' done' : ''));
-    const b = el('button', 'chk', '✓'); b.type = 'button';
+    const b = el('button', 'chk'); b.type = 'button'; b.append(ico('check', 14));
     b.setAttribute('aria-label', (done ? 'Mark not done: ' : 'Mark done: ') + t.text);
     b.addEventListener('click', () => { setTodoChecked(day, t.id, !isTodoChecked(day, t.id)); renderBrief(); renderToday(); });
     const wrap = el('div', null);
@@ -1264,7 +1276,7 @@ img, video { max-width: 100%; height: auto; }
       t.subtasks.forEach((s) => {
         const sd = isTodoChecked(day, t.id + '::' + s.id);
         const row2 = el('div', 'subtodo' + (sd ? ' done' : ''));
-        const sb = el('button', 'chk', '✓'); sb.type = 'button';
+        const sb = el('button', 'chk'); sb.type = 'button'; sb.append(ico('check', 14));
         sb.setAttribute('aria-label', (sd ? 'Mark not done: ' : 'Mark done: ') + s.text);
         sb.addEventListener('click', () => { setTodoChecked(day, t.id + '::' + s.id, !isTodoChecked(day, t.id + '::' + s.id)); renderToday(); });
         row2.append(sb, el('span', 'stxt', s.text));
@@ -1277,7 +1289,7 @@ img, video { max-width: 100%; height: auto; }
   }
   function dayTodoCard(t, day) {
     const c = el('article', 'item todo todo-row' + (t.done ? ' done' : ''));
-    const b = el('button', 'chk', '✓'); b.type = 'button'; b.setAttribute('aria-label', (t.done ? 'Mark not done: ' : 'Mark done: ') + t.text);
+    const b = el('button', 'chk'); b.type = 'button'; b.append(ico('check', 14)); b.setAttribute('aria-label', (t.done ? 'Mark not done: ' : 'Mark done: ') + t.text);
     b.addEventListener('click', () => {
       const list = loadDayTodos(day).map((x) => x.id === t.id ? { ...x, done: !x.done } : x);
       saveDayTodos(day, list); renderBrief(); renderToday();
@@ -1333,7 +1345,7 @@ img, video { max-width: 100%; height: auto; }
             store.set('todoCleared', cleared);
           }
           renderBrief(); renderToday();
-          if (statusEl) { statusEl.textContent = 'List ready ✓'; statusEl.className = 'status ok'; }
+          if (statusEl) { statusEl.textContent = 'List ready'; statusEl.className = 'status ok'; }
           return true;
         }
       } catch (e) { /* keep waiting */ }
@@ -1592,7 +1604,7 @@ img, video { max-width: 100%; height: auto; }
   function itemCard(i) {
     const c = el('article', 'item' + (i.category === 'VIP' ? ' vipline' : ''));
     const meta = el('div', 'meta');
-    if (i.category === 'VIP') meta.append(el('span', 'pill vip', '⭐ VIP'));
+    if (i.category === 'VIP') { const vp = el('span', 'pill vip'); vp.append(ico('star', 12), document.createTextNode(' VIP')); meta.append(vp); }
     else {
       const p = el('span', 'pill');
       if (CAT_ICO[i.category]) p.append(ico(CAT_ICO[i.category]), document.createTextNode(' ' + i.category));
@@ -1785,8 +1797,9 @@ img, video { max-width: 100%; height: auto; }
       if (restAlerts.length || (!alerts.length && allAlerts.length)) {
         const d = el('details', 'grp');
         const s = el('summary');
-        const lab = el('span'); lab.append(ico('bell'), document.createTextNode(' Alerts'));
-        s.append(lab, el('span', 'pill', String(restAlerts.length)));
+        const n = restAlerts.length;
+        const lab = el('span'); lab.textContent = 'Show ' + n + ' alert' + (n === 1 ? '' : 's');
+        s.append(lab, ico('chevron-down', 16));
         d.append(s);
         const l = el('div', 'list');
         if (!restAlerts.length) l.append(el('div', 'empty sec-empty', alerts.length ? 'No other alerts.' : 'All dismissed.'));
@@ -2036,7 +2049,7 @@ img, video { max-width: 100%; height: auto; }
     const evs = school.filter((e) => e && e.start);
     if (st) st.textContent = evs.length + ' in the next 3 weeks';
     $('n-school').textContent = String(evs.filter((e) => new Date(e.start) - Date.now() < 3 * 864e5).length || '');
-    if (!evs.length) { box.append(el('div', 'empty', 'Nothing due in the next 3 weeks. 🎉')); return; }
+    if (!evs.length) { box.append(el('div', 'empty', 'Nothing due in the next 3 weeks.')); return; }
     evs.forEach((e) => {
       const c = el('article', 'item'); const meta = el('div', 'meta');
       const dl = dueLabel(String(e.start).slice(0, 10)); if (dl) meta.append(el('span', 'pill ' + dl.c, '⏰ ' + dl.t));
@@ -2366,7 +2379,7 @@ img, video { max-width: 100%; height: auto; }
     rf.append(rc); box.append(rf);
     const cf = el('div', 'field'); cf.append(el('span', null, 'Data source'));
     const cr = el('div', 'chips');
-    cr.append(el('span', 'pill' + (P.bot ? ' ok' : ''), P.bot && R && R.at ? '✓ Grokbot · updated ' + ago(R.at) : 'Grokbot · waiting for first update'));
+    cr.append(el('span', 'pill' + (P.bot ? ' ok' : ''), P.bot && R && R.at ? 'Grokbot · updated ' + ago(R.at) : 'Grokbot · waiting for first update'));
     const cb = el('button', 'btn sm', 'Bot setup'); cb.type = 'button'; cb.addEventListener('click', () => showWizard('bot'));
     cr.append(cb); cf.append(cr); box.append(cf);
     const vf = el('div', 'field'); vf.append(el('span', null, 'Your people (always on top)'), vipEditor()); box.append(vf);
@@ -2395,7 +2408,7 @@ img, video { max-width: 100%; height: auto; }
       tb.disabled = true; ts.textContent = 'Testing health…'; ts.className = 'status';
       try {
         const { res, text } = await testRelayConnection();
-        if (res.ok) { ts.textContent = 'Connected ✓ (health + ping)'; ts.className = 'status ok'; }
+        if (res.ok) { ts.textContent = 'Connected (health + ping)'; ts.className = 'status ok'; }
         else { ts.textContent = 'Health OK, but ping failed: ' + formatWebhookError(null, res, text); ts.className = 'status bad'; }
       } catch (e) {
         if (e && e.cause) ts.textContent = formatWebhookError(e.cause);
@@ -2431,7 +2444,7 @@ img, video { max-width: 100%; height: auto; }
         const g = Math.max(0, Math.round(Number(gEl.value) || 0)) || 3000;
         gEl.value = String(g); store.set('bookedGoal', g);
       }
-      syncSendBtn(); renderBrief(); ss.textContent = 'Saved ✓'; setTimeout(() => { ss.textContent = ''; }, 2000);
+      syncSendBtn(); renderBrief(); ss.textContent = 'Saved'; setTimeout(() => { ss.textContent = ''; }, 2000);
     });
     sr.append(sb, ss); box.append(sr);
     box.append(el('p', 'note', 'Your setup lives only in this browser. Inbox HQ displays what your bot publishes. Send Email and AI write go through your Cloudflare relay to Grokbot; nothing leaves until you approve it there.'));
