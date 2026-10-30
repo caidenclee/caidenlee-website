@@ -170,11 +170,22 @@ details.grp .list { padding: 0 10px 10px; }
 :root[data-theme="dark"] .ev.personal .t { color: #0a2a3d; }
 .ev-sheet-backdrop { position: fixed; inset: 0; background: rgba(8,17,28,.45); z-index: 40; display: grid; place-items: end center; padding: 12px; padding-bottom: max(12px, env(safe-area-inset-bottom, 0px)); }
 @media (min-width: 560px) { .ev-sheet-backdrop { place-items: center; } }
-.ev-sheet { width: min(100%, 26rem); background: var(--card); color: var(--ink); border: 1.5px solid var(--line); border-radius: 18px; padding: 18px 16px 16px; display: grid; gap: 10px; box-shadow: 0 18px 50px rgba(0,0,0,.28); max-height: min(85vh, 36rem); overflow: auto; }
+.ev-sheet { width: min(100%, 26rem); background: var(--card); color: var(--ink); border: 1.5px solid var(--line); border-radius: 18px; padding: 18px 16px 16px; display: grid; gap: 10px; box-shadow: 0 18px 50px rgba(0,0,0,.28); max-height: min(85vh, 36rem); overflow: auto; animation: setpop .16s ease; }
+.ev-sheet.mail-sheet { width: min(100%, 34rem); max-height: min(90vh, 44rem); }
+.ev-sheet.modal-sheet { width: min(100%, 24rem); }
 .ev-sheet h3 { font: 800 18px/1.2 var(--display); letter-spacing: -.01em; margin: 0; overflow-wrap: anywhere; }
 .ev-sheet .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.ev-sheet .from { font-weight: 700; overflow-wrap: anywhere; }
+.ev-sheet .when { font-size: 13px; color: var(--muted); }
 .ev-sheet .desc { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; color: var(--muted); background: var(--soft); border-radius: 10px; padding: 10px 12px; }
+.ev-sheet .body { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14.5px; line-height: 1.45; color: var(--ink); background: var(--soft); border-radius: 10px; padding: 12px 14px; }
+.ev-sheet .body a { color: var(--brand); word-break: break-all; }
 .ev-sheet .acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 4px; }
+.ev-sheet .sheet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.ev-sheet .sheet-x { flex: none; border: 1.5px solid var(--line); background: var(--card); color: var(--muted); border-radius: 50%; width: 36px; height: 36px; min-width: 36px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
+.ev-sheet .sheet-x:hover, .ev-sheet .sheet-x:focus-visible { color: var(--ink); border-color: var(--ink); }
+.item.readable { cursor: pointer; }
+.item.readable:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { border: 1.5px solid var(--line); border-radius: 999px; padding: 6px 12px; background: var(--card); font-weight: 600; font-size: 13.5px; cursor: pointer; }
 .chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
@@ -187,7 +198,7 @@ details.grp .list { padding: 0 10px 10px; }
 @keyframes sp { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) {
   .spin { animation: none; }
-  .panel-enter, .card-enter, .set-sheet { animation: none !important; }
+  .panel-enter, .card-enter, .set-sheet, .ev-sheet { animation: none !important; }
 }
 @keyframes panelIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes cardIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -600,6 +611,7 @@ img, video { max-width: 100%; height: auto; }
         category: CATS.includes(i.category) ? i.category : 'Updates', summary: String(i.summary || ''),
         action: i.category === 'Promos' ? '' : String(i.action || ''), due: /^\d{4}-\d{2}-\d{2}$/.test(i.due || '') ? i.due : '',
         urgent: !!i.urgent, link: i.link || '',
+        body: String(i.body == null ? '' : i.body).slice(0, 4000),
       })),
     };
     week = (obj.events || []).map((e) => ({ title: e.title || '(no title)', start: e.start || '', end: e.end || '', allDay: !!e.allDay, where: e.where || '', link: e.link || '', calendar: e.calendar === 'business' ? 'business' : 'personal', description: String(e.description || '').trim() }));
@@ -1111,16 +1123,47 @@ img, video { max-width: 100%; height: auto; }
       btn.disabled = false;
     });
   })();
+  let cleanupModalEl = null, cleanupModalKey = null;
+  function closeCleanupModal() {
+    if (cleanupModalEl) { cleanupModalEl.remove(); cleanupModalEl = null; }
+    if (cleanupModalKey) { document.removeEventListener('keydown', cleanupModalKey); cleanupModalKey = null; }
+  }
+  function openCleanupModal(onProceed) {
+    closeCleanupModal();
+    const backdrop = el('div', 'ev-sheet-backdrop');
+    backdrop.setAttribute('role', 'presentation');
+    const sheet = el('div', 'ev-sheet modal-sheet');
+    sheet.setAttribute('role', 'dialog');
+    sheet.setAttribute('aria-modal', 'true');
+    sheet.setAttribute('aria-labelledby', 'cleanup-title');
+    const head = el('div', 'sheet-head');
+    const title = el('h3', null, 'Clean up inbox'); title.id = 'cleanup-title';
+    head.append(title);
+    const x = el('button', 'sheet-x'); x.type = 'button'; x.setAttribute('aria-label', 'Close'); x.append(ico('x', 16));
+    x.addEventListener('click', closeCleanupModal); head.append(x);
+    sheet.append(head);
+    sheet.append(el('p', 'note', "I'll archive promos, newsletters, and old notices from the last two weeks. Nothing is deleted or unsubscribed. Mail from real people, Badger Mountain, school, bills, and recent security alerts is left alone. Archived mail stays in All Mail."));
+    const acts = el('div', 'acts');
+    const cancel = el('button', 'btn', 'Cancel'); cancel.type = 'button'; cancel.addEventListener('click', closeCleanupModal);
+    const go = el('button', 'btn primary', 'Proceed to cleanup'); go.type = 'button';
+    go.addEventListener('click', () => { closeCleanupModal(); if (onProceed) onProceed(); });
+    acts.append(cancel, go); sheet.append(acts);
+    backdrop.append(sheet);
+    backdrop.addEventListener('click', (ev) => { if (ev.target === backdrop) closeCleanupModal(); });
+    sheet.addEventListener('click', (ev) => ev.stopPropagation());
+    cleanupModalKey = (ev) => { if (ev.key === 'Escape') closeCleanupModal(); };
+    document.addEventListener('keydown', cleanupModalKey);
+    document.body.append(backdrop);
+    cleanupModalEl = backdrop;
+    go.focus();
+  }
   (function bindCleanup() {
     const btn = $('cleanup-btn'); if (!btn) return; const st = $('cleanup-status');
     const LOCK = 120000;
     const lockLeft = () => Math.max(0, (Number(store.get('cleanupAt')) || 0) + LOCK - Date.now());
     const sync = () => { const l = lockLeft(); btn.disabled = l > 0; if (l > 0) setTimeout(sync, l + 50); };
     sync();
-    btn.addEventListener('click', async () => {
-      if (lockLeft() > 0) return;
-      if (!webhookConfigured()) { st.textContent = 'Add the Relay URL and Relay key in Settings.'; st.className = 'status bad'; return; }
-      if (!confirm('Archive promos, newsletters and old notices? Nothing is deleted.')) return;
+    const runCleanup = async () => {
       btn.disabled = true; st.textContent = 'Sending…'; st.className = 'status';
       try {
         const { res, text } = await postToGrokbot({ kind: 'cleanup', source: 'inbox-hq', sentAt: new Date().toISOString() });
@@ -1128,6 +1171,11 @@ img, video { max-width: 100%; height: auto; }
         st.textContent = formatWebhookError(null, res, text); st.className = 'status bad';
       } catch (e) { st.textContent = formatWebhookError(e); st.className = 'status bad'; }
       btn.disabled = false;
+    };
+    btn.addEventListener('click', () => {
+      if (lockLeft() > 0) return;
+      if (!webhookConfigured()) { st.textContent = 'Add the Relay URL and Relay key in Settings.'; st.className = 'status bad'; return; }
+      openCleanupModal(runCleanup);
     });
   })();
   function bindTodoReset(btn) {
@@ -1186,11 +1234,56 @@ img, video { max-width: 100%; height: auto; }
     const u = $('toast-undo'); u.hidden = !undo; u.onclick = () => { t.hidden = true; clearTimeout(toastT); if (undo) undo(); };
     t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 5000);
   }
+  // Archive batching: collect ids for ~1.5s; Undo before flush drops them
+  const archiveQueue = new Map(); // gmailId -> itemKey
+  let archiveTimer = null;
+  const archiveIdOf = (i) => {
+    const id = String((i && i.id) || '').trim();
+    return id && id !== 'undefined' ? id : '';
+  };
+  function cancelQueuedArchive(id) {
+    if (!id) return;
+    archiveQueue.delete(id);
+  }
+  function queueArchive(id, key) {
+    if (!id) return;
+    archiveQueue.set(id, key || id);
+    if (archiveTimer) clearTimeout(archiveTimer);
+    archiveTimer = setTimeout(flushArchiveQueue, 1500);
+  }
+  async function flushArchiveQueue() {
+    archiveTimer = null;
+    const entries = [...archiveQueue.entries()];
+    archiveQueue.clear();
+    if (!entries.length) return;
+    const ids = entries.map(([id]) => id);
+    const keys = entries.map(([, key]) => key);
+    if (!webhookConfigured()) { toast('Hidden here only'); return; }
+    try {
+      const { res } = await postToGrokbot({ kind: 'archive', ids, source: 'inbox-hq', sentAt: new Date().toISOString() });
+      if (res.ok) {
+        toast('Archived in Gmail', () => { setDismissed(keys, false); renderToday(); renderBrief(); });
+      } else {
+        toast('Hidden here, archive failed');
+      }
+    } catch (e) {
+      toast('Hidden here, archive failed');
+    }
+  }
   function dismissItem(i, card, viaSwipe) {
     const k = itemKey(i);
+    const aid = archiveIdOf(i);
     const finish = () => {
       setDismissed([k], true); renderToday(); renderBrief();
-      toast('Done', () => { setDismissed([k], false); renderToday(); renderBrief(); });
+      if (!webhookConfigured() || !aid) {
+        toast('Hidden here only', () => { setDismissed([k], false); renderToday(); renderBrief(); });
+        return;
+      }
+      queueArchive(aid, k);
+      toast('Done', () => {
+        cancelQueuedArchive(aid);
+        setDismissed([k], false); renderToday(); renderBrief();
+      });
     };
     if (!card) { finish(); return; }
     try {
@@ -1245,18 +1338,25 @@ img, video { max-width: 100%; height: auto; }
     const dl = dueLabel(i.due); if (dl) meta.append(el('span', 'pill ' + dl.c, '⏰ ' + dl.t));
     else if (showUrgent(i)) meta.append(el('span', 'pill warn', 'Soon'));
     meta.append(el('span', null, shortFrom(i.from)));
-    const ttl = el('div', 'ttl'); ttl.append(link(i.subject, gmailLink(i)));
+    const ttl = el('div', 'ttl', i.subject || '(no subject)');
     c.append(meta, ttl, el('div', 'sum', i.summary));
     if (i.action) { const act = el('div', 'act'); act.append(ico('chevron-right'), document.createTextNode(i.action)); c.append(act); }
     if (['VIP', 'School', 'Work', 'Personal'].includes(i.category)) {
       const a = el('div', 'acts'); const w = el('button', 'btn sm'); w.type = 'button'; w.append(ico('mail'), document.createTextNode(' Reply'));
-      w.addEventListener('click', () => openWriter({ mode: 'ai', to: emailOf(i.from), name: shortFrom(i.from).split(' ')[0], about: i.subject, role: i.category === 'Work' ? 'work' : i.category === 'School' ? 'school' : 'personal', topic: 'reply', replyToThreadId: i.id || '' }));
+      w.addEventListener('click', (ev) => { ev.stopPropagation(); openWriter({ mode: 'ai', to: emailOf(i.from), name: shortFrom(i.from).split(' ')[0], about: i.subject, role: i.category === 'Work' ? 'work' : i.category === 'School' ? 'school' : 'personal', topic: 'reply', replyToThreadId: i.id || '' }); });
       a.append(w); c.append(a);
     }
     let acts = c.querySelector('.acts'); if (!acts) { acts = el('div', 'acts'); c.append(acts); }
     const td = el('button', 'btn sm', '+ To-do'); td.type = 'button'; td.setAttribute('aria-label', 'Add a to-do to reply to this email');
-    td.addEventListener('click', () => todoFromEmail(i)); acts.append(td);
+    td.addEventListener('click', (ev) => { ev.stopPropagation(); todoFromEmail(i); }); acts.append(td);
     addSwipe(c, () => hideItem(i, c));
+    c.classList.add('readable');
+    c.tabIndex = 0;
+    c.setAttribute('role', 'button');
+    c.setAttribute('aria-label', 'Read ' + (i.subject || 'email'));
+    const openMail = () => openEmailSheet(i);
+    c.addEventListener('click', (ev) => { if (ev.target.closest('a, button')) return; openMail(); });
+    c.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); if (!ev.target.closest('a, button')) openMail(); } });
     return c;
   }
   function titleCaseWord(s) {
@@ -1335,12 +1435,12 @@ img, video { max-width: 100%; height: auto; }
     const dismissed = items.filter(isDismissed);
     if (!dismissed.length) return null;
     const wrap = el('div');
-    const b = el('button', 'show-hidden', 'Show dismissed (' + dismissed.length + ')'); b.type = 'button';
+    const b = el('button', 'show-hidden', 'Show dismissed here (' + dismissed.length + ')'); b.type = 'button';
     const list = el('div', 'list'); list.hidden = true;
     b.addEventListener('click', () => {
       const open = list.hidden;
       list.hidden = !open;
-      b.textContent = open ? 'Hide dismissed (' + dismissed.length + ')' : 'Show dismissed (' + dismissed.length + ')';
+      b.textContent = open ? 'Hide dismissed here (' + dismissed.length + ')' : 'Show dismissed here (' + dismissed.length + ')';
       if (open && !list.childNodes.length) {
         dismissed.forEach((i) => {
           const card = itemCard(i);
@@ -1527,6 +1627,104 @@ img, video { max-width: 100%; height: auto; }
     evSheetEl = backdrop;
     close.focus();
   }
+  function formatItemWhen(i) {
+    if (!i || !i.date) return '';
+    try {
+      const d = new Date(i.date);
+      if (isNaN(d.getTime())) return String(i.date);
+      return d.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    } catch (e) { return String(i.date); }
+  }
+  function appendLinkifiedText(container, text) {
+    const raw = String(text || '');
+    const re = /(https?:\/\/[^\s<]+)/g;
+    let last = 0, m;
+    while ((m = re.exec(raw))) {
+      if (m.index > last) container.append(document.createTextNode(raw.slice(last, m.index)));
+      let url = m[1];
+      let trail = '';
+      const trim = url.match(/^(.*?)([.,);:]+)$/);
+      if (trim) { url = trim[1]; trail = trim[2]; }
+      try {
+        const u = new URL(url);
+        if (u.protocol === 'http:' || u.protocol === 'https:') {
+          const a = el('a', null, url); a.href = u.href; a.target = '_blank'; a.rel = 'noopener'; container.append(a);
+        } else {
+          container.append(document.createTextNode(m[1]));
+        }
+      } catch (e) {
+        container.append(document.createTextNode(m[1]));
+      }
+      if (trail) container.append(document.createTextNode(trail));
+      last = m.index + m[0].length;
+    }
+    if (last < raw.length) container.append(document.createTextNode(raw.slice(last)));
+  }
+  let mailSheetEl = null, mailSheetKeyHandler = null;
+  function closeEmailSheet() {
+    if (mailSheetEl) { mailSheetEl.remove(); mailSheetEl = null; }
+    if (mailSheetKeyHandler) { document.removeEventListener('keydown', mailSheetKeyHandler); mailSheetKeyHandler = null; }
+  }
+  function openEmailSheet(i) {
+    closeEmailSheet();
+    closeEventSheet();
+    const backdrop = el('div', 'ev-sheet-backdrop');
+    backdrop.setAttribute('role', 'presentation');
+    const sheet = el('div', 'ev-sheet mail-sheet');
+    sheet.setAttribute('role', 'dialog');
+    sheet.setAttribute('aria-modal', 'true');
+    sheet.setAttribute('aria-label', i.subject || 'Email');
+    const head = el('div', 'sheet-head');
+    head.append(el('h3', null, i.subject || '(no subject)'));
+    const x = el('button', 'sheet-x'); x.type = 'button'; x.setAttribute('aria-label', 'Close'); x.append(ico('x', 16));
+    x.addEventListener('click', closeEmailSheet); head.append(x);
+    sheet.append(head);
+    sheet.append(el('div', 'from', shortFrom(i.from) || i.from || 'Unknown sender'));
+    const when = formatItemWhen(i); if (when) sheet.append(el('div', 'when', when));
+    const meta = el('div', 'meta');
+    if (i.category) {
+      const p = el('span', 'pill');
+      if (i.category === 'VIP') p.textContent = 'VIP';
+      else if (CAT_ICO[i.category]) p.append(ico(CAT_ICO[i.category]), document.createTextNode(' ' + i.category));
+      else p.textContent = ((CAT_ICON[i.category] || '') + ' ' + i.category).trim();
+      meta.append(p);
+    }
+    if (meta.childNodes.length) sheet.append(meta);
+    const bodyText = String(i.body || '').trim();
+    if (bodyText) {
+      const body = el('div', 'body');
+      appendLinkifiedText(body, bodyText);
+      sheet.append(body);
+    } else {
+      if (i.summary) sheet.append(el('div', 'body', i.summary));
+      sheet.append(el('p', 'note', 'Full text arrives on the next update'));
+    }
+    const acts = el('div', 'acts');
+    const g = gmailLink(i);
+    if (g) {
+      const a = el('a', 'btn primary'); a.href = g; a.target = '_blank'; a.rel = 'noopener';
+      a.append(ico('mail'), document.createTextNode(' Open in Gmail')); acts.append(a);
+    }
+    if (['VIP', 'School', 'Work', 'Personal'].includes(i.category)) {
+      const w = el('button', 'btn sm'); w.type = 'button'; w.append(ico('mail'), document.createTextNode(' Reply'));
+      w.addEventListener('click', () => { closeEmailSheet(); openWriter({ mode: 'ai', to: emailOf(i.from), name: shortFrom(i.from).split(' ')[0], about: i.subject, role: i.category === 'Work' ? 'work' : i.category === 'School' ? 'school' : 'personal', topic: 'reply', replyToThreadId: i.id || '' }); });
+      acts.append(w);
+    }
+    const td = el('button', 'btn sm', '+ To-do'); td.type = 'button';
+    td.addEventListener('click', () => { todoFromEmail(i); });
+    acts.append(td);
+    const close = el('button', 'btn', 'Close'); close.type = 'button'; close.addEventListener('click', closeEmailSheet); acts.append(close);
+    sheet.append(acts);
+    backdrop.append(sheet);
+    backdrop.addEventListener('click', (ev) => { if (ev.target === backdrop) closeEmailSheet(); });
+    sheet.addEventListener('click', (ev) => ev.stopPropagation());
+    mailSheetKeyHandler = (ev) => { if (ev.key === 'Escape') closeEmailSheet(); };
+    document.addEventListener('keydown', mailSheetKeyHandler);
+    document.body.append(backdrop);
+    mailSheetEl = backdrop;
+    close.focus();
+  }
+
   function fillWeekBox(box, list, emptyMsg, err, retry) {
     box.replaceChildren();
     if (err) {
