@@ -11,7 +11,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Figtree:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Figtree:wght@400;500;600;700;800&display=swap">
 <style>
 /* Layout: phone-first app shell — a colored "brief" header, sticky tab bar, one column of cards. Palette tokens are swapped at runtime by the theme picker. */
 :root {
@@ -101,7 +101,18 @@ textarea.in { min-height: 13rem; resize: vertical; line-height: 1.5; }
 .brief { background: var(--deep); color: #fff; border-radius: 22px; padding: 22px 20px 18px; display: grid; gap: 14px; position: relative; overflow: hidden; }
 .brief::after { content: ""; position: absolute; right: -50px; top: -50px; width: 190px; height: 190px; border-radius: 50%; border: 26px solid var(--accent); opacity: .22; }
 .brief .eyebrow { color: var(--accent); }
-.brief h1 { font: 800 clamp(24px, 6vw, 38px)/1.08 var(--display); letter-spacing: -.015em; }
+.brief h1, .brief .headline {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: .01em;
+  line-height: 1.25;
+  max-width: 640px;
+  margin: 0;
+}
+@media (min-width: 760px) {
+  .brief h1, .brief .headline { font-size: 28px; }
+}
 .brief .take { font-size: 16px; opacity: .9; max-width: 60ch; }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: 10px; }
 .tile { border-top: 3px solid rgba(255,255,255,.25); padding-top: 6px; }
@@ -344,9 +355,8 @@ img, video { max-width: 100%; height: auto; }
   <div id="app" hidden>
     <header class="brief" style="position:relative">
       <button type="button" id="gear" aria-label="Settings" title="Settings" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:calc(env(safe-area-inset-right,0px) + 12px);width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:inherit;cursor:pointer;z-index:5;display:inline-flex;align-items:center;justify-content:center"></button>
-      <div class="eyebrow" id="b-eyebrow">Inbox HQ</div>
-      <h1 id="b-hello">Good morning</h1>
-      <p class="take" id="b-take">Loading your day…</p>
+      <div class="eyebrow" id="b-eyebrow">Good evening</div>
+      <h1 class="headline" id="b-take">Loading your day…</h1>
       <div class="tiles">
         <div class="tile hot"><b id="t-todo">·</b><span>to-dos</span></div>
         <div class="tile"><b id="t-vip">·</b><span>personal</span></div>
@@ -796,7 +806,26 @@ img, video { max-width: 100%; height: auto; }
     });
   }
   function updateStamp() { updateAllStamps(); }
-  function updateGreeting() { updateAllStamps(); const e = $('b-hello'); if (!e) return; const t = greetingFor(new Date()) + ', ' + ((P && P.name) || 'there'); if (e.textContent !== t) e.textContent = t; }
+  function updateGreeting() {
+    updateAllStamps();
+    const e = $('b-eyebrow'); if (!e) return;
+    const name = ((P && P.name) || 'there');
+    const day = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    const t = greetingFor(new Date()) + ', ' + name + ' · ' + day;
+    if (e.textContent !== t) e.textContent = t;
+  }
+  function headlineText() {
+    let h = (R && R.headline) ? String(R.headline).trim() : '';
+    if (!h) return (P && P.gmail) ? 'Your bot\'s latest update will appear here.' : 'Waiting for your bot\'s first update. Setup is in Settings.';
+    const name = ((P && P.name) || '').trim();
+    if (name) {
+      const re = new RegExp('^' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ',\\s*', 'i');
+      h = h.replace(re, '');
+    } else {
+      h = h.replace(/^Caiden,\s*/i, '');
+    }
+    return h.trim() || String(R.headline).trim();
+  }
   setInterval(updateGreeting, 60000);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') updateGreeting(); });
   window.addEventListener('pageshow', updateGreeting);
@@ -822,7 +851,6 @@ img, video { max-width: 100%; height: auto; }
   }
   function renderBrief() {
     updateGreeting();
-    $('b-eyebrow').textContent = 'Inbox HQ · ' + new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
     const items = ((R && R.items) || []).filter((i) => !isDismissed(i));
     const openTodos = countOpenTodos();
     const personalN = items.filter((i) => ['Personal', 'VIP', 'School'].includes(i.category)).length;
@@ -834,10 +862,11 @@ img, video { max-width: 100%; height: auto; }
     const tb = $('t-booked'); if (tb) tb.textContent = week ? ('$' + Math.round(booked.total)) : '·';
     const tn = $('t-booked-note');
     if (tn) tn.textContent = (week && booked.unpriced) ? (booked.unpriced + ' job' + (booked.unpriced === 1 ? '' : 's') + ' unpriced') : '';
-    $('b-take').textContent = R && R.headline ? R.headline : (P.gmail ? 'Your bot\'s latest update will appear here.' : 'Waiting for your bot\'s first update. Setup is in Settings.');
+    const take = $('b-take'); if (take) take.textContent = headlineText();
     updateStamp();
     $('n-today').textContent = String(openTodos || '');
   }
+
 
   // ---------- recap ----------
   const CATS = ['VIP', 'School', 'Work', 'Personal', 'Bills & orders', 'Updates', 'Promos'];
