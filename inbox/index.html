@@ -132,6 +132,49 @@ textarea.in { min-height: 13rem; resize: vertical; line-height: 1.5; }
 @media (min-width: 760px) {
   .brief h1, .brief .headline { font-size: 28px; }
 }
+.hl-wrap { min-width: 0; display: grid; gap: 8px; }
+.hl-rail {
+  display: flex; gap: 10px; overflow-x: auto; overflow-y: hidden;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; overscroll-behavior-x: contain;
+  padding: 2px 1px 4px; margin: 0;
+}
+.hl-rail::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.hl-card {
+  flex: 0 0 78%; max-width: 78%; scroll-snap-align: start; scroll-snap-stop: normal;
+  background: var(--card); color: var(--ink); border-radius: 14px;
+  box-shadow: var(--shadow-rest); padding: 12px 14px;
+  display: grid; gap: 4px; text-align: left; cursor: pointer;
+  border: 0; appearance: none; -webkit-appearance: none; min-width: 0;
+  font: inherit;
+}
+.hl-card:hover { box-shadow: var(--shadow-hover); }
+.hl-card .hl-lab {
+  font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--muted); display: flex; align-items: center; gap: 6px;
+}
+.hl-card .hl-lab .ico-wrap { color: var(--accent); flex-shrink: 0; }
+.hl-card .hl-val {
+  font-family: var(--display); font-weight: 700; font-size: 22px; line-height: 1.2;
+  letter-spacing: .01em; color: var(--ink);
+}
+.hl-card .hl-sub {
+  font-size: 12.5px; color: var(--muted); line-height: 1.35;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.hl-dots { display: flex; gap: 6px; justify-content: center; align-items: center; min-height: 10px; }
+.hl-dot {
+  width: 6px; height: 6px; border-radius: 50%; border: 0; padding: 0;
+  background: rgba(255,255,255,.35); cursor: pointer;
+}
+.hl-dot[aria-current="true"] { background: var(--accent); width: 8px; height: 8px; }
+@media (min-width: 760px) {
+  .hl-card { flex-basis: calc((100% - 20px) / 3); max-width: calc((100% - 20px) / 3); }
+  .hl-card .hl-val { font-size: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hl-rail { scroll-behavior: auto; }
+}
 .brief .take { font-size: 16px; opacity: .9; max-width: 60ch; }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: 10px; }
 .tile {
@@ -422,7 +465,10 @@ img, video { max-width: 100%; height: auto; }
       <div class="brief-grid">
         <div class="brief-main">
           <div class="eyebrow" id="b-eyebrow">Good evening</div>
-          <h1 class="headline" id="b-take">Loading your day…</h1>
+          <div class="hl-wrap" id="b-highlights">
+            <div class="hl-rail" id="b-hl-rail" role="list" aria-label="Highlights"></div>
+            <div class="hl-dots" id="b-hl-dots" role="tablist" aria-label="Highlight pages"></div>
+          </div>
           <div class="tiles" id="b-tiles">
             <button type="button" class="tile" data-stat="todos" aria-label="To-dos"><b id="t-todo">·</b><span>to-dos</span><span class="tile-bar" id="t-todo-bar" aria-hidden="true"><i></i></span></button>
             <button type="button" class="tile" data-stat="personal" aria-label="Personal emails"><b id="t-vip">·</b><span>personal</span></button>
@@ -599,6 +645,10 @@ img, video { max-width: 100%; height: auto; }
       check: '<path d="M20 6 9 17l-5-5"/>',
       'chevron-down': '<path d="m6 9 6 6 6-6"/>',
       'alert-triangle': '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+      'dollar-sign': '<line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+      zap: '<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
+      target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+      'message-square': '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
     };
     const svg = '<svg xmlns="http://www.w3.org/2000/svg" class="ico" width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || '') + '</svg>';
     const s = el('span', 'ico-wrap'); s.innerHTML = svg; return s;
@@ -912,6 +962,14 @@ img, video { max-width: 100%; height: auto; }
     const t = greetingFor(new Date()) + ', ' + name + ' · ' + day;
     if (e.textContent !== t) e.textContent = t;
     if (typeof renderNextUp === 'function') renderNextUp();
+    if (typeof renderHighlights === 'function' && $('b-hl-rail')) {
+      // refresh countdown value on next-up card without rebuilding whole rail focus
+      const first = $('b-hl-rail').querySelector('.hl-card .hl-val');
+      const next = findNextUpEvent(week || (R && R.events) || []);
+      if (first && next && first.parentElement && /next up/i.test(first.parentElement.getAttribute('aria-label') || '')) {
+        first.textContent = countdownLabel(next) || 'soon';
+      }
+    }
   }
   function headlineText() {
     let h = (R && R.headline) ? String(R.headline).trim() : '';
@@ -924,6 +982,156 @@ img, video { max-width: 100%; height: auto; }
       h = h.replace(/^Caiden,\s*/i, '');
     }
     return h.trim() || String(R.headline).trim();
+  }
+  function parseMoneyIn(items) {
+    let total = 0;
+    (items || []).forEach((i) => {
+      if (i.category !== 'Bills & orders') return;
+      const blob = String(i.subject || '') + ' ' + String(i.summary || '');
+      if (!/venmo|stripe/i.test(blob)) return;
+      if (/transfer (has been initiated|to your bank)|standard transfer/i.test(blob)) return;
+      const m = blob.match(/(?:paid you|sent you|paid)\s*\$?\s*([\d,]+(?:\.\d+)?)/i)
+        || blob.match(/\$\s*([\d,]+(?:\.\d+)?)/);
+      if (!m) return;
+      const n = parseFloat(String(m[1]).replace(/,/g, ''));
+      if (Number.isFinite(n)) total += n;
+    });
+    return total;
+  }
+  function needsYouItems(items) {
+    return (items || []).filter((i) => {
+      if (isDismissed(i)) return false;
+      const a = i.action;
+      return (typeof a === 'string' && a.trim()) || !!i.urgent;
+    });
+  }
+  function scrollToSel(sel) {
+    const node = typeof sel === 'string' ? document.querySelector(sel) : sel;
+    if (!node) return;
+    try { node.scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (e) { try { node.scrollIntoView(true); } catch (x) { /* ignore */ } }
+  }
+  function makeHlCard(spec) {
+    const b = el('button', 'hl-card');
+    b.type = 'button';
+    b.setAttribute('role', 'listitem');
+    b.setAttribute('aria-label', spec.label + ': ' + spec.value);
+    const lab = el('div', 'hl-lab');
+    lab.append(ico(spec.icon, 14), document.createTextNode(spec.label));
+    const val = el('div', 'hl-val', spec.value);
+    const sub = el('div', 'hl-sub', spec.sub || '');
+    b.append(lab, val, sub);
+    b.addEventListener('click', () => { if (spec.onClick) spec.onClick(); });
+    return b;
+  }
+  function syncHlDots() {
+    const rail = $('b-hl-rail'); const dots = $('b-hl-dots');
+    if (!rail || !dots) return;
+    const cards = [...rail.querySelectorAll('.hl-card')];
+    if (!cards.length) return;
+    const left = rail.scrollLeft;
+    let best = 0, bestDist = Infinity;
+    cards.forEach((c, i) => {
+      const d = Math.abs(c.offsetLeft - left);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    [...dots.querySelectorAll('.hl-dot')].forEach((d, i) => {
+      if (i === best) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
+    });
+  }
+  function renderHighlights() {
+    const rail = $('b-hl-rail'); const dots = $('b-hl-dots');
+    if (!rail || !dots) return;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    rail.style.scrollBehavior = reduce ? 'auto' : 'smooth';
+    const items = ((R && R.items) || []).filter((i) => !isDismissed(i));
+    const cards = [];
+
+    const next = findNextUpEvent(week || (R && R.events) || []);
+    if (next) {
+      const title = String(next.title || next.summary || 'Event').trim() || 'Event';
+      cards.push({
+        icon: 'calendar', label: 'Next up', value: countdownLabel(next) || 'soon',
+        sub: title,
+        onClick: () => { show('today'); scrollToSel('#b-next'); },
+      });
+    }
+
+    const money = parseMoneyIn(items);
+    if (money > 0) {
+      cards.push({
+        icon: 'dollar-sign', label: 'Money in', value: moneyFmt(money),
+        sub: 'Venmo and Stripe payments',
+        onClick: () => {
+          show('today');
+          const rest = document.getElementById('rest-list') || document.querySelector('#p-today .sec-h');
+          // prefer Bills group
+          const billSum = [...document.querySelectorAll('details.grp summary')].find((s) => /Bills/i.test(s.textContent));
+          scrollToSel(billSum || rest);
+        },
+      });
+    }
+
+    const needs = needsYouItems(((R && R.items) || []));
+    if (needs.length) {
+      cards.push({
+        icon: 'zap', label: 'Needs you',
+        value: String(needs.length),
+        sub: needs.length === 1 ? '1 item waiting on you' : needs.length + ' items waiting on you',
+        onClick: () => {
+          show('today');
+          const alerts = document.getElementById('alerts-list') || document.querySelector('#p-today h2');
+          // find Alerts heading
+          const h = [...document.querySelectorAll('#p-today .sec-h h2')].find((x) => x.textContent.trim() === 'Alerts');
+          scrollToSel(h ? h.parentElement : alerts);
+        },
+      });
+    }
+
+    const booked = parseBookedWeek(week || []);
+    const goal = bookedGoal();
+    if (week && (booked.total > 0 || goal > 0)) {
+      cards.push({
+        icon: 'target', label: 'Booked',
+        value: moneyFmt(booked.total),
+        sub: 'of ' + moneyFmt(goal) + ' weekly goal',
+        onClick: () => { show('week'); },
+      });
+    }
+
+    if (!cards.length) {
+      const h = headlineText();
+      cards.push({
+        icon: 'message-square', label: 'Today',
+        value: 'Brief',
+        sub: h,
+        onClick: () => { show('today'); },
+      });
+    }
+
+    const showCards = cards.slice(0, 5);
+    rail.replaceChildren();
+    dots.replaceChildren();
+    showCards.forEach((spec, i) => {
+      rail.append(makeHlCard(spec));
+      const dot = el('button', 'hl-dot');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', 'Highlight ' + (i + 1));
+      if (i === 0) dot.setAttribute('aria-current', 'true');
+      dot.addEventListener('click', () => {
+        const card = rail.querySelectorAll('.hl-card')[i];
+        if (!card) return;
+        try { card.scrollIntoView({ inline: 'start', block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); }
+        catch (e) { rail.scrollLeft = card.offsetLeft; }
+        syncHlDots();
+      });
+      dots.append(dot);
+    });
+    if (showCards.length <= 1) dots.hidden = true; else dots.hidden = false;
+    if (!rail.dataset.hlBound) {
+      rail.dataset.hlBound = '1';
+      rail.addEventListener('scroll', () => { window.requestAnimationFrame(syncHlDots); }, { passive: true });
+    }
+    syncHlDots();
   }
   setInterval(updateGreeting, 60000);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') updateGreeting(); });
@@ -1062,7 +1270,7 @@ img, video { max-width: 100%; height: auto; }
       tn.textContent = bits.join(' · ');
     }
     setBar('t-booked-bar', goal ? (booked.total / goal) : 0);
-    const take = $('b-take'); if (take) take.textContent = headlineText();
+    renderHighlights();
     updateStamp();
     $('n-today').textContent = String(openTodos || '');
     renderNextUp();
