@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-30T18:04:39Z",
+ "generatedAt": "2026-10-30T19:11:20Z",
  "headline": "Caiden, two details start at 3 PM today, five jobs run tomorrow from 8 AM, and Netlify is still out of credits.",
  "items": [
   {
@@ -498,16 +498,6 @@
   }
  ],
  "events": [
-  {
-   "title": "Meeting w/ Caiden Lee",
-   "start": "2026-10-30T09:30:00",
-   "end": "2026-10-30T10:00:00",
-   "allDay": false,
-   "where": "https://meet.google.com/ifj-xscz-siw",
-   "link": "https://www.google.com/calendar/event?eid=NnAyb3VpMGNxaTRkb3U2M2plZWVkNTZhdDQgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
-   "calendar": "personal",
-   "description": "Detailing Accelerator meeting on Google Meet. Reschedule or cancel from the confirmation email."
-  },
   {
    "title": "[Talib] Full Detail: Jonathon (2024 Hyundai PALISADE)",
    "start": "2026-10-30T15:00:00",
