@@ -99,7 +99,26 @@ textarea.in { min-height: 13rem; resize: vertical; line-height: 1.5; }
 
 /* ---------- app ---------- */
 .brief { background: var(--deep); color: #fff; border-radius: 22px; padding: 22px 20px 18px; display: grid; gap: 14px; position: relative; overflow: hidden; }
-.brief::after { content: ""; position: absolute; right: -50px; top: -50px; width: 190px; height: 190px; border-radius: 50%; border: 26px solid var(--accent); opacity: .22; }
+.brief-grid { display: grid; gap: 14px; align-items: start; position: relative; z-index: 1; }
+@media (min-width: 760px) {
+  .brief-grid { grid-template-columns: minmax(0, 1fr) 320px; gap: 18px; }
+}
+.brief-main { display: grid; gap: 14px; min-width: 0; }
+.next-up {
+  background: var(--card); color: var(--ink); border-radius: 14px; box-shadow: var(--shadow-rest);
+  padding: 14px 14px 12px; display: grid; gap: 6px; border-left: 3px solid #8fd3ff;
+}
+.next-up.biz { border-left-color: #d93b3b; }
+.next-up.personal { border-left-color: #8fd3ff; }
+.next-up .nu-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; justify-content: space-between; }
+.next-up .nu-lbl { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.next-up .nu-count { font-size: 12.5px; font-weight: 700; color: var(--brand); }
+.next-up .nu-title { font: 700 15px/1.25 var(--display); letter-spacing: .005em; margin: 0; overflow-wrap: anywhere; }
+.next-up .nu-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); }
+.next-up .nu-where { display: flex; gap: 6px; align-items: flex-start; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.next-up .nu-empty { color: var(--muted); font-size: 14px; margin: 0; }
+.next-up .acts { margin-top: 4px; }
+.brief .next-up .btn { color: var(--ink); background: var(--soft); border-color: var(--line); }
 .brief .eyebrow { color: var(--accent); }
 .brief h1, .brief .headline {
   font-family: var(--display);
@@ -355,18 +374,23 @@ img, video { max-width: 100%; height: auto; }
   <div id="app" hidden>
     <header class="brief" style="position:relative">
       <button type="button" id="gear" aria-label="Settings" title="Settings" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:calc(env(safe-area-inset-right,0px) + 12px);width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:inherit;cursor:pointer;z-index:5;display:inline-flex;align-items:center;justify-content:center"></button>
-      <div class="eyebrow" id="b-eyebrow">Good evening</div>
-      <h1 class="headline" id="b-take">Loading your day…</h1>
-      <div class="tiles">
-        <div class="tile hot"><b id="t-todo">·</b><span>to-dos</span></div>
-        <div class="tile"><b id="t-vip">·</b><span>personal</span></div>
-        <div class="tile"><b id="t-new">·</b><span>new emails</span></div>
-        <div class="tile"><b id="t-ev">·</b><span>events this week</span></div>
-        <div class="tile"><b id="t-booked">·</b><span>booked</span><span class="tile-note" id="t-booked-note"></span></div>
-      </div>
-      <div class="acts">
-        <button type="button" class="btn accent" id="b-recap">↻ Refresh</button>
-        <span class="stamp js-stamp" id="b-stamp" role="status" aria-live="polite"></span>
+      <div class="brief-grid">
+        <div class="brief-main">
+          <div class="eyebrow" id="b-eyebrow">Good evening</div>
+          <h1 class="headline" id="b-take">Loading your day…</h1>
+          <div class="tiles">
+            <div class="tile hot"><b id="t-todo">·</b><span>to-dos</span></div>
+            <div class="tile"><b id="t-vip">·</b><span>personal</span></div>
+            <div class="tile"><b id="t-new">·</b><span>new emails</span></div>
+            <div class="tile"><b id="t-ev">·</b><span>events this week</span></div>
+            <div class="tile"><b id="t-booked">·</b><span>booked</span><span class="tile-note" id="t-booked-note"></span></div>
+          </div>
+          <div class="acts">
+            <button type="button" class="btn accent" id="b-recap">↻ Refresh</button>
+            <span class="stamp js-stamp" id="b-stamp" role="status" aria-live="polite"></span>
+          </div>
+        </div>
+        <aside class="next-up" id="b-next" aria-label="Next up"></aside>
       </div>
     </header>
 
@@ -813,6 +837,7 @@ img, video { max-width: 100%; height: auto; }
     const day = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
     const t = greetingFor(new Date()) + ', ' + name + ' · ' + day;
     if (e.textContent !== t) e.textContent = t;
+    if (typeof renderNextUp === 'function') renderNextUp();
   }
   function headlineText() {
     let h = (R && R.headline) ? String(R.headline).trim() : '';
@@ -849,6 +874,98 @@ img, video { max-width: 100%; height: auto; }
     });
     return { total, unpriced };
   }
+  function eventStartDate(e) {
+    const s = String(e.start || '');
+    if (!s) return null;
+    if (s.length === 10 || e.allDay) return new Date(s.slice(0, 10) + 'T00:00:00');
+    return new Date(s);
+  }
+  function eventEndDate(e) {
+    const en = String(e.end || '');
+    if (en) {
+      if (en.length === 10 || e.allDay) return new Date(en.slice(0, 10) + 'T23:59:59');
+      return new Date(en);
+    }
+    const st = eventStartDate(e);
+    if (!st) return null;
+    if (e.allDay || String(e.start || '').length === 10) {
+      const d = new Date(st); d.setHours(23, 59, 59, 999); return d;
+    }
+    return new Date(st.getTime() + 60 * 60e3); // assume 1h if no end
+  }
+  function findNextUpEvent(events) {
+    const now = Date.now();
+    let best = null, bestSort = Infinity;
+    (events || []).forEach((e) => {
+      const end = eventEndDate(e);
+      if (!end || isNaN(end.getTime()) || end.getTime() <= now) return;
+      const start = eventStartDate(e);
+      const sortKey = start && !isNaN(start.getTime()) ? start.getTime() : end.getTime();
+      if (sortKey < bestSort) { best = e; bestSort = sortKey; }
+    });
+    return best;
+  }
+  function countdownLabel(e) {
+    const now = Date.now();
+    const start = eventStartDate(e);
+    const end = eventEndDate(e);
+    if (!start || !end) return '';
+    if (now >= start.getTime() && now < end.getTime()) return 'now';
+    const ms = start.getTime() - now;
+    if (ms <= 0) return 'now';
+    const mins = Math.round(ms / 60000);
+    if (mins < 60) return 'in ' + Math.max(1, mins) + 'm';
+    const hours = Math.floor(mins / 60);
+    const rem = mins % 60;
+    if (hours < 48) return rem ? ('in ' + hours + 'h ' + rem + 'm') : ('in ' + hours + 'h');
+    const days = Math.round(ms / 864e5);
+    return 'in ' + days + ' day' + (days === 1 ? '' : 's');
+  }
+  function renderNextUp() {
+    const box = $('b-next'); if (!box) return;
+    box.replaceChildren();
+    const e = findNextUpEvent(week || []);
+    if (!e) {
+      box.className = 'next-up';
+      box.append(el('div', 'nu-lbl', 'Next up'));
+      box.append(el('p', 'nu-empty', 'Nothing scheduled'));
+      return;
+    }
+    const biz = e.calendar === 'business';
+    box.className = 'next-up ' + (biz ? 'biz' : 'personal');
+    const top = el('div', 'nu-top');
+    top.append(el('span', 'nu-lbl', 'Next up'));
+    top.append(el('span', 'nu-count', countdownLabel(e)));
+    box.append(top);
+    const parsed = typeof parseTechPrefix === 'function' ? parseTechPrefix(e.title || '') : { techs: [], label: '', rest: e.title || '' };
+    const title = el('h2', 'nu-title', (parsed.rest || e.title || '(no title)'));
+    box.append(title);
+    const meta = el('div', 'nu-meta');
+    if (biz) {
+      const chip = el('span', 'pill' + (parsed.techs && parsed.techs.length ? '' : ' warn'), (parsed.techs && parsed.techs.length) ? parsed.label : 'Tech unassigned');
+      meta.append(chip);
+    } else {
+      meta.append(el('span', 'pill', 'Personal'));
+    }
+    meta.append(el('span', null, (typeof eventTimeLine === 'function') ? eventTimeLine(e) : ''));
+    box.append(meta);
+    if (e.where) {
+      const wh = el('div', 'nu-where');
+      wh.append(ico('map-pin'), document.createTextNode(' ' + e.where));
+      box.append(wh);
+    }
+    const acts = el('div', 'acts');
+    if (e.where) {
+      const maps = el('a', 'btn sm'); maps.href = 'https://maps.google.com/?q=' + encodeURIComponent(e.where);
+      maps.target = '_blank'; maps.rel = 'noopener'; maps.textContent = 'Maps'; acts.append(maps);
+    }
+    const gcal = safeUrl(e.link, ['google.com']);
+    if (gcal) {
+      const cal = el('a', 'btn sm'); cal.href = gcal; cal.target = '_blank'; cal.rel = 'noopener'; cal.textContent = 'Calendar'; acts.append(cal);
+    }
+    if (acts.childNodes.length) box.append(acts);
+  }
+
   function renderBrief() {
     updateGreeting();
     const items = ((R && R.items) || []).filter((i) => !isDismissed(i));
@@ -865,6 +982,7 @@ img, video { max-width: 100%; height: auto; }
     const take = $('b-take'); if (take) take.textContent = headlineText();
     updateStamp();
     $('n-today').textContent = String(openTodos || '');
+    renderNextUp();
   }
 
 

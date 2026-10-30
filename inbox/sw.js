@@ -1,5 +1,5 @@
 /* Inbox HQ service worker — cache the shell, always fetch live data. */
-const CACHE = 'inbox-hq-shell-v13';
+const CACHE = 'inbox-hq-shell-v14';
 const SHELL = [
   '/inbox/',
   '/inbox/index.html',
