@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-10-30T16:04:00Z",
- "headline": "Caiden, your Detailing Accelerator meeting starts at 9:30, jobs run today and tomorrow, and Netlify is still out of credits.",
+ "generatedAt": "2026-10-30T17:06:08Z",
+ "headline": "Caiden, two details start at 3 PM today, five jobs run tomorrow from 8 AM, and Netlify is still out of credits.",
  "items": [
+  {
+   "id": "1a18da10cb9a00da",
+   "from": "Detailing Accelerator <noreply@mail.detailingaccel.com>",
+   "subject": "Here's the link to join our call",
+   "date": "2026-10-30T16:25:03Z",
+   "category": "Work",
+   "summary": "Detailing Accelerator sent the Google Meet link for your 9:30 AM client meeting today.",
+   "action": "",
+   "due": "2026-10-30",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a18da10cb9a00da",
+   "body": "Hi Caiden,\n\nHere's the link to join our meeting at 9:30 AM PDT:\n\nhttps://meet.google.com/ifj-xscz-siw\n\nSee you soon,\n\nDetailing Accelerator Team"
+  },
   {
    "id": "1a18d6ef5aa8bb33",
    "from": "Detailing Accelerator <noreply@mail.detailingaccel.com>",
