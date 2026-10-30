@@ -1,7 +1,79 @@
 {
-  "generatedAt": "2026-10-29T22:05:00Z",
-  "headline": "Caiden, three Badger jobs run this afternoon, you have a call with Dilan at 5, and Netlify is out of credits.",
+  "generatedAt": "2026-10-30T01:04:52Z",
+  "headline": "Caiden, you have a Detailing Accelerator meeting tomorrow at 9:30, $379 came in on Venmo, and Netlify is still out of credits.",
   "items": [
+    {
+      "id": "1a18a51bd9cad9cf",
+      "from": "Venmo <venmo@venmo.com>",
+      "subject": "Courtney Bagley paid you $179.00",
+      "date": "2026-10-30T00:59:34Z",
+      "category": "Bills & orders",
+      "summary": "Courtney Bagley sent you $179 on Venmo for a car detail.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a18a51bd9cad9cf"
+    },
+    {
+      "id": "1a18a4b5c3ad8b49",
+      "from": "Venmo <venmo@venmo.com>",
+      "subject": "Your Venmo Standard transfer has been initiated",
+      "date": "2026-10-30T00:52:37Z",
+      "category": "Bills & orders",
+      "summary": "Venmo started a $200 standard transfer to your bank, arriving early next week.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a18a4b5c3ad8b49"
+    },
+    {
+      "id": "1a18a455380cb6b3",
+      "from": "Venmo <venmo@venmo.com>",
+      "subject": "Cornelio Valdez paid $200.00 to your Venmo account. Leave it in Venmo or transfer it to your bank account.",
+      "date": "2026-10-30T00:46:00Z",
+      "category": "Bills & orders",
+      "summary": "Cornelio Valdez paid you $200 on Venmo.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a18a455380cb6b3"
+    },
+    {
+      "id": "1a18a1017e90553d",
+      "from": "Thatcher Webb <thatchermwebb@gmail.com>",
+      "subject": "Invitation from an unknown sender: Meeting w/ Caiden Lee @ Fri Oct 30, 2026 9:30am - 10am (PDT) (caidenclee@gmail.com)",
+      "date": "2026-10-29T23:47:52Z",
+      "category": "Work",
+      "summary": "Thatcher Webb sent a calendar invite for your Friday 9:30 AM meeting.",
+      "action": "",
+      "due": "2026-10-30",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a18a1017e90553d"
+    },
+    {
+      "id": "1a18a0ff3522189d",
+      "from": "Detailing Accelerator <info@detailingaccel.com>",
+      "subject": "Appointment Confirmation on Friday, October 30, 2026 9:30 AM (PDT)",
+      "date": "2026-10-29T23:47:43Z",
+      "category": "Work",
+      "summary": "Detailing Accelerator confirmed your meeting for Friday, Oct 30 at 9:30 AM.",
+      "action": "",
+      "due": "2026-10-30",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a18a0ff3522189d"
+    },
+    {
+      "id": "1a189e49624e72c4",
+      "from": "Costa Vida Guest Experience <feedback@surveys.costavida.com>",
+      "subject": "Reminder: How was your experience at Pasco - Burden & Convention Pl Costa Vida?",
+      "date": "2026-10-29T23:00:21Z",
+      "category": "Promos",
+      "summary": "Costa Vida wants feedback on your recent visit to the Pasco location.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a189e49624e72c4"
+    },
     {
       "id": "1a18971c7e748f62",
       "from": "Zoom <no-reply@zoom.us>",
@@ -63,18 +135,6 @@
       "link": "https://mail.google.com/mail/#all/1a1890af7a198564"
     },
     {
-      "id": "1a1887957bbd12e5",
-      "from": "Google <noreply-accounts@google.com>",
-      "subject": "You shared some Google Account data with GitHub",
-      "date": "2026-10-29T16:09:45Z",
-      "category": "Updates",
-      "summary": "Google confirms you used Sign in with Google to share account data with GitHub on cubercaiden.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1887957bbd12e5"
-    },
-    {
       "id": "1a1886d750eeb973",
       "from": "Google <no-reply@google.com>",
       "subject": "Welcome to Google on your Linux",
@@ -85,6 +145,18 @@
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1886d750eeb973"
+    },
+    {
+      "id": "1a1887957bbd12e5",
+      "from": "Google <noreply-accounts@google.com>",
+      "subject": "You shared some Google Account data with GitHub",
+      "date": "2026-10-29T16:09:45Z",
+      "category": "Updates",
+      "summary": "Google confirms you used Sign in with Google to share account data with GitHub on cubercaiden.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1887957bbd12e5"
     },
     {
       "id": "1a1847a4a5c83d58",
@@ -171,18 +243,6 @@
       "link": "https://mail.google.com/mail/#all/1a1863f1be736e22"
     },
     {
-      "id": "1a1847a4a5c83d58",
-      "from": "Google <no-reply@accounts.google.com>",
-      "subject": "Security alert",
-      "date": "2026-10-29T08:03:02Z",
-      "category": "Updates",
-      "summary": "Google flagged a new Linux sign-in on your account, likely from setting up your new device.",
-      "action": "Confirm the Google security alerts were you",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1847a4a5c83d58"
-    },
-    {
       "id": "1a186971882e27a6",
       "from": "Netlify <team@netlify.com>",
       "subject": "[Netlify] You've used 50% of your credits on Caiden Lee",
@@ -219,54 +279,6 @@
       "link": "https://mail.google.com/mail/#all/1a18659ce70887a8"
     },
     {
-      "id": "1a1863f1be736e22",
-      "from": "Google <no-reply@accounts.google.com>",
-      "subject": "Security alert for caidenclee@gmail.com",
-      "date": "2026-10-29T06:00:52Z",
-      "category": "Updates",
-      "summary": "Google sent a copy of a caidenclee security alert to cubercaiden as the recovery email.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1863f1be736e22"
-    },
-    {
-      "id": "1a1847a4a5c83d58",
-      "from": "Google <no-reply@accounts.google.com>",
-      "subject": "Security alert",
-      "date": "2026-10-29T06:00:52Z",
-      "category": "Updates",
-      "summary": "Google noted that you allowed Grok access to some of your Google Account data.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1847a4a5c83d58"
-    },
-    {
-      "id": "1a1863f1be736e22",
-      "from": "Google <no-reply@accounts.google.com>",
-      "subject": "Security alert for caidenclee@gmail.com",
-      "date": "2026-10-29T06:00:41Z",
-      "category": "Updates",
-      "summary": "Google sent a copy of a caidenclee security alert to cubercaiden as the recovery email.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1863f1be736e22"
-    },
-    {
-      "id": "1a1847a4a5c83d58",
-      "from": "Google <no-reply@accounts.google.com>",
-      "subject": "Security alert",
-      "date": "2026-10-29T06:00:41Z",
-      "category": "Updates",
-      "summary": "Google noted that you allowed Grok access to some of your Google Account data.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1847a4a5c83d58"
-    },
-    {
       "id": "1a1863a449519174",
       "from": "Claude <no-reply-claude@mail.anthropic.com>",
       "subject": "You’ve been invited to comment on an artifact",
@@ -289,18 +301,6 @@
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1863043edf1b42"
-    },
-    {
-      "id": "1a1847a4a5c83d58",
-      "from": "Google <no-reply@accounts.google.com>",
-      "subject": "Security alert",
-      "date": "2026-10-29T05:25:03Z",
-      "category": "Updates",
-      "summary": "Google noted that you allowed Grok access to some of your Google Account data.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1847a4a5c83d58"
     },
     {
       "id": "1a1860e88043c702",
@@ -339,18 +339,6 @@
       "link": "https://mail.google.com/mail/#all/1a1854b0f6cf96a5"
     },
     {
-      "id": "1a1847a4a5c83d58",
-      "from": "Google <no-reply@accounts.google.com>",
-      "subject": "Security alert",
-      "date": "2026-10-28T21:51:19Z",
-      "category": "Updates",
-      "summary": "Google noted that you allowed Grok access to some of your Google Account data.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1847a4a5c83d58"
-    },
-    {
       "id": "1a1847a4f175bc8a",
       "from": "SpaceXSI <noreply@x.ai>",
       "subject": "New login to your Grok Account",
@@ -361,18 +349,6 @@
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1847a4f175bc8a"
-    },
-    {
-      "id": "1a1847a4a5c83d58",
-      "from": "Google <no-reply@accounts.google.com>",
-      "subject": "Security alert",
-      "date": "2026-10-28T21:46:07Z",
-      "category": "Updates",
-      "summary": "Google flagged a new sign-in on an Apple iPhone.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1847a4a5c83d58"
     },
     {
       "id": "1a18454114d0e8da",
@@ -485,26 +461,6 @@
   ],
   "events": [
     {
-      "title": "[Cory] Full Detail: Michelle (2000 Lexus SUV)",
-      "start": "2026-10-29T15:00:00",
-      "end": "2026-10-29T18:00:00",
-      "allDay": false,
-      "where": "5814 west 11th place",
-      "link": "https://www.google.com/calendar/event?eid=YnQ0N3Y5ZzVxYWVvN2I0djI0Y3RobGhzNGsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
-      "calendar": "business",
-      "description": "Full Detail for Michelle · 2000 Lexus SUV · Cory · $199 · Water and electricity yes"
-    },
-    {
-      "title": "(Cancelled) Full Detail + Pet Hair: Jeremy (Toyota Tundra)",
-      "start": "2026-10-29T15:00:00",
-      "end": "2026-10-29T18:00:00",
-      "allDay": false,
-      "where": "517 N Jean St, Kennewick, WA 99336",
-      "link": "https://www.google.com/calendar/event?eid=ZGlwbm51cnJnazhjNWp2dGlhNTRiYTZzYjggZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
-      "calendar": "business",
-      "description": "Cancelled. Full Detail + pet hair · Jeremy · Toyota Tundra · $249"
-    },
-    {
       "title": "(Ian) Full Detail: 2013 Lexus 450H",
       "start": "2026-10-29T15:30:00",
       "end": "2026-10-29T18:30:00",
@@ -515,23 +471,14 @@
       "description": "Full Detail · 2013 Lexus 450H · $199 · Ian · About 3 hours · Pay after job · Water access yes"
     },
     {
-      "title": "[Ammon] Finish-Up (Partial): Courtney (2024 Ford Expedition)",
-      "start": "2026-10-29T16:15:00",
-      "end": "2026-10-29T17:45:00",
+      "title": "Meeting w/ Caiden Lee",
+      "start": "2026-10-30T09:30:00",
+      "end": "2026-10-30T10:00:00",
       "allDay": false,
-      "where": "91 Fraser Dr, Pasco, WA",
-      "link": "https://www.google.com/calendar/event?eid=dTk5ZHQ1cG40bDdhYmIwOHFwb2Y2YWR2MWsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
-      "calendar": "business",
-      "description": "Partial finish-up of Oct 26 interior detail · Courtney · 2024 Ford Expedition · Ammon"
-    },
-    {
-      "title": "Call with Dilan",
-      "start": "2026-10-29T17:00:00",
-      "end": "2026-10-29T18:00:00",
-      "allDay": false,
-      "where": "",
-      "link": "https://www.google.com/calendar/event?eid=NjViZzIxdmc5cW8wMnE1dnE3ajhxcWJxMzQgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
-      "calendar": "personal"
+      "where": "https://meet.google.com/ifj-xscz-siw",
+      "link": "https://www.google.com/calendar/event?eid=NnAyb3VpMGNxaTRkb3U2M2plZWVkNTZhdDQgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
+      "calendar": "personal",
+      "description": "Detailing Accelerator meeting on Google Meet. Reschedule or cancel from the confirmation email."
     },
     {
       "title": "[Talib] Full Detail: Jonathon (2024 Hyundai PALISADE)",
