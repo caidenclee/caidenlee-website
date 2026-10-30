@@ -1,7 +1,46 @@
 {
- "generatedAt": "2026-10-30T02:08:58Z",
- "headline": "Caiden, you have a Detailing Accelerator meeting tomorrow at 9:30, $379 came in on Venmo, and Netlify is still out of credits.",
+ "generatedAt": "2026-10-30T03:05:48Z",
+ "headline": "Caiden, you have a Detailing Accelerator meeting tomorrow at 9:30, your BriarStorm order arrived, and Netlify is still out of credits.",
  "items": [
+  {
+   "id": "1a18a95c12839185",
+   "from": "BriarStorm <store+78368440573@t.shopifyemail.com>",
+   "subject": "A shipment from order #2681 has been delivered",
+   "date": "2026-10-30T02:13:52Z",
+   "category": "Bills & orders",
+   "summary": "BriarStorm says order 2681 has been delivered.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a18a95c12839185",
+   "body": "Your order has been delivered\nBriarStorm\nOrder #2681\nYour order has been delivered\nHaven't received your package yet? Let us know\n( support@briarstorm.com )\nView your order\nor Visit our store\nTracking number: [removed]\nItems in this shipment\nBriarStorm PowerJet Pro × 1\nIf you have any questions, reply to this email or\ncontact us at support@briarstorm.com."
+  },
+  {
+   "id": "1a18940cb112a1e0",
+   "from": "BriarStorm <store+78368440573@t.shopifyemail.com>",
+   "subject": "Shipping update for order #2681",
+   "date": "2026-10-30T02:13:52Z",
+   "category": "Bills & orders",
+   "summary": "BriarStorm updated the shipping status on order 2681.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a18940cb112a1e0",
+   "body": "Your Shipping Status has been Updated\nBriarStorm\nOrder #2681\nYour Shipping Status has been Updated\nThe following items have been updated with new\nshipping information.\nTrack your order\nor Visit our store\nTracking number: [removed]\nItems in this shipment\nBriarStorm PowerJet Pro × 1\nIf you have any questions, reply to this email or\ncontact us at support@briarstorm.com"
+  },
+  {
+   "id": "1a18a95c0e023456",
+   "from": "17TRACK <no-reply@bounce4.17track.net>",
+   "subject": "Your order BriarStorm PowerJet Pro has been delivered.",
+   "date": "2026-10-30T02:13:51Z",
+   "category": "Updates",
+   "summary": "17TRACK says your BriarStorm PowerJet Pro order was delivered.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a18a95c0e023456",
+   "body": "BriarStorm\n🥳 Your order has been delivered.\nHi Caiden Lee,\nYour parcel has been delivered successfully. We would really appreciate it if you could take just a few moments to leave a feedback for us. Thanks for shopping on BriarStorm.\nTrack your order\nTracking number: [removed]\nCarrier: Wanb Express\nCarrier phone:\nWhat's inside\nBriarStorm PowerJet Pro\n$129.00\n×1\nclick to"
+  },
   {
    "id": "1a18a51bd9cad9cf",
    "from": "Venmo <venmo@venmo.com>",
@@ -12,7 +51,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18a51bd9cad9cf"
+   "link": "https://mail.google.com/mail/#all/1a18a51bd9cad9cf",
+   "body": "Courtney Bagley paid you $179.00 Courtney Bagley paid you $179.00\nCourtney Bagley paid you\n$\n179\n.00\nCar\nSee transaction\nMoney credited to your Venmo account.\nTransaction details\nDate\nOct 29, 2026\nTransaction ID\n[removed]\nSent to\n@Caiden-Lee-7\nterms apply"
   },
   {
    "id": "1a18a4b5c3ad8b49",
@@ -24,7 +64,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18a4b5c3ad8b49"
+   "link": "https://mail.google.com/mail/#all/1a18a4b5c3ad8b49",
+   "body": "Standard Transfer Initiated We successfully issued your transfer\nStandard transfer initiated\nInitiated on\nFriday, October 30, 2026\nTransfer Amount\n$200.00\nTransfer transaction ID\n[removed]\nEstimated arrival\nTuesday, November 03, 2026\nDestination\nJpmorgan Chase Bank [removed]\nYou can see the status of your bank transfers by visiting your Account Statement\nBank transfers tend to process in 1 to 3 business days. A few different factors, like weekends and holidays, can sometimes slow things down.\nBusiness days are Mon-Fri, excluding bank holidays.\nTransfers are reviewed which may result in delays or funds being frozen or removed from your Venmo account. Learn more\nIMPORTANT: If you did not make this request, please visit our Help Center at help.venmo.com or call 1-[removed] ( immediately."
   },
   {
    "id": "1a18a455380cb6b3",
@@ -36,7 +77,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18a455380cb6b3"
+   "link": "https://mail.google.com/mail/#all/1a18a455380cb6b3",
+   "body": "Cornelio valdez paid you $200.00 Cornelio valdez paid you $200.00\nCornelio valdez paid you\n$\n200\n.00\n10/29\nSee transaction\nMoney credited to your Venmo account.\nTransaction details\nDate\nOct 29, 2026\nTransaction ID\n[removed]\nSent to\n@Caiden-Lee-7"
   },
   {
    "id": "1a18a1017e90553d",
@@ -48,7 +90,8 @@
    "action": "",
    "due": "2026-10-30",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18a1017e90553d"
+   "link": "https://mail.google.com/mail/#all/1a18a1017e90553d",
+   "body": "This event isn't in your calendar yet\nYou haven't interacted with thatchermwebb@gmail.com before. Do you want to\nautomatically add this and future invitations from them to your calendar?\nAdd to calendar\nMeeting w/ Caiden Lee\nFriday Oct 30, 2026 ⋅ 9:30am , 10am\nPacific Time - Los Angeles\nLocation\nJoin with Google Meet\nPhone:- [removed]\nEmail:- caidenclee@gmail.com\nNeed to make a change to this event?\nReschedule:-\nCancel:-\nOrganizer\nThatcher Webb\nthatchermwebb@gmail.com\nGuests\nThatcher Webb - organizer\ncaidenclee@gmail.com\nView all guest info\nReply for caidenclee@gmail.com and view more details\nYour attendance is optional."
   },
   {
    "id": "1a18a0ff3522189d",
@@ -60,7 +103,8 @@
    "action": "",
    "due": "2026-10-30",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18a0ff3522189d"
+   "link": "https://mail.google.com/mail/#all/1a18a0ff3522189d",
+   "body": "Hi Caiden Lee,\nYour appointment has been scheduled. Here are the details of your upcoming appointment:\nAppointment Title: Meeting w/ Caiden Lee\nDate and Time: Friday, October 30, 2026 9:30 AM (PDT)\nMeeting Link / Location:\nAdd to Calendar\n[\n[\n["
   },
   {
    "id": "1a189e49624e72c4",
@@ -72,7 +116,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a189e49624e72c4"
+   "link": "https://mail.google.com/mail/#all/1a189e49624e72c4",
+   "body": ""
   },
   {
    "id": "1a18971c7e748f62",
@@ -84,19 +129,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18971c7e748f62"
-  },
-  {
-   "id": "1a18940cb112a1e0",
-   "from": "BriarStorm <store+78368440573@t.shopifyemail.com>",
-   "subject": "Shipping update for order #2681",
-   "date": "2026-10-29T20:01:25Z",
-   "category": "Bills & orders",
-   "summary": "BriarStorm updated the shipping status on order 2681.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18940cb112a1e0"
+   "link": "https://mail.google.com/mail/#all/1a18971c7e748f62",
+   "body": "Hi Caiden Lee,\nDilan has joined your Personal Meeting Room.\nStart Meeting\nThank you for choosing Zoom,\nThe Zoom Team"
   },
   {
    "id": "1a18911fa1bfdcdd",
@@ -108,7 +142,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18911fa1bfdcdd"
+   "link": "https://mail.google.com/mail/#all/1a18911fa1bfdcdd",
+   "body": ""
   },
   {
    "id": "1a1890ceca90fbd4",
@@ -120,7 +155,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1890ceca90fbd4"
+   "link": "https://mail.google.com/mail/#all/1a1890ceca90fbd4",
+   "body": ""
   },
   {
    "id": "1a1890af7a198564",
@@ -132,7 +168,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1890af7a198564"
+   "link": "https://mail.google.com/mail/#all/1a1890af7a198564",
+   "body": "Your order has shipped\nItems will be delivered to you soon!\nTRACK SHIPMENT\nORDER DETAILS\nOrder Number\nDBW00709957\nOrder Date\nOctober 6, 2026\nOrder Total\n$39.95\nSHIPPING TO\nCaiden Lee\n5100 Elm Road\nPasco, Washington 99301\nSHIPPING METHOD\nStandard Contiguous US\nTRACKING NUMBER\n[removed]\nOrder Items\nGeneral Conference Addresses, Journal Edition, October 2026\nQuantity: 3\nThis email was sent to caidenclee@gmail.com\nDeseret Book, 55 N 300 W STE 300, Salt Lake City, UT 84101\nView in Browser\n| Privacy Policy |"
   },
   {
    "id": "1a1886d750eeb973",
@@ -144,7 +181,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1886d750eeb973"
+   "link": "https://mail.google.com/mail/#all/1a1886d750eeb973",
+   "body": "Get started with Google on your Linux\nTake a minute to discover new ways to get things done on your desktop with\nGoogle AI\nContinue\nThis email was sent to cubercaiden@gmail.com because you recently signed\ninto your Google Account on your Linux. If you do not wish to receive\nemails to help you set up your device with Google when you sign into your\naccount on the device for the first time, please"
   },
   {
    "id": "1a1887957bbd12e5",
@@ -156,7 +194,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1887957bbd12e5"
+   "link": "https://mail.google.com/mail/#all/1a1887957bbd12e5",
+   "body": "Keep track of your Google Account data\ncubercaiden@gmail.com\nYou're receiving this email because you used Sign in with Google to sign in\nto\nGitHub\non October 29 at 9:09 AM .\nThis email summarizes the info you shared. There’s nothing you need to do\nright now.\nYou're receiving this email because you used Sign in with Google to sign in\nto\nGitHub\non October 29 at 9:09 AM .\nThis email summarizes the info you shared. There’s nothing you need to do\nright now.\nGitHub received this profile info\nCaiden Lee\nName and profile picture\ncubercaiden@gmail.com\nEmail address\nThis email includes the info you shared on\nOctober 29 at 9:09 AM\nIf you want to stop using Sign in with Google with\nGitHub , go to your Google Account.\nGitHub received this profile info\nCaiden Lee\nName and profile picture\ncubercaiden@gmail.com\nEmail address\nThis email includes the info you shared on\nOctober 29 at 9:09 AM\nIf you want to stop using Sign in with Google with\nGitHub , go to your Google Account.\nGo\nto your Google Account\nReview\nGitHub ’s\nPrivacy\nPolicy\nand\nTerms\nof\nService\nto understand how GitHub will process and protect your data.\nIf you want to delete the data you shared with\nGitHub ,\nvisit\nGitHub .\nSafer with Google\nYour Google Account protects your privacy with advanced security designed\nto keep your data safe\nSafer with Google\nYour Google Account protects your privacy with advanced security designed\nto keep your data safe"
   },
   {
    "id": "1a1847a4a5c83d58",
@@ -168,7 +207,8 @@
    "action": "Confirm the new cubercaiden sign-in was you",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1847a4a5c83d58"
+   "link": "https://mail.google.com/mail/#all/1a1847a4a5c83d58",
+   "body": "A new sign-in on Linux\ncubercaiden@gmail.com\nWe noticed a new sign-in to your Google Account on a Linux device. If this\nwas you, you don’t need to do anything. If not, we’ll help you secure your\naccount.\nCheck activity\nYou can also see security activity at"
   },
   {
    "id": "1a1886c7c037379e",
@@ -180,7 +220,8 @@
    "action": "Confirm the new cubercaiden sign-in was you",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1886c7c037379e"
+   "link": "https://mail.google.com/mail/#all/1a1886c7c037379e",
+   "body": "This is a copy of a security alert sent to cubercaiden@gmail.com.\ncaidenclee@gmail.com is the recovery email for this account. If you don't\nrecognize this account, remove\nit.\nA new sign-in on Linux\ncubercaiden@gmail.com\nWe noticed a new sign-in to your Google Account on a Linux device. If this\nwas you, you don’t need to do anything. If not, we’ll help you secure your\naccount.\nCheck activity\nYou can also see security activity at"
   },
   {
    "id": "1a1884a7884a505b",
@@ -192,7 +233,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1884a7884a505b"
+   "link": "https://mail.google.com/mail/#all/1a1884a7884a505b",
+   "body": ""
   },
   {
    "id": "1a186f04e83f536a",
@@ -204,7 +246,8 @@
    "action": "Decide whether to upgrade Netlify or wait for the next cycle",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a186f04e83f536a"
+   "link": "https://mail.google.com/mail/#all/1a186f04e83f536a",
+   "body": "Action needed: Caiden Lee has used all available credits , upgrade to restore full service\nYour\nteam can’t ship to production right now.\nCaiden Lee has used its full credit allowance for this billing cycle. We’ve added 30 operational credits to keep your published sites online. These credits\ncan’t be used for production deploys or Agent Runners, so those stay paused until you upgrade.\nUpgrade\nto resume production deploys\nWhat’s\npaused:\nProduction deploys\nAgent Runners\nWhat’s\nstill working:\nYour published sites continue serving\ntraffic\nPreview and branch deploys are active\nso your team can keep iterating\nIf\nyour team also exhausts its operational credits, your published sites will be suspended until credits are restored or your billing cycle resets on November 14.\nUpgrade\nto resume production deploys\nUpgrade\nnow | Talk\nto Enterprise about custom limits\nAbout Netlify\n• Support"
   },
   {
    "id": "1a186d1a143a54ab",
@@ -216,7 +259,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a186d1a143a54ab"
+   "link": "https://mail.google.com/mail/#all/1a186d1a143a54ab",
+   "body": "You've used 75% of your credits on Caiden Lee\nYou’re\nusing your credits!\nYour\ncredit usage on team Caiden Lee has reached 75% of your 300 credit allowance in the current billing cycle from\nOctober 15 to November 14.\nYou’re getting close to your credit limit. Consider upgrading to a Personal plan for 1000 credits per month.\nYou\ncan check your current credit usage and upgrade your plan in the Netlify UI.\nCheck\ncredit usage\nAll\ncredits reset at the start of your next billing cycle. For more information about credit-based pricing, visit our Pricing FAQ About Netlify\n• Support\n512 2nd Street, FL2, San Francisco, CA 94107"
   },
   {
    "id": "1a186c627fff1463",
@@ -228,7 +272,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a186c627fff1463"
+   "link": "https://mail.google.com/mail/#all/1a186c627fff1463",
+   "body": ""
   },
   {
    "id": "1a1863f1be736e22",
@@ -240,7 +285,8 @@
    "action": "Confirm the Google security alerts were you",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1863f1be736e22"
+   "link": "https://mail.google.com/mail/#all/1a1863f1be736e22",
+   "body": "This is a copy of a security alert sent to caidenclee@gmail.com.\ncubercaiden@gmail.com is the recovery email for this account. If you don't\nrecognize this account, remove\nit.\nA new sign-in on Linux\ncaidenclee@gmail.com\nWe noticed a new sign-in to your Google Account on a Linux device. If this\nwas you, you don’t need to do anything. If not, we’ll help you secure your\naccount.\nCheck activity\nYou can also see security activity at"
   },
   {
    "id": "1a186971882e27a6",
@@ -252,7 +298,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a186971882e27a6"
+   "link": "https://mail.google.com/mail/#all/1a186971882e27a6",
+   "body": "You've used 50% of your credits on Caiden Lee\nYou’re\nusing your credits!\nYour\ncredit usage on team Caiden Lee has reached 50% of your 300 credit allowance in the current billing cycle from\nOctober 15 to November 14.\nYou’re halfway through your monthly credits. Keep an eye on your usage to avoid hitting the limit.\nYou\ncan check your current credit usage and upgrade your plan in the Netlify UI.\nCheck\ncredit usage\nAll\ncredits reset at the start of your next billing cycle. For more information about credit-based pricing, visit our Pricing FAQ About Netlify\n• Support\n512 2nd Street, FL2, San Francisco, CA 94107"
   },
   {
    "id": "1a1865da840a5d31",
@@ -264,7 +311,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1865da840a5d31"
+   "link": "https://mail.google.com/mail/#all/1a1865da840a5d31",
+   "body": "Hey caidenclee!\nA fine-grained personal access token (Grokbot Inbox HQ) was recently added to your account. Visit for more information.\nTo see this and other security events for your account, visit\nIf you run into problems, please contact support by visiting\nThanks,\nThe GitHub Team"
   },
   {
    "id": "1a18659ce70887a8",
@@ -276,7 +324,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18659ce70887a8"
+   "link": "https://mail.google.com/mail/#all/1a18659ce70887a8",
+   "body": "Hey, caidenclee!\nHere is your GitHub sudo authentication code: [removed]\nThis code is valid for 15 minutes and can only be used once.\nPlease don't share this code with anyone: we'll never ask for it on the phone or via email.\nThanks,\nThe GitHub Team"
   },
   {
    "id": "1a1863a449519174",
@@ -288,7 +337,8 @@
    "action": "Open the Claude artifact invitation",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1863a449519174"
+   "link": "https://mail.google.com/mail/#all/1a1863a449519174",
+   "body": "You’ve been invited to comment on an artifact\nYou can view it and comment on it once you accept. Sign in to Claude with this email address to accept the invitation.\nInbox HQ\nArtifact\nInvited by\nstrattonhumphreys54@gmail.com\nAccount email\nMessage from strattonhumphreys54@gmail.com:\ntry this out\nView invitation"
   },
   {
    "id": "1a1863043edf1b42",
@@ -300,7 +350,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1863043edf1b42"
+   "link": "https://mail.google.com/mail/#all/1a1863043edf1b42",
+   "body": "cubercaiden@gmail.com has requested to automatically forward mail to your email\naddress caidenclee@gmail.com.\nTo allow cubercaiden@gmail.com to automatically forward mail to your address,\nplease click the link below to confirm the request:\nIf you click the link and it appears to be broken, please copy and paste it\ninto a new browser window.\nThanks for using Gmail!\nSincerely,\nThe Gmail Team\nIf you do not approve of this request, no further action is required.\ncubercaiden@gmail.com cannot automatically forward messages to your\nemail address\nunless you confirm the request by clicking the link above. If you accidentally\nclicked the link, but you do not want to allow cubercaiden@gmail.com to\nautomatically forward messages to your address, click this link to cancel this\nverification:\nTo learn more about why you might have received this message, please\nvisit:\nPlease do not respond to this message. If you'd like to contact the\nGoogle.com Team, please log in to your account and click 'Help' at\nthe top of any page. Then, click 'Contact Us' along the bottom of the\nHelp Center."
   },
   {
    "id": "1a1860e88043c702",
@@ -312,7 +363,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1860e88043c702"
+   "link": "https://mail.google.com/mail/#all/1a1860e88043c702",
+   "body": "Standard Transfer Initiated We successfully issued your transfer\nStandard transfer initiated\nInitiated on\nThursday, October 29, 2026\nTransfer Amount\n$199.00\nTransfer transaction ID\n[removed]\nEstimated arrival\nMonday, November 02, 2026\nDestination\nJpmorgan Chase Bank [removed]\nYou can see the status of your bank transfers by visiting your Account Statement\nBank transfers tend to process in 1 to 3 business days. A few different factors, like weekends and holidays, can sometimes slow things down.\nBusiness days are Mon-Fri, excluding bank holidays.\nTransfers are reviewed which may result in delays or funds being frozen or removed from your Venmo account. Learn more\nIMPORTANT: If you did not make this request, please visit our Help Center at help.venmo.com or call 1-[removed] ( immediately."
   },
   {
    "id": "1a1854d131d27372",
@@ -324,7 +376,8 @@
    "action": "Watch the Defense playlist on Hudl",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1854d131d27372"
+   "link": "https://mail.google.com/mail/#all/1a1854d131d27372",
+   "body": "Hi Caiden Lee,\nDon Hogue shared\na playlist with you. Watch it here:\nDefense\nWant less email? You can change your Hudl notification settings here."
   },
   {
    "id": "1a1854b0f6cf96a5",
@@ -336,7 +389,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1854b0f6cf96a5"
+   "link": "https://mail.google.com/mail/#all/1a1854b0f6cf96a5",
+   "body": "Maureen McMillin paid you $199.00 Maureen McMillin paid you $199.00\nMaureen McMillin paid you\n$\n199\n.00\nHonda odyssey detailing\nSee transaction\nMoney credited to your Venmo account.\nTransaction details\nDate\nOct 28, 2026\nTransaction ID\n[removed]\nSent to\n@Caiden-Lee-7\nterms apply"
   },
   {
    "id": "1a1847a4f175bc8a",
@@ -348,7 +402,8 @@
    "action": "Confirm the new Grok login was you",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1847a4f175bc8a"
+   "link": "https://mail.google.com/mail/#all/1a1847a4f175bc8a",
+   "body": "Your Grok Account has been accessed from a new IP address\nWe've noticed a new login\nHi Caiden,\nWe're notifying you by email of a new login to your Grok Account:\nTime: Wed, 28 Oct 2026 21:46:08 +0000\nIP address: 2600:100f:b098:c347:31c1:5390:e703:9527\nLocation: Redmond, US\nBrowser: Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Mobile/15E148 Safari/604.1\nIf you notice any suspicious activity on your account, please change your password and enable two-factor authentication.\nSpaceXSI Team"
   },
   {
    "id": "1a18454114d0e8da",
@@ -360,7 +415,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18454114d0e8da"
+   "link": "https://mail.google.com/mail/#all/1a18454114d0e8da",
+   "body": "Receipt from Grok xAI Receipt #1665-5776\nAmount paid\n$16.34\nDate paid\nOctober 28, 2026 at 2:03:01 PM PDT\nPayment method\n- [removed]\nSummary\n- - Payment to Grok xAI : $16.34\n- Amount paid : $16.34"
   },
   {
    "id": "1a18453238eb854f",
@@ -372,7 +428,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18453238eb854f"
+   "link": "https://mail.google.com/mail/#all/1a18453238eb854f",
+   "body": "Welcome to The X Subscription\nYou're in. Here's your receipt for The X Subscription.\nYou're in.\nHere's your receipt for The X Subscription.\nPlan Premium\nInvoice date Oct 28, 2026\nInvoice reference 302EF1F047\nBilling period Oct 28, 2026 , Nov 28, 2026\nAmount charged 16.34 USD\nA PDF copy of your invoice is attached.\nYour monthly X Subscription automatically renews on Nov 28, 2026 for 30.00 USD monthly unless you cancel by Nov 27, 2026. How to cancel: x.com/settings/subscription\nQuestions? Contact us at support@x.ai.\nDownload Cursor ·\nDownload Grok Bot ·\nAPI Console ·\nDocs"
   },
   {
    "id": "1a1830ae8c9395d9",
@@ -384,7 +441,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1830ae8c9395d9"
+   "link": "https://mail.google.com/mail/#all/1a1830ae8c9395d9",
+   "body": "This event has been updated\nChanged: title\n( Cory) Full Detail: Easton (Ford Fusion SE)\nSaturday Oct 31, 2026 ⋅ 11am , 2pm\nPacific Time - Los Angeles\nLocation\n7112 W 13th Ave, Kennewick, WA\nCustomer: Easton\nService: Full Detail\nVehicle: Ford Fusion SE\nPrice: $199\nAddress: 7112 W 13th Ave, Kennewick, WA\nPet hair? No\nWater access? Yes\nElectricity access? Yes\nBooked: Oct 22, 2026\nPayment collected after the job. Estimated duration ~3 hours."
   },
   {
    "id": "1a18309f0d5e6c19",
@@ -396,7 +454,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18309f0d5e6c19"
+   "link": "https://mail.google.com/mail/#all/1a18309f0d5e6c19",
+   "body": "Standard Transfer Initiated We successfully issued your transfer\nStandard transfer initiated\nInitiated on\nWednesday, October 28, 2026\nTransfer Amount\n$275.00\nTransfer transaction ID\n[removed]\nEstimated arrival\nFriday, October 30, 2026\nDestination\nJpmorgan Chase Bank [removed]\nYou can see the status of your bank transfers by visiting your Account Statement\nBank transfers tend to process in 1 to 3 business days. A few different factors, like weekends and holidays, can sometimes slow things down.\nBusiness days are Mon-Fri, excluding bank holidays.\nTransfers are reviewed which may result in delays or funds being frozen or removed from your Venmo account. Learn more\nIMPORTANT: If you did not make this request, please visit our Help Center at help.venmo.com or call 1-[removed] ( immediately."
   },
   {
    "id": "1a183079f166f2a5",
@@ -408,7 +467,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a183079f166f2a5"
+   "link": "https://mail.google.com/mail/#all/1a183079f166f2a5",
+   "body": "This event has been updated\nChanged: title\n[ian + James ]Fleet Exterior: All Set (6 vans)\nSaturday Oct 31, 2026 ⋅ 8am , 12pm\nPacific Time - Los Angeles\nLocation\n5715 Bedford St\nCustomer: All Set (company fleet job)\nVehicles: 6 vans\nService: Exterior only, $80 per van ($480 total)\nAddress: 5715 Bedford St\nRecurring: every 2 weeks on Saturday\nDuration: 6 hours with 1 tech, 3 hours with 2 techs. Blocked for the full\n6; shorten once techs are assigned.\nConfirmed 7/23"
   },
   {
    "id": "1a183031141f1e07",
@@ -420,7 +480,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a183031141f1e07"
+   "link": "https://mail.google.com/mail/#all/1a183031141f1e07",
+   "body": "This event has been updated\nChanged: title\n(Ethan) Full Detail: Sam (2019 Gmc SIERRA)\nSaturday Oct 31, 2026 ⋅ 1:30pm , 4:30pm\nPacific Time - Los Angeles\nLocation\n5820 west argent road Pasco\nCustomer: Sam\nPhone: [removed]\nVehicle: 2019 Gmc SIERRA (5 seats)\nService: Full Detail\nPrice: $249\nAddress: 5820 west argent road Pasco\nAssigned tech: Unassigned\nPet hair? No\nWater access? Yes\nElectricity access? Yes\nDeep stains? No\nNotes: none\nBooked on: October 27, 2026\nCreated by CATAC"
   },
   {
    "id": "1a18302b7a47df5e",
@@ -432,7 +493,8 @@
    "action": "",
    "due": "",
    "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18302b7a47df5e"
+   "link": "https://mail.google.com/mail/#all/1a18302b7a47df5e",
+   "body": "This event has been updated\nChanged: title\n(Ethan) Full Detail: Carly (2021 Ford EcoSport)\nSaturday Oct 31, 2026 ⋅ 9am , 12pm\nPacific Time - Los Angeles\nLocation\n5715 Bedford St, Pasco, WA\nCustomer: Carly\nVehicle: 2021 Ford EcoSport\nService: Full Detail\nPrice: $199\nAddress: 5715 Bedford St (Next Level Pros office)\nWater access? Yes (office)\nElectricity access? Yes (office)\nPet hair? No\nNotes: Special effort to be made on the seat belts. Job at the office.\nPayment after the job.\nBooked on: Thu 10/15/2026"
   }
  ],
  "events": [
