@@ -134,10 +134,21 @@ textarea.in { min-height: 13rem; resize: vertical; line-height: 1.5; }
 }
 .brief .take { font-size: 16px; opacity: .9; max-width: 60ch; }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: 10px; }
-.tile { border-top: 3px solid rgba(255,255,255,.25); padding-top: 6px; }
-.tile.hot { border-color: var(--accent); }
-.tile b { display: block; font: 800 26px/1.1 var(--display); font-variant-numeric: tabular-nums; }
+.tile {
+  appearance: none; -webkit-appearance: none; border: 0; background: transparent; color: inherit;
+  text-align: left; padding: 6px 0 0; cursor: pointer; border-radius: 8px; font: inherit;
+  display: grid; gap: 2px; min-width: 0;
+}
+.tile:hover b, .tile:focus-visible b { color: var(--accent); }
+.tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.tile b { display: block; font: 800 26px/1.1 var(--display); font-variant-numeric: tabular-nums; transition: color .15s ease; }
 .tile span { font-size: 12px; opacity: .8; text-transform: uppercase; letter-spacing: .06em; }
+.tile .tile-note { text-transform: none; letter-spacing: 0; opacity: .75; font-weight: 600; font-size: 11px; }
+.tile-bar {
+  display: block; height: 3px; width: 100%; border-radius: 99px; background: rgba(255,255,255,.22);
+  overflow: hidden; margin-top: 4px;
+}
+.tile-bar > i { display: block; height: 100%; width: 0%; background: var(--accent); border-radius: 99px; }
 .brief .btn { border-color: rgba(255,255,255,.35); background: rgba(255,255,255,.08); color: #fff; }
 .brief .btn.accent { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .brief .acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; position: relative; z-index: 1; }
@@ -378,12 +389,12 @@ img, video { max-width: 100%; height: auto; }
         <div class="brief-main">
           <div class="eyebrow" id="b-eyebrow">Good evening</div>
           <h1 class="headline" id="b-take">Loading your day…</h1>
-          <div class="tiles">
-            <div class="tile hot"><b id="t-todo">·</b><span>to-dos</span></div>
-            <div class="tile"><b id="t-vip">·</b><span>personal</span></div>
-            <div class="tile"><b id="t-new">·</b><span>new emails</span></div>
-            <div class="tile"><b id="t-ev">·</b><span>events this week</span></div>
-            <div class="tile"><b id="t-booked">·</b><span>booked</span><span class="tile-note" id="t-booked-note"></span></div>
+          <div class="tiles" id="b-tiles">
+            <button type="button" class="tile" data-stat="todos" aria-label="To-dos"><b id="t-todo">·</b><span>to-dos</span><span class="tile-bar" id="t-todo-bar" aria-hidden="true"><i></i></span></button>
+            <button type="button" class="tile" data-stat="personal" aria-label="Personal emails"><b id="t-vip">·</b><span>personal</span></button>
+            <button type="button" class="tile" data-stat="emails" aria-label="New emails"><b id="t-new">·</b><span>new emails</span></button>
+            <button type="button" class="tile" data-stat="events" aria-label="Events this week"><b id="t-ev">·</b><span>events this week</span></button>
+            <button type="button" class="tile" data-stat="booked" aria-label="Booked this week"><b id="t-booked">·</b><span>booked</span><span class="tile-note" id="t-booked-note"></span><span class="tile-bar" id="t-booked-bar" aria-hidden="true"><i></i></span></button>
           </div>
           <div class="acts">
             <button type="button" class="btn accent" id="b-recap">↻ Refresh</button>
@@ -970,15 +981,24 @@ img, video { max-width: 100%; height: auto; }
     updateGreeting();
     const items = ((R && R.items) || []).filter((i) => !isDismissed(i));
     const openTodos = countOpenTodos();
+    const progress = countTodoProgress();
     const personalN = items.filter((i) => ['Personal', 'VIP', 'School'].includes(i.category)).length;
     $('t-todo').textContent = String(openTodos);
+    setBar('t-todo-bar', progress.total ? (progress.done / progress.total) : 0);
     $('t-vip').textContent = R ? String(personalN) : '·';
     $('t-new').textContent = R ? String(items.length) : '·';
     $('t-ev').textContent = week ? String(week.length) : '·';
     const booked = parseBookedWeek(week || []);
-    const tb = $('t-booked'); if (tb) tb.textContent = week ? ('$' + Math.round(booked.total)) : '·';
+    const goal = bookedGoal();
+    const tb = $('t-booked'); if (tb) tb.textContent = week ? moneyFmt(booked.total) : '·';
     const tn = $('t-booked-note');
-    if (tn) tn.textContent = (week && booked.unpriced) ? (booked.unpriced + ' job' + (booked.unpriced === 1 ? '' : 's') + ' unpriced') : '';
+    if (tn) {
+      const bits = [];
+      bits.push('of ' + moneyFmt(goal));
+      if (week && booked.unpriced) bits.push(booked.unpriced + ' job' + (booked.unpriced === 1 ? '' : 's') + ' unpriced');
+      tn.textContent = bits.join(' · ');
+    }
+    setBar('t-booked-bar', goal ? (booked.total / goal) : 0);
     const take = $('b-take'); if (take) take.textContent = headlineText();
     updateStamp();
     $('n-today').textContent = String(openTodos || '');
@@ -1003,6 +1023,34 @@ img, video { max-width: 100%; height: auto; }
   }
   function resetBtn() { const b = $('b-recap'); b.disabled = false; b.classList.remove('is-loading'); b.textContent = '↻ Refresh'; }
   $('b-recap').addEventListener('click', buildRecap);
+  (function bindStatClicks() {
+    const tiles = $('b-tiles'); if (!tiles) return;
+    tiles.addEventListener('click', (ev) => {
+      const btn = ev.target.closest('[data-stat]'); if (!btn) return;
+      const kind = btn.getAttribute('data-stat');
+      if (kind === 'todos') {
+        show('today');
+        const input = $('todo-input');
+        if (input) { try { input.focus(); input.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) { input.focus(); } }
+        return;
+      }
+      if (kind === 'personal') {
+        show('today');
+        const sec = $('personal-list');
+        if (sec) try { sec.scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (e) { /* ignore */ }
+        return;
+      }
+      if (kind === 'emails') {
+        show('today');
+        const sec = $('work-list') || document.querySelector('#p-today .sec-h');
+        const work = document.querySelector('#p-today h2');
+        const target = $('work-list');
+        if (target) try { target.scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (e) { /* ignore */ }
+        return;
+      }
+      if (kind === 'events' || kind === 'booked') { show('week'); }
+    });
+  })();
 
   const PERSONAL_CATS = ['VIP', 'School', 'Personal'];
   const ALERT_CATS = ['Updates'];
@@ -1129,6 +1177,28 @@ img, video { max-width: 100%; height: auto; }
     const local = loadDayTodos(today).filter((t) => !t.done).length;
     const bot = visibleBotTasks().filter((t) => !isTodoChecked(today, t.id)).length;
     return local + bot;
+  }
+  function countTodoProgress() {
+    const today = ymd(new Date());
+    const local = loadDayTodos(today);
+    const bot = visibleBotTasks();
+    const total = local.length + bot.length;
+    const done = local.filter((t) => t.done).length + bot.filter((t) => isTodoChecked(today, t.id)).length;
+    return { done, total };
+  }
+  function bookedGoal() {
+    const v = store.get('bookedGoal');
+    const n = Number(v);
+    return Number.isFinite(n) && n > 0 ? n : 3000;
+  }
+  function moneyFmt(n) {
+    return '$' + Math.round(Number(n) || 0).toLocaleString('en-US');
+  }
+  function setBar(id, ratio) {
+    const bar = $(id); if (!bar) return;
+    const fill = bar.querySelector('i'); if (!fill) return;
+    const pct = Math.max(0, Math.min(1, Number(ratio) || 0)) * 100;
+    fill.style.width = pct + '%';
   }
   function newTodoId() { return 't_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 7); }
   function botTaskCard(t, day) {
@@ -2289,6 +2359,16 @@ img, video { max-width: 100%; height: auto; }
       tb.disabled = false;
     });
         trow.append(tb, ts); gf.append(trow); box.append(gf);
+    const gfGoal = el('label', 'field'); gfGoal.append(el('span', null, 'Weekly booked goal ($)'));
+    const gi = el('input', 'in'); gi.type = 'number'; gi.min = '0'; gi.step = '100'; gi.id = 'y-booked-goal';
+    gi.placeholder = '3000'; gi.value = String(bookedGoal());
+    gi.addEventListener('change', () => {
+      const n = Math.max(0, Math.round(Number(gi.value) || 0));
+      gi.value = String(n || 3000);
+      store.set('bookedGoal', n || 3000);
+      renderBrief();
+    });
+    gfGoal.append(gi); box.append(gfGoal);
     const row = el('div', 'chips');
     const again = el('button', 'btn', 'Run setup again'); again.type = 'button'; again.addEventListener('click', () => showWizard('start'));
     row.append(again); box.append(row);
@@ -2299,6 +2379,11 @@ img, video { max-width: 100%; height: auto; }
       const n = ni.value.trim(); if (n) P.name = n; saveProfile();
       const u = normalizeRelayUrl(ui.value); ui.value = u; if (u) store.set('relayUrl', u); else localStorage.removeItem('ihq:relayUrl');
       const k = normalizeRelayKey(ki.value); ki.value = k; if (k) store.set('relayKey', k); else localStorage.removeItem('ihq:relayKey');
+      const gEl = $('y-booked-goal');
+      if (gEl) {
+        const g = Math.max(0, Math.round(Number(gEl.value) || 0)) || 3000;
+        gEl.value = String(g); store.set('bookedGoal', g);
+      }
       syncSendBtn(); renderBrief(); ss.textContent = 'Saved ✓'; setTimeout(() => { ss.textContent = ''; }, 2000);
     });
     sr.append(sb, ss); box.append(sr);
