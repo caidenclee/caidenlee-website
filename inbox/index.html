@@ -154,6 +154,21 @@ textarea.in { min-height: 13rem; resize: vertical; line-height: 1.5; }
 .brief .acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; position: relative; z-index: 1; }
 .brief .stamp { font-size: 12.5px; opacity: .85; }
 .brief .stamp.stale { opacity: 1; font-weight: 700; color: #ffd27a; }
+.brief-tools {
+  position: absolute; top: calc(env(safe-area-inset-top, 0px) + 10px);
+  right: calc(env(safe-area-inset-right, 0px) + 12px);
+  z-index: 5; display: flex; align-items: center; gap: 8px;
+}
+.brief-age { font-size: 12px; opacity: .75; font-weight: 600; font-variant-numeric: tabular-nums; color: #fff; }
+.brief-age.stale { opacity: 1; color: #ffd27a; font-weight: 700; }
+#b-recap.icon-btn, #gear {
+  width: 44px; height: 44px; border-radius: 50%; border: 0;
+  background: rgba(255,255,255,.18); color: inherit; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; padding: 0;
+}
+#b-recap.icon-btn:disabled { opacity: .6; cursor: wait; }
+#b-recap.icon-btn.is-loading .ico-wrap { animation: sp .8s linear infinite; }
+#b-recap.icon-btn:hover, #gear:hover { background: rgba(255,255,255,.3); }
 .tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; display: flex; gap: 6px; overflow-x: auto; padding: 12px 0; background: var(--bg); margin-top: 6px; scrollbar-width: none; }
 .tab { flex: none; border: 1.5px solid var(--line); border-radius: 999px; padding: 7px 15px; background: var(--card); color: var(--muted); font-weight: 700; cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
 .tab[aria-selected="true"] { background: var(--brand); border-color: var(--brand); color: var(--brand-ink); }
@@ -240,6 +255,7 @@ details.grp .list { padding: 0 10px 10px; }
 @media (prefers-reduced-motion: reduce) {
   .spin { animation: none; }
   .panel-enter, .card-enter, .set-sheet, .ev-sheet { animation: none !important; }
+  #b-recap.icon-btn.is-loading .ico-wrap { animation: none; }
 }
 @keyframes panelIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes cardIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -384,7 +400,11 @@ img, video { max-width: 100%; height: auto; }
   <!-- ================= APP ================= -->
   <div id="app" hidden>
     <header class="brief" style="position:relative">
-      <button type="button" id="gear" aria-label="Settings" title="Settings" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:calc(env(safe-area-inset-right,0px) + 12px);width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:inherit;cursor:pointer;z-index:5;display:inline-flex;align-items:center;justify-content:center"></button>
+      <div class="brief-tools">
+        <span class="brief-age" id="b-age" role="status" aria-live="polite"></span>
+        <button type="button" class="icon-btn" id="b-recap" aria-label="Refresh" title="Refresh"></button>
+        <button type="button" id="gear" aria-label="Settings" title="Settings"></button>
+      </div>
       <div class="brief-grid">
         <div class="brief-main">
           <div class="eyebrow" id="b-eyebrow">Good evening</div>
@@ -395,10 +415,6 @@ img, video { max-width: 100%; height: auto; }
             <button type="button" class="tile" data-stat="emails" aria-label="New emails"><b id="t-new">·</b><span>new emails</span></button>
             <button type="button" class="tile" data-stat="events" aria-label="Events this week"><b id="t-ev">·</b><span>events this week</span></button>
             <button type="button" class="tile" data-stat="booked" aria-label="Booked this week"><b id="t-booked">·</b><span>booked</span><span class="tile-note" id="t-booked-note"></span><span class="tile-bar" id="t-booked-bar" aria-hidden="true"><i></i></span></button>
-          </div>
-          <div class="acts">
-            <button type="button" class="btn accent" id="b-recap">↻ Refresh</button>
-            <span class="stamp js-stamp" id="b-stamp" role="status" aria-live="polite"></span>
           </div>
         </div>
         <aside class="next-up" id="b-next" aria-label="Next up"></aside>
@@ -559,6 +575,7 @@ img, video { max-width: 100%; height: auto; }
       settings: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
       broom: '<path d="m13 11 9-9"/><path d="M14.6 12.6a2 2 0 0 1 2.8.9l.5 1.1a2 2 0 0 1-.9 2.8l-8.2 3.5a2 2 0 0 1-2.5-.7L3.1 13a2 2 0 0 1 .7-2.5Z"/><path d="m5 15 4 4"/>',
       x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+      'refresh-cw': '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
     };
     const svg = '<svg xmlns="http://www.w3.org/2000/svg" class="ico" width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || '') + '</svg>';
     const s = el('span', 'ico-wrap'); s.innerHTML = svg; return s;
@@ -832,6 +849,22 @@ img, video { max-width: 100%; height: auto; }
       title: new Date(lastUpdated).toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }),
     };
   }
+  function shortAgeText() {
+    if (!lastUpdated) return { text: '', stale: false, title: '' };
+    const ms = Date.now() - new Date(lastUpdated).getTime();
+    const stale = ms > 2 * 3600e3;
+    const m = Math.max(0, Math.round(ms / 60000));
+    let text;
+    if (m < 1) text = 'now';
+    else if (m < 60) text = m + 'm';
+    else if (m < 1440) text = Math.round(m / 60) + 'h';
+    else text = Math.round(m / 1440) + 'd';
+    return {
+      text,
+      stale,
+      title: new Date(lastUpdated).toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }),
+    };
+  }
   function updateAllStamps() {
     const s = stampText();
     document.querySelectorAll('.js-stamp').forEach((el) => {
@@ -839,8 +872,15 @@ img, video { max-width: 100%; height: auto; }
       el.classList.toggle('stale', s.stale);
       if (s.title) el.title = s.title; else el.removeAttribute('title');
     });
+    const age = $('b-age');
+    if (age) {
+      const a = shortAgeText();
+      age.textContent = a.text;
+      age.classList.toggle('stale', a.stale);
+      if (a.title) age.title = a.title; else age.removeAttribute('title');
+    }
   }
-  function updateStamp() { updateAllStamps(); }
+    function updateStamp() { updateAllStamps(); }
   function updateGreeting() {
     updateAllStamps();
     const e = $('b-eyebrow'); if (!e) return;
@@ -1010,18 +1050,25 @@ img, video { max-width: 100%; height: auto; }
   const CATS = ['VIP', 'School', 'Work', 'Personal', 'Bills & orders', 'Updates', 'Promos'];
   const CAT_ICON = { VIP: '⭐', School: '🎒', Work: '💼', Personal: '', 'Bills & orders': '', Updates: '', Promos: '🏷️' };
   const CAT_ICO = { Personal: 'home', 'Bills & orders': 'receipt', Updates: 'bell' };
+  let lastFetchAt = Date.now();
   async function buildRecap() {
     const btn = $('b-recap'), st = $('recap-status');
-    btn.disabled = true; btn.classList.add('is-loading');
-    btn.replaceChildren(el('span', 'spin'), document.createTextNode(' Checking for updates…')); st.textContent = ''; st.className = 'note';
+    if (btn) { btn.disabled = true; btn.classList.add('is-loading'); }
+    if (st) { st.textContent = ''; st.className = 'note'; }
     try {
       applyData(await fetchData());
       await refreshTodoFile();
-      st.textContent = (R.sample ? 'Showing sample data until your bot\'s first update. ' : '✓ ') + 'Updated by Grokbot ' + ago(R.at); st.className = R.sample ? 'note' : 'status ok';
-    } catch (e) { dataErr = dataCopy(e && e.code); st.textContent = dataErr; st.className = 'status bad'; }
+      if (st) { st.textContent = (R.sample ? 'Showing sample data until your bot\'s first update. ' : '✓ ') + 'Updated by Grokbot ' + ago(R.at); st.className = R.sample ? 'note' : 'status ok'; }
+    } catch (err) { dataErr = dataCopy(err && err.code); if (st) { st.textContent = dataErr; st.className = 'status bad'; } }
+    lastFetchAt = Date.now();
     resetBtn(); renderBrief(); renderToday(); refreshWeek(); renderSchool();
   }
-  function resetBtn() { const b = $('b-recap'); b.disabled = false; b.classList.remove('is-loading'); b.textContent = '↻ Refresh'; }
+  function resetBtn() {
+    const b = $('b-recap'); if (!b) return;
+    b.disabled = false; b.classList.remove('is-loading');
+    if (!b.querySelector('.ico-wrap')) { b.replaceChildren(); b.append(ico('refresh-cw', 20)); }
+  }
+  resetBtn();
   $('b-recap').addEventListener('click', buildRecap);
   (function bindStatClicks() {
     const tiles = $('b-tiles'); if (!tiles) return;
@@ -2425,8 +2472,15 @@ img, video { max-width: 100%; height: auto; }
     try { TODO = await fetchTodo(); } catch (e) { /* empty until first plan */ }
     if (P.setupDone) { showApp(); show(location.hash.slice(1) || 'today'); } else showWizard();
     buildRecap();
-    setInterval(() => { if (!document.hidden) buildRecap(); }, 5 * 60 * 1000);
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) buildRecap(); });
+    const AUTO_MS = 10 * 60 * 1000;
+    setInterval(() => {
+      if (document.visibilityState !== 'visible') return;
+      if (Date.now() - lastFetchAt >= AUTO_MS) buildRecap();
+    }, 60 * 1000);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState !== 'visible') return;
+      if (Date.now() - lastFetchAt >= AUTO_MS) buildRecap();
+    });
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/inbox/sw.js', { scope: '/inbox/' }).catch(() => { /* offline shell is optional */ });
     }
