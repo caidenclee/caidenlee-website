@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-10-30T22:04:23Z",
- "headline": "Caiden, Jonathon's full detail starts at 4 PM, and tomorrow has five jobs from 8 AM, with Sam's 1:30 still needing a tech.",
+ "generatedAt": "2026-10-30T23:06:49Z",
+ "headline": "Caiden, Jonathon's full detail is underway now, and tomorrow has five jobs from 8 AM, with Sam's 1:30 still needing a tech.",
  "items": [
+  {
+   "id": "1a18f0265f68d601",
+   "from": "Detailing Accelerator <noreply@skool.com>",
+   "subject": "Thatcher Webb posted \"🚨 END OF MONTH SALE — FULL COURSE ACCESS\"",
+   "date": "2026-10-30T22:51:00Z",
+   "category": "Promos",
+   "summary": "Detailing Accelerator community post promoting an end of month sale on full course access.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a18f0265f68d601",
+   "body": ""
+  },
   {
    "id": "1a18ecc97f5466d1",
    "from": "ammonflag769@gmail.com",
@@ -443,6 +456,58 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1863a449519174",
    "body": "You’ve been invited to comment on an artifact\nYou can view it and comment on it once you accept. Sign in to Claude with this email address to accept the invitation.\nInbox HQ\nArtifact\nInvited by\nstrattonhumphreys54@gmail.com\nAccount email\nMessage from strattonhumphreys54@gmail.com:\ntry this out\nView invitation"
+  },
+  {
+   "id": "1a1863043edf1b42",
+   "from": "Gmail Team <forwarding-noreply@google.com>",
+   "subject": "(Gmail Forwarding Confirmation - Receive Mail from cubercaiden@gmail.com",
+   "date": "2026-10-29T05:44:31Z",
+   "category": "Updates",
+   "summary": "Gmail asks you to confirm forwarding mail from cubercaiden to this inbox.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1863043edf1b42",
+   "body": "cubercaiden@gmail.com has requested to automatically forward mail to your email\naddress caidenclee@gmail.com.\nTo allow cubercaiden@gmail.com to automatically forward mail to your address,\nplease click the link below to confirm the request:\nIf you click the link and it appears to be broken, please copy and paste it\ninto a new browser window.\nThanks for using Gmail!\nSincerely,\nThe Gmail Team\nIf you do not approve of this request, no further action is required.\ncubercaiden@gmail.com cannot automatically forward messages to your\nemail address\nunless you confirm the request by clicking the link above. If you accidentally\nclicked the link, but you do not want to allow cubercaiden@gmail.com to\nautomatically forward messages to your address, click this link to cancel this\nverification:\nTo learn more about why you might have received this message, please\nvisit:\nPlease do not respond to this message. If you'd like to contact the\nGoogle.com Team, please log in to your account and click 'Help' at\nthe top of any page. Then, click 'Contact Us' along the bottom of the\nHelp Center."
+  },
+  {
+   "id": "1a1860e88043c702",
+   "from": "Venmo <venmo@venmo.com>",
+   "subject": "Your Venmo Standard transfer has been initiated",
+   "date": "2026-10-29T05:07:41Z",
+   "category": "Bills & orders",
+   "summary": "Venmo started a $199 standard transfer to your bank.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1860e88043c702",
+   "body": "Standard Transfer Initiated We successfully issued your transfer\nStandard transfer initiated\nInitiated on\nThursday, October 29, 2026\nTransfer Amount\n$199.00\nTransfer transaction ID\n[removed]\nEstimated arrival\nMonday, November 02, 2026\nDestination\nJpmorgan Chase Bank [removed]\nYou can see the status of your bank transfers by visiting your Account Statement\nBank transfers tend to process in 1 to 3 business days. A few different factors, like weekends and holidays, can sometimes slow things down.\nBusiness days are Mon-Fri, excluding bank holidays.\nTransfers are reviewed which may result in delays or funds being frozen or removed from your Venmo account. Learn more\nIMPORTANT: If you did not make this request, please visit our Help Center at help.venmo.com or call 1-[removed] ( immediately."
+  },
+  {
+   "id": "1a1854d131d27372",
+   "from": "Hudl <noreply@app.hudl.com>",
+   "subject": "Latest: 1 Playlist",
+   "date": "2026-10-29T01:36:22Z",
+   "category": "Updates",
+   "summary": "Hudl says Don Hogue shared a Defense playlist with you.",
+   "action": "Watch the Defense playlist on Hudl",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1854d131d27372",
+   "body": "Hi Caiden Lee,\nDon Hogue shared\na playlist with you. Watch it here:\nDefense\nWant less email? You can change your Hudl notification settings here."
+  },
+  {
+   "id": "1a1854b0f6cf96a5",
+   "from": "Venmo <venmo@venmo.com>",
+   "subject": "Maureen McMillin paid you $199.00",
+   "date": "2026-10-29T01:34:10Z",
+   "category": "Bills & orders",
+   "summary": "Maureen McMillin paid you $199 on Venmo for a Honda Odyssey detail.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1854b0f6cf96a5",
+   "body": "Maureen McMillin paid you $199.00 Maureen McMillin paid you $199.00\nMaureen McMillin paid you\n$\n199\n.00\nHonda odyssey detailing\nSee transaction\nMoney credited to your Venmo account.\nTransaction details\nDate\nOct 28, 2026\nTransaction ID\n[removed]\nSent to\n@Caiden-Lee-7\nterms apply"
   }
  ],
  "events": [
@@ -452,19 +517,9 @@
    "end": "2026-10-30T18:00:00",
    "allDay": false,
    "where": "4322 Parley Dr, Pasco, WA",
-   "link": "https://www.google.com/calendar/event?eid=b2h1MHAwODVlajcxOGc0amx1NzExN2Vwc2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=b2h1MHAwODVlajcxOGc0amx1NzExN2Vwc2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Interior only · Jose · 2018 Honda Accord · $179 · Cory · Water and electricity yes"
-  },
-  {
-   "title": "[Content] Post: Game day locker room solve",
-   "start": "2026-10-30T15:30:00",
-   "end": "2026-10-30T15:45:00",
-   "allDay": false,
-   "where": "",
-   "link": "https://www.google.com/calendar/event?eid=b2poYmVlNmlydGNqb20wa3VuaTA4N2M0aWcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
-   "calendar": "personal",
-   "description": "REEL 3 of 3 for @thecaidenlee. Post at 3:30 PM Pacific, pre game. Football and cubing crossover."
   },
   {
    "title": "[Talib] Full Detail: Jonathon (2024 Hyundai PALISADE)",
@@ -472,7 +527,7 @@
    "end": "2026-10-30T19:00:00",
    "allDay": false,
    "where": "5715 Bedford St",
-   "link": "https://www.google.com/calendar/event?eid=Y3M3ZmNjYW1qb3AzajlmbjQyazY4YTBnbTQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=Y3M3ZmNjYW1qb3AzajlmbjQyazY4YTBnbTQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Full Detail for Jonathon · 2024 Hyundai Palisade · $199 · Tech unassigned · At Bedford St"
   },
@@ -482,7 +537,7 @@
    "end": "2026-10-31T12:00:00",
    "allDay": false,
    "where": "5715 Bedford St",
-   "link": "https://www.google.com/calendar/event?eid=Z28yNnZxaXAzcnYyOTgwNHRxYWY5djFsaXZfMjAyNjEwMzFUMTUwMDAwWiBlOGMwYWJhNzA0MjZhYmQwMWQxYmY0NGEzNjI0MTVlNGVmNDA1YTFjZjY2ZGNkMzg5YjYwNmUwN2RjZGJlZGMzQGc&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=Z28yNnZxaXAzcnYyOTgwNHRxYWY5djFsaXZfMjAyNjEwMzFUMTUwMDAwWiBlOGMwYWJhNzA0MjZhYmQwMWQxYmY0NGEzNjI0MTVlNGVmNDA1YTFjZjY2ZGNkMzg5YjYwNmUwN2RjZGJlZGMzQGc",
    "calendar": "business",
    "description": "Fleet exterior · All Set · 6 vans · $80 each · Recurring every 2 weeks Saturday"
   },
@@ -492,7 +547,7 @@
    "end": "2026-10-31T12:00:00",
    "allDay": false,
    "where": "3002 Blaine St, Pasco, WA",
-   "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Full Detail · Miguel · vehicle TBD · $199 · Water and electricity yes"
   },
@@ -502,7 +557,7 @@
    "end": "2026-10-31T12:00:00",
    "allDay": false,
    "where": "5715 Bedford St, Pasco, WA",
-   "link": "https://www.google.com/calendar/event?eid=b2c3N2xuYXJjMHVxaDk3am11ZHNmOGhwZjQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=b2c3N2xuYXJjMHVxaDk3am11ZHNmOGhwZjQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Full Detail · Carly · 2021 Ford EcoSport · $199 · Ethan · Extra care on seat belts · At office"
   },
@@ -512,7 +567,7 @@
    "end": "2026-10-31T14:00:00",
    "allDay": false,
    "where": "7112 W 13th Ave, Kennewick, WA",
-   "link": "https://www.google.com/calendar/event?eid=dTRqZzdmbnFhNGhzbDY0bzM2ajJvYjdsbDQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=dTRqZzdmbnFhNGhzbDY0bzM2ajJvYjdsbDQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Full Detail · Easton · Ford Fusion SE · $199 · Cory · About 3 hours · Pay after job"
   },
@@ -522,7 +577,7 @@
    "end": "2026-10-31T16:30:00",
    "allDay": false,
    "where": "5820 west argent road Pasco",
-   "link": "https://www.google.com/calendar/event?eid=Z21pcmh0dWNsZmNlOW5ndjhubXBmY2xpN3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=Z21pcmh0dWNsZmNlOW5ndjhubXBmY2xpN3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Full Detail for Sam · 2019 GMC Sierra · $249 · Tech unassigned · Water and electricity yes"
   },
@@ -532,7 +587,7 @@
    "end": "2026-10-31T16:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=djhsbm81NmliMnRmNmVwcnJidWcyMTMyNWMgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=djhsbm81NmliMnRmNmVwcnJidWcyMTMyNWMgY2FpZGVuY2xlZUBt",
    "calendar": "personal",
    "description": "Film block for the week of 10/26. Shoot anything not filmed yet, plus pickups and b roll for next week, including the #43 in the USA solve and the 6 year old PB reel."
   },
@@ -542,7 +597,7 @@
    "end": "2026-11-01T11:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDFUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDFUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
    "calendar": "personal",
    "description": "Every Sunday 9 to 11 AM. Standing commitment, a tech covers any Sunday-morning booking."
   },
@@ -552,7 +607,7 @@
    "end": "2026-11-01T12:15:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=bzdhZjVmMmpiZmZ0bDg4YTRkYmlmY3Y2amcgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=bzdhZjVmMmpiZmZ0bDg4YTRkYmlmY3Y2amcgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Heather asked for a reminder text on Sunday about her Monday Nov 2, 3 PM Full Detail, booked under Michael Erhart."
   },
@@ -562,7 +617,7 @@
    "end": "2026-11-02T18:00:00",
    "allDay": false,
    "where": "517 N Jean St, Kennewick, WA 99336",
-   "link": "https://www.google.com/calendar/event?eid=ZGlwbm51cnJnazhjNWp2dGlhNTRiYTZzYjggZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=ZGlwbm51cnJnazhjNWp2dGlhNTRiYTZzYjggZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Full Detail + pet hair, Jeremy, Toyota Tundra, $249. Dogs ride in it. Water and electricity yes. Booked Oct 28."
   },
@@ -572,7 +627,7 @@
    "end": "2026-11-02T18:00:00",
    "allDay": false,
    "where": "512 Sedgwick Pl, Richland, WA 99352",
-   "link": "https://www.google.com/calendar/event?eid=ZTk2MGR2NHZrM3EwZTMxYmY3M3FqcjFlNmsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=ZTk2MGR2NHZrM3EwZTMxYmY3M3FqcjFlNmsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Full Detail for Heather Erhart, booked under Michael Erhart · 2014 Lexus RX 350 · $199 special · Tech unassigned · No pet hair, water and power available"
   },
@@ -582,7 +637,7 @@
    "end": "2026-11-02T18:30:00",
    "allDay": false,
    "where": "197905 E 36th Ave, Kennewick, WA 99337",
-   "link": "https://www.google.com/calendar/event?eid=cmQ4NGEyNzA3bXNxcDhjYmRyYXBvdThpcGsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=cmQ4NGEyNzA3bXNxcDhjYmRyYXBvdThpcGsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Interior Detail for Brian, repeat customer · Black crew cab 2500HD truck · $249 · Tech unassigned · Old stains may not come out, customer was warned"
   },
@@ -592,7 +647,7 @@
    "end": "2026-11-03T18:00:00",
    "allDay": false,
    "where": "517 N Jean St, Kennewick, WA 99336",
-   "link": "https://www.google.com/calendar/event?eid=bjM2dWYwZmtjdXI5NjIzcWxkY2s4MG43NXMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=bjM2dWYwZmtjdXI5NjIzcWxkY2s4MG43NXMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Full Detail + pet hair · Jeremy · personal truck · $249 · Two dogs · Water and electricity yes"
   },
@@ -602,7 +657,7 @@
    "end": "2026-11-04T09:30:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMDRUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMDRUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
    "calendar": "personal"
   },
   {
@@ -611,7 +666,7 @@
    "end": "2026-11-04T13:30:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMDRUMjAwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMDRUMjAwMDAwWiBjYWlkZW5jbGVlQG0",
    "calendar": "personal"
   },
   {
@@ -620,9 +675,19 @@
    "end": "2026-11-05T14:00:00",
    "allDay": false,
    "where": "Next Level Pros office, 5715 Bedford St",
-   "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0",
    "calendar": "personal",
    "description": "Biweekly call with Adam, taken from the office."
+  },
+  {
+   "title": "Full Detail: Stephanie (2018 Dodge CARAVAN)",
+   "start": "2026-11-06T16:00:00",
+   "end": "2026-11-06T19:00:00",
+   "allDay": false,
+   "where": "5715 Bedford St",
+   "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "calendar": "business",
+   "description": "Full Detail for Stephanie, 2018 Dodge Caravan, $249, tech unassigned. Quoted 249, can be upcharged."
   }
  ]
 }
