@@ -113,6 +113,12 @@ textarea.in { min-height: 13rem; resize: vertical; line-height: 1.5; }
 .next-up .nu-top { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; justify-content: space-between; }
 .next-up .nu-lbl { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .next-up .nu-count { font-size: 12.5px; font-weight: 700; color: var(--brand); }
+.nu-when {
+  font-family: var(--display); font-weight: 700; font-size: 22px; line-height: 1.2;
+  letter-spacing: .01em; margin: 0; color: var(--ink);
+}
+.nu-near { font-size: 12.5px; color: var(--muted); font-weight: 600; margin: 0; }
+.hl-card .hl-near { font-size: 12.5px; color: var(--muted); font-weight: 600; line-height: 1.3; }
 .next-up .nu-title { font: 700 15px/1.25 var(--display); letter-spacing: .005em; margin: 0; overflow-wrap: anywhere; }
 .next-up .nu-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); }
 .next-up .nu-where { display: flex; gap: 6px; align-items: flex-start; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
@@ -963,11 +969,18 @@ img, video { max-width: 100%; height: auto; }
     if (e.textContent !== t) e.textContent = t;
     if (typeof renderNextUp === 'function') renderNextUp();
     if (typeof renderHighlights === 'function' && $('b-hl-rail')) {
-      // refresh countdown value on next-up card without rebuilding whole rail focus
-      const first = $('b-hl-rail').querySelector('.hl-card .hl-val');
+      const card = [...$('b-hl-rail').querySelectorAll('.hl-card')].find((c) => /next up/i.test(c.getAttribute('aria-label') || ''));
       const next = findNextUpEvent(week || (R && R.events) || []);
-      if (first && next && first.parentElement && /next up/i.test(first.parentElement.getAttribute('aria-label') || '')) {
-        first.textContent = countdownLabel(next) || 'soon';
+      if (card && next) {
+        const val = card.querySelector('.hl-val');
+        if (val) val.textContent = friendlyEventStart(next) || 'Soon';
+        let nearEl = card.querySelector('.hl-near');
+        const near = eventNearSub(next);
+        if (near) {
+          if (!nearEl) { nearEl = el('div', 'hl-near'); const sub = card.querySelector('.hl-sub'); card.insertBefore(nearEl, sub); }
+          nearEl.textContent = near;
+        } else if (nearEl) nearEl.remove();
+        card.setAttribute('aria-label', 'Next up: ' + (val ? val.textContent : ''));
       }
     }
   }
@@ -1018,8 +1031,10 @@ img, video { max-width: 100%; height: auto; }
     const lab = el('div', 'hl-lab');
     lab.append(ico(spec.icon, 14), document.createTextNode(spec.label));
     const val = el('div', 'hl-val', spec.value);
+    b.append(lab, val);
+    if (spec.near) b.append(el('div', 'hl-near', spec.near));
     const sub = el('div', 'hl-sub', spec.sub || '');
-    b.append(lab, val, sub);
+    b.append(sub);
     b.addEventListener('click', () => { if (spec.onClick) spec.onClick(); });
     return b;
   }
@@ -1050,7 +1065,9 @@ img, video { max-width: 100%; height: auto; }
     if (next) {
       const title = String(next.title || next.summary || 'Event').trim() || 'Event';
       cards.push({
-        icon: 'calendar', label: 'Next up', value: countdownLabel(next) || 'soon',
+        icon: 'calendar', label: 'Next up',
+        value: friendlyEventStart(next) || 'Soon',
+        near: eventNearSub(next) || '',
         sub: title,
         onClick: () => { show('today'); scrollToSel('#b-next'); },
       });
@@ -1187,6 +1204,17 @@ img, video { max-width: 100%; height: auto; }
     });
     return best;
   }
+  function isEventAllDay(e) {
+    return !!(e && (e.allDay || String(e.start || '').length === 10));
+  }
+  function formatClock(d) {
+    return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+  function dayOffset(from, to) {
+    const a = new Date(from.getFullYear(), from.getMonth(), from.getDate()).getTime();
+    const b = new Date(to.getFullYear(), to.getMonth(), to.getDate()).getTime();
+    return Math.round((b - a) / 864e5);
+  }
   function countdownLabel(e) {
     const now = Date.now();
     const start = eventStartDate(e);
@@ -1203,6 +1231,42 @@ img, video { max-width: 100%; height: auto; }
     const days = Math.round(ms / 864e5);
     return 'in ' + days + ' day' + (days === 1 ? '' : 's');
   }
+  function friendlyEventStart(e) {
+    const start = eventStartDate(e);
+    const end = eventEndDate(e);
+    if (!start || isNaN(start.getTime())) return '';
+    const now = new Date();
+    const allDay = isEventAllDay(e);
+    if (!allDay && end && !isNaN(end.getTime()) && now.getTime() >= start.getTime() && now.getTime() < end.getTime()) {
+      return 'Now';
+    }
+    const diff = dayOffset(now, start);
+    if (allDay) {
+      if (diff === 0) return 'Today, all day';
+      if (diff === 1) return 'Tomorrow, all day';
+      if (diff >= 2 && diff <= 6) return start.toLocaleDateString('en-US', { weekday: 'short' }) + ', all day';
+      return start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ', all day';
+    }
+    const clock = formatClock(start);
+    if (diff === 0) return 'Today ' + clock;
+    if (diff === 1) return 'Tomorrow ' + clock;
+    if (diff >= 2 && diff <= 6) return start.toLocaleDateString('en-US', { weekday: 'short' }) + ' ' + clock;
+    return start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ', ' + clock;
+  }
+  function eventNearSub(e) {
+    const start = eventStartDate(e);
+    const end = eventEndDate(e);
+    if (!start || isNaN(start.getTime())) return '';
+    const now = Date.now();
+    const allDay = isEventAllDay(e);
+    if (!allDay && end && !isNaN(end.getTime()) && now >= start.getTime() && now < end.getTime()) {
+      return 'until ' + formatClock(end);
+    }
+    if (allDay) return '';
+    const ms = start.getTime() - now;
+    if (ms <= 0 || ms >= 3 * 3600e3) return '';
+    return countdownLabel(e);
+  }
   function renderNextUp() {
     const box = $('b-next'); if (!box) return;
     box.replaceChildren();
@@ -1217,8 +1281,10 @@ img, video { max-width: 100%; height: auto; }
     box.className = 'next-up ' + (biz ? 'biz' : 'personal');
     const top = el('div', 'nu-top');
     top.append(el('span', 'nu-lbl', 'Next up'));
-    top.append(el('span', 'nu-count', countdownLabel(e)));
     box.append(top);
+    box.append(el('div', 'nu-when', friendlyEventStart(e) || 'Soon'));
+    const near = eventNearSub(e);
+    if (near) box.append(el('div', 'nu-near', near));
     const parsed = typeof parseTechPrefix === 'function' ? parseTechPrefix(e.title || '') : { techs: [], label: '', rest: e.title || '' };
     const title = el('h2', 'nu-title', (parsed.rest || e.title || '(no title)'));
     box.append(title);
