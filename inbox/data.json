@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-10-30T15:06:44Z",
- "headline": "Caiden, your Detailing Accelerator meeting is at 9:30 this morning, seven jobs run today and tomorrow, and Netlify is still out of credits.",
+ "generatedAt": "2026-10-30T16:04:00Z",
+ "headline": "Caiden, your Detailing Accelerator meeting starts at 9:30, jobs run today and tomorrow, and Netlify is still out of credits.",
  "items": [
+  {
+   "id": "1a18d6ef5aa8bb33",
+   "from": "Detailing Accelerator <noreply@mail.detailingaccel.com>",
+   "subject": "Reminder: Meeting in 1 hour",
+   "date": "2026-10-30T15:30:04Z",
+   "category": "Work",
+   "summary": "Detailing Accelerator reminds you that your client meeting starts at 9:30 AM today on Google Meet.",
+   "action": "",
+   "due": "2026-10-30",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a18d6ef5aa8bb33",
+   "body": "Hi Caiden,\n\nThis is a friendly reminder that your client meeting with Detailing Accelerator is in 1 hour, 9:30 AM PDT on October 30, 2026.\n\nMeeting Link: https://meet.google.com/ifj-xscz-siw\n\nSee you soon,\n\nDetailing Accelerator Team"
+  },
   {
    "id": "1a18d50b74fe5a4c",
    "from": "MaxPreps <reply@fans.maxpreps-email.com>",
