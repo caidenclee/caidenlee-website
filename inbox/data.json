@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-30T13:11:20Z",
+ "generatedAt": "2026-10-30T14:04:45Z",
  "headline": "Caiden, your Detailing Accelerator meeting is at 9:30 this morning, seven jobs run today and tomorrow, and Netlify is still out of credits.",
  "items": [
   {
@@ -517,7 +517,7 @@
    "end": "2026-10-30T10:00:00",
    "allDay": false,
    "where": "https://meet.google.com/ifj-xscz-siw",
-   "link": "https://www.google.com/calendar/event?eid=NnAyb3VpMGNxaTRkb3U2M2plZWVkNTZhdDQgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=NnAyb3VpMGNxaTRkb3U2M2plZWVkNTZhdDQgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Detailing Accelerator meeting on Google Meet. Reschedule or cancel from the confirmation email."
   },
@@ -527,7 +527,7 @@
    "end": "2026-10-30T18:00:00",
    "allDay": false,
    "where": "5715 Bedford St",
-   "link": "https://www.google.com/calendar/event?eid=Y3M3ZmNjYW1qb3AzajlmbjQyazY4YTBnbTQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=Y3M3ZmNjYW1qb3AzajlmbjQyazY4YTBnbTQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail for Jonathon · 2024 Hyundai Palisade · $199 · Tech unassigned · At Bedford St"
   },
@@ -537,7 +537,7 @@
    "end": "2026-10-30T18:00:00",
    "allDay": false,
    "where": "4322 Parley Dr, Pasco, WA",
-   "link": "https://www.google.com/calendar/event?eid=b2h1MHAwODVlajcxOGc0amx1NzExN2Vwc2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=b2h1MHAwODVlajcxOGc0amx1NzExN2Vwc2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Interior only · Jose · 2018 Honda Accord · $179 · Cory · Water and electricity yes"
   },
@@ -547,7 +547,7 @@
    "end": "2026-10-30T15:45:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=b2poYmVlNmlydGNqb20wa3VuaTA4N2M0aWcgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=b2poYmVlNmlydGNqb20wa3VuaTA4N2M0aWcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "REEL 3 of 3 for @thecaidenlee. Post at 3:30 PM Pacific, pre game. Football and cubing crossover."
   },
@@ -557,7 +557,7 @@
    "end": "2026-10-31T12:00:00",
    "allDay": false,
    "where": "5715 Bedford St",
-   "link": "https://www.google.com/calendar/event?eid=Z28yNnZxaXAzcnYyOTgwNHRxYWY5djFsaXZfMjAyNjEwMzFUMTUwMDAwWiBlOGMwYWJhNzA0MjZhYmQwMWQxYmY0NGEzNjI0MTVlNGVmNDA1YTFjZjY2ZGNkMzg5YjYwNmUwN2RjZGJlZGMzQGc",
+   "link": "https://www.google.com/calendar/event?eid=Z28yNnZxaXAzcnYyOTgwNHRxYWY5djFsaXZfMjAyNjEwMzFUMTUwMDAwWiBlOGMwYWJhNzA0MjZhYmQwMWQxYmY0NGEzNjI0MTVlNGVmNDA1YTFjZjY2ZGNkMzg5YjYwNmUwN2RjZGJlZGMzQGc&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Fleet exterior · All Set · 6 vans · $80 each · Recurring every 2 weeks Saturday"
   },
@@ -567,7 +567,7 @@
    "end": "2026-10-31T12:00:00",
    "allDay": false,
    "where": "3002 Blaine St, Pasco, WA",
-   "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail · Miguel · vehicle TBD · $199 · Water and electricity yes"
   },
@@ -577,7 +577,7 @@
    "end": "2026-10-31T12:00:00",
    "allDay": false,
    "where": "5715 Bedford St, Pasco, WA",
-   "link": "https://www.google.com/calendar/event?eid=b2c3N2xuYXJjMHVxaDk3am11ZHNmOGhwZjQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=b2c3N2xuYXJjMHVxaDk3am11ZHNmOGhwZjQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail · Carly · 2021 Ford EcoSport · $199 · Ethan · Extra care on seat belts · At office"
   },
@@ -587,7 +587,7 @@
    "end": "2026-10-31T14:00:00",
    "allDay": false,
    "where": "7112 W 13th Ave, Kennewick, WA",
-   "link": "https://www.google.com/calendar/event?eid=dTRqZzdmbnFhNGhzbDY0bzM2ajJvYjdsbDQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=dTRqZzdmbnFhNGhzbDY0bzM2ajJvYjdsbDQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail · Easton · Ford Fusion SE · $199 · Cory · About 3 hours · Pay after job"
   },
@@ -597,7 +597,7 @@
    "end": "2026-10-31T16:30:00",
    "allDay": false,
    "where": "5820 west argent road Pasco",
-   "link": "https://www.google.com/calendar/event?eid=Z21pcmh0dWNsZmNlOW5ndjhubXBmY2xpN3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=Z21pcmh0dWNsZmNlOW5ndjhubXBmY2xpN3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail · Sam · 2019 GMC Sierra · $249 · Tech unassigned · Water and electricity yes"
   },
@@ -607,7 +607,7 @@
    "end": "2026-10-31T16:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=djhsbm81NmliMnRmNmVwcnJidWcyMTMyNWMgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=djhsbm81NmliMnRmNmVwcnJidWcyMTMyNWMgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Film block for the week of 10/26. Shoot anything not filmed yet, plus pickups and b roll for next week, including the #43 in the USA solve and the 6 year old PB reel."
   },
@@ -617,7 +617,7 @@
    "end": "2026-11-01T11:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDFUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
+   "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDFUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Every Sunday 9 to 11 AM. Standing commitment, a tech covers any Sunday-morning booking."
   },
@@ -627,7 +627,7 @@
    "end": "2026-11-01T12:15:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=bzdhZjVmMmpiZmZ0bDg4YTRkYmlmY3Y2amcgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=bzdhZjVmMmpiZmZ0bDg4YTRkYmlmY3Y2amcgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Heather asked for a reminder text on Sunday about her Monday Nov 2, 3 PM Full Detail, booked under Michael Erhart."
   },
@@ -637,7 +637,7 @@
    "end": "2026-11-02T18:00:00",
    "allDay": false,
    "where": "517 N Jean St, Kennewick, WA 99336",
-   "link": "https://www.google.com/calendar/event?eid=ZGlwbm51cnJnazhjNWp2dGlhNTRiYTZzYjggZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=ZGlwbm51cnJnazhjNWp2dGlhNTRiYTZzYjggZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail + pet hair, Jeremy, Toyota Tundra, $249. Dogs ride in it. Water and electricity yes. Booked Oct 28."
   },
@@ -647,7 +647,7 @@
    "end": "2026-11-02T18:00:00",
    "allDay": false,
    "where": "512 Sedgwick Pl, Richland, WA 99352",
-   "link": "https://www.google.com/calendar/event?eid=ZTk2MGR2NHZrM3EwZTMxYmY3M3FqcjFlNmsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=ZTk2MGR2NHZrM3EwZTMxYmY3M3FqcjFlNmsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail for Heather Erhart, booked under Michael Erhart · 2014 Lexus RX 350 · $199 special · Tech unassigned · No pet hair, water and power available"
   },
@@ -657,7 +657,7 @@
    "end": "2026-11-02T18:30:00",
    "allDay": false,
    "where": "197905 E 36th Ave, Kennewick, WA 99337",
-   "link": "https://www.google.com/calendar/event?eid=cmQ4NGEyNzA3bXNxcDhjYmRyYXBvdThpcGsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=cmQ4NGEyNzA3bXNxcDhjYmRyYXBvdThpcGsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Interior Detail for Brian, repeat customer · Black crew cab 2500HD truck · $249 · Tech unassigned · Old stains may not come out, customer was warned"
   },
@@ -667,7 +667,7 @@
    "end": "2026-11-03T18:00:00",
    "allDay": false,
    "where": "517 N Jean St, Kennewick, WA 99336",
-   "link": "https://www.google.com/calendar/event?eid=bjM2dWYwZmtjdXI5NjIzcWxkY2s4MG43NXMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=bjM2dWYwZmtjdXI5NjIzcWxkY2s4MG43NXMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail + pet hair · Jeremy · personal truck · $249 · Two dogs · Water and electricity yes"
   },
@@ -677,7 +677,7 @@
    "end": "2026-11-04T09:30:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMDRUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
+   "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMDRUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal"
   },
   {
@@ -686,7 +686,7 @@
    "end": "2026-11-04T13:30:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMDRUMjAwMDAwWiBjYWlkZW5jbGVlQG0",
+   "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMDRUMjAwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal"
   },
   {
@@ -695,7 +695,7 @@
    "end": "2026-11-05T14:00:00",
    "allDay": false,
    "where": "Next Level Pros office, 5715 Bedford St",
-   "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0",
+   "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Biweekly call with Adam, taken from the office."
   }
