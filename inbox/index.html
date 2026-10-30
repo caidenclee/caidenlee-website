@@ -276,9 +276,19 @@ img, video { max-width: 100%; height: auto; }
 .item.swipe { position: relative; touch-action: pan-y; transition: transform .25s ease, opacity .25s ease, max-height .3s ease, margin .3s ease, padding .3s ease; }
 .item.swipe.dragging { transition: none; }
 .item.swipe.gone { opacity: 0; transform: translateX(-110%) !important; }
-.item .hide-x { position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--card); color: var(--muted); cursor: pointer; display: none; font-size: 13px; line-height: 1; }
-@media (hover: hover) and (pointer: fine) { .item.swipe:hover .hide-x, .item.swipe .hide-x:focus-visible { display: block; } .item.swipe .hide-x:hover { color: var(--bad); border-color: var(--bad); } }
+.item.swipe.dismissing { opacity: 0; max-height: 0 !important; margin: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; border-width: 0; overflow: hidden; pointer-events: none; }
+.item .hide-x { position: absolute; top: 8px; right: 8px; min-width: 32px; min-height: 32px; width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--card); color: var(--muted); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1; z-index: 2; }
+.item .hide-x:hover, .item .hide-x:focus-visible { color: var(--bad); border-color: var(--bad); }
 .show-hidden { background: none; border: 0; color: var(--brand); font-weight: 600; cursor: pointer; padding: 10px 0; text-align: left; min-height: 44px; }
+.item.dismissed-view { opacity: .72; }
+.tile .tile-note { display: block; font-size: 11px; opacity: .75; text-transform: none; letter-spacing: 0; font-weight: 600; margin-top: 2px; }
+@media (max-width: 640px) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tiles .tile:nth-child(5) { grid-column: 1 / -1; }
+}
+@media (min-width: 641px) {
+  .tiles { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
 .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 18px); z-index: 60; background: var(--ink); color: var(--bg); border-radius: 999px; padding: 10px 10px 10px 18px; display: flex; gap: 12px; align-items: center; box-shadow: 0 8px 24px rgba(0,0,0,.25); max-width: calc(100vw - 24px); font-weight: 600; }
 .toast[hidden] { display: none; }
 .toast-btn { background: transparent; border: 1.5px solid currentColor; color: inherit; border-radius: 999px; padding: 6px 14px; font-weight: 700; cursor: pointer; min-height: 36px; }
@@ -312,6 +322,7 @@ img, video { max-width: 100%; height: auto; }
         <div class="tile"><b id="t-vip">·</b><span>personal</span></div>
         <div class="tile"><b id="t-new">·</b><span>new emails</span></div>
         <div class="tile"><b id="t-ev">·</b><span>events this week</span></div>
+        <div class="tile"><b id="t-booked">·</b><span>booked</span><span class="tile-note" id="t-booked-note"></span></div>
       </div>
       <div class="acts">
         <button type="button" class="btn accent" id="b-recap">↻ Refresh</button>
@@ -727,16 +738,40 @@ img, video { max-width: 100%; height: auto; }
   setInterval(updateGreeting, 60000);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') updateGreeting(); });
   window.addEventListener('pageshow', updateGreeting);
+
+  function parseBookedWeek(events) {
+    const today = ymd(new Date());
+    const end = ymd(new Date(Date.now() + 6 * 864e5));
+    let total = 0, unpriced = 0;
+    (events || []).filter((e) => e.calendar === 'business').forEach((e) => {
+      const d = String(e.start).slice(0, 10);
+      if (d < today || d > end) return;
+      const desc = String(e.description || '');
+      const pm = desc.match(/\$(\d+(?:\.\d+)?)(\s*each)?/i);
+      if (!pm) { unpriced += 1; return; }
+      let amount = Number(pm[1]);
+      if (pm[2]) {
+        const vm = desc.match(/(\d+)\s*(?:vans|cars)\b/i);
+        amount *= vm ? Number(vm[1]) : 1;
+      }
+      total += amount;
+    });
+    return { total, unpriced };
+  }
   function renderBrief() {
     updateGreeting();
     $('b-eyebrow').textContent = 'Inbox HQ · ' + new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-    const items = ((R && R.items) || []).filter((i) => !isHidden(i));
+    const items = ((R && R.items) || []).filter((i) => !isDismissed(i));
     const openTodos = countOpenTodos();
     const personalN = items.filter((i) => ['Personal', 'VIP', 'School'].includes(i.category)).length;
     $('t-todo').textContent = String(openTodos);
     $('t-vip').textContent = R ? String(personalN) : '·';
     $('t-new').textContent = R ? String(items.length) : '·';
     $('t-ev').textContent = week ? String(week.length) : '·';
+    const booked = parseBookedWeek(week || []);
+    const tb = $('t-booked'); if (tb) tb.textContent = week ? ('$' + Math.round(booked.total)) : '·';
+    const tn = $('t-booked-note');
+    if (tn) tn.textContent = (week && booked.unpriced) ? (booked.unpriced + ' job' + (booked.unpriced === 1 ? '' : 's') + ' unpriced') : '';
     $('b-take').textContent = R && R.headline ? R.headline : (P.gmail ? 'Your bot\'s latest update will appear here.' : 'Waiting for your bot\'s first update. Setup is in Settings (⚙️).');
     updateStamp();
     $('n-today').textContent = String(openTodos || '');
@@ -1058,22 +1093,60 @@ img, video { max-width: 100%; height: auto; }
     });
   })();
 
-  // ---------- hidden items, toast, to-do from email ----------
+  // ---------- dismissed emails (ihq:dismissed), toast, to-do from email ----------
   const itemKey = (i) => String(i.id || ((i.from || '') + '|' + (i.subject || '')));
-  const getHidden = () => { const h = store.get('hidden'); return h && typeof h === 'object' ? h : {}; };
-  const isHidden = (i) => !!getHidden()[itemKey(i)];
-  function setHidden(keys, on) { const h = getHidden(); keys.forEach((k) => { if (on) h[k] = Date.now(); else delete h[k]; }); const ks = Object.keys(h).sort((a, b) => h[a] - h[b]); while (ks.length > 500) delete h[ks.shift()]; store.set('hidden', h); }
+  (function migrateHiddenToDismissed() {
+    try {
+      const existing = store.get('dismissed');
+      let arr = Array.isArray(existing) ? existing.slice() : [];
+      const hidden = store.get('hidden');
+      if (hidden && typeof hidden === 'object') {
+        Object.keys(hidden).sort((a, b) => (hidden[a] || 0) - (hidden[b] || 0)).forEach((k) => {
+          if (!arr.includes(k)) arr.push(k);
+        });
+        localStorage.removeItem('ihq:hidden');
+      }
+      while (arr.length > 500) arr.shift();
+      store.set('dismissed', arr);
+    } catch (e) { /* ignore */ }
+  })();
+  const getDismissed = () => { const a = store.get('dismissed'); return Array.isArray(a) ? a : []; };
+  const isDismissed = (i) => getDismissed().includes(itemKey(i));
+  const isHidden = isDismissed; // alias for any leftover calls
+  function setDismissed(keys, on) {
+    let a = getDismissed();
+    keys.forEach((k) => {
+      const idx = a.indexOf(k);
+      if (on && idx < 0) a.push(k);
+      if (!on && idx >= 0) a.splice(idx, 1);
+    });
+    while (a.length > 500) a.shift();
+    store.set('dismissed', a);
+  }
+  const setHidden = setDismissed;
   let toastT = null;
   function toast(msg, undo) {
     const t = $('toast'); if (!t) return; $('toast-msg').textContent = msg;
     const u = $('toast-undo'); u.hidden = !undo; u.onclick = () => { t.hidden = true; clearTimeout(toastT); if (undo) undo(); };
     t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 5000);
   }
-  function hideItem(i, card) {
+  function dismissItem(i, card, viaSwipe) {
     const k = itemKey(i);
-    const done = () => { setHidden([k], true); renderToday(); renderBrief(); toast('Hidden', () => { setHidden([k], false); renderToday(); renderBrief(); }); };
-    if (card) { card.classList.add('gone'); setTimeout(done, 230); } else done();
+    const finish = () => {
+      setDismissed([k], true); renderToday(); renderBrief();
+      toast('Done', () => { setDismissed([k], false); renderToday(); renderBrief(); });
+    };
+    if (!card) { finish(); return; }
+    try {
+      card.style.maxHeight = card.scrollHeight + 'px';
+      card.style.overflow = 'hidden';
+      void card.offsetHeight;
+    } catch (e) { /* ignore */ }
+    if (viaSwipe) card.classList.add('gone');
+    else card.classList.add('dismissing');
+    setTimeout(finish, 150);
   }
+  function hideItem(i, card) { dismissItem(i, card, true); }
   const clip = (t, n) => { t = String(t || '').replace(/\s+/g, ' ').trim(); return t.length > n ? t.slice(0, n - 1).trimEnd() + '…' : t; };
   function todoFromEmail(i) {
     const who = clip(shortFrom(i.from) || 'sender', 30);
@@ -1100,7 +1173,7 @@ img, video { max-width: 100%; height: auto; }
       mode = null;
     };
     card.addEventListener('touchend', end); card.addEventListener('touchcancel', end);
-    const x = el('button', 'hide-x', '✕'); x.type = 'button'; x.setAttribute('aria-label', 'Hide this'); x.title = 'Hide';
+    const x = el('button', 'hide-x', '✕'); x.type = 'button'; x.setAttribute('aria-label', 'Done'); x.title = 'Done';
     x.addEventListener('click', (e) => { e.stopPropagation(); onHide(); }); card.append(x);
   }
   function itemCard(i) {
@@ -1197,18 +1270,40 @@ img, video { max-width: 100%; height: auto; }
     c.append(a);
     return c;
   }
-  function showHiddenBtn(items) {
-    const keys = items.filter(isHidden).map(itemKey); if (!keys.length) return null;
-    const b = el('button', 'show-hidden', 'Show hidden (' + keys.length + ')'); b.type = 'button';
-    b.addEventListener('click', () => { setHidden(keys, false); renderToday(); renderBrief(); });
-    return b;
+  function showDismissedBlock(items) {
+    const dismissed = items.filter(isDismissed);
+    if (!dismissed.length) return null;
+    const wrap = el('div');
+    const b = el('button', 'show-hidden', 'Show dismissed (' + dismissed.length + ')'); b.type = 'button';
+    const list = el('div', 'list'); list.hidden = true;
+    b.addEventListener('click', () => {
+      const open = list.hidden;
+      list.hidden = !open;
+      b.textContent = open ? 'Hide dismissed (' + dismissed.length + ')' : 'Show dismissed (' + dismissed.length + ')';
+      if (open && !list.childNodes.length) {
+        dismissed.forEach((i) => {
+          const card = itemCard(i);
+          card.classList.add('dismissed-view');
+          const undo = el('button', 'btn sm', 'Undo'); undo.type = 'button';
+          undo.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            setDismissed([itemKey(i)], false); renderToday(); renderBrief();
+          });
+          let acts = card.querySelector('.acts'); if (!acts) { acts = el('div', 'acts'); card.append(acts); }
+          acts.append(undo);
+          list.append(card);
+        });
+      }
+    });
+    wrap.append(b, list);
+    return wrap;
   }
   function fillSection(boxId, noteId, nodes, emptyMsg, noteText, all) {
     const box = $(boxId); if (!box) return;
     box.replaceChildren();
     if (!nodes.length) box.append(el('div', 'empty sec-empty', emptyMsg));
     else nodes.forEach((n) => box.append(n));
-    const sh = all ? showHiddenBtn(all) : null; if (sh) box.append(sh);
+    const sh = all ? showDismissedBlock(all) : null; if (sh) box.append(sh);
     const note = $(noteId); if (note) note.textContent = noteText || (nodes.length ? String(nodes.length) : '');
   }
   function renderToday() {
@@ -1252,8 +1347,8 @@ img, video { max-width: 100%; height: auto; }
       const d = el('details', 'grp'); d.open = cat !== 'Promos';
       const s = el('summary'); s.append(el('span', null, (CAT_ICON[cat] || '') + ' ' + cat), el('span', 'pill', String(its.length))); d.append(s);
       const l = el('div', 'list'); its.forEach((i) => l.append(itemCard(i)));
-      if (!its.length) l.append(el('div', 'empty sec-empty', 'All hidden.'));
-      const sh = showHiddenBtn(allIts); if (sh) l.append(sh); d.append(l); gb.append(d);
+      if (!its.length) l.append(el('div', 'empty sec-empty', 'All dismissed.'));
+      const sh = showDismissedBlock(allIts); if (sh) l.append(sh); d.append(l); gb.append(d);
     });
     if ($('rest-left')) $('rest-left').textContent = restN ? String(restN) : '';
     if (!gb.childNodes.length) gb.append(el('div', 'empty sec-empty', 'No bills, orders, or promos in this update.'));
