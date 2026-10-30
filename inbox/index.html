@@ -502,6 +502,7 @@ img, video { max-width: 100%; height: auto; }
       'chevron-right': '<path d="m9 18 6-6-6-6"/>',
       settings: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
       broom: '<path d="m13 11 9-9"/><path d="M14.6 12.6a2 2 0 0 1 2.8.9l.5 1.1a2 2 0 0 1-.9 2.8l-8.2 3.5a2 2 0 0 1-2.5-.7L3.1 13a2 2 0 0 1 .7-2.5Z"/><path d="m5 15 4 4"/>',
+      x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
     };
     const svg = '<svg xmlns="http://www.w3.org/2000/svg" class="ico" width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || '') + '</svg>';
     const s = el('span', 'ico-wrap'); s.innerHTML = svg; return s;
@@ -547,9 +548,9 @@ img, video { max-width: 100%; height: auto; }
 
   // ---------- state ----------
   const ROLES = {
-    school: { icon: '🎒', name: 'School', sub: 'Teachers, classes, Canvas, clubs and sports' },
-    work: { icon: '💼', name: 'Work', sub: 'Your boss, coworkers, shifts, meetings and clients' },
-    personal: { icon: '🏠', name: 'Personal', sub: 'Family, friends, bills, orders and plans' },
+    school: { icon: '🎒', lucide: null, name: 'School', sub: 'Teachers, classes, Canvas, clubs and sports' },
+    work: { icon: '💼', lucide: null, name: 'Work', sub: 'Your boss, coworkers, shifts, meetings and clients' },
+    personal: { icon: '', lucide: 'home', name: 'Personal', sub: 'Family, friends, bills, orders and plans' },
   };
   const blankProfile = () => ({ name: '', roles: [], vips: [], palette: 'harbor', email: '', canvasCal: null, gmail: false, calendar: false, bot: false, setupDone: false });
   let P = blankProfile(), R = null;               // profile, recap
@@ -633,7 +634,7 @@ img, video { max-width: 100%; height: auto; }
       Object.entries(ROLES).forEach(([k, r]) => {
         const b = el('button', 'pick'); b.type = 'button'; b.setAttribute('aria-pressed', String(P.roles.includes(k)));
         const t = el('div'); t.append(el('b', null, r.name), el('small', null, r.sub));
-        b.append(el('span', 'ic', r.icon), t, el('span', 'tick', '✓'));
+        const icn = el('span', 'ic'); if (r.lucide) icn.append(ico(r.lucide, 22)); else icn.textContent = r.icon; b.append(icn, t, el('span', 'tick', '✓'));
         b.addEventListener('click', () => { P.roles = P.roles.includes(k) ? P.roles.filter((x) => x !== k) : P.roles.concat(k); renderWizard(); });
         g.append(b);
       });
@@ -1152,7 +1153,10 @@ img, video { max-width: 100%; height: auto; }
       const existing = store.get('dismissed');
       let arr = Array.isArray(existing) ? existing.slice() : [];
       const hidden = store.get('hidden');
-      if (hidden && typeof hidden === 'object') {
+      if (Array.isArray(hidden)) {
+        hidden.forEach((k) => { k = String(k); if (k && !arr.includes(k)) arr.push(k); });
+        localStorage.removeItem('ihq:hidden');
+      } else if (hidden && typeof hidden === 'object') {
         Object.keys(hidden).sort((a, b) => (hidden[a] || 0) - (hidden[b] || 0)).forEach((k) => {
           if (!arr.includes(k)) arr.push(k);
         });
@@ -1225,7 +1229,7 @@ img, video { max-width: 100%; height: auto; }
       mode = null;
     };
     card.addEventListener('touchend', end); card.addEventListener('touchcancel', end);
-    const x = el('button', 'hide-x', '✕'); x.type = 'button'; x.setAttribute('aria-label', 'Done'); x.title = 'Done';
+    const x = el('button', 'hide-x'); x.type = 'button'; x.setAttribute('aria-label', 'Done'); x.title = 'Done'; x.append(ico('x', 14));
     x.addEventListener('click', (e) => { e.stopPropagation(); onHide(); }); card.append(x);
   }
   function itemCard(i) {
@@ -1651,7 +1655,7 @@ img, video { max-width: 100%; height: auto; }
     const box = $('w-topics'); box.replaceChildren();
     const roles = P.roles.length ? P.roles : ['personal'];
     roles.forEach((r) => {
-      const g = el('div', 'field'); g.append(el('span', 'grp-lbl', ROLES[r].icon + ' ' + ROLES[r].name));
+      const g = el('div', 'field'); const gl = el('span', 'grp-lbl'); if (ROLES[r].lucide) { gl.append(ico(ROLES[r].lucide), document.createTextNode(' ' + ROLES[r].name)); } else { gl.textContent = (ROLES[r].icon ? ROLES[r].icon + ' ' : '') + ROLES[r].name; } g.append(gl);
       const cs = el('div', 'chips');
       TOPICS[r].forEach(([k, label]) => { const b = el('button', 'chip', label); b.type = 'button'; b.dataset.k = r + ':' + k; b.setAttribute('aria-pressed', String(wState.role === r && wState.topic === k)); b.addEventListener('click', () => { wState = { role: r, topic: k, replyToThreadId: null }; compose(); }); cs.append(b); });
       g.append(cs); box.append(g);
@@ -1896,7 +1900,7 @@ img, video { max-width: 100%; height: auto; }
     const nf = el('label', 'field'); nf.append(el('span', null, 'Name'));
     const ni = el('input', 'in'); ni.id = 'y-name'; ni.placeholder = 'Name'; ni.value = P.name; ni.addEventListener('change', () => { P.name = ni.value.trim() || P.name; saveProfile(); renderBrief(); }); nf.append(ni); box.append(nf);
     const rf = el('div', 'field'); rf.append(el('span', null, 'Use it for'));
-    const rc = el('div', 'chips'); Object.entries(ROLES).forEach(([k, r]) => { const b = el('button', 'chip', r.icon + ' ' + r.name); b.type = 'button'; b.setAttribute('aria-pressed', String(P.roles.includes(k))); b.addEventListener('click', () => { const on = P.roles.includes(k); if (on && P.roles.length === 1) return; P.roles = on ? P.roles.filter((x) => x !== k) : P.roles.concat(k); saveProfile(); showApp(); show('you'); }); rc.append(b); });
+    const rc = el('div', 'chips'); Object.entries(ROLES).forEach(([k, r]) => { const b = el('button', 'chip'); b.type = 'button'; if (r.lucide) { b.append(ico(r.lucide), document.createTextNode(' ' + r.name)); } else { b.textContent = (r.icon ? r.icon + ' ' : '') + r.name; } b.setAttribute('aria-pressed', String(P.roles.includes(k))); b.addEventListener('click', () => { const on = P.roles.includes(k); if (on && P.roles.length === 1) return; P.roles = on ? P.roles.filter((x) => x !== k) : P.roles.concat(k); saveProfile(); showApp(); show('you'); }); rc.append(b); });
     rf.append(rc); box.append(rf);
     const cf = el('div', 'field'); cf.append(el('span', null, 'Data source'));
     const cr = el('div', 'chips');
