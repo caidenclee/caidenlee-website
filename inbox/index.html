@@ -356,7 +356,6 @@ img, video { max-width: 100%; height: auto; }
       </form>
       <div class="list" id="todos"></div>
       <div class="todo-tools">
-        <button type="button" class="btn sm ghost" id="todo-reset">Reset to-do list</button>
         <span class="note" id="todo-stamp"></span>
       </div>
       </div>
@@ -1078,10 +1077,10 @@ img, video { max-width: 100%; height: auto; }
       btn.disabled = false;
     });
   })();
-  (function bindTodoReset() {
-    const btn = $('todo-reset'); if (!btn || btn.dataset.bound) return; btn.dataset.bound = '1';
+  function bindTodoReset(btn) {
+    if (!btn || btn.dataset.bound) return; btn.dataset.bound = '1';
     btn.addEventListener('click', () => {
-      if (!confirm("Reset today's to-do list? This clears checkmarks and one-off tasks. Repeating tasks stay and come back unchecked.")) return;
+      if (!confirm('Clear all todos?')) return;
       const today = ymd(new Date());
       saveDayTodos(today, []);
       saveTodoChecks(today, {});
@@ -1091,7 +1090,8 @@ img, video { max-width: 100%; height: auto; }
       const ta = $('plan-text'); if (ta) ta.value = '';
       renderBrief(); renderToday();
     });
-  })();
+  }
+  if ($('todo-reset')) bindTodoReset($('todo-reset'));
 
   // ---------- dismissed emails (ihq:dismissed), toast, to-do from email ----------
   const itemKey = (i) => String(i.id || ((i.from || '') + '|' + (i.subject || '')));
@@ -1808,7 +1808,6 @@ img, video { max-width: 100%; height: auto; }
     cr.append(el('span', 'pill' + (P.bot ? ' ok' : ''), P.bot && R && R.at ? '✓ Grokbot · updated ' + ago(R.at) : 'Grokbot · waiting for first update'));
     const cb = el('button', 'btn sm', 'Bot setup'); cb.type = 'button'; cb.addEventListener('click', () => showWizard('bot'));
     cr.append(cb); cf.append(cr); box.append(cf);
-    box.append(passField());
     const vf = el('div', 'field'); vf.append(el('span', null, 'Your people (always on top)'), vipEditor()); box.append(vf);
     const tf = el('div', 'field'); tf.append(el('span', null, 'Colors'), swatches()); box.append(tf);
     const gf = el('div', 'field');
@@ -1860,6 +1859,15 @@ img, video { max-width: 100%; height: auto; }
     });
     sr.append(sb, ss); box.append(sr);
     box.append(el('p', 'note', 'Your setup lives only in this browser. Inbox HQ displays what your bot publishes. Send Email and AI write go through your Cloudflare relay to Grokbot; nothing leaves until you approve it there.'));
+    const adv = el('details', 'grp'); adv.style.marginTop = '12px';
+    const sum = el('summary'); sum.append(el('span', null, 'Advanced')); adv.append(sum);
+    const advBody = el('div', 'list'); advBody.style.paddingTop = '8px';
+    advBody.append(passField());
+    const resetRow = el('div', 'chips');
+    const resetBtn = el('button', 'btn sm ghost', 'Reset to-do list'); resetBtn.type = 'button'; resetBtn.id = 'todo-reset';
+    bindTodoReset(resetBtn);
+    resetRow.append(resetBtn); advBody.append(resetRow);
+    adv.append(advBody); box.append(adv);
   }
 
   // ================= BOOT =================
