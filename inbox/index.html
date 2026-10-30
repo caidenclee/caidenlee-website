@@ -18,6 +18,7 @@
   --bg: #f2f6fa; --card: #ffffff; --ink: #0f1e2e; --muted: #57677a; --line: #d9e3ee;
   --brand: #1d4e89; --brand-ink: #ffffff; --deep: #0d2c52; --accent: #14a39a; --accent-ink: #ffffff; --soft: #e2ecf7;
   --ok: #1f8a4c; --ok-soft: #e1f3e8; --warn: #b26a00; --warn-soft: #fff1d9; --bad: #c8322b; --bad-soft: #fde6e4;
+  --shadow-rest: 0 1px 3px rgba(15,30,46,.08); --shadow-hover: 0 8px 24px rgba(15,30,46,.12);
   --display: "Unbounded", "Arial Black", system-ui, sans-serif;
   --body: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
   --r: 14px;
@@ -26,11 +27,13 @@
   --bg: #08111c; --card: #101d2c; --ink: #e8f0f8; --muted: #93a6bb; --line: #1f3247;
   --brand: #6aa6e8; --brand-ink: #06121f; --deep: #0c2441; --accent: #3fd1c3; --accent-ink: #04201d; --soft: #14263a;
   --ok: #4cc683; --ok-soft: #0f2a1c; --warn: #f0b04d; --warn-soft: #2e2210; --bad: #ff7b72; --bad-soft: #351513;
+  --shadow-rest: 0 1px 2px rgba(0,0,0,.25); --shadow-hover: 0 8px 24px rgba(0,0,0,.35);
   color-scheme: dark; } }
 :root[data-theme="dark"] {
   --bg: #08111c; --card: #101d2c; --ink: #e8f0f8; --muted: #93a6bb; --line: #1f3247;
   --brand: #6aa6e8; --brand-ink: #06121f; --deep: #0c2441; --accent: #3fd1c3; --accent-ink: #04201d; --soft: #14263a;
   --ok: #4cc683; --ok-soft: #0f2a1c; --warn: #f0b04d; --warn-soft: #2e2210; --bad: #ff7b72; --bad-soft: #351513;
+  --shadow-rest: 0 1px 2px rgba(0,0,0,.25); --shadow-hover: 0 8px 24px rgba(0,0,0,.35);
   color-scheme: dark; }
 * { box-sizing: border-box; }
 body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--body); }
@@ -127,7 +130,7 @@ body.set-open { overflow: hidden; }
 .sec-h { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
 .sec-h h2 { font: 800 18px var(--display); letter-spacing: -.005em; }
 .list { display: grid; gap: 8px; }
-.item { background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 4px; min-width: 0; }
+.item { background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r); padding: 12px 14px; display: grid; gap: 4px; min-width: 0; box-shadow: var(--shadow-rest); }
 .item.todo { grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: start; }
 .item.todo > :not(.chk) { grid-column: 2; }
 .item.done { opacity: .55; }
@@ -182,7 +185,23 @@ details.grp .list { padding: 0 10px 10px; }
 .warnline { color: var(--bad); font-size: 13px; font-weight: 600; }
 .spin { display: inline-block; width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: sp .8s linear infinite; vertical-align: -2px; }
 @keyframes sp { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .spin { animation: none; }
+  .panel-enter, .card-enter, .set-sheet { animation: none !important; }
+}
+@keyframes panelIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.panel-enter { animation: panelIn .18s ease-out; }
+.card-enter { animation: cardIn .18s ease-out both; }
+.ico-wrap { display: inline-flex; align-items: center; justify-content: center; vertical-align: -2px; }
+.ico-wrap .ico, svg.ico { display: block; flex: none; }
+.tab .ico-wrap, .btn .ico-wrap, .sec-h .ico-wrap, .act .ico-wrap { margin-right: 4px; }
+.act { display: flex; align-items: flex-start; gap: 6px; }
+#gear .ico-wrap { margin: 0; }
+#b-recap.is-loading { opacity: .6; }
+@media (hover: hover) and (pointer: fine) {
+  .item:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+}
 @media (max-width: 640px) { .day { grid-template-columns: 1fr; gap: 6px; } .day .dn { white-space: normal; } }
 
 /* ---------- personal day to-do ---------- */
@@ -255,20 +274,20 @@ img, video { max-width: 100%; height: auto; }
   .wrap { max-width: 1200px; padding-left: 32px; padding-right: 32px; padding-top: 24px; }
   .panel { gap: 20px; }
   #p-today:not([hidden]) { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 28px; align-items: start; }
-  .col-todo { position: sticky; top: 72px; }
+  .col-todo { position: sticky; top: 16px; }
   .col { gap: 16px; }
   .week-cols { gap: 24px; }
   .sec-h h2 { font-size: 20px; }
   .item { padding: 14px 16px; }
-  .item:hover { border-color: color-mix(in srgb, var(--brand) 40%, var(--line)); box-shadow: 0 4px 14px rgba(15,30,46,.06); }
+  .item:hover { border-color: color-mix(in srgb, var(--brand) 40%, var(--line)); }
   .btn:hover { transform: translateY(-1px); }
   .tab:hover:not([aria-selected="true"]) { border-color: var(--brand); color: var(--ink); }
   .chip:hover { border-color: var(--brand); }
   #gear:hover { background: rgba(255,255,255,.3); }
   .set-backdrop { align-items: center; padding: 32px; }
-  .set-sheet { max-width: 480px; max-height: 86vh; border-radius: 20px; padding-bottom: 24px; animation: setpop .2s ease; }
+  .set-sheet { max-width: 480px; max-height: 86vh; border-radius: 20px; padding-bottom: 24px; animation: setpop .16s ease; }
 }
-@keyframes setpop { from { transform: scale(.96); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes setpop { from { transform: scale(.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 /* swipe, counts, toast */
 .sec-h .note:not(:empty)[id$="-left"] { background: var(--soft); color: var(--ink); font-weight: 700; border-radius: 999px; padding: 1px 9px; font-size: 12.5px; }
@@ -313,7 +332,7 @@ img, video { max-width: 100%; height: auto; }
   <!-- ================= APP ================= -->
   <div id="app" hidden>
     <header class="brief" style="position:relative">
-      <button type="button" id="gear" aria-label="Settings" title="Settings" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:calc(env(safe-area-inset-right,0px) + 12px);width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:inherit;font-size:20px;cursor:pointer;z-index:5">⚙️</button>
+      <button type="button" id="gear" aria-label="Settings" title="Settings" style="position:absolute;top:calc(env(safe-area-inset-top,0px) + 10px);right:calc(env(safe-area-inset-right,0px) + 12px);width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:inherit;cursor:pointer;z-index:5;display:inline-flex;align-items:center;justify-content:center"></button>
       <div class="eyebrow" id="b-eyebrow">Inbox HQ</div>
       <h1 id="b-hello">Good morning</h1>
       <p class="take" id="b-take">Loading your day…</p>
@@ -331,10 +350,10 @@ img, video { max-width: 100%; height: auto; }
     </header>
 
     <nav class="tabs" role="tablist" aria-label="Sections" id="tabs">
-      <button type="button" class="tab" role="tab" data-tab="today" aria-selected="true">☀️ Today <span class="n" id="n-today"></span></button>
-      <button type="button" class="tab" role="tab" data-tab="week" aria-selected="false">📅 Week</button>
+      <button type="button" class="tab" role="tab" data-tab="today" aria-selected="true" data-ico="sun">Today <span class="n" id="n-today"></span></button>
+      <button type="button" class="tab" role="tab" data-tab="week" aria-selected="false" data-ico="calendar">Week</button>
       <button type="button" class="tab" role="tab" data-tab="school" aria-selected="false" hidden>🎒 School <span class="n" id="n-school"></span></button>
-      <button type="button" class="tab" role="tab" data-tab="write" aria-selected="false">✉️ Write</button>
+      <button type="button" class="tab" role="tab" data-tab="write" aria-selected="false" data-ico="mail">Write</button>
     </nav>
 
     <!-- TODAY -->
@@ -367,7 +386,7 @@ img, video { max-width: 100%; height: auto; }
       <div class="sec-h"><h2>Personal</h2><span class="note" id="personal-left"></span></div>
       <div class="list" id="personal-list"></div>
 
-      <div class="sec-h"><h2>Alerts</h2><span class="note" id="alerts-left"></span><button type="button" class="btn sm ghost sec-btn" id="cleanup-btn">🧹 Clean up inbox</button></div>
+      <div class="sec-h"><h2>Alerts</h2><span class="note" id="alerts-left"></span><button type="button" class="btn sm ghost sec-btn" id="cleanup-btn" data-ico="broom">Clean up inbox</button></div>
       <span class="status" id="cleanup-status" role="status"></span>
       <div class="list" id="alerts-list"></div>
 
@@ -398,7 +417,7 @@ img, video { max-width: 100%; height: auto; }
     <!-- SCHOOL -->
     <section class="panel" id="p-school" role="tabpanel" hidden>
       <div class="sec-h"><h2>Coming due</h2><span class="note" id="school-status" role="status"></span></div>
-      <p class="note">From your Canvas calendar feed in Google Calendar. Tap ✉️ to write your teacher about any assignment.</p>
+      <p class="note">From your Canvas calendar feed in Google Calendar. Tap Reply to write your teacher about any assignment.</p>
       <div class="list" id="school"></div>
     </section>
 
@@ -422,12 +441,12 @@ img, video { max-width: 100%; height: auto; }
         <label class="field" for="ai-prompt"><span>What do you want to say?</span>
           <textarea class="in" id="ai-prompt" maxlength="4000" placeholder="Type here" aria-label="Tell Grok Bot what you want to say"></textarea>
         </label>
-        <div class="safe">🔒 Inbox HQ never sends email by itself. “Send to Grok Bot” only asks it to write a draft. Nothing goes out until you approve it in the Grok Bot app.</div>
+        <div class="safe"><span data-ico="lock" class="ico-wrap"></span> Inbox HQ never sends email by itself. “Send to Grok Bot” only asks it to write a draft. Nothing goes out until you approve it in the Grok Bot app.</div>
         <div class="chips" style="align-items:center">
-          <button type="button" class="btn accent" id="ai-send" disabled title="Add the Relay URL and Relay key in Settings (⚙️)">Send to Grok Bot</button>
+          <button type="button" class="btn accent" id="ai-send" disabled title="Add the Relay URL and Relay key in Settings">Send to Grok Bot</button>
           <span class="status" id="ai-status" role="status"></span>
         </div>
-        <p class="note" id="ai-send-hint">To enable this, add your Relay URL and Relay key in Settings (⚙️).</p>
+        <p class="note" id="ai-send-hint">To enable this, add your Relay URL and Relay key in Settings.</p>
       </div>
 
       <div id="w-manual" hidden>
@@ -441,15 +460,15 @@ img, video { max-width: 100%; height: auto; }
           <label class="field"><span>Subject</span><input class="in" id="m-sub" type="text" placeholder="Subject"></label>
           <label class="field"><span>Message</span><textarea class="in" id="m-body" placeholder="Message"></textarea></label>
           <div class="warnline" id="m-warn" hidden>Fill in the [brackets] before you send.</div>
-          <div class="safe">🔒 Inbox HQ never sends email by itself. “Open in Gmail” opens a draft there. “Send Email” asks Grokbot to handle it. Nothing goes out until you approve it in the Grok Bot app.</div>
+          <div class="safe"><span data-ico="lock" class="ico-wrap"></span> Inbox HQ never sends email by itself. “Open in Gmail” opens a draft there. “Send Email” asks Grokbot to handle it. Nothing goes out until you approve it in the Grok Bot app.</div>
           <div class="chips" style="align-items:center">
             <a class="btn primary" id="m-open" href="https://mail.google.com/" target="_blank" rel="noopener">Open in Gmail →</a>
-            <button type="button" class="btn accent" id="m-send" disabled title="Add the Relay URL and Relay key in Settings (⚙️)">Send Email</button>
+            <button type="button" class="btn accent" id="m-send" disabled title="Add the Relay URL and Relay key in Settings">Send Email</button>
             <button type="button" class="btn" id="m-copy">Copy</button>
             <button type="button" class="btn" id="m-polish">✨ Make it sound like me</button>
             <span class="status" id="m-status" role="status"></span>
           </div>
-          <p class="note" id="m-send-hint">To enable Send Email, add your Relay URL and Relay key in Settings (⚙️).</p>
+          <p class="note" id="m-send-hint">To enable Send Email, add your Relay URL and Relay key in Settings.</p>
         </div>
       </div>
     </section>
@@ -469,6 +488,29 @@ img, video { max-width: 100%; height: auto; }
   'use strict';
   const $ = (id) => document.getElementById(id);
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+  function ico(name, size) {
+    size = size || 16;
+    const paths = {
+      sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
+      calendar: '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>',
+      mail: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+      'map-pin': '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
+      lock: '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+      receipt: '<path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/>',
+      bell: '<path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/>',
+      home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+      'chevron-right': '<path d="m9 18 6-6-6-6"/>',
+      settings: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+      broom: '<path d="m13 11 9-9"/><path d="M14.6 12.6a2 2 0 0 1 2.8.9l.5 1.1a2 2 0 0 1-.9 2.8l-8.2 3.5a2 2 0 0 1-2.5-.7L3.1 13a2 2 0 0 1 .7-2.5Z"/><path d="m5 15 4 4"/>',
+    };
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" class="ico" width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || '') + '</svg>';
+    const s = el('span', 'ico-wrap'); s.innerHTML = svg; return s;
+  }
+  function icoHtml(name, size) {
+    size = size || 16;
+    const tmp = ico(name, size);
+    return tmp.innerHTML;
+  }
   const root = document.documentElement;
   const pad = (n) => String(n).padStart(2, '0');
   const ymd = (d) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
@@ -540,8 +582,8 @@ img, video { max-width: 100%; height: auto; }
   }
   const dataCopy = (code) => ({
     missing: 'No data yet. Your bot hasn\'t pushed its first update to inbox/data.json.',
-    locked: 'The data file is encrypted. Enter your passphrase in Settings (⚙️).',
-    badpass: 'That passphrase didn\'t unlock the data. Check it in Settings (⚙️).',
+    locked: 'The data file is encrypted. Enter your passphrase in Settings.',
+    badpass: 'That passphrase didn\'t unlock the data. Check it in Settings.',
   })[code] || (R && R.at ? 'Couldn\'t reach the server. Showing your last update from ' + ago(R.at) + '.' : 'Couldn\'t load the latest update. Try again in a minute.');
   const ago = (iso) => {
     const m = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
@@ -689,7 +731,15 @@ img, video { max-width: 100%; height: auto; }
     if (!VIEWS.includes(name)) name = 'today';
     const t = tabs.find((x) => x.dataset.tab === name); if (name !== 'you' && (!t || t.hidden)) name = 'today';
     tabs.forEach((x) => x.setAttribute('aria-selected', String(x.dataset.tab === name)));
-    document.querySelectorAll('#app .panel').forEach((p) => { p.hidden = p.id !== 'p-' + name; });
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.querySelectorAll('#app .panel').forEach((p) => {
+      const on = p.id === 'p-' + name;
+      if (!on) { p.hidden = true; p.classList.remove('panel-enter'); return; }
+      p.hidden = false;
+      if (!reduce && (name === 'today' || name === 'week' || name === 'write')) {
+        p.classList.remove('panel-enter'); void p.offsetWidth; p.classList.add('panel-enter');
+      }
+    });
     try { history.replaceState(null, '', '#' + name); } catch (e) { /* ignore */ }
     lastTab = name;
     if (name === 'school') renderSchool();
@@ -704,7 +754,7 @@ img, video { max-width: 100%; height: auto; }
   function showApp() {
     $('loading').hidden = true; $('wizard').hidden = true; $('app').hidden = false;
     applyPalette(P.palette);
-    tabs.find((t) => t.dataset.tab === 'school').hidden = !(P.roles.includes('school') && P.canvasCal);
+    const schoolTab = tabs.find((t) => t && t.dataset.tab === 'school'); if (schoolTab) schoolTab.hidden = !(P.roles.includes('school') && P.canvasCal);
     renderBrief(); renderToday(); renderWriteTopics(); renderYou(); startWeek();
   }
   function showWizard(from) {
@@ -771,17 +821,19 @@ img, video { max-width: 100%; height: auto; }
     const tb = $('t-booked'); if (tb) tb.textContent = week ? ('$' + Math.round(booked.total)) : '·';
     const tn = $('t-booked-note');
     if (tn) tn.textContent = (week && booked.unpriced) ? (booked.unpriced + ' job' + (booked.unpriced === 1 ? '' : 's') + ' unpriced') : '';
-    $('b-take').textContent = R && R.headline ? R.headline : (P.gmail ? 'Your bot\'s latest update will appear here.' : 'Waiting for your bot\'s first update. Setup is in Settings (⚙️).');
+    $('b-take').textContent = R && R.headline ? R.headline : (P.gmail ? 'Your bot\'s latest update will appear here.' : 'Waiting for your bot\'s first update. Setup is in Settings.');
     updateStamp();
     $('n-today').textContent = String(openTodos || '');
   }
 
   // ---------- recap ----------
   const CATS = ['VIP', 'School', 'Work', 'Personal', 'Bills & orders', 'Updates', 'Promos'];
-  const CAT_ICON = { VIP: '⭐', School: '🎒', Work: '💼', Personal: '🏠', 'Bills & orders': '🧾', Updates: '🔔', Promos: '🏷️' };
+  const CAT_ICON = { VIP: '⭐', School: '🎒', Work: '💼', Personal: '', 'Bills & orders': '', Updates: '', Promos: '🏷️' };
+  const CAT_ICO = { Personal: 'home', 'Bills & orders': 'receipt', Updates: 'bell' };
   async function buildRecap() {
     const btn = $('b-recap'), st = $('recap-status');
-    btn.disabled = true; btn.replaceChildren(el('span', 'spin'), document.createTextNode(' Checking for updates…')); st.textContent = ''; st.className = 'note';
+    btn.disabled = true; btn.classList.add('is-loading');
+    btn.replaceChildren(el('span', 'spin'), document.createTextNode(' Checking for updates…')); st.textContent = ''; st.className = 'note';
     try {
       applyData(await fetchData());
       await refreshTodoFile();
@@ -789,7 +841,7 @@ img, video { max-width: 100%; height: auto; }
     } catch (e) { dataErr = dataCopy(e && e.code); st.textContent = dataErr; st.className = 'status bad'; }
     resetBtn(); renderBrief(); renderToday(); refreshWeek(); renderSchool();
   }
-  function resetBtn() { const b = $('b-recap'); b.disabled = false; b.textContent = '↻ Refresh'; }
+  function resetBtn() { const b = $('b-recap'); b.disabled = false; b.classList.remove('is-loading'); b.textContent = '↻ Refresh'; }
   $('b-recap').addEventListener('click', buildRecap);
 
   const PERSONAL_CATS = ['VIP', 'School', 'Personal'];
@@ -1030,7 +1082,7 @@ img, video { max-width: 100%; height: auto; }
       const text = (ta && ta.value || '').trim();
       if (!text) { if (status) { status.textContent = 'Write your plan first.'; status.className = 'status bad'; } return; }
       if (!webhookConfigured()) {
-        if (status) { status.textContent = 'Add the Relay URL and Relay key in Settings (⚙️).'; status.className = 'status bad'; }
+        if (status) { status.textContent = 'Add the Relay URL and Relay key in Settings.'; status.className = 'status bad'; }
         return;
       }
       btn.disabled = true;
@@ -1066,7 +1118,7 @@ img, video { max-width: 100%; height: auto; }
     sync();
     btn.addEventListener('click', async () => {
       if (lockLeft() > 0) return;
-      if (!webhookConfigured()) { st.textContent = 'Add the Relay URL and Relay key in Settings (⚙️).'; st.className = 'status bad'; return; }
+      if (!webhookConfigured()) { st.textContent = 'Add the Relay URL and Relay key in Settings.'; st.className = 'status bad'; return; }
       if (!confirm('Archive promos, newsletters and old notices? Nothing is deleted.')) return;
       btn.disabled = true; st.textContent = 'Sending…'; st.className = 'status';
       try {
@@ -1180,15 +1232,20 @@ img, video { max-width: 100%; height: auto; }
     const c = el('article', 'item' + (i.category === 'VIP' ? ' vipline' : ''));
     const meta = el('div', 'meta');
     if (i.category === 'VIP') meta.append(el('span', 'pill vip', '⭐ VIP'));
-    else meta.append(el('span', 'pill', (CAT_ICON[i.category] || '') + ' ' + i.category));
+    else {
+      const p = el('span', 'pill');
+      if (CAT_ICO[i.category]) p.append(ico(CAT_ICO[i.category]), document.createTextNode(' ' + i.category));
+      else p.textContent = ((CAT_ICON[i.category] || '') + ' ' + i.category).trim();
+      meta.append(p);
+    }
     const dl = dueLabel(i.due); if (dl) meta.append(el('span', 'pill ' + dl.c, '⏰ ' + dl.t));
     else if (showUrgent(i)) meta.append(el('span', 'pill warn', 'Soon'));
     meta.append(el('span', null, shortFrom(i.from)));
     const ttl = el('div', 'ttl'); ttl.append(link(i.subject, gmailLink(i)));
     c.append(meta, ttl, el('div', 'sum', i.summary));
-    if (i.action) c.append(el('div', 'act', '👉 ' + i.action));
+    if (i.action) { const act = el('div', 'act'); act.append(ico('chevron-right'), document.createTextNode(i.action)); c.append(act); }
     if (['VIP', 'School', 'Work', 'Personal'].includes(i.category)) {
-      const a = el('div', 'acts'); const w = el('button', 'btn sm', '✉️ Reply'); w.type = 'button';
+      const a = el('div', 'acts'); const w = el('button', 'btn sm'); w.type = 'button'; w.append(ico('mail'), document.createTextNode(' Reply'));
       w.addEventListener('click', () => openWriter({ mode: 'ai', to: emailOf(i.from), name: shortFrom(i.from).split(' ')[0], about: i.subject, role: i.category === 'Work' ? 'work' : i.category === 'School' ? 'school' : 'personal', topic: 'reply', replyToThreadId: i.id || '' }));
       a.append(w); c.append(a);
     }
@@ -1253,7 +1310,7 @@ img, video { max-width: 100%; height: auto; }
     meta.append(el('span', null, eventTimeLine(e)));
     const ttl = el('div', 'ttl', parsed.rest || e.title || '(no title)');
     c.append(meta, ttl);
-    if (e.where) c.append(el('div', 'sum', '📍 ' + e.where));
+    if (e.where) { const sm = el('div', 'sum'); sm.append(ico('map-pin'), document.createTextNode(' ' + e.where)); c.append(sm); }
     if (e.description) {
       let desc = e.description;
       if (parsed.techs.length) {
@@ -1306,6 +1363,18 @@ img, video { max-width: 100%; height: auto; }
     const sh = all ? showDismissedBlock(all) : null; if (sh) box.append(sh);
     const note = $(noteId); if (note) note.textContent = noteText || (nodes.length ? String(nodes.length) : '');
   }
+
+  function staggerCards(root) {
+    if (!root || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const cards = root.querySelectorAll('.item, details.grp');
+    cards.forEach((c, i) => {
+      c.classList.remove('card-enter');
+      if (i >= 12) return;
+      c.style.animationDelay = (i * 25) + 'ms';
+      void c.offsetWidth;
+      c.classList.add('card-enter');
+    });
+  }
   function renderToday() {
     renderDayTodos();
     const gb = $('groups'); gb.replaceChildren();
@@ -1336,22 +1405,48 @@ img, video { max-width: 100%; height: auto; }
 
     const allAlerts = R.items.filter((i) => ALERT_CATS.includes(i.category));
     const alerts = allAlerts.filter((i) => !isHidden(i));
-    fillSection('alerts-list', 'alerts-left', alerts.map(itemCard),
-      'No alerts right now.',
-      alerts.length ? String(alerts.length) : '', allAlerts);
+    const needs = alerts.filter((i) => !!i.action);
+    const restAlerts = alerts.filter((i) => !i.action);
+    const alertsBox = $('alerts-list');
+    if (alertsBox) {
+      alertsBox.replaceChildren();
+      if (needs.length) {
+        alertsBox.append(el('div', 'grp-lbl', 'Needs you (' + needs.length + ')'));
+        needs.forEach((i) => alertsBox.append(itemCard(i)));
+      }
+      if (restAlerts.length || (!alerts.length && allAlerts.length)) {
+        const d = el('details', 'grp');
+        const s = el('summary');
+        const lab = el('span'); lab.append(ico('bell'), document.createTextNode(' Alerts'));
+        s.append(lab, el('span', 'pill', String(restAlerts.length)));
+        d.append(s);
+        const l = el('div', 'list');
+        if (!restAlerts.length) l.append(el('div', 'empty sec-empty', alerts.length ? 'No other alerts.' : 'All dismissed.'));
+        else restAlerts.forEach((i) => l.append(itemCard(i)));
+        const sh = showDismissedBlock(allAlerts); if (sh) l.append(sh);
+        d.append(l); alertsBox.append(d);
+      } else if (!alerts.length) {
+        alertsBox.append(el('div', 'empty sec-empty', 'No alerts right now.'));
+        const sh = showDismissedBlock(allAlerts); if (sh) alertsBox.append(sh);
+      } else {
+        const sh = showDismissedBlock(allAlerts); if (sh) alertsBox.append(sh);
+      }
+      const note = $('alerts-left'); if (note) note.textContent = alerts.length ? String(alerts.length) : '';
+    }
     let restN = 0;
 
     REST_CATS.forEach((cat) => {
       const allIts = R.items.filter((i) => i.category === cat); const its = allIts.filter((i) => !isHidden(i));
       if (!allIts.length) return; restN += its.length;
       const d = el('details', 'grp'); d.open = cat !== 'Promos';
-      const s = el('summary'); s.append(el('span', null, (CAT_ICON[cat] || '') + ' ' + cat), el('span', 'pill', String(its.length))); d.append(s);
+      const s = el('summary'); const lab = el('span'); if (CAT_ICO[cat]) lab.append(ico(CAT_ICO[cat]), document.createTextNode(' ' + cat)); else lab.textContent = ((CAT_ICON[cat] || '') + ' ' + cat).trim(); s.append(lab, el('span', 'pill', String(its.length))); d.append(s);
       const l = el('div', 'list'); its.forEach((i) => l.append(itemCard(i)));
       if (!its.length) l.append(el('div', 'empty sec-empty', 'All dismissed.'));
       const sh = showDismissedBlock(allIts); if (sh) l.append(sh); d.append(l); gb.append(d);
     });
     if ($('rest-left')) $('rest-left').textContent = restN ? String(restN) : '';
     if (!gb.childNodes.length) gb.append(el('div', 'empty sec-empty', 'No bills, orders, or promos in this update.'));
+    staggerCards($('p-today'));
   }
 
   // ---------- week (personal | business calendars) ----------
@@ -1410,7 +1505,7 @@ img, video { max-width: 100%; height: auto; }
     meta.append(el('span', 'pill' + (e.calendar === 'business' ? ' bad' : ''), calLabel));
     meta.append(el('span', 'note', eventWhen(e)));
     sheet.append(meta);
-    if (e.where) sheet.append(el('p', 'note', '📍 ' + e.where));
+    if (e.where) { const np = el('p', 'note'); np.append(ico('map-pin'), document.createTextNode(' ' + e.where)); sheet.append(np); }
     if (e.description) sheet.append(el('div', 'desc', e.description));
     const acts = el('div', 'acts');
     const gcal = safeUrl(e.link, ['google.com']);
@@ -1482,7 +1577,7 @@ img, video { max-width: 100%; height: auto; }
       if (e.course) meta.append(el('span', 'pill', e.course));
       if (String(e.start).length > 10) meta.append(el('span', null, new Date(e.start).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })));
       const ttl = el('div', 'ttl'); ttl.append(link(e.title || '(untitled)', safeUrl(e.link, ['google.com', 'instructure.com'])));
-      const a = el('div', 'acts'); const w = el('button', 'btn sm', '✉️ Email teacher'); w.type = 'button';
+      const a = el('div', 'acts'); const w = el('button', 'btn sm'); w.type = 'button'; w.append(ico('mail'), document.createTextNode(' Email teacher'));
       w.addEventListener('click', () => openWriter({ role: 'school', topic: 'extension', about: (e.title || '') + (e.course ? ' (' + e.course + ')' : '') }));
       a.append(w); c.append(meta, ttl, a); box.append(c);
     });
@@ -1543,7 +1638,7 @@ img, video { max-width: 100%; height: auto; }
     const cfg = webhookConfigured();
     const ok = cfg && !!prompt;
     btn.disabled = !ok;
-    btn.title = !cfg ? 'Add the Relay URL and Relay key in Settings (⚙️)' : (!prompt ? 'Tell Grok Bot what you want to say' : 'Send to Grok Bot to draft the email');
+    btn.title = !cfg ? 'Add the Relay URL and Relay key in Settings' : (!prompt ? 'Tell Grok Bot what you want to say' : 'Send to Grok Bot to draft the email');
     if (hint) hint.hidden = cfg;
   }
   (function bindWriteMode() {
@@ -1618,7 +1713,7 @@ img, video { max-width: 100%; height: auto; }
       const cfg = webhookConfigured();
       const ok = cfg && !!to && !warnShowing;
       btn.disabled = !ok;
-      btn.title = !cfg ? 'Add the Relay URL and Relay key in Settings (⚙️)' : (!to ? 'Enter a To address' : (warnShowing ? 'Fill in the [brackets] first' : 'Send to Grokbot for your approval'));
+      btn.title = !cfg ? 'Add the Relay URL and Relay key in Settings' : (!to ? 'Enter a To address' : (warnShowing ? 'Fill in the [brackets] first' : 'Send to Grokbot for your approval'));
       if (hint) hint.hidden = cfg;
     }
     syncAiSendBtn();
@@ -1871,6 +1966,18 @@ img, video { max-width: 100%; height: auto; }
   }
 
   // ================= BOOT =================
+  (function decorateChromeIcons() {
+    try {
+      const g = $('gear'); if (g && !g.querySelector('.ico-wrap')) g.append(ico('settings', 20));
+      document.querySelectorAll('[data-ico]').forEach((node) => {
+        if (!node) return;
+        const name = node.getAttribute('data-ico'); if (!name) return;
+        if (node.getAttribute('data-ico-done')) return; node.setAttribute('data-ico-done', '1');
+        if (node.tagName === 'SPAN' || (node.classList && node.classList.contains('ico-wrap'))) { node.replaceWith(ico(name)); return; }
+        node.prepend(ico(name));
+      });
+    } catch (e) { /* chrome icons optional */ }
+  })();
   applyPalette((store.get('profile') || {}).palette || 'harbor');
   (async () => {
     local = true; P = Object.assign(blankProfile(), store.get('profile') || {}); R = store.get('recap');
