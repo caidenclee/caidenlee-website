@@ -315,7 +315,7 @@ img, video { max-width: 100%; height: auto; }
       </div>
       <div class="acts">
         <button type="button" class="btn accent" id="b-recap">↻ Refresh</button>
-        <span class="stamp" id="b-stamp" role="status" aria-live="polite"></span>
+        <span class="stamp js-stamp" id="b-stamp" role="status" aria-live="polite"></span>
       </div>
     </header>
 
@@ -368,7 +368,7 @@ img, video { max-width: 100%; height: auto; }
 
     <!-- WEEK -->
     <section class="panel" id="p-week" role="tabpanel" hidden>
-      <div class="sec-h"><h2>Next 7 days</h2><span class="note" id="week-status" role="status"></span></div>
+      <div class="sec-h"><h2>Next 7 days</h2><span class="note js-stamp" id="week-status" role="status"></span></div>
       <div class="cal-toggle chips" role="tablist" aria-label="Which calendar" id="cal-toggle">
         <button type="button" class="chip" role="tab" data-cal="personal" aria-selected="true" aria-pressed="true">Personal</button>
         <button type="button" class="chip" role="tab" data-cal="business" aria-selected="false" aria-pressed="false">Badger Mountain</button>
@@ -551,8 +551,10 @@ img, video { max-width: 100%; height: auto; }
     };
     week = (obj.events || []).map((e) => ({ title: e.title || '(no title)', start: e.start || '', end: e.end || '', allDay: !!e.allDay, where: e.where || '', link: e.link || '', calendar: e.calendar === 'business' ? 'business' : 'personal', description: String(e.description || '').trim() }));
     school = Array.isArray(obj.school) ? obj.school : null;
+    lastUpdated = R.at;
     P.gmail = P.calendar = P.bot = true;
     saveRecap(); saveProfile();
+    updateAllStamps();
   }
 
   // ================= SETUP WIZARD =================
@@ -702,15 +704,26 @@ img, video { max-width: 100%; height: auto; }
 
   // ---------- brief ----------
   function greetingFor(d) { const h = d.getHours(); return h >= 5 && h < 12 ? 'Good morning' : h >= 12 && h < 17 ? 'Good afternoon' : h >= 17 && h < 22 ? 'Good evening' : 'Good night'; }
-  function updateStamp() {
-    const st = $('b-stamp'); if (!st) return;
-    if (!R || !R.at) { st.textContent = ''; st.classList.remove('stale'); return; }
-    const old = Date.now() - new Date(R.at).getTime() > 2 * 3600e3;
-    st.textContent = (old ? '⚠️ ' : '') + 'Updated ' + ago(R.at) + (old ? '. The hourly update may be late.' : '');
-    st.title = new Date(R.at).toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-    st.classList.toggle('stale', old);
+  let lastUpdated = null;
+  function stampText() {
+    if (!lastUpdated) return { text: '', stale: false, title: '' };
+    const old = Date.now() - new Date(lastUpdated).getTime() > 2 * 3600e3;
+    return {
+      text: (old ? '⚠️ ' : '') + 'Updated ' + ago(lastUpdated) + (old ? '. The hourly update may be late.' : ''),
+      stale: old,
+      title: new Date(lastUpdated).toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }),
+    };
   }
-  function updateGreeting() { updateStamp(); const e = $('b-hello'); if (!e) return; const t = greetingFor(new Date()) + ', ' + ((P && P.name) || 'there'); if (e.textContent !== t) e.textContent = t; }
+  function updateAllStamps() {
+    const s = stampText();
+    document.querySelectorAll('.js-stamp').forEach((el) => {
+      el.textContent = s.text;
+      el.classList.toggle('stale', s.stale);
+      if (s.title) el.title = s.title; else el.removeAttribute('title');
+    });
+  }
+  function updateStamp() { updateAllStamps(); }
+  function updateGreeting() { updateAllStamps(); const e = $('b-hello'); if (!e) return; const t = greetingFor(new Date()) + ', ' + ((P && P.name) || 'there'); if (e.textContent !== t) e.textContent = t; }
   setInterval(updateGreeting, 60000);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') updateGreeting(); });
   window.addEventListener('pageshow', updateGreeting);
@@ -1112,17 +1125,69 @@ img, video { max-width: 100%; height: auto; }
     addSwipe(c, () => hideItem(i, c));
     return c;
   }
+  function titleCaseWord(s) {
+    s = String(s || '').trim();
+    if (!s) return '';
+    return s.replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+  }
+  function parseTechPrefix(title) {
+    const t = String(title || '');
+    const m = t.match(/^\s*[\[(]\s*([^\]\)]*?)\s*[\])]\s*/);
+    if (!m) return { techs: [], label: 'Tech unassigned', rest: t.trim(), raw: '' };
+    const raw = m[1].replace(/\s+/g, ' ').trim();
+    if (/^cancelled$/i.test(raw)) return { techs: [], label: 'Tech unassigned', rest: t.trim(), raw: '' };
+    const techs = raw.split(/\s*[+,]\s*/).map(titleCaseWord).filter(Boolean);
+    if (!techs.length) return { techs: [], label: 'Tech unassigned', rest: t.slice(m[0].length).trim(), raw: '' };
+    return { techs, label: techs.join(' + '), rest: t.slice(m[0].length).trim(), raw };
+  }
+  function inviteTitleAndDate(subject) {
+    const s = String(subject || '');
+    const m = s.match(/^(?:Updated invitation|Invitation):\s*(.+)$/i);
+    if (!m) return null;
+    let rest = m[1].trim();
+    let title = rest, datePart = '';
+    const at = rest.lastIndexOf(' @ ');
+    if (at >= 0) { title = rest.slice(0, at).trim(); datePart = rest.slice(at + 3).trim(); }
+    let day = '';
+    const dm = datePart.match(/([A-Za-z]{3})\s+(\d{1,2}),\s*(\d{4})/);
+    if (dm) {
+      const months = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11 };
+      const mo = months[dm[1]];
+      if (mo != null) day = ymd(new Date(Number(dm[3]), mo, Number(dm[2])));
+    }
+    return { title: title.replace(/\s+/g, ' ').trim(), day };
+  }
+  function isCalendarInviteDupe(item, bizEvents) {
+    const inv = inviteTitleAndDate(item.subject);
+    if (!inv) return false;
+    const nt = inv.title;
+    return (bizEvents || []).some((e) => {
+      if ((e.title || '').replace(/\s+/g, ' ').trim() !== nt) return false;
+      const ed = String(e.start).slice(0, 10);
+      if (inv.day) return inv.day === ed;
+      if (item.date) return String(item.date).slice(0, 10) === ed;
+      return false;
+    });
+  }
   function workEventCard(e) {
     const c = el('article', 'item work-ev');
     const meta = el('div', 'meta');
     meta.append(el('span', 'pill bad', 'Badger Mountain'));
+    const parsed = parseTechPrefix(e.title || '');
+    meta.append(el('span', 'pill' + (parsed.techs.length ? '' : ' warn'), parsed.label));
     const day = String(e.start).slice(0, 10);
     const dl = dueLabel(day); if (dl) meta.append(el('span', 'pill ' + dl.c, '⏰ ' + dl.t));
     meta.append(el('span', null, eventTimeLine(e)));
-    const ttl = el('div', 'ttl', e.title || '(no title)');
+    const ttl = el('div', 'ttl', parsed.rest || e.title || '(no title)');
     c.append(meta, ttl);
     if (e.where) c.append(el('div', 'sum', '📍 ' + e.where));
-    if (e.description) c.append(el('div', 'sum', e.description));
+    if (e.description) {
+      let desc = e.description;
+      if (parsed.techs.length) {
+        desc = desc.replace(/\s*·\s*Tech unassigned\b/gi, '').replace(/\bTech unassigned\b/gi, parsed.label);
+      }
+      c.append(el('div', 'sum', desc));
+    }
     const a = el('div', 'acts');
     const open = el('button', 'btn sm', 'Details'); open.type = 'button';
     open.addEventListener('click', () => openEventSheet(e));
@@ -1160,7 +1225,7 @@ img, video { max-width: 100%; height: auto; }
     const biz = (week || []).filter((e) => e.calendar === 'business' && String(e.start).slice(0, 10) >= today)
       .slice().sort((a, b) => String(a.start).localeCompare(String(b.start)));
     const allWork = R.items.filter((i) => i.category === 'Work');
-    const workMail = allWork.filter((i) => !isHidden(i));
+    const workMail = allWork.filter((i) => !isHidden(i) && !isCalendarInviteDupe(i, biz));
     const workNodes = [];
     biz.forEach((e) => workNodes.push(workEventCard(e)));
     workMail.forEach((i) => workNodes.push(itemCard(i)));
@@ -1197,8 +1262,12 @@ img, video { max-width: 100%; height: auto; }
   // ---------- week (personal | business calendars) ----------
   let week = null, weekUnsub = null, weekCal = 'personal';
   function refreshWeek() {
-    if (week) { $('week-status').textContent = R && R.at ? 'Updated ' + ago(R.at) : ''; renderWeek(); }
-    else renderWeek(dataErr || 'Waiting for your bot\'s first update.', true);
+    if (week) { updateAllStamps(); renderWeek(); }
+    else {
+      const ws = $('week-status');
+      if (ws) { ws.textContent = dataErr || 'Waiting for your bot\'s first update.'; ws.classList.remove('stale'); }
+      renderWeek(dataErr || 'Waiting for your bot\'s first update.', true);
+    }
   }
   function startWeek() {
     document.querySelectorAll('#cal-toggle .chip').forEach((b) => {
