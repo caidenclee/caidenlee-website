@@ -1,6 +1,6 @@
 {
- "generatedAt": "2026-10-31T11:01:46Z",
- "headline": "Caiden, today has four jobs starting with the 8 AM fleet exterior, and Sam's 1:30 full detail still needs a tech.",
+ "generatedAt": "2026-10-31T12:03:33Z",
+ "headline": "Good morning Caiden, four Badger jobs today starting with the 8 AM fleet exterior, and Sam's 1:30 full detail still needs a tech.",
  "items": [
   {
    "id": "1a19099bcbb8cb12",
@@ -528,6 +528,16 @@
    "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail for Stephanie, 2018 Dodge Caravan, $249, tech unassigned. Quoted 249, can be upcharged."
+  },
+  {
+   "title": "Full Detail: Miguel (vehicle TBD)",
+   "start": "2026-11-07T09:00:00",
+   "end": "2026-11-07T12:00:00",
+   "allDay": false,
+   "where": "3002 Blaine St, Pasco, WA",
+   "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "calendar": "business",
+   "description": "Full Detail for Miguel, vehicle not provided. Price $199. Water and electricity access yes, no pet hair. Booked Oct 26."
   }
  ]
 }
