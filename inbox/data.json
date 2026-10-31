@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-10-31T18:07:40Z",
- "headline": "Hey Caiden, Cory is on Easton's detail now, Sam's 1:30 detail still needs a tech, and film reels start at 2:30.",
+ "generatedAt": "2026-10-31T19:08:17Z",
+ "headline": "Caiden, Easton's 11 AM detail got cancelled, Cory is on Sam's 11:30 detail now, and film reels start at 2:30.",
  "items": [
+  {
+   "id": "1a19359a62208ec4",
+   "from": "Perplexity <team@mail.perplexity.ai>",
+   "subject": "Your answer is one search away",
+   "date": "2026-10-31T19:04:48Z",
+   "category": "Promos",
+   "summary": "Perplexity marketing email nudging you to try its AI search.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a19359a62208ec4",
+   "body": ""
+  },
   {
    "id": "1a19308ffc28691f",
    "from": "Hudl <noreply@app.hudl.com>",
@@ -339,32 +352,6 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a18911fa1bfdcdd",
    "body": ""
-  },
-  {
-   "id": "1a1890ceca90fbd4",
-   "from": "Perplexity <team@mail.perplexity.ai>",
-   "subject": "Discover smarter ways to use Perplexity today",
-   "date": "2026-10-29T19:04:47Z",
-   "category": "Promos",
-   "summary": "Perplexity sent tips for getting started with its search assistant.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1890ceca90fbd4",
-   "body": ""
-  },
-  {
-   "id": "1a1890af7a198564",
-   "from": "Deseret Book <orders@notifications.itr.deseretbook.com>",
-   "subject": "Your Order Has Shipped!",
-   "date": "2026-10-29T19:02:38Z",
-   "category": "Bills & orders",
-   "summary": "Deseret Book says your order has shipped and is on the way.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1890af7a198564",
-   "body": "Your order has shipped\nItems will be delivered to you soon!\nTRACK SHIPMENT\nORDER DETAILS\nOrder Number\nDBW00709957\nOrder Date\nOctober 6, 2026\nOrder Total\n$39.95\nSHIPPING TO\nCaiden Lee\n5100 Elm Road\nPasco, Washington 99301\nSHIPPING METHOD\nStandard Contiguous US\nTRACKING NUMBER\n[removed]\nOrder Items\nGeneral Conference Addresses, Journal Edition, October 2026\nQuantity: 3\nThis email was sent to caidenclee@gmail.com\nDeseret Book, 55 N 300 W STE 300, Salt Lake City, UT 84101\nView in Browser\n| Privacy Policy |"
   }
  ],
  "events": [
@@ -389,24 +376,24 @@
    "description": "Full Detail · Carly · 2021 Ford EcoSport · $199 · Ethan · Extra care on seat belts · At office"
   },
   {
-   "title": "( Cory) Full Detail: Easton (Ford Fusion SE)",
+   "title": "(⚠️cancelled) Full Detail: Easton (Ford Fusion SE)",
    "start": "2026-10-31T11:00:00",
    "end": "2026-10-31T14:00:00",
    "allDay": false,
    "where": "7112 W 13th Ave, Kennewick, WA",
    "link": "https://www.google.com/calendar/event?eid=dTRqZzdmbnFhNGhzbDY0bzM2ajJvYjdsbDQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail · Easton · Ford Fusion SE · $199 · Cory · About 3 hours · Pay after job"
+   "description": "Cancelled. Full Detail · Easton · Ford Fusion SE · $199 · About 3 hours · Pay after job"
   },
   {
-   "title": "() Full Detail: Sam (2019 Gmc SIERRA)",
-   "start": "2026-10-31T13:30:00",
-   "end": "2026-10-31T16:30:00",
+   "title": "(Cory) Full Detail: Sam (2019 Gmc SIERRA)",
+   "start": "2026-10-31T11:30:00",
+   "end": "2026-10-31T14:30:00",
    "allDay": false,
    "where": "5820 west argent road Pasco",
    "link": "https://www.google.com/calendar/event?eid=Z21pcmh0dWNsZmNlOW5ndjhubXBmY2xpN3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail for Sam · 2019 GMC Sierra · $249 · Tech unassigned · Water and electricity yes"
+   "description": "Full Detail for Sam · 2019 GMC Sierra · $249 · Cory · Water and electricity yes"
   },
   {
    "title": "Film reels",
@@ -565,6 +552,16 @@
    "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail for Miguel, vehicle not provided, $199. Water and power available, no pet hair. Booked Oct 26."
+  },
+  {
+   "title": "Film reels",
+   "start": "2026-11-07T14:30:00",
+   "end": "2026-11-07T16:00:00",
+   "allDay": false,
+   "where": "",
+   "link": "https://www.google.com/calendar/event?eid=ZXMyc3M0YXVsb2xvMG9wbHZqODVnbXZxb2cgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
+   "calendar": "personal",
+   "description": "Film block for the week of 10/26. Shoot anything not filmed yet, plus pickups and b roll for next week, including the #43 in the USA solve and the 6 year old PB reel."
   }
  ]
 }
