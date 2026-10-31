@@ -1,7 +1,33 @@
 {
- "generatedAt": "2026-10-31T17:02:03Z",
- "headline": "Morning Caiden, Cory has Easton's full detail at 11, Sam's 1:30 detail still needs a tech, and film reels start at 2:30.",
+ "generatedAt": "2026-10-31T18:07:40Z",
+ "headline": "Hey Caiden, Cory is on Easton's detail now, Sam's 1:30 detail still needs a tech, and film reels start at 2:30.",
  "items": [
+  {
+   "id": "1a19308ffc28691f",
+   "from": "Hudl <noreply@app.hudl.com>",
+   "subject": "Latest: 1 Playlist",
+   "date": "2026-10-31T17:36:42Z",
+   "category": "Updates",
+   "summary": "Coach Don Hogue shared a Hudl playlist of Hanford High School game film, Wide and Tight Tactical view.",
+   "action": "Watch the Hanford film playlist on Hudl",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a19308ffc28691f",
+   "body": "Hi Caiden Lee,\n\nDon Hogue shared a playlist with you. Watch it here:\n\nHanford High School vs ... - Wide and Tight Tactical\n\nWant less email? You can change your Hudl notification settings here."
+  },
+  {
+   "id": "1a192f55b3fe2043",
+   "from": "DeepWork <unlock-deep-work@mail.beehiiv.com>",
+   "subject": "UBC Found the Hidden Inbox Tax",
+   "date": "2026-10-31T17:15:14Z",
+   "category": "Promos",
+   "summary": "DeepWork newsletter about a hidden productivity cost of constantly checking your inbox.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a192f55b3fe2043",
+   "body": ""
+  },
   {
    "id": "1a19282d0d4037c8",
    "from": "MaxPreps <reply@fans.maxpreps-email.com>",
@@ -481,6 +507,16 @@
    "calendar": "personal"
   },
   {
+   "title": "Full Detail: Shawn (Truck)",
+   "start": "2026-11-04T13:00:00",
+   "end": "2026-11-04T16:00:00",
+   "allDay": false,
+   "where": "3522 Kristin drive west Richland",
+   "link": "https://www.google.com/calendar/event?eid=MDQ4N2ZqdTAwZXE1dThjM3I5MjRvcnVldjAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "calendar": "business",
+   "description": "Full Detail for Shawn, 2020 Toyota Highlander, $199. Tech unassigned. Water and power available. Possible pet hair."
+  },
+  {
    "title": "[Content] Post: 18 with no employees",
    "start": "2026-11-04T15:30:00",
    "end": "2026-11-04T15:45:00",
@@ -519,6 +555,16 @@
    "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail for Stephanie, 2018 Dodge Caravan, $249, tech unassigned. Quoted 249, can be upcharged."
+  },
+  {
+   "title": "Full Detail: Miguel (vehicle TBD)",
+   "start": "2026-11-07T09:00:00",
+   "end": "2026-11-07T12:00:00",
+   "allDay": false,
+   "where": "3002 Blaine St, Pasco, WA",
+   "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "calendar": "business",
+   "description": "Full Detail for Miguel, vehicle not provided, $199. Water and power available, no pet hair. Booked Oct 26."
   }
  ]
 }
