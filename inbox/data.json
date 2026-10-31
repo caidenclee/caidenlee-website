@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-10-31T00:09:28Z",
- "headline": "Caiden, Jonathon's full detail is underway now, and tomorrow has five jobs from 8 AM, with Sam's 1:30 still needing a tech.",
+ "generatedAt": "2026-10-31T01:09:08Z",
+ "headline": "Caiden, Jonathon's full detail wraps up at 7 PM, and tomorrow has four jobs from 8 AM, with Sam's 1:30 still needing a tech.",
  "items": [
+  {
+   "id": "1a18f5c05f6b0b56",
+   "from": "\"Change.org\" <change@e.change.org>",
+   "subject": "We miss you, Caiden",
+   "date": "2026-10-31T00:28:53Z",
+   "category": "Promos",
+   "summary": "Change.org re-engagement email asking you to come back and sign more petitions.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a18f5c05f6b0b56",
+   "body": ""
+  },
   {
    "id": "1a18f0265f68d601",
    "from": "Detailing Accelerator <noreply@skool.com>",
@@ -512,16 +525,6 @@
  ],
  "events": [
   {
-   "title": "[cory] Interior Detail: Jose (2018 Honda Accord)",
-   "start": "2026-10-30T15:00:00",
-   "end": "2026-10-30T18:00:00",
-   "allDay": false,
-   "where": "4322 Parley Dr, Pasco, WA",
-   "link": "https://www.google.com/calendar/event?eid=b2h1MHAwODVlajcxOGc0amx1NzExN2Vwc2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
-   "calendar": "business",
-   "description": "Interior only · Jose · 2018 Honda Accord · $179 · Cory · Water and electricity yes"
-  },
-  {
    "title": "[Talib] Full Detail: Jonathon (2024 Hyundai PALISADE)",
    "start": "2026-10-30T16:00:00",
    "end": "2026-10-30T19:00:00",
@@ -540,16 +543,6 @@
    "link": "https://www.google.com/calendar/event?eid=Z28yNnZxaXAzcnYyOTgwNHRxYWY5djFsaXZfMjAyNjEwMzFUMTUwMDAwWiBlOGMwYWJhNzA0MjZhYmQwMWQxYmY0NGEzNjI0MTVlNGVmNDA1YTFjZjY2ZGNkMzg5YjYwNmUwN2RjZGJlZGMzQGc&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Fleet exterior · All Set · 6 vans · $80 each · Recurring every 2 weeks Saturday"
-  },
-  {
-   "title": "Full Detail: Miguel (vehicle TBD)",
-   "start": "2026-10-31T09:00:00",
-   "end": "2026-10-31T12:00:00",
-   "allDay": false,
-   "where": "3002 Blaine St, Pasco, WA",
-   "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
-   "calendar": "business",
-   "description": "Full Detail · Miguel · vehicle TBD · $199 · Water and electricity yes"
   },
   {
    "title": "(Ethan) Full Detail: Carly (2021 Ford EcoSport)",
