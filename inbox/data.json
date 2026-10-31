@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-31T09:04:46Z",
+ "generatedAt": "2026-10-31T10:08:33Z",
  "headline": "Caiden, today has four jobs starting with the 8 AM fleet exterior, and Sam's 1:30 full detail still needs a tech.",
  "items": [
   {
@@ -378,19 +378,6 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1884a7884a505b",
    "body": ""
-  },
-  {
-   "id": "1a186f04e83f536a",
-   "from": "Netlify <team@netlify.com>",
-   "subject": "[Netlify] Action needed: Caiden Lee has used all available credits — upgrade to restore full service",
-   "date": "2026-10-29T09:14:15Z",
-   "category": "Updates",
-   "summary": "Netlify says your team used all its credits, so production deploys are paused until you upgrade.",
-   "action": "Decide whether to upgrade Netlify or wait for the next cycle",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a186f04e83f536a",
-   "body": "Action needed: Caiden Lee has used all available credits , upgrade to restore full service\nYour\nteam can’t ship to production right now.\nCaiden Lee has used its full credit allowance for this billing cycle. We’ve added 30 operational credits to keep your published sites online. These credits\ncan’t be used for production deploys or Agent Runners, so those stay paused until you upgrade.\nUpgrade\nto resume production deploys\nWhat’s\npaused:\nProduction deploys\nAgent Runners\nWhat’s\nstill working:\nYour published sites continue serving\ntraffic\nPreview and branch deploys are active\nso your team can keep iterating\nIf\nyour team also exhausts its operational credits, your published sites will be suspended until credits are restored or your billing cycle resets on November 14.\nUpgrade\nto resume production deploys\nUpgrade\nnow | Talk\nto Enterprise about custom limits\nAbout Netlify\n• Support"
   }
  ],
  "events": [
@@ -541,6 +528,16 @@
    "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail for Stephanie, 2018 Dodge Caravan, $249, tech unassigned. Quoted 249, can be upcharged."
+  },
+  {
+   "title": "Full Detail: Miguel (vehicle TBD)",
+   "start": "2026-11-07T09:00:00",
+   "end": "2026-11-07T12:00:00",
+   "allDay": false,
+   "where": "3002 Blaine St, Pasco, WA",
+   "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "calendar": "business",
+   "description": "Full Detail for Miguel, vehicle not provided. Price $199. Water and electricity access, no pet hair. Booked Mon Oct 26."
   }
  ]
 }
