@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-10-31T20:10:35Z",
- "headline": "Caiden, Cory is on Sam's detail right now, film reels start at 2:30, and church is tomorrow at 9 AM.",
+ "generatedAt": "2026-10-31T21:02:59Z",
+ "headline": "Caiden, film reels start at 2:30, Hussein wants a time for Adam's coaching call, and church is tomorrow at 9 AM.",
  "items": [
+  {
+   "id": "1a1939bbc8386443",
+   "from": "Hussein Nasser <hussein.nasser@gmail.com>",
+   "subject": "Re: Coaching Session",
+   "date": "2026-10-31T20:16:21Z",
+   "category": "Personal",
+   "summary": "Hussein says Adam already reached out and asks when you are free for the cubing coaching session.",
+   "action": "Reply to Hussein and Adam with a time for the coaching call",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1939bbc8386443",
+   "body": "Hi Caiden,\n\nThanks for reaching out.\nI believe Adam already reached out to you.\nWhen would be a good time for you?\n\nBest,\n\nHussein"
+  },
   {
    "id": "1a19359a62208ec4",
    "from": "Perplexity <team@mail.perplexity.ai>",
@@ -326,32 +339,9 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a189e49624e72c4",
    "body": ""
-  },
-  {
-   "id": "1a18971c7e748f62",
-   "from": "Zoom <no-reply@zoom.us>",
-   "subject": "Dilan  has joined your Personal Meeting Room",
-   "date": "2026-10-29T20:54:57Z",
-   "category": "Updates",
-   "summary": "Zoom says Dilan joined your Personal Meeting Room.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18971c7e748f62",
-   "body": "Hi Caiden Lee,\nDilan has joined your Personal Meeting Room.\nStart Meeting\nThank you for choosing Zoom,\nThe Zoom Team"
   }
  ],
  "events": [
-  {
-   "title": "(⚠️cancelled) Full Detail: Easton (Ford Fusion SE)",
-   "start": "2026-10-31T11:00:00",
-   "end": "2026-10-31T14:00:00",
-   "allDay": false,
-   "where": "7112 W 13th Ave, Kennewick, WA",
-   "link": "https://www.google.com/calendar/event?eid=dTRqZzdmbnFhNGhzbDY0bzM2ajJvYjdsbDQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
-   "calendar": "business",
-   "description": "Cancelled. Full Detail · Easton · Ford Fusion SE · $199 · About 3 hours · Pay after job"
-  },
   {
    "title": "(Cory) Full Detail: Sam (2019 Gmc SIERRA)",
    "start": "2026-10-31T11:30:00",
