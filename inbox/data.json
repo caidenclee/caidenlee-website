@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-10-31T15:06:12Z",
- "headline": "Morning Caiden, the fleet exterior is underway, three more Badger jobs follow today, and Sam's 1:30 full detail still needs a tech.",
+ "generatedAt": "2026-10-31T16:05:10Z",
+ "headline": "Morning Caiden, the fleet exterior and Carly's detail are underway, Cory has Easton at 11, and Sam's 1:30 full detail still needs a tech.",
  "items": [
+  {
+   "id": "1a19282d0d4037c8",
+   "from": "MaxPreps <reply@fans.maxpreps-email.com>",
+   "subject": "Score Posted for Connell Varsity Boys Football",
+   "date": "2026-10-31T15:10:00Z",
+   "category": "Updates",
+   "summary": "MaxPreps posted the final score, Cashmere beat Connell 70 to 6 in varsity football Friday night.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a19282d0d4037c8",
+   "body": "Here are your score updates for Friday, 30 October 2026:\n\nConnell Varsity Boys Football\nCashmere Bulldogs 70\nConnell Eagles 6"
+  },
   {
    "id": "1a19274a42b9952b",
    "from": "ChatGPT <noreply@email.openai.com>",
@@ -378,19 +391,6 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1886c7c037379e",
    "body": "This is a copy of a security alert sent to cubercaiden@gmail.com.\ncaidenclee@gmail.com is the recovery email for this account. If you don't\nrecognize this account, remove\nit.\nA new sign-in on Linux\ncubercaiden@gmail.com\nWe noticed a new sign-in to your Google Account on a Linux device. If this\nwas you, you don’t need to do anything. If not, we’ll help you secure your\naccount.\nCheck activity\nYou can also see security activity at"
-  },
-  {
-   "id": "1a1884a7884a505b",
-   "from": "Google Business Profile <businessprofile-noreply@google.com>",
-   "subject": "You’re invited: Be the first to get AI messaging on Search and Maps",
-   "date": "2026-10-29T15:32:23Z",
-   "category": "Promos",
-   "summary": "Google Business Profile is inviting you to try AI messaging on Search and Maps.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1884a7884a505b",
-   "body": ""
   }
  ],
  "events": [
@@ -495,6 +495,16 @@
    "description": "Interior Detail for Brian, repeat customer · Black crew cab 2500HD truck · $249 · Tech unassigned · Old stains may not come out, customer was warned"
   },
   {
+   "title": "[Content] Post: $3 cube vs $60 cube",
+   "start": "2026-11-02T15:30:00",
+   "end": "2026-11-02T15:45:00",
+   "allDay": false,
+   "where": "",
+   "link": "https://www.google.com/calendar/event?eid=ZXZsaWl0dnRpNGFha3FxYjc3ZGFuM2IzN2MgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
+   "calendar": "personal",
+   "description": "Reel 1 of 3 for the week of 11/2, post to @thecaidenlee at 3:30 PM. Hook: a 3 dollar cube vs a 60 dollar cube, same hands. Two solves on the same scramble with big label cards."
+  },
+  {
    "title": "Full Detail + Pet Hair: Jeremy (Truck)",
    "start": "2026-11-03T15:00:00",
    "end": "2026-11-03T18:00:00",
@@ -523,6 +533,16 @@
    "calendar": "personal"
   },
   {
+   "title": "[Content] Post: 18 with no employees",
+   "start": "2026-11-04T15:30:00",
+   "end": "2026-11-04T15:45:00",
+   "allDay": false,
+   "where": "",
+   "link": "https://www.google.com/calendar/event?eid=dDBsaTdjc2J2dmtwamQwdW11YTc5OWE4MmcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
+   "calendar": "personal",
+   "description": "Reel 2 of 3, post to @thecaidenlee at 3:30 PM. Hook: 18 and AI agents run the detailing business. Screen recording into talking head, fast cuts, one proof shot, short explanation from the van."
+  },
+  {
    "title": "Call with Adam",
    "start": "2026-11-05T13:00:00",
    "end": "2026-11-05T14:00:00",
@@ -531,6 +551,16 @@
    "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Biweekly call with Adam, taken from the office."
+  },
+  {
+   "title": "[Content] Post: Lesson one from a real coach",
+   "start": "2026-11-06T15:30:00",
+   "end": "2026-11-06T15:45:00",
+   "allDay": false,
+   "where": "",
+   "link": "https://www.google.com/calendar/event?eid=ZWUwMHNra2dsZG11a2E2azkwZXE2aGxscGcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
+   "calendar": "personal",
+   "description": "Reel 3 of 3, post to @thecaidenlee at 3:30 PM. Hook: coaching kids to sub 10, lesson one. Overhead hand cam, plan the whole cross in inspection, then solve it."
   },
   {
    "title": "Full Detail: Stephanie (2018 Dodge CARAVAN)",
