@@ -1,6 +1,6 @@
 {
- "generatedAt": "2026-11-01T17:09:38Z",
- "headline": "Caiden, enjoy church this morning, then text Heather her reminder at noon. Hussein still needs a time for Adam's coaching call.",
+ "generatedAt": "2026-11-01T18:09:41Z",
+ "headline": "Caiden, text Heather her Monday detail reminder at noon, and Hussein still needs a time for Adam's coaching call.",
  "items": [
   {
    "id": "1a19744ed1ac62d9",
@@ -209,19 +209,6 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a18e7be9aae6b5c",
    "body": ""
-  },
-  {
-   "id": "1a18dec6ffa2573a",
-   "from": "DeepWork <unlock-deep-work@mail.beehiiv.com>",
-   "subject": "You're Destroying Your Own Motivation",
-   "date": "2026-10-30T17:47:22Z",
-   "category": "Promos",
-   "summary": "DeepWork newsletter about protecting your motivation and focus.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a18dec6ffa2573a",
-   "body": ""
   }
  ],
  "events": [
@@ -382,6 +369,16 @@
    "link": "https://www.google.com/calendar/event?eid=ZXMyc3M0YXVsb2xvMG9wbHZqODVnbXZxb2cgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Film block for the 3 reels planned for the week of 11/2: $3 cube vs $60 cube, 18 with no employees, and lesson one from a real coach. Shot lists are in each [Content] Post event."
+  },
+  {
+   "title": "⛪ Church",
+   "start": "2026-11-08T09:00:00",
+   "end": "2026-11-08T11:00:00",
+   "allDay": false,
+   "where": "",
+   "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDhUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+   "calendar": "personal",
+   "description": "Every Sunday 9 to 11 AM. Standing commitment, a tech covers any Sunday-morning booking."
   }
  ]
 }
