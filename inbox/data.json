@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-11-03T07:05:30Z",
- "headline": "Caiden, tomorrow brings the Detailing Accelerator call at 10 AM and a BMW 430i full detail at 3 PM, and Cornelio paid you $250.",
+ "generatedAt": "2026-11-03T08:01:59Z",
+ "headline": "Caiden, today has the Detailing Accelerator call at 10 AM and Cory's BMW 430i detail at 3 PM, and Adam needs a weekend coaching time.",
  "items": [
+  {
+   "id": "1a1939bbc8386443",
+   "from": "Adam Nasser <adamn8608@gmail.com>",
+   "subject": "Re: Coaching Session",
+   "date": "2026-11-03T08:00:23Z",
+   "category": "Personal",
+   "summary": "Adam says he can't do the cubing coaching call today or tomorrow and is only free on weekends.",
+   "action": "Reply to Adam with a weekend time for the coaching call",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1939bbc8386443",
+   "body": "Hi Caiden,\nI'm not available today or tomorrow. I'm only free on the weekends. Sorry.\n\nHappy Cubing,\nAdam"
+  },
   {
    "id": "1a1a01b13db81020",
    "from": "DeepWork <unlock-deep-work@mail.beehiiv.com>",
