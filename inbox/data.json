@@ -1,7 +1,72 @@
 {
- "generatedAt": "2026-11-03T17:02:47Z",
- "headline": "Caiden, your Accelerated Detailing call is at 10 AM, the BMW 430i detail is at 3 PM, and Adam still needs a weekend coaching time.",
+ "generatedAt": "2026-11-03T18:12:03Z",
+ "headline": "Caiden, your Accelerated Detailing call is on now, then missionaries at 11, Ammon at the bank at 1, and the BMW detail at 3 PM.",
  "items": [
+  {
+   "id": "1a1a28cebc5040fb",
+   "from": "Detailing Accelerator <noreply@mail.detailingaccel.com>",
+   "subject": "Here's the link to join our call",
+   "date": "2026-11-03T17:55:05Z",
+   "category": "Updates",
+   "summary": "Detailing Accelerator sent the Google Meet link for your 10 AM call today.",
+   "action": "Join the Detailing Accelerator call",
+   "due": "2026-11-03",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a28cebc5040fb",
+   "body": "Hi Caiden,\n\nHere's the link to join our meeting at 10:00 AM PST:\n\nhttps://meet.google.com/bai-igsk-fai\n\nSee you soon,\n\nDetailing Accelerator Team"
+  },
+  {
+   "id": "1a1a28b69750ebd3",
+   "from": "Scrumball <info@scrumball.cc>",
+   "subject": "Collab idea: ultra-slim hand warmers for your winter content",
+   "date": "2026-11-03T17:53:20Z",
+   "category": "Promos",
+   "summary": "A brand rep wants to send you a hand warmer to try for a possible YouTube collab.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a28b69750ebd3",
+   "body": ""
+  },
+  {
+   "id": "1a1a27e983e2d778",
+   "from": "DeepWork <unlock-deep-work@mail.beehiiv.com>",
+   "subject": "Steal The Army’s Most Underrated  Hack",
+   "date": "2026-11-03T17:39:27Z",
+   "category": "Promos",
+   "summary": "DeepWork newsletter with another productivity tip.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a27e983e2d778",
+   "body": ""
+  },
+  {
+   "id": "1a1a277ad8a55f23",
+   "from": "Jande <jande.mcgary5@gmail.com>",
+   "subject": "Fwd: P week",
+   "date": "2026-11-03T17:31:41Z",
+   "category": "Personal",
+   "summary": "Jande forwarded Elder Hunter McGary's weekly mission email about a baptism, Halloween, and transfers on the 11th.",
+   "action": "Reply to Hunter's mission email if you want",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a277ad8a55f23",
+   "body": "---------- Forwarded message ---------\nFrom: Hunter McGary <hunter.mcgary@missionary.org>\nDate: Tue, Nov 3, 2026 at 8:51 AM\nSubject: P week\n\nWhat is up my wonderful friends and family, I hope you all had an amazing week! This week for me was kinda like the others but had some highlight. So lets get to it!\n\nBappy!\nThis is going to be really fast, but pretty much the hermanas in our district had a bappy coming up and I had the opportunity to baptize him. It was super cool always but like didnt feel the same bc I didnt do the work to get his fetcha.\n\nHalloween/ Día de los Muertos\nI'll be honest, kinda lame here at Ensenada. I was expecting something like super big and exiting but it was kinda just like a normal day. But it was raining so that could have like canceled something but who knows.\n\nP week\nIm writing this at the end so then hopefully you read the entire thing. The reason why its going to be a p week is bc, its officially my comps last week in the mission. And I love him but hes the type of guy to do this. He even told me, he goes \"hey bro not even gonna lie, this week is probably gonna be a p week. It my last week and i wanna have fun!\" Like buddy, your going home in literally 9 days your telling me you cant work for 9 days. So ig we will see what happens, so stay tuned for next weeks email.\n\nTransfer\nSo ya really quick, Transfer are on the 11th and there is like a 50/50 chance I stay in el Roble. Bc since my comp is going home, idk if they want to white wash the area, and with that there is also a chance that I train! So ya next weeks email is going to have a lot of excitement.\n\nAyta hope you all have an amazing week, feel free to email or message me, I love it when I get emails or messages hearing about your weeks. I'll talk to you all next week, stay safe!\n\nLove\nElder McGary\n"
+  },
+  {
+   "id": "1a1a25cd20fff9cf",
+   "from": "Detailing Accelerator <noreply@mail.detailingaccel.com>",
+   "subject": "Reminder: Meeting in 1 hour",
+   "date": "2026-11-03T17:02:34Z",
+   "category": "Updates",
+   "summary": "Reminder that your Detailing Accelerator client meeting is today at 10 AM.",
+   "action": "",
+   "due": "2026-11-03",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a25cd20fff9cf",
+   "body": "Hi Caiden,\n\nThis is a friendly reminder that your client meeting with Detailing Accelerator is in 1 hour, 10:00 AM PST on November 3, 2026.\n\nMeeting Link: https://meet.google.com/bai-igsk-fai\n\nSee you soon,\n\nDetailing Accelerator Team"
+  },
   {
    "id": "1a1a0e9e971911fa",
    "from": "PayPal <noreply@news.paypal.com>",
@@ -439,7 +504,7 @@
    "end": "2026-11-03T11:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=dWwzM2VidHNiamI2YTBzdmVxMWQ4OXZ1djAgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=dWwzM2VidHNiamI2YTBzdmVxMWQ4OXZ1djAgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal"
   },
   {
@@ -448,7 +513,7 @@
    "end": "2026-11-03T12:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=bDU1a3BvYXVqbDV2b2IzaXFjZ2UycHN1bjQgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=bDU1a3BvYXVqbDV2b2IzaXFjZ2UycHN1bjQgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal"
   },
   {
@@ -457,7 +522,7 @@
    "end": "2026-11-03T14:00:00",
    "allDay": false,
    "where": "Bank",
-   "link": "https://www.google.com/calendar/event?eid=MG5ncDQ2MHRwZWowcDFlNDVlaHE3cWxyNnMgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=MG5ncDQ2MHRwZWowcDFlNDVlaHE3cWxyNnMgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal"
   },
   {
@@ -466,7 +531,7 @@
    "end": "2026-11-03T18:00:00",
    "allDay": false,
    "where": "3493 Hanstead St, Richland, WA 99352",
-   "link": "https://www.google.com/calendar/event?eid=ZGRyZThqamNpN2M2N2ozb2NmaXN0cGQ4cGcgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=ZGRyZThqamNpN2M2N2ozb2NmaXN0cGQ4cGcgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail on a 2026 BMW 430i at 3493 Hanstead St, Richland. Price $199. No pet hair, water and electricity available. Booked Nov 2 via iMessage."
   },
@@ -476,7 +541,7 @@
    "end": "2026-11-03T21:00:00",
    "allDay": false,
    "where": "Emma's house",
-   "link": "https://www.google.com/calendar/event?eid=YmtvbGtmZnNnOTJpOW04azdodDBidWRnbmcgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=YmtvbGtmZnNnOTJpOW04azdodDBidWRnbmcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal"
   },
   {
@@ -485,7 +550,7 @@
    "end": "2026-11-04T09:30:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMDRUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
+   "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMDRUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal"
   },
   {
@@ -494,7 +559,7 @@
    "end": "2026-11-04T13:30:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMDRUMjAwMDAwWiBjYWlkZW5jbGVlQG0",
+   "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMDRUMjAwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal"
   },
   {
@@ -503,7 +568,7 @@
    "end": "2026-11-04T16:00:00",
    "allDay": false,
    "where": "3522 Kristin drive west Richland",
-   "link": "https://www.google.com/calendar/event?eid=MDQ4N2ZqdTAwZXE1dThjM3I5MjRvcnVldjAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=MDQ4N2ZqdTAwZXE1dThjM3I5MjRvcnVldjAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail for Shawn, 2020 Toyota Highlander, $199. Tech unassigned. Water and power available. Possible pet hair."
   },
@@ -513,7 +578,7 @@
    "end": "2026-11-04T15:45:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=dDBsaTdjc2J2dmtwamQwdW11YTc5OWE4MmcgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=dDBsaTdjc2J2dmtwamQwdW11YTc5OWE4MmcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Reel 2 of 3, post to @thecaidenlee at 3:30 PM. Hook: 18 and AI agents run the detailing business. Screen recording into talking head, fast cuts, one proof shot, short explanation from the van."
   },
@@ -523,7 +588,7 @@
    "end": "2026-11-05T14:00:00",
    "allDay": false,
    "where": "Next Level Pros office, 5715 Bedford St",
-   "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0",
+   "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Biweekly call with Adam, taken from the office."
   },
@@ -533,7 +598,7 @@
    "end": "2026-11-06T15:45:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=ZWUwMHNra2dsZG11a2E2azkwZXE2aGxscGcgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=ZWUwMHNra2dsZG11a2E2azkwZXE2aGxscGcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Reel 3 of 3, post to @thecaidenlee at 3:30 PM. Hook: coaching kids to sub 10, lesson one. Overhead hand cam, plan the whole cross in inspection, then solve it."
   },
@@ -543,7 +608,7 @@
    "end": "2026-11-06T19:00:00",
    "allDay": false,
    "where": "5715 Bedford St",
-   "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail for Stephanie, 2018 Dodge Caravan, $249, tech unassigned. Quoted 249, can be upcharged."
   },
@@ -553,7 +618,7 @@
    "end": "2026-11-07T12:00:00",
    "allDay": false,
    "where": "3002 Blaine St, Pasco, WA",
-   "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail for Miguel, vehicle not provided, $199. Water and power available, no pet hair. Booked Oct 26."
   },
@@ -563,7 +628,7 @@
    "end": "2026-11-07T16:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=ZXMyc3M0YXVsb2xvMG9wbHZqODVnbXZxb2cgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=ZXMyc3M0YXVsb2xvMG9wbHZqODVnbXZxb2cgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Film block for the 3 reels planned for the week of 11/2: $3 cube vs $60 cube, 18 with no employees, and lesson one from a real coach. Shot lists are in each [Content] Post event."
   },
@@ -573,7 +638,7 @@
    "end": "2026-11-08T11:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDhUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
+   "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDhUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Every Sunday 9 to 11 AM. Standing commitment, a tech covers any Sunday-morning booking."
   }
