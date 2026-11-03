@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-11-03T18:12:03Z",
- "headline": "Caiden, your Accelerated Detailing call is on now, then missionaries at 11, Ammon at the bank at 1, and the BMW detail at 3 PM.",
+ "generatedAt": "2026-11-03T19:06:20Z",
+ "headline": "Caiden, missionaries are on now, then Ammon at the bank at 1, the BMW detail at 3 PM, and your date with Cecily at 7.",
  "items": [
+  {
+   "id": "1a1a2b387171a36d",
+   "from": "Google <noreply-accounts@google.com>",
+   "subject": "You shared some Google Account data with Adobe Acrobat",
+   "date": "2026-11-03T18:37:16Z",
+   "category": "Updates",
+   "summary": "Google confirmed you used Sign in with Google for Adobe Acrobat, sharing your name, photo, and email.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a2b387171a36d",
+   "body": "You're receiving this email because you used Sign in with Google to sign in to Adobe Acrobat on November 3 at 10:37 AM.\n\nThis email summarizes the info you shared. There's nothing you need to do right now.\n\nAdobe Acrobat received this profile info:\nCaiden Lee, name and profile picture\ncaidenclee@gmail.com, email address\n\nIf you want to stop using Sign in with Google with Adobe Acrobat, go to your Google Account. Review Adobe Acrobat's Privacy Policy and Terms of Service to understand how Adobe Acrobat will process and protect your data."
+  },
   {
    "id": "1a1a28cebc5040fb",
    "from": "Detailing Accelerator <noreply@mail.detailingaccel.com>",
@@ -482,19 +495,6 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a19bd0ef24eacad",
    "body": ""
-  },
-  {
-   "id": "1a198800b201d5e2",
-   "from": "Perplexity <team@mail.perplexity.ai>",
-   "subject": "Ask Perplexity a question and get a clear, trusted answer.",
-   "date": "2026-11-01T19:04:50Z",
-   "category": "Promos",
-   "summary": "Perplexity marketing email inviting you to try its AI search for quick, sourced answers.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a198800b201d5e2",
-   "body": ""
   }
  ],
  "events": [
@@ -611,6 +611,16 @@
    "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail for Stephanie, 2018 Dodge Caravan, $249, tech unassigned. Quoted 249, can be upcharged."
+  },
+  {
+   "title": "Full Detail: Jorge (2002 Toyota Tundra)",
+   "start": "2026-11-07T09:00:00",
+   "end": "2026-11-07T12:00:00",
+   "allDay": false,
+   "where": "2021 Maham Ave, Richland, WA",
+   "link": "https://www.google.com/calendar/event?eid=ZmhsbzIxdjZqN2s1OTByMjA4ZXNubTIwZG8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "calendar": "business",
+   "description": "Full Detail for Jorge's 2002 Toyota Tundra (5 seats), $199. Water and power available, no pet hair or stains. Work truck, main goal is getting the seats looking good."
   },
   {
    "title": "Full Detail: Miguel (vehicle TBD)",
