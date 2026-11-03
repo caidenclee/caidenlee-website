@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-03T14:11:59Z",
+ "generatedAt": "2026-11-03T15:13:41Z",
  "headline": "Caiden, today has the Detailing Accelerator call at 10 AM and Cory's BMW 430i detail at 3 PM, and Adam needs a weekend coaching time.",
  "items": [
   {
@@ -576,6 +576,15 @@
    "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDhUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Every Sunday 9 to 11 AM. Standing commitment, a tech covers any Sunday-morning booking."
+  },
+  {
+   "title": "Reynolds' party",
+   "start": "2026-11-10T19:00:00",
+   "end": "2026-11-10T22:00:00",
+   "allDay": false,
+   "where": "",
+   "link": "https://www.google.com/calendar/event?eid=bnJza2oxZjgwZDF1NWtkY3NwNXA2c283NDggY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
+   "calendar": "personal"
   }
  ]
 }
