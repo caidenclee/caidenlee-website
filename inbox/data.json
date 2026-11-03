@@ -1,7 +1,46 @@
 {
- "generatedAt": "2026-11-03T21:06:25Z",
- "headline": "Caiden, Talib's BMW detail is at 3 PM and your date with Cecily is at 7. Wispr Flow Pro renews November 10.",
+ "generatedAt": "2026-11-03T22:05:35Z",
+ "headline": "Caiden, Talib's BMW detail is at 3 PM and your date with Cecily is at 7. Tomorrow brings two jobs, Shawn and Karen.",
  "items": [
+  {
+   "id": "1a1a35b79d8931b8",
+   "from": "Badger Mountain Detailing <messenger@messaging.squareup.com>",
+   "subject": "Receipt from Badger Mountain Detailing #cfXN",
+   "date": "2026-11-03T21:40:43Z",
+   "category": "Bills & orders",
+   "summary": "Square receipt for a $0.01 payment to Badger Mountain Detailing on November 3, likely a test charge.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a35b79d8931b8",
+   "body": "You paid $0.01 with your card ending in [removed] to Badger Mountain Detailing on Nov 3 2026 at 1:39 PM.\n\nYour full receipt on Square has more information about your payment to Badger Mountain Detailing."
+  },
+  {
+   "id": "1a1a35aaeba1c792",
+   "from": "Square <notifications@messaging.squareup.com>",
+   "subject": "Your email has been updated at Badger Mountain Detailing",
+   "date": "2026-11-03T21:39:51Z",
+   "category": "Updates",
+   "summary": "Square says a customer profile at Badger Mountain Detailing now sends receipts to your Gmail address.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a35aaeba1c792",
+   "body": "Hello Maile,\n\nA new email address has been added to your customer profile at Badger Mountain Detailing. Transaction receipts from Badger Mountain Detailing will now be sent to caidenclee@gmail.com.\n\nIf you recognize this change you can ignore this email.\n\nIf you do not recognize this change, you can remove your Card on File with Badger Mountain Detailing through Square, or contact them directly."
+  },
+  {
+   "id": "1a1a359a22f43e62",
+   "from": "Square <notifications@messaging.squareup.com>",
+   "subject": "Your card has been linked by Badger Mountain Detailing",
+   "date": "2026-11-03T21:38:42Z",
+   "category": "Updates",
+   "summary": "Square confirms a card was saved on file at Badger Mountain Detailing for future charges.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a359a22f43e62",
+   "body": "Your card ending in [removed] was saved on file and authorized to be used for future transactions at Badger Mountain Detailing.\n\nFor security, Square will automatically send a digital receipt to this email address every time the card is charged at Badger Mountain Detailing.\n\nTo change or cancel your payment method, contact Badger Mountain Detailing or reach out to Square support."
+  },
   {
    "id": "1a1a335171c1d6e7",
    "from": "Wispr AI, Inc. (dba Wispr Flow) <upcoming-invoice@wispr.ai>",
@@ -469,70 +508,9 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a19d4e2d17b6287",
    "body": "Hi Caiden Lee,\n\nYour appointment has been scheduled. Here are the details of your upcoming appointment:\n\nAppointment Title: Meeting w/ Caiden Lee\nDate and Time: Tuesday, November 3, 2026 10:00 AM (PST)\nMeeting Link / Location: Google Meet"
-  },
-  {
-   "id": "1a19d2d19304a091",
-   "from": "Hudl <noreply@app.hudl.com>",
-   "subject": "Latest: 11 Playlists",
-   "date": "2026-11-02T16:52:20Z",
-   "category": "Updates",
-   "summary": "Hudl says Coach Wes Mason shared 11 new football playlists, including formations, goal line, and red zone.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19d2d19304a091",
-   "body": "Hi Caiden Lee,\n\nWes Mason shared 9 playlists. Watch them here:\n\nF - ACE (56% PASS)\nF - ACE YO (76% PASS)\nF - EMPTY (100% PASS)\nF - HEAVY (100% RUN)\nF - SLPIT GUN (100% RUN)\nF - SLIPT GUN YO (90% RUN)\nF - TRIPS YO (90% RUN)\nF - TRIPS YO FLOP (66% PASS)\nF - TRIPS (56% RUN)\n\nWes Mason shared 2 playlists. Watch them here:\n\nGOAL LINE (87% RUN)\nRED ZONE"
-  },
-  {
-   "id": "1a19d0153d2709d9",
-   "from": "Dan Clapper <3rivershauling@gmail.com>",
-   "subject": "Re: booking junk pickups online",
-   "date": "2026-11-02T16:05:38Z",
-   "category": "Personal",
-   "summary": "Dan from 3 Rivers Hauling replied no thanks to your online booking website pitch.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19d0153d2709d9",
-   "body": "No thanks"
-  },
-  {
-   "id": "1a19d022e266a905",
-   "from": "Kraken Services <getclearview.cleaning@gmail.com>",
-   "subject": "Thanks for your request!",
-   "date": "2026-11-02T16:05:25Z",
-   "category": "Updates",
-   "summary": "Kraken Services auto replied that they got your request and will respond within one business day.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19d022e266a905",
-   "body": "We appreciate you reaching out. You can expect to hear back from us within 1 business day.\n\nKRAKEN SERVICES\n\nWindow Cleaning, Pressure Washing, Soft Wash, Gutter Cleaning, Solar Panel Cleaning, Dryer Vent Cleaning, Interior Window Cleaning, Handyman, Painting, Holiday Decor, Commercial Window and Pressure Washing, High-Rise, Garage Cleaning, Garage Line Striping\n\n4.9 Stars, Licensed, Insured and Bonded"
-  },
-  {
-   "id": "1a19bd0ef24eacad",
-   "from": "GotPrint Exclusive <noreply@gotprint.com>",
-   "subject": "Open for Savings",
-   "date": "2026-11-02T10:29:50Z",
-   "category": "Promos",
-   "summary": "GotPrint is offering $15 off printing orders of $100 or more.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19bd0ef24eacad",
-   "body": ""
   }
  ],
  "events": [
-  {
-   "title": "Meet Ammon at bank",
-   "start": "2026-11-03T13:00:00",
-   "end": "2026-11-03T14:00:00",
-   "allDay": false,
-   "where": "Bank",
-   "link": "https://www.google.com/calendar/event?eid=MG5ncDQ2MHRwZWowcDFlNDVlaHE3cWxyNnMgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
-   "calendar": "personal"
-  },
   {
    "title": "(Talib) Full Detail: 509-492-8870 (2026 BMW 430i)",
    "start": "2026-11-03T15:00:00",
@@ -579,6 +557,16 @@
    "link": "https://www.google.com/calendar/event?eid=MDQ4N2ZqdTAwZXE1dThjM3I5MjRvcnVldjAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
    "description": "Full Detail for Shawn, 2020 Toyota Highlander, $199. Tech unassigned. Water and power available. Possible pet hair."
+  },
+  {
+   "title": "Full Detail: Karen (2010 Toyota Prius)",
+   "start": "2026-11-04T13:30:00",
+   "end": "2026-11-04T16:30:00",
+   "allDay": false,
+   "where": "550 Franklin St, Richland, WA",
+   "link": "https://www.google.com/calendar/event?eid=b3BhdDJiZjRkbm9lZmJla2JoMnByamgzMDQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "calendar": "business",
+   "description": "Full Detail for Karen's 2010 Toyota Prius, $199 special price. Water and electricity available, no pet hair, no kids or pets. Booked Tue Nov 3."
   },
   {
    "title": "[Content] Post: 18 with no employees",
