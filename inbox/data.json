@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-11-03T19:06:20Z",
- "headline": "Caiden, missionaries are on now, then Ammon at the bank at 1, the BMW detail at 3 PM, and your date with Cecily at 7.",
+ "generatedAt": "2026-11-03T20:07:15Z",
+ "headline": "Caiden, next up is Ammon at the bank at 1, then Talib's BMW detail at 3 PM and your date with Cecily at 7.",
  "items": [
+  {
+   "id": "1a1a2d500f606f50",
+   "from": "Perplexity <team@mail.perplexity.ai>",
+   "subject": "Better answers for everything you're curious about",
+   "date": "2026-11-03T19:13:50Z",
+   "category": "Promos",
+   "summary": "Perplexity marketing email showing how people use its AI search for finances and other questions.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a2d500f606f50",
+   "body": ""
+  },
   {
    "id": "1a1a2b387171a36d",
    "from": "Google <noreply-accounts@google.com>",
@@ -498,24 +511,6 @@
   }
  ],
  "events": [
-  {
-   "title": "Meeting with Accelerated Detailing",
-   "start": "2026-11-03T10:00:00",
-   "end": "2026-11-03T11:00:00",
-   "allDay": false,
-   "where": "",
-   "link": "https://www.google.com/calendar/event?eid=dWwzM2VidHNiamI2YTBzdmVxMWQ4OXZ1djAgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
-   "calendar": "personal"
-  },
-  {
-   "title": "Missionaries",
-   "start": "2026-11-03T11:00:00",
-   "end": "2026-11-03T12:00:00",
-   "allDay": false,
-   "where": "",
-   "link": "https://www.google.com/calendar/event?eid=bDU1a3BvYXVqbDV2b2IzaXFjZ2UycHN1bjQgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
-   "calendar": "personal"
-  },
   {
    "title": "Meet Ammon at bank",
    "start": "2026-11-03T13:00:00",
