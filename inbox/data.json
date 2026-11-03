@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-11-03T20:07:15Z",
- "headline": "Caiden, next up is Ammon at the bank at 1, then Talib's BMW detail at 3 PM and your date with Cecily at 7.",
+ "generatedAt": "2026-11-03T21:06:25Z",
+ "headline": "Caiden, Talib's BMW detail is at 3 PM and your date with Cecily is at 7. Wispr Flow Pro renews November 10.",
  "items": [
+  {
+   "id": "1a1a335171c1d6e7",
+   "from": "Wispr AI, Inc. (dba Wispr Flow) <upcoming-invoice@wispr.ai>",
+   "subject": "Your Wispr AI, Inc. (dba Wispr Flow) subscription will renew soon",
+   "date": "2026-11-03T20:58:47Z",
+   "category": "Bills & orders",
+   "summary": "Your Wispr Flow Pro subscription renews automatically on November 10 and your card on file will be charged.",
+   "action": "Decide whether to keep or cancel Wispr Flow Pro",
+   "due": "2026-11-10",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a335171c1d6e7",
+   "body": "Wispr AI, Inc. (dba Wispr Flow)\n\nYour subscription will renew soon\n\nThis is a friendly reminder that your Wispr AI, Inc. (dba Wispr Flow) subscription for Flow Pro will automatically renew on November 10, 2026. Your card ending in [removed] will be charged at that time. If your billing information has changed, you can update your payment details now.\n\nQuestions? Visit the support site (wisprflow.ai) or contact support@wisprflow.ai."
+  },
   {
    "id": "1a1a2d500f606f50",
    "from": "Perplexity <team@mail.perplexity.ai>",
@@ -586,6 +599,16 @@
    "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Biweekly call with Adam, taken from the office."
+  },
+  {
+   "title": "Full Detail: Ramon (Volkswagen Jetta)",
+   "start": "2026-11-06T15:00:00",
+   "end": "2026-11-06T18:00:00",
+   "allDay": false,
+   "where": "700 Road 32, Trlr 204, Pasco, WA",
+   "link": "https://www.google.com/calendar/event?eid=ZGxla3BsMjd0cWFmNG9yaWxqcGM5djlzY3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "calendar": "business",
+   "description": "Full Detail on a Volkswagen Jetta for Ramon, priced at $199. Water and electricity available, no pet hair, medium condition. Booked Nov 3."
   },
   {
    "title": "[Content] Post: Lesson one from a real coach",
