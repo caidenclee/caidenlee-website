@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-11-04T02:03:27Z",
- "headline": "Caiden, your date with Cecily starts at 7 tonight, and your $200 Venmo transfer should hit Chase by Friday.",
+ "generatedAt": "2026-11-04T03:13:26Z",
+ "headline": "Caiden, enjoy your date with Cecily tonight. Tomorrow Cory and Ian start Full Details at 1, and Delta upgraded your Nov 15 Austin flight.",
  "items": [
+  {
+   "id": "1a1a475823bae9ea",
+   "from": "Delta Air Lines <DeltaAirLines@t.delta.com>",
+   "subject": "Christopher Charles And Caiden, Your Upgraded Seat",
+   "date": "2026-11-04T02:49:21Z",
+   "category": "Updates",
+   "summary": "Delta upgraded you to Comfort on your Nov 15 Seattle to Austin flight and the Nov 19 Salt Lake to Pasco leg.",
+   "action": "",
+   "due": "2026-11-15",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a475823bae9ea",
+   "body": "You've Been Upgraded\n\nCheers, Christopher Charles And Caiden! Your trip to AUS just got an upgrade. Thanks to your loyalty as a SkyMiles Medallion Member, it's our pleasure to confirm your Complimentary Upgrade.\n\nConfirmation Number: [removed]\n\nSunday November 15\nDelta 848, Delta Comfort\nSeattle, Washington 05:45 PM to Austin, Texas 11:57 PM\nSeats: 10E, 10D\n\nTo keep your original seat or view and make changes to your itinerary, visit My Trips. You can also update your seat type preference to window or aisle by logging in to your SkyMiles account and selecting Profile."
+  },
   {
    "id": "1a1a41c84919475b",
    "from": "Costa Vida Guest Experience <feedback@surveys.costavida.com>",
@@ -508,19 +521,6 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a19d6ca9fae6552",
    "body": "Hi Caiden,\n\nYour meeting with Detailing Accelerator is in 24 hours, 10:00 AM PST on November 3, 2026.\n\nMeeting Link: https://meet.google.com/bai-igsk-fai\n\nSee you then,\nDetailing Accelerator Team"
-  },
-  {
-   "id": "1a19d63910daf4b5",
-   "from": "OpusClip <no-reply@opus.pro>",
-   "subject": "OpusClip 4.0 is here, and your next month of Pro is on us",
-   "date": "2026-11-02T17:51:44Z",
-   "category": "Promos",
-   "summary": "OpusClip announces version 4.0 and offers a free month of Pro.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19d63910daf4b5",
-   "body": ""
   }
  ],
  "events": [
@@ -530,7 +530,7 @@
    "end": "2026-11-03T21:00:00",
    "allDay": false,
    "where": "Emma's house",
-   "link": "https://www.google.com/calendar/event?eid=YmtvbGtmZnNnOTJpOW04azdodDBidWRnbmcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=YmtvbGtmZnNnOTJpOW04azdodDBidWRnbmcgY2FpZGVuY2xlZUBt",
    "calendar": "personal"
   },
   {
@@ -539,7 +539,7 @@
    "end": "2026-11-04T09:30:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMDRUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMDRUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
    "calendar": "personal"
   },
   {
@@ -548,28 +548,28 @@
    "end": "2026-11-04T13:30:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMDRUMjAwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMDRUMjAwMDAwWiBjYWlkZW5jbGVlQG0",
    "calendar": "personal"
   },
   {
-   "title": "Full Detail: Shawn (Truck)",
+   "title": "[Cory] Full Detail: Shawn (Truck)",
    "start": "2026-11-04T13:00:00",
    "end": "2026-11-04T16:00:00",
    "allDay": false,
    "where": "3522 Kristin drive west Richland",
-   "link": "https://www.google.com/calendar/event?eid=MDQ4N2ZqdTAwZXE1dThjM3I5MjRvcnVldjAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=MDQ4N2ZqdTAwZXE1dThjM3I5MjRvcnVldjAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
-   "description": "Full Detail for Shawn, 2020 Toyota Highlander, $199. Tech unassigned. Water and power available. Possible pet hair."
+   "description": "Full Detail for Shawn, 2020 Toyota Highlander, $199. Cory is assigned. Water and electricity available, possible pet hair."
   },
   {
-   "title": "Full Detail: Karen (2010 Toyota Prius)",
+   "title": "[Ian] Full Detail: Karen (2010 Toyota Prius)",
    "start": "2026-11-04T13:30:00",
    "end": "2026-11-04T16:30:00",
    "allDay": false,
    "where": "550 Franklin St, Richland, WA",
-   "link": "https://www.google.com/calendar/event?eid=b3BhdDJiZjRkbm9lZmJla2JoMnByamgzMDQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=b3BhdDJiZjRkbm9lZmJla2JoMnByamgzMDQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
-   "description": "Full Detail for Karen's 2010 Toyota Prius, $199 special price. Water and electricity available, no pet hair, no kids or pets. Booked Tue Nov 3."
+   "description": "Full Detail for Karen's 2010 Toyota Prius, $199 special price. Ian is assigned. Water and electricity available, no kids or pets."
   },
   {
    "title": "[Content] Post: 18 with no employees",
@@ -577,7 +577,7 @@
    "end": "2026-11-04T15:45:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=dDBsaTdjc2J2dmtwamQwdW11YTc5OWE4MmcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=dDBsaTdjc2J2dmtwamQwdW11YTc5OWE4MmcgY2FpZGVuY2xlZUBt",
    "calendar": "personal",
    "description": "Reel 2 of 3, post to @thecaidenlee at 3:30 PM. Hook: 18 and AI agents run the detailing business. Screen recording into talking head, fast cuts, one proof shot, short explanation from the van."
   },
@@ -587,7 +587,7 @@
    "end": "2026-11-05T14:00:00",
    "allDay": false,
    "where": "Next Level Pros office, 5715 Bedford St",
-   "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0",
    "calendar": "personal",
    "description": "Biweekly call with Adam, taken from the office."
   },
@@ -597,7 +597,7 @@
    "end": "2026-11-06T18:00:00",
    "allDay": false,
    "where": "700 Road 32, Trlr 204, Pasco, WA",
-   "link": "https://www.google.com/calendar/event?eid=ZGxla3BsMjd0cWFmNG9yaWxqcGM5djlzY3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=ZGxla3BsMjd0cWFmNG9yaWxqcGM5djlzY3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Full Detail on a Volkswagen Jetta for Ramon, priced at $199. Water and electricity available, no pet hair, medium condition. Booked Nov 3."
   },
@@ -607,7 +607,7 @@
    "end": "2026-11-06T15:45:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=ZWUwMHNra2dsZG11a2E2azkwZXE2aGxscGcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=ZWUwMHNra2dsZG11a2E2azkwZXE2aGxscGcgY2FpZGVuY2xlZUBt",
    "calendar": "personal",
    "description": "Reel 3 of 3, post to @thecaidenlee at 3:30 PM. Hook: coaching kids to sub 10, lesson one. Overhead hand cam, plan the whole cross in inspection, then solve it."
   },
@@ -617,7 +617,7 @@
    "end": "2026-11-06T19:00:00",
    "allDay": false,
    "where": "5715 Bedford St",
-   "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Full Detail for Stephanie, 2018 Dodge Caravan, $249, tech unassigned. Quoted 249, can be upcharged."
   },
@@ -627,7 +627,7 @@
    "end": "2026-11-07T12:00:00",
    "allDay": false,
    "where": "2021 Maham Ave, Richland, WA",
-   "link": "https://www.google.com/calendar/event?eid=ZmhsbzIxdjZqN2s1OTByMjA4ZXNubTIwZG8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=ZmhsbzIxdjZqN2s1OTByMjA4ZXNubTIwZG8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Full Detail for Jorge's 2002 Toyota Tundra (5 seats), $199. Water and power available, no pet hair or stains. Work truck, main goal is getting the seats looking good."
   },
@@ -637,7 +637,7 @@
    "end": "2026-11-07T12:00:00",
    "allDay": false,
    "where": "3002 Blaine St, Pasco, WA",
-   "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
    "description": "Full Detail for Miguel, vehicle not provided, $199. Water and power available, no pet hair. Booked Oct 26."
   },
@@ -647,7 +647,7 @@
    "end": "2026-11-07T16:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=ZXMyc3M0YXVsb2xvMG9wbHZqODVnbXZxb2cgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=ZXMyc3M0YXVsb2xvMG9wbHZqODVnbXZxb2cgY2FpZGVuY2xlZUBt",
    "calendar": "personal",
    "description": "Film block for the 3 reels planned for the week of 11/2: $3 cube vs $60 cube, 18 with no employees, and lesson one from a real coach. Shot lists are in each [Content] Post event."
   },
@@ -657,7 +657,7 @@
    "end": "2026-11-08T11:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDhUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDhUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
    "calendar": "personal",
    "description": "Every Sunday 9 to 11 AM. Standing commitment, a tech covers any Sunday-morning booking."
   },
@@ -667,7 +667,7 @@
    "end": "2026-11-10T22:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=bnJza2oxZjgwZDF1NWtkY3NwNXA2c283NDggY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
+   "link": "https://www.google.com/calendar/event?eid=bnJza2oxZjgwZDF1NWtkY3NwNXA2c283NDggY2FpZGVuY2xlZUBt",
    "calendar": "personal"
   }
  ]
