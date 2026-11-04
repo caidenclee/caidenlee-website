@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-11-04T15:16:04Z",
- "headline": "Morning Caiden, today starts with a 9 AM call with Lucien, lunch at noon, then Cory and Ian start Full Details at 1 and 1:30.",
+ "generatedAt": "2026-11-04T16:17:38Z",
+ "headline": "Morning Caiden, your 9 AM call with Lucien is up first, then lunch at noon, and Cory and Ian start Full Details at 1 and 1:30.",
  "items": [
+  {
+   "id": "1a1a73cd687e6d77",
+   "from": "Gandhi, Sagar <sagar.gandhi@pb.jpmorgan.com>",
+   "subject": "Eye on the Market: Now You Can See Everything",
+   "date": "2026-11-04T15:45:44Z",
+   "category": "Promos",
+   "summary": "JPMorgan's monthly Eye on the Market newsletter covering the midterm results, AI market moves, and corporate fraud history.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a73cd687e6d77",
+   "body": ""
+  },
   {
    "id": "1a1a6e2b910c17ae",
    "from": "Helcim <community@hello.helcim.com>",
@@ -274,19 +287,6 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a01b13db81020",
    "body": ""
-  },
-  {
-   "id": "1a19ffa893745103",
-   "from": "Google Developers <googledevelopers-noreply@google.com>",
-   "subject": "[Action Advised] Manage your unused OAuth clients and protect your information",
-   "date": "2026-11-03T05:55:58Z",
-   "category": "Updates",
-   "summary": "Google Developers says inactive OAuth clients in your faith-494721 project will be deleted in 30 days unless used.",
-   "action": "Check the inactive OAuth clients in Google Cloud Console",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19ffa893745103",
-   "body": "Your projects have inactive OAuth clients that are subject to automatic deletion.\n\nHello Google Developer,\n\nIn accordance with OAuth 2.0 Policies, the following projects that you manage have OAuth clients that have been inactive for at least 5 months, and will be deleted in 30 days unless you take action:\n\nfaith-494721\n\nVisit the Google Cloud Console to see the complete list of inactive clients.\n\nTo prevent OAuth clients from being deleted, use them in a Sign-in with Google flow or to exchange a refresh token for an access token. Do this for each client that you want to retain.\n\nIf you no longer need these OAuth clients, no additional action is required, and they will be automatically deleted for you. Once OAuth clients are deleted, you will have up to 30 days to restore them by visiting the Google Cloud Console.\n\nThank you for using the Google Auth Platform!"
   },
   {
    "id": "1a1a0223cbfd5125",
