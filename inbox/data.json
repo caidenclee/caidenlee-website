@@ -1,7 +1,46 @@
 {
- "generatedAt": "2026-11-04T18:20:11Z",
- "headline": "Caiden, lunch at noon is next, then Cory and Ian start Full Details at 1 and 1:30, and your email to Rick bounced.",
+ "generatedAt": "2026-11-04T20:08:41Z",
+ "headline": "Caiden, you're at lunch now, Cory and Ian start Full Details at 1 and 1:30, and Tubly charged you $23.88 for a year of Pro.",
  "items": [
+  {
+   "id": "1a1a80736f0b3c6f",
+   "from": "Grok xAI <receipts+acct_1PksddHJohyvID2c@stripe.com>",
+   "subject": "Your Grok xAI receipt [#1871-0049]",
+   "date": "2026-11-04T19:26:46Z",
+   "category": "Bills & orders",
+   "summary": "Grok xAI charged you $5.00 today through Stripe, and this is the receipt.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a80736f0b3c6f",
+   "body": "Receipt from Grok xAI\n\nAmount paid: $5.00\nDate paid: November 4, 2026 at 11:25:27 AM PST\nPayment method: card ending [removed]\n\nSummary\nPayment to Grok xAI: $5.00\nAmount paid: $5.00\n\nIf you have any questions, contact us at support@x.ai."
+  },
+  {
+   "id": "1a1a80613b18bb36",
+   "from": "SpaceXSI <noreply@x.ai>",
+   "subject": "SpaceXSI Invoice for Prepaid Credits",
+   "date": "2026-11-04T19:25:31Z",
+   "category": "Bills & orders",
+   "summary": "SpaceXSI sent the invoice for $5.00 of prepaid credits bought today, with a PDF attached.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a80613b18bb36",
+   "body": "Hello,\n\nBelow, you can find the SpaceXSI invoice for your account.\n\nInvoice date: Nov 04, 2026\nInvoice reference: [removed]\nAmount paid: 5.00 USD\n\nA PDF version of your invoice is attached to this email.\n\nFor inquiries, please contact us at support@x.ai.\n\nSpaceXSI Team"
+  },
+  {
+   "id": "1a1a7de249724538",
+   "from": "Tubly Downloader <invoice+statements@tubly.download>",
+   "subject": "Your receipt from Tubly Downloader #2389-0616",
+   "date": "2026-11-04T18:41:55Z",
+   "category": "Bills & orders",
+   "summary": "You paid $23.88 for a year of Tubly Downloader Pro, renewing November 4, 2027.",
+   "action": "Cancel Tubly Pro if you did not mean to buy it",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a7de249724538",
+   "body": "Receipt from Tubly Downloader\n\n$23.88 paid on November 4, 2026 with card ending [removed]\n\nReceipt #2389-0616\nNov 4, 2026 to Nov 4, 2027\nTubly Downloader Pro, Qty 1, $23.88\nTotal: $23.88\nAmount paid: $23.88\n\nManage your subscription in Stripe billing if you would like to update or cancel.\n\nQuestions? Contact us at support@tubly.download."
+  },
   {
    "id": "1a1a7aa80e066b6b",
    "from": "DeepWork <unlock-deep-work@mail.beehiiv.com>",
@@ -471,32 +510,6 @@
    "body": "What is up y'all? The good news is that the Gospel of Jesus Christ is alive and well. Setting hearts on fire all across south Texas. Qué bendición!\n\nFor starters we had an awesome p-day playing sports as a district and we all got sunburned. (Still worth it.) And as always the best talks with my family.\n\nGuys...we found a family! This is amazing, and almost never happens in our work. But the Lord was working His miracles. Because of a few scheduling mishaps we had the opportunity to go knock this door one last time. And we found Neydy and Gabriel and their sweet little kids. They were so cute and running around everywhere. And the parents were super interested in learning more. Please pray for them!\n\nWednesday was our temple day and it was so calming as always. The Lord knew what He was doing putting me in missions with temples close by. He knew I would need them.\n\nThursday was a wild ride but it included an awesome lesson with Anika, Aida and then later Brenda. And we had a Relief Society Activity where we had quite a few friends show up and we celebrated Ruby and Margie as our two strong cancer survivors. Ruby was quite proud of herself.\n\nI can't believe another Halloween has already passed. And with that I got my first Día de los Muertos. For any of you that don't know what that is, watch Coco and it will explain it better than I can. But it is a beautiful celebration of life and ancestors that is very prominent in Mexico. We even had a giant ofrenda at our combined ward party and a bunch of people brought the photos of their departed family members. Speaking of which a bunch of friends came to the party, and a few that we weren't expecting which was AWESOME.\n\nThis week also held a lot of lasts. My last MLC, interview with Presidente, holiday on the mission. And I can't believe I am saying this but I had my last fast and testimony meeting of my mission yesterday. It was quite bittersweet and yet wonderful. Safe to say there were many tears shed between me and the branch. But what a blessing it has been to share 11 months with these people. I don't think I could ever forget even one of them.\n\nPriesthood power. One of the most awe-inspiring and majestic truths of this day. We have the literal and true power of God on the earth again. The power to perform ordinances and make Covenants through the name and power of Christ. How incredible is that? I know in many ways I take this for granted but I want to testify of this power. Especially priesthood blessings. That God is opening heaven and literally connecting us back to Him through His power. The same miracles of old are given to us through His servants here. Of peace, comfort, and healing. I'll let you in on a little secret, missions are a lot of work and many times they can be difficult. But the Lord will always provide a way that we may accomplish His work. (1 Nephi 3:7) Every single one of us has access to His priesthood power through our obedience and faithfulness. Never forget that He is walking this road with you. He is the God of our salvation, our strength, and our song. The one who calms the storms and heals the broken hearts. Of this I testify in the name of Jesus Christ amen.\n\nI am praying for all of you, especially my fellow missionaries. May God be with you all til we meet again.\n\nSister Heintzelman 🤟🏼"
   },
   {
-   "id": "1a19e7563400afa1",
-   "from": "Mail Delivery Subsystem <mailer-daemon@googlemail.com>",
-   "subject": "Delivery Status Notification (Failure)",
-   "date": "2026-11-02T22:50:56Z",
-   "category": "Updates",
-   "summary": "Your booking-site pitch to Triple J's bounced because the triplejsproprtyservices2026 Gmail address does not exist.",
-   "action": "Find a working email for Triple J's Property Services",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19e7563400afa1",
-   "body": "Address not found\n\nYour message wasn't delivered to triplejsproprtyservices2026@gmail.com because the address couldn't be found, or is unable to receive mail.\n\nThe response was: 550 5.1.1 The email account that you tried to reach does not exist. Please try double-checking the recipient's email address for typos or unnecessary spaces."
-  },
-  {
-   "id": "1a19e66844dd8a42",
-   "from": "David Martinez <acustompainter@hotmail.com>",
-   "subject": "Re: painting estimate slots online",
-   "date": "2026-11-02T22:41:28Z",
-   "category": "Personal",
-   "summary": "David Martinez of A Custom Painter replied \"No\" to your online booking site pitch.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19e66844dd8a42",
-   "body": "No\n\nSent from A Custom Painter"
-  },
-  {
    "id": "1a1a0223cbfd5125",
    "from": "Brysen Schmidt <brysen.schmidt@missionary.org>",
    "subject": "🎵Baby I know that you like mee🎶 - Soulja Boy",
@@ -508,19 +521,6 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a0223cbfd5125",
    "body": "I may have involuntary found my eternal companion (for the next 2 years).\nSo basically I was on another exchange and this lady starts calling out to me saying how im gonna be the father for her next kids, then was asking me if I like her. (She looks like she's jn her 40s btw). Then she said she was gonna follow me to America when I leave. Ladies, yall got some real competition\n\nThis week was pretty uneventful other than that. Except, for the event that leads to thus weeks\n\nSpiritual thought:\n\nWhen teaching lessons usually you dk them jn the order kf teach the restoration first, then the plan of Salvation, then the gospel of Jesus christ (4th article of faith basicalky), then all the nitty gritty stuff. But for some reason when we were teaching this guy named francis we started the plan kf salvation, we didnt teach the full thing. We talked about the premortal life, the creation, and the fall of Adam and eve, then the next day we skipped the rest and went to the gospel of Jesus christ.\n\nLast time when we met with him, I was looking at the lesson plan and was thinking \"why did we skip that part?\" Only to find out that his uncle just died and he was torn about it. We then taught him the rest of the plan of Salvation, and i could see his attitude start to change as we started to talk about ghe spirit world Nd how we will rest frkm our troubles there. Comparing him before and after fhe lesson, you could see a new light in his mind.\n\nThat my friends, is why. Why we skipped over it before. Because gods timing is perfect. Because god knew he needed that portion of the lesson at that time.\n\nWe definitely will be questioning why some things played out how they did, but just remember, gods plan is perfect.\n\nSp whatever happens just remember that\n\nHave a great week fellas!!!!\n"
-  },
-  {
-   "id": "1a19e1626dca43ed",
-   "from": "osos-corps@sos.wa.gov",
-   "subject": "WA OSOS Amended Annual Report",
-   "date": "2026-11-02T21:06:52Z",
-   "category": "Updates",
-   "summary": "Washington Secretary of State processed the amended annual report for Badger Mountain Detailing LLC, with the report attached.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19e1626dca43ed",
-   "body": "Greetings!\n\nThe Washington Secretary of State has processed your submission for the following:\n\nBADGER MOUNTAIN DETAILING LLC, AMENDED ANNUAL REPORT\n\nThe above listed items are attached for your reference.\n\nYou can verify the approval status in the Corporations and Charities Filing System at https://www.sos.wa.gov/corporations\n\nSincerely,\nCorporations and Charities Division"
   }
  ],
  "events": [
