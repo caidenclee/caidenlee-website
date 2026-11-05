@@ -1,14 +1,40 @@
 {
- "generatedAt": "2026-11-05T06:16:27Z",
- "headline": "Caiden, tomorrow starts with your 1 PM call with Adam, then Talib details Patrick's Outback at 3. Your Pages deploy still needs a look.",
+ "generatedAt": "2026-11-05T14:18:48Z",
+ "headline": "Caiden, today you have Adam at 1 PM, then Talib details Patrick's Outback at 3. Hunter's missionary update is in Personal.",
  "items": [
+  {
+   "id": "1a1abdcd704792ee",
+   "from": "YouTube Creators <no-reply@youtube.com>",
+   "subject": "Caiden Lee, your October Creator Month in Review is here",
+   "date": "2026-11-05T13:18:58Z",
+   "category": "Updates",
+   "summary": "YouTube October review shows 193 new subs and 67.6K views, plus Partner Program terms due Jan 31.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1abdcd704792ee",
+   "body": "Month in review\n\nCaiden Lee, here's how your channel did in October.\n\n193 new subscribers\n241.4K minutes watched\n67.6K total views\n\nYouTube Partner Program creators should accept updated terms in YouTube Studio by January 31, 2027, to avoid gaps in earnings from ads, YouTube Premium, and fan funding."
+  },
+  {
+   "id": "1a1ab49edc4010b9",
+   "from": "GotPrint Exclusive <noreply@gotprint.com>",
+   "subject": "Single or Bulk? Custom Posters",
+   "date": "2026-11-05T10:22:07Z",
+   "category": "Promos",
+   "summary": "GotPrint is pushing custom posters in single or bulk print runs.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1ab49edc4010b9",
+   "body": ""
+  },
   {
    "id": "1a1aa4f6df88a1e0",
    "from": "Google <noreply-accounts@google.com>",
    "subject": "You shared some Google Account data with kutly.io",
    "date": "2026-11-05T06:04:54Z",
    "category": "Updates",
-   "summary": "Google notes you used Sign in with Google on kutly.io tonight, sharing your name, photo, and email.",
+   "summary": "Google notes you used Sign in with Google on kutly.io, sharing name, photo, and email.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -21,7 +47,7 @@
    "subject": "McMaster Discovered a Shortcut to Better Ideas",
    "date": "2026-11-05T06:00:57Z",
    "category": "Promos",
-   "summary": "DeepWork newsletter shares a McMaster finding about a shortcut to generating better ideas.",
+   "summary": "DeepWork newsletter shares a McMaster finding about a shortcut to better ideas.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -34,7 +60,7 @@
    "subject": "How was your experience at Deseret Book?",
    "date": "2026-11-05T00:12:17Z",
    "category": "Promos",
-   "summary": "Deseret Book is asking you to rate your recent shopping experience on their site.",
+   "summary": "Deseret Book asks you to rate your recent shopping experience.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -60,12 +86,12 @@
    "subject": "Delivery Status Notification (Delay)",
    "date": "2026-11-04T23:27:56Z",
    "category": "Updates",
-   "summary": "Your booking pitch to Segovia Mobile Notary still has not delivered, and Gmail stops retrying Thursday afternoon.",
+   "summary": "Your email to Segovia Mobile Notary is still delayed, and Gmail keeps retrying.",
    "action": "Find another way to reach Segovia Mobile Notary",
    "due": "2026-11-05",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a19e70bb0f21c29",
-   "body": "** Delivery incomplete **\n\nThere was a temporary problem delivering your message to info@segoviamobilenotary.com. Gmail will retry for 23 more hours. You'll be notified if the delivery fails permanently.\n\nThe response from the remote server was:\n451 4.4.4 Mail received as unauthenticated, incoming to a recipient domain configured in a hosted tenant which has no mail-enabled subscriptions.\n\nWill-Retry-Until: Thu, 05 Nov 2026 14:45:51 -0800 (PST)"
+   "body": "** Delivery incomplete **\n\nThere was a temporary problem delivering your message to info@segoviamobilenotary.com. Gmail will retry for 23 more hours. You'll be notified if the delivery fails permanently.\n\nThe response from the remote server was:\n451 4.4.4 Mail received as unauthenticated, incoming to a recipient domain configured in a hosted tenant which has no mail-enabled subscriptions."
   },
   {
    "id": "1a1a8ab5a357b75f",
@@ -73,12 +99,12 @@
    "subject": "[caidenclee/caidenlee-website] Run failed: pages build and deployment - main (cb3876d)",
    "date": "2026-11-04T22:26:03Z",
    "category": "Updates",
-   "summary": "GitHub Pages build succeeded but the deploy step failed for your website at 2:25 PM.",
+   "summary": "GitHub Pages build succeeded but the deploy step failed for your website.",
    "action": "Check the failed Pages deploy on GitHub",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a8ab5a357b75f",
-   "body": "[caidenclee/caidenlee-website] pages build and deployment workflow run\n\nRepository: caidenclee/caidenlee-website\nWorkflow: pages build and deployment\nDuration: 10 minutes and 49.0 seconds\nFinished: 2026-11-04 22:25:43 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/41923569611\n\nJobs:\n  * build succeeded (2 annotations)\n  * deploy failed (3 annotations)\n  * report-build-status succeeded (1 annotation)"
+   "body": "[caidenclee/caidenlee-website] pages build and deployment workflow run\n\nRepository: caidenclee/caidenlee-website\nWorkflow: pages build and deployment\nDuration: 10 minutes and 49.0 seconds\nFinished: 2026-11-04 22:25:43 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/41923569611\n\nJobs:\n  * build succeeded (2 annotations)\n  * deploy failed (3 annotations)\n  * report-build-status succeeded (1 annotation)\n\n,\nYou are receiving this because you are subscribed to this thread.\nManage your GitHub Actions notifications: https://github.com/settings/notifications?email_source=notifications&email_token=B76XTNMFACL6ACIG3SSKO435XOUHXA5CNFSNUACDM5UWIORPF5TWS5BNNB2WEL2DNBSWG22TOVUXIZKFOZSW45CON52GSZTJMNQXI2LPNYXTCMJTGYYDMMRUGMYTCMBFGNBDCNZZGM4DGMJRGQZ2M4TFMFZW63VAUVSXMZLOOSYWG427ONSXI5DJNZTXGX3DNRUWG2Y"
   },
   {
    "id": "1a1a8a8e7b44b7ad",
@@ -86,12 +112,12 @@
    "subject": "Delivery Status Notification (Failure)",
    "date": "2026-11-04T22:23:24Z",
    "category": "Updates",
-   "summary": "Your booking page pitch to Walla Walla Powerwash bounced because that Gmail address is inactive.",
-   "action": "Find another contact for Walla Walla Powerwash",
+   "summary": "Mail to wallawallapowerwash@gmail.com bounced because that inbox is inactive.",
+   "action": "Update the Walla Walla Power Wash contact email",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a8a8e7b44b7ad",
-   "body": "** Address not found **\n\nYour message wasn't delivered to wallawallapowerwash@gmail.com because the address couldn't be found, or is unable to receive mail.\n\nThe response was:\n\n550 5.2.1 The email account that you tried to reach is inactive."
+   "body": "** Address not found **\n\nYour message wasn't delivered to wallawallapowerwash@gmail.com because the address couldn't be found, or is unable to receive mail.\n\nThe response was:\n550 5.2.1 The email account that you tried to reach is inactive."
   },
   {
    "id": "1a1a88494dd6223a",
@@ -99,12 +125,12 @@
    "subject": "Security alert for caidenclee@gmail.com",
    "date": "2026-11-04T21:43:37Z",
    "category": "Updates",
-   "summary": "Copy of the Google alert sent to your recovery address, saying vidIQ was granted access to your account.",
+   "summary": "Recovery copy notes vidIQ was granted access to your Google Account.",
    "action": "",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a88494dd6223a",
-   "body": "This is a copy of a security alert sent to caidenclee@gmail.com. cubercaiden@gmail.com is the recovery email for this account.\n\nvidIQ was granted access to your linked Google Account, caidenclee@gmail.com.\n\nIf you did not grant access, you should check this activity and secure your account.\n\nYou can also see security activity at https://myaccount.google.com/notifications"
+   "body": "This is a copy of a security alert sent to caidenclee@gmail.com.\ncubercaiden@gmail.com is the recovery email for this account.\n\nvidIQ was granted access to your linked Google Account caidenclee@gmail.com.\n\nIf you did not grant access, you should check this activity and secure your account."
   },
   {
    "id": "1a1a884808fef3bb",
@@ -112,12 +138,12 @@
    "subject": "Security alert",
    "date": "2026-11-04T21:43:37Z",
    "category": "Updates",
-   "summary": "Google says you allowed vidIQ access to some of your Google Account data.",
-   "action": "Check Google activity if you did not connect vidIQ",
+   "summary": "Google confirms you allowed vidIQ access to some of your account data.",
+   "action": "",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a884808fef3bb",
-   "body": "You allowed vidIQ access to some of your Google Account data.\n\ncaidenclee@gmail.com\n\nIf you didn't allow vidIQ access to some of your Google Account data, someone else may be trying to access your Google Account data. Take a moment now to check your account activity and secure your account.\n\nTo make changes at any time to the access that vidIQ has to your data, go to your Google Account.\n\nYou can also see security activity at https://myaccount.google.com/notifications"
+   "body": "You allowed vidIQ access to some of your Google Account data\n\ncaidenclee@gmail.com\n\nIf you didn't allow vidIQ access to some of your Google Account data, someone else may be trying to access your Google Account data.\n\nTake a moment now to check your account activity and secure your account."
   },
   {
    "id": "1a1a99be22e1ba4a",
@@ -125,7 +151,7 @@
    "subject": "Winter Is Near❄️",
    "date": "2026-11-04T21:42:28Z",
    "category": "Promos",
-   "summary": "Silver Mountain's November newsletter covers season pass savings, lodging deals, and holiday events like the tree lighting.",
+   "summary": "Silver Mountain November newsletter covers season passes, lodging, and events.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -138,12 +164,12 @@
    "subject": "Your Grok xAI receipt [#1547-2015]",
    "date": "2026-11-04T21:21:12Z",
    "category": "Bills & orders",
-   "summary": "Grok xAI charged you another $5.00 at 1:19 PM through Stripe, your second $5 charge today.",
+   "summary": "Stripe receipt for a $5.00 Grok xAI payment on November 4.",
    "action": "",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a86ffa379f147",
-   "body": "Receipt from Grok xAI\n\nAmount paid: $5.00\nDate paid: November 4, 2026 at 1:19:50 PM PST\nPayment method: card ending [removed]\n\nSummary\nPayment to Grok xAI: $5.00\nAmount paid: $5.00\n\nIf you have any questions, contact us at support@x.ai."
+   "body": "Receipt from Grok xAI [#1547-2015]\n\nAmount paid: $5.00\nDate paid: November 4, 2026 at 1:19:50 PM PST\nPayment method: card ending [removed]\n\nPayment to Grok xAI: $5.00"
   },
   {
    "id": "1a1a80613b18bb36",
@@ -151,12 +177,12 @@
    "subject": "SpaceXSI Invoice for Prepaid Credits",
    "date": "2026-11-04T21:19:53Z",
    "category": "Bills & orders",
-   "summary": "SpaceXSI sent invoices for two $5.00 prepaid credit purchases today, each with a PDF attached.",
+   "summary": "xAI sent a SpaceXSI prepaid credits invoice dated November 4.",
    "action": "",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a80613b18bb36",
-   "body": "Hello,\n\nBelow, you can find the SpaceXSI invoice for your account.\n\nInvoice date: Nov 04, 2026\nInvoice reference: [removed]\nAmount paid: 5.00 USD\n\nA PDF version of your invoice is attached to this email.\n\nFor inquiries, please contact us at support@x.ai.\n\nSpaceXSI Team"
+   "body": "An invoice for your prepaid credits\n\nHello,\nBelow, you can find the SpaceXSI invoice for your account.\n\nInvoice date: Nov 04, 2026\nInvoice reference: MERD-DLKZ-KNFT\nAmount: see invoice in your xAI billing account."
   },
   {
    "id": "1a1a80736f0b3c6f",
@@ -164,12 +190,12 @@
    "subject": "Your Grok xAI receipt [#1871-0049]",
    "date": "2026-11-04T19:26:46Z",
    "category": "Bills & orders",
-   "summary": "Grok xAI charged you $5.00 today through Stripe, and this is the receipt.",
+   "summary": "Earlier Stripe receipt for another $5.00 Grok xAI payment on November 4.",
    "action": "",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a80736f0b3c6f",
-   "body": "Receipt from Grok xAI\n\nAmount paid: $5.00\nDate paid: November 4, 2026 at 11:25:27 AM PST\nPayment method: card ending [removed]\n\nSummary\nPayment to Grok xAI: $5.00\nAmount paid: $5.00\n\nIf you have any questions, contact us at support@x.ai."
+   "body": "Receipt from Grok xAI [#1871-0049]\n\nAmount paid: $5.00\nDate paid: November 4, 2026 at 11:25:27 AM PST\nPayment method: card ending [removed]\n\nPayment to Grok xAI: $5.00"
   },
   {
    "id": "1a1a7de249724538",
@@ -177,12 +203,12 @@
    "subject": "Your receipt from Tubly Downloader #2389-0616",
    "date": "2026-11-04T18:41:55Z",
    "category": "Bills & orders",
-   "summary": "You paid $23.88 for a year of Tubly Downloader Pro, renewing November 4, 2027.",
-   "action": "Cancel Tubly Pro if you did not mean to buy it",
+   "summary": "Tubly Downloader Pro charged $23.88 for a year starting November 4.",
+   "action": "",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a7de249724538",
-   "body": "Receipt from Tubly Downloader\n\n$23.88 paid on November 4, 2026 with card ending [removed]\n\nReceipt #2389-0616\nNov 4, 2026 to Nov 4, 2027\nTubly Downloader Pro, Qty 1, $23.88\nTotal: $23.88\nAmount paid: $23.88\n\nManage your subscription in Stripe billing if you would like to update or cancel.\n\nQuestions? Contact us at support@tubly.download."
+   "body": "Receipt from Tubly Downloader #2389-0616\n\nTubly Downloader Pro\nPaid: $23.88 on November 4, 2026\nPeriod: Nov 4, 2026 to Nov 4, 2027\nPayment method: card ending [removed]\n\nAmount paid: $23.88"
   },
   {
    "id": "1a1a7aa80e066b6b",
@@ -190,7 +216,7 @@
    "subject": "Your Phone Isn't Your Biggest Distraction",
    "date": "2026-11-04T17:45:30Z",
    "category": "Promos",
-   "summary": "DeepWork's newsletter argues your phone is not the main thing pulling your focus away.",
+   "summary": "DeepWork newsletter argues your biggest productivity problem is not your phone.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -203,7 +229,7 @@
    "subject": "Put full-funnel marketing to work with LinkedIn Ads",
    "date": "2026-11-04T16:37:49Z",
    "category": "Promos",
-   "summary": "LinkedIn is pitching its ad platform for running full funnel marketing campaigns.",
+   "summary": "LinkedIn Ads pitch about full-funnel marketing for your business.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -216,12 +242,12 @@
    "subject": "Updated invitation: (Ethan- James ) Full Detail: Ramon (Volkswagen Jetta) @ Fri Nov 6, 2026 3pm - 6pm (PST) (Badger Mountain Detailing )",
    "date": "2026-11-04T16:32:41Z",
    "category": "Work",
-   "summary": "Ramon's Jetta Full Detail on Friday at 3 PM was retitled to assign Ethan and James.",
+   "summary": "Ammon updated the Fri Nov 6 Ramon Jetta full detail with Ethan and James at 3 PM.",
    "action": "",
    "due": "2026-11-06",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a767d5e17fa96",
-   "body": "This event has been updated\nChanged: title\n\n(Ethan- James ) Full Detail: Ramon (Volkswagen Jetta)\nFriday Nov 6, 2026, 3pm to 6pm\nPacific Time - Los Angeles\n\nLocation\n700 Road 32, Trlr 204, Pasco, WA\n\nService: Full Detail\nVehicle: Volkswagen Jetta (year not provided)\nCustomer: Ramon\nPrice: $199\nWater access: Yes\nElectricity access: Yes\nPet hair? No\nCondition: Medium / not bad\nBooked: Tue Nov 3, 2026"
+   "body": "This event has been updated\nChanged: title\n\n(Ethan- James ) Full Detail: Ramon (Volkswagen Jetta)\nFriday Nov 6, 2026 ⋅ 3pm , 6pm\nPacific Time - Los Angeles\n\nLocation\n700 Road 32, Trlr 204, Pasco, WA\n\nService: Full Detail\nVehicle: Volkswagen Jetta (year not provided)\nCustomer: Ramon\nPrice: $199\nWater access: Yes\nElectricity access: Yes\nPet hair? No\nCondition: Medium / not bad\nBooked: Tue Nov 3, 2026\n\n~~//~~\nInvitation from Google Calendar: https://calendar.google.com/calendar/\n\nYou are receiving this email because you are subscribed to calendar\nnotifications. To stop receiving these emails, go to\nhttps://calendar.google.com/calendar/r/settings, select this calendar, and\nchange \"Other notifications\".\n\nForwarding this invitation could allow any recipient to send a response to\nthe organizer, be added to the guest list, invite others regardless of\ntheir own invitation status, or modify your RSVP.\n\nLearn more https://support.google.com/calendar/answer/37135#forwarding"
   },
   {
    "id": "1a1a7601f3eecc52",
@@ -229,7 +255,7 @@
    "subject": "Weekly digest for Tue, Oct 27 2026",
    "date": "2026-11-04T16:24:15Z",
    "category": "Promos",
-   "summary": "Detailing Accelerator's weekly Skool digest, leading with a 48 hour end of month course sale.",
+   "summary": "Skool Detailing Accelerator weekly digest plugs an end of month course sale.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -242,12 +268,12 @@
    "subject": "Delivery Status Notification (Failure)",
    "date": "2026-11-04T16:23:19Z",
    "category": "Updates",
-   "summary": "Your email to Rick about rickshomerepair.net bounced because his Yahoo mailbox is disabled.",
-   "action": "Find another way to reach Rick",
+   "summary": "Mail to vitullorick@yahoo.com bounced because that Yahoo mailbox is disabled.",
+   "action": "Update the Vitullo contact email",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a75f3aaef5a7d",
-   "body": "Address not found\n\nYour message wasn't delivered to vitullorick@yahoo.com because the address couldn't be found, or is unable to receive mail.\n\nThe response from the remote server was:\n554 30 Sorry, your message to vitullorick@yahoo.com cannot be delivered. This mailbox is disabled (554.30)."
+   "body": "** Address not found **\n\nYour message wasn't delivered to vitullorick@yahoo.com because the address couldn't be found, or is unable to receive mail.\n\nThe response from the remote server was:\n554 30 Sorry, your message to vitullorick@yahoo.com cannot be delivered. This mailbox is disabled (554.30)."
   },
   {
    "id": "1a1a73cd687e6d77",
@@ -255,7 +281,7 @@
    "subject": "Eye on the Market: Now You Can See Everything",
    "date": "2026-11-04T15:45:44Z",
    "category": "Promos",
-   "summary": "JPMorgan's monthly Eye on the Market newsletter covering the midterm results, AI market moves, and corporate fraud history.",
+   "summary": "J.P. Morgan Private Bank Eye on the Market newsletter from Michael Cembalest.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -268,7 +294,7 @@
    "subject": "Caiden, unhappy with your payment processor?",
    "date": "2026-11-04T14:07:17Z",
    "category": "Promos",
-   "summary": "Helcim ad offering up to $500 in processing credit to switch payment processors.",
+   "summary": "Helcim offers up to $500 credit if you switch payment processors.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -281,7 +307,7 @@
    "subject": "Your Focus Might Need This One Change",
    "date": "2026-11-04T06:15:28Z",
    "category": "Promos",
-   "summary": "DeepWork newsletter about a study where office plants helped workers finish attention tasks about 15% faster.",
+   "summary": "DeepWork newsletter claims a small focus change can boost productivity about 15%.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -292,14 +318,14 @@
    "id": "1a1a475823bae9ea",
    "from": "Delta Air Lines <DeltaAirLines@t.delta.com>",
    "subject": "Christopher Charles And Caiden, Your Upgraded Seat",
-   "date": "2026-11-04T02:49:21Z",
+   "date": "2026-11-04T04:57:31Z",
    "category": "Updates",
-   "summary": "Delta upgraded you to Comfort on your Nov 15 Seattle to Austin flight and the Nov 19 Salt Lake to Pasco leg.",
+   "summary": "Delta confirmed a complimentary Comfort upgrade on Nov 17 ATL to CHI for confirmation GVYOYY.",
    "action": "",
-   "due": "2026-11-15",
+   "due": "2026-11-17",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a475823bae9ea",
-   "body": "You've Been Upgraded\n\nCheers, Christopher Charles And Caiden! Your trip to AUS just got an upgrade. Thanks to your loyalty as a SkyMiles Medallion Member, it's our pleasure to confirm your Complimentary Upgrade.\n\nConfirmation Number: [removed]\n\nSunday November 15\nDelta 848, Delta Comfort\nSeattle, Washington 05:45 PM to Austin, Texas 11:57 PM\nSeats: 10E, 10D\n\nTo keep your original seat or view and make changes to your itinerary, visit My Trips. You can also update your seat type preference to window or aisle by logging in to your SkyMiles account and selecting Profile."
+   "body": "Confirmation Number GVYOYY\n\nYou've Been Upgraded\nCheers, Christopher Charles And Caiden! Your trip to AUS just got an upgrade. Thanks to your loyalty as a SkyMiles Medallion Member, it's our pleasure to confirm your Complimentary Upgrade.\n\nTuesday November 17\nDelta 1199\nAtlanta, Georgia 10:40 PM to Chicago, Illinois 11:54 PM\nDelta Comfort"
   },
   {
    "id": "1a1a41c84919475b",
@@ -307,7 +333,7 @@
    "subject": "How was your experience at Pasco - Burden & Convention Pl Costa Vida?",
    "date": "2026-11-04T01:11:35Z",
    "category": "Promos",
-   "summary": "Costa Vida in Pasco wants feedback on your recent visit.",
+   "summary": "Costa Vida asks for feedback on your recent Pasco visit.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -320,12 +346,12 @@
    "subject": "Your Venmo Standard transfer has been initiated",
    "date": "2026-11-04T01:10:06Z",
    "category": "Bills & orders",
-   "summary": "You started a $200 Venmo standard transfer to your bank, expected to arrive Friday.",
+   "summary": "Venmo started a $200 standard transfer to Chase, estimated to arrive Friday.",
    "action": "",
-   "due": "",
+   "due": "2026-11-06",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a41b2dbaf8c45",
-   "body": "Standard transfer initiated\n\nInitiated on Wednesday, November 04, 2026\nTransfer Amount: $200.00\nTransfer transaction ID: [removed]\nEstimated arrival: Friday, November 06, 2026\nDestination: Jpmorgan Chase Bank [removed]\n\nYou can see the status of your bank transfers by visiting your Account Statement.\n\nBank transfers tend to process in 1 to 3 business days. A few different factors, like weekends and holidays, can sometimes slow things down. Business days are Mon-Fri, excluding bank holidays."
+   "body": "Standard transfer initiated\n\nInitiated on Wednesday, November 04, 2026\nTransfer Amount: $200.00\nTransfer transaction ID: [removed]\nEstimated arrival: Friday, November 06, 2026\nDestination: Jpmorgan Chase Bank ending [removed]\n\nBank transfers tend to process in 1 to 3 business days."
   },
   {
    "id": "1a1a3c13bf22e1cf",
@@ -333,12 +359,12 @@
    "subject": "Dylan Thomas paid you $200.00",
    "date": "2026-11-03T23:31:51Z",
    "category": "Bills & orders",
-   "summary": "Dylan Thomas sent you $200 on Venmo today.",
+   "summary": "Dylan Thomas sent you $200 on Venmo on November 3.",
    "action": "",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a3c13bf22e1cf",
-   "body": "Dylan Thomas paid you $200.00\n\nMoney credited to your Venmo account.\n\nTransaction details\nDate: Nov 03, 2026\nTransaction ID: [removed]\nSent to: @Caiden-Lee-7\n\nFor any issues, contact the Venmo Help Center at help.venmo.com."
+   "body": "Dylan Thomas paid you $200.00\n\nMoney credited to your Venmo account.\n\nTransaction details\nDate: Nov 03, 2026\nTransaction ID: [removed]\nSent to: @Caiden-Lee-7"
   },
   {
    "id": "1a1a35b79d8931b8",
@@ -346,12 +372,12 @@
    "subject": "Receipt from Badger Mountain Detailing #cfXN",
    "date": "2026-11-03T21:40:43Z",
    "category": "Bills & orders",
-   "summary": "Square receipt for a $0.01 payment to Badger Mountain Detailing on November 3, likely a test charge.",
+   "summary": "Square receipt for a $0.01 test charge at Badger Mountain Detailing.",
    "action": "",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a35b79d8931b8",
-   "body": "You paid $0.01 with your card ending in [removed] to Badger Mountain Detailing on Nov 3 2026 at 1:39 PM.\n\nYour full receipt on Square has more information about your payment to Badger Mountain Detailing."
+   "body": "Receipt for $0.01 at Badger Mountain Detailing on Nov 3 2026 at 1:39 PM.\n\nYou paid $0.01 with your Visa ending in [removed] to Badger Mountain Detailing.\n\nSquare automatically sends receipts to the email address you used at any Square seller."
   },
   {
    "id": "1a1a35aaeba1c792",
@@ -359,12 +385,12 @@
    "subject": "Your email has been updated at Badger Mountain Detailing",
    "date": "2026-11-03T21:39:51Z",
    "category": "Updates",
-   "summary": "Square says a customer profile at Badger Mountain Detailing now sends receipts to your Gmail address.",
+   "summary": "Square says Badger Mountain Detailing receipts will now go to your Gmail.",
    "action": "",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a35aaeba1c792",
-   "body": "Hello Maile,\n\nA new email address has been added to your customer profile at Badger Mountain Detailing. Transaction receipts from Badger Mountain Detailing will now be sent to caidenclee@gmail.com.\n\nIf you recognize this change you can ignore this email.\n\nIf you do not recognize this change, you can remove your Card on File with Badger Mountain Detailing through Square, or contact them directly."
+   "body": "Hello Maile,\n\nA new email address has been added to your customer profile at Badger Mountain Detailing. Transaction receipts from Badger Mountain Detailing will now be sent to caidenclee@gmail.com.\n\nIf you recognize this change you can ignore this email."
   },
   {
    "id": "1a1a359a22f43e62",
@@ -372,12 +398,12 @@
    "subject": "Your card has been linked by Badger Mountain Detailing",
    "date": "2026-11-03T21:38:42Z",
    "category": "Updates",
-   "summary": "Square confirms a card was saved on file at Badger Mountain Detailing for future charges.",
+   "summary": "Square saved a card on file for future Badger Mountain Detailing charges.",
    "action": "",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a359a22f43e62",
-   "body": "Your card ending in [removed] was saved on file and authorized to be used for future transactions at Badger Mountain Detailing.\n\nFor security, Square will automatically send a digital receipt to this email address every time the card is charged at Badger Mountain Detailing.\n\nTo change or cancel your payment method, contact Badger Mountain Detailing or reach out to Square support."
+   "body": "Your card ending [removed] was saved on file and authorized to be used for future transactions at Badger Mountain Detailing.\n\nFor security, Square will automatically send you a digital receipt at this email address every time that card is charged at Badger Mountain Detailing."
   },
   {
    "id": "1a1a335171c1d6e7",
@@ -385,12 +411,12 @@
    "subject": "Your Wispr AI, Inc. (dba Wispr Flow) subscription will renew soon",
    "date": "2026-11-03T20:58:47Z",
    "category": "Bills & orders",
-   "summary": "Your Wispr Flow Pro subscription renews automatically on November 10 and your card on file will be charged.",
-   "action": "Decide whether to keep or cancel Wispr Flow Pro",
+   "summary": "Wispr Flow Pro renews automatically on November 10 on your saved card.",
+   "action": "Decide whether to keep Wispr Flow Pro",
    "due": "2026-11-10",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a335171c1d6e7",
-   "body": "Wispr AI, Inc. (dba Wispr Flow)\n\nYour subscription will renew soon\n\nThis is a friendly reminder that your Wispr AI, Inc. (dba Wispr Flow) subscription for Flow Pro will automatically renew on November 10, 2026. Your card ending in [removed] will be charged at that time. If your billing information has changed, you can update your payment details now.\n\nQuestions? Visit the support site (wisprflow.ai) or contact support@wisprflow.ai."
+   "body": "Your Wispr Flow subscription for Flow Pro will automatically renew on November 10, 2026. Your card ending [removed] will be charged at that time.\n\nIf your billing information has changed, you can update your payment details now."
   },
   {
    "id": "1a1a2d500f606f50",
@@ -398,7 +424,7 @@
    "subject": "Better answers for everything you're curious about",
    "date": "2026-11-03T19:13:50Z",
    "category": "Promos",
-   "summary": "Perplexity marketing email showing how people use its AI search for finances and other questions.",
+   "summary": "Perplexity marketing email shows how people use it for tougher questions.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -411,12 +437,12 @@
    "subject": "You shared some Google Account data with Adobe Acrobat",
    "date": "2026-11-03T18:37:16Z",
    "category": "Updates",
-   "summary": "Google confirmed you used Sign in with Google for Adobe Acrobat, sharing your name, photo, and email.",
+   "summary": "Google notes you used Sign in with Google for Adobe Acrobat on November 3.",
    "action": "",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a2b387171a36d",
-   "body": "You're receiving this email because you used Sign in with Google to sign in to Adobe Acrobat on November 3 at 10:37 AM.\n\nThis email summarizes the info you shared. There's nothing you need to do right now.\n\nAdobe Acrobat received this profile info:\nCaiden Lee, name and profile picture\ncaidenclee@gmail.com, email address\n\nIf you want to stop using Sign in with Google with Adobe Acrobat, go to your Google Account. Review Adobe Acrobat's Privacy Policy and Terms of Service to understand how Adobe Acrobat will process and protect your data."
+   "body": "Keep track of your Google Account data\n\nYou're receiving this email because you used Sign in with Google to sign in to Adobe Acrobat on November 3 at 10:37 AM.\n\nThis email summarizes the info you shared. There's nothing you need to do right now."
   },
   {
    "id": "1a1a28cebc5040fb",
@@ -424,12 +450,12 @@
    "subject": "Here's the link to join our call",
    "date": "2026-11-03T17:55:05Z",
    "category": "Updates",
-   "summary": "Detailing Accelerator sent the Google Meet link for your 10 AM call today.",
-   "action": "Join the Detailing Accelerator call",
-   "due": "2026-11-03",
+   "summary": "Detailing Accelerator sent the Google Meet link for the November 3 call.",
+   "action": "",
+   "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a28cebc5040fb",
-   "body": "Hi Caiden,\n\nHere's the link to join our meeting at 10:00 AM PST:\n\nhttps://meet.google.com/bai-igsk-fai\n\nSee you soon,\n\nDetailing Accelerator Team"
+   "body": "Hi Caiden,\n\nHere's the link to join our meeting at 10:00 AM PST.\n\nSee you soon,\nDetailing Accelerator Team"
   },
   {
    "id": "1a1a28b69750ebd3",
@@ -437,7 +463,7 @@
    "subject": "Collab idea: ultra-slim hand warmers for your winter content",
    "date": "2026-11-03T17:53:20Z",
    "category": "Promos",
-   "summary": "A brand rep wants to send you a hand warmer to try for a possible YouTube collab.",
+   "summary": "Scrumball wants to send ultra-slim hand warmers for a winter YouTube collab.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -450,7 +476,7 @@
    "subject": "Steal The Army’s Most Underrated  Hack",
    "date": "2026-11-03T17:39:27Z",
    "category": "Promos",
-   "summary": "DeepWork newsletter with another productivity tip.",
+   "summary": "DeepWork newsletter pitches an Army productivity hack most people skip.",
    "action": "",
    "due": "",
    "urgent": false,
@@ -463,12 +489,12 @@
    "subject": "Fwd: P week",
    "date": "2026-11-03T17:31:41Z",
    "category": "Personal",
-   "summary": "Jande forwarded Elder Hunter McGary's weekly mission email about a baptism, Halloween, and transfers on the 11th.",
-   "action": "Reply to Hunter's mission email if you want",
+   "summary": "Jande forwarded Hunter McGary's missionary week update from Ensenada.",
+   "action": "Read Hunter's P week update",
    "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a277ad8a55f23",
-   "body": "---------- Forwarded message ---------\nFrom: Hunter McGary <hunter.mcgary@missionary.org>\nDate: Tue, Nov 3, 2026 at 8:51 AM\nSubject: P week\n\nWhat is up my wonderful friends and family, I hope you all had an amazing week! This week for me was kinda like the others but had some highlight. So lets get to it!\n\nBappy!\nThis is going to be really fast, but pretty much the hermanas in our district had a bappy coming up and I had the opportunity to baptize him. It was super cool always but like didnt feel the same bc I didnt do the work to get his fetcha.\n\nHalloween/ Día de los Muertos\nI'll be honest, kinda lame here at Ensenada. I was expecting something like super big and exiting but it was kinda just like a normal day. But it was raining so that could have like canceled something but who knows.\n\nP week\nIm writing this at the end so then hopefully you read the entire thing. The reason why its going to be a p week is bc, its officially my comps last week in the mission. And I love him but hes the type of guy to do this. He even told me, he goes \"hey bro not even gonna lie, this week is probably gonna be a p week. It my last week and i wanna have fun!\" Like buddy, your going home in literally 9 days your telling me you cant work for 9 days. So ig we will see what happens, so stay tuned for next weeks email.\n\nTransfer\nSo ya really quick, Transfer are on the 11th and there is like a 50/50 chance I stay in el Roble. Bc since my comp is going home, idk if they want to white wash the area, and with that there is also a chance that I train! So ya next weeks email is going to have a lot of excitement.\n\nAyta hope you all have an amazing week, feel free to email or message me, I love it when I get emails or messages hearing about your weeks. I'll talk to you all next week, stay safe!\n\nLove\nElder McGary\n"
+   "body": ",,,,, Forwarded message ,,,,-\nFrom: Hunter McGary <hunter.mcgary@missionary.org>\nDate: Tue, Nov 3, 2026 at 8:51 AM\nSubject: P week\nTo: Jande <jande.mcgary5@gmail.com>\n\nWhat is up my wonderful friends and family, I hope you all had an amazing\nweek! This week for me was kinda like the others but had some highlight. So\nlets get to it!\n\nBappy!\nThis is going to be really fast, but pretty much the hermanas in our\ndistrict had a bappy coming up and I had the opportunity to baptize him. It\nwas super cool always but like didnt feel the same bc I didnt do the work\nto get his fetcha.\n\nHalloween/ Día de los Muertos\nI'll be honest, kinda lame here at Ensenada. I was expecting something like\nsuper big and exiting but it was kinda just like a normal day. But it was\nraining so that could have like canceled something but who knows.\n\nP week\nIm writing this at the end so then hopefully you read the entire thing. The\nreason why its going to be a p week is bc, its officially my comps last\nweek in the mission. And I love him but hes the type of guy to do this. He\neven told me, he goes \"hey bro not even gonna lie, this week is probably\ngonna be a p week. It my last week and i wanna have fun!\" Like buddy, your\ngoing home in literally 9 days your telling me you cant work for 9 days. So\nig we will see what happens, so stay tuned for next weeks email.\n\nTransfer\nSo ya really quick, Transfer are on the 11th and there is like a 50/50\nchance I stay in el Roble. Bc since my comp is going home, idk if they want\nto white wash the area, and with that there is also a chance that I train!\nSo ya next weeks email is going to have a lot of excitement .\n\nAyta hope you all have an amazing week, feel free to email or message me, I\nlove it when I get emails or messages hearing about your weeks. I'll talk\nto you all next week, stay safe!\n\nLove\nElder McGary"
   },
   {
    "id": "1a1a25cd20fff9cf",
@@ -476,51 +502,12 @@
    "subject": "Reminder: Meeting in 1 hour",
    "date": "2026-11-03T17:02:34Z",
    "category": "Updates",
-   "summary": "Reminder that your Detailing Accelerator client meeting is today at 10 AM.",
+   "summary": "Past reminder that the Detailing Accelerator call was one hour away on Nov 3.",
    "action": "",
-   "due": "2026-11-03",
+   "due": "",
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1a25cd20fff9cf",
-   "body": "Hi Caiden,\n\nThis is a friendly reminder that your client meeting with Detailing Accelerator is in 1 hour, 10:00 AM PST on November 3, 2026.\n\nMeeting Link: https://meet.google.com/bai-igsk-fai\n\nSee you soon,\n\nDetailing Accelerator Team"
-  },
-  {
-   "id": "1a1a0e9e971911fa",
-   "from": "PayPal <noreply@news.paypal.com>",
-   "subject": "Correction: Your recent email from PayPal Hi Caiden,",
-   "date": "2026-11-03T10:17:26Z",
-   "category": "Updates",
-   "summary": "PayPal says the earlier $5 checkout offer was sent by mistake and is not available, no action needed.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1a0e9e971911fa",
-   "body": "You recently saw a message from us about an offer, “Your next checkout just got $5 sweeter.” That message was shared with you in error, the link in it did not work as intended, and the offer is not available.\n\nWe apologize for the mistake and any confusion it caused. You don’t need to take any action. If you have questions, please visit the PayPal Help Center.\n\nThank you for your understanding.\nPayPal"
-  },
-  {
-   "id": "1a1939bbc8386443",
-   "from": "Adam Nasser <adamn8608@gmail.com>",
-   "subject": "Re: Coaching Session",
-   "date": "2026-11-03T08:00:23Z",
-   "category": "Personal",
-   "summary": "Adam says he can't do the cubing coaching call today or tomorrow and is only free on weekends.",
-   "action": "Reply to Adam with a weekend time for the coaching call",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1939bbc8386443",
-   "body": "Hi Caiden,\nI'm not available today or tomorrow. I'm only free on the weekends. Sorry.\n\nHappy Cubing,\nAdam"
-  },
-  {
-   "id": "1a1a01b13db81020",
-   "from": "DeepWork <unlock-deep-work@mail.beehiiv.com>",
-   "subject": "Wharton Found Motivation Hiding in Advice",
-   "date": "2026-11-03T06:31:30Z",
-   "category": "Promos",
-   "summary": "DeepWork newsletter about a Wharton study finding that giving advice can boost your own motivation.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1a01b13db81020",
-   "body": ""
+   "body": "Hi Caiden,\n\nThis is a friendly reminder that your client meeting with Detailing Accelerator is in 1 hour, 10:00 AM PST on November 3, 2026.\n\nSee you soon,\nDetailing Accelerator Team"
   }
  ],
  "events": [
@@ -532,7 +519,7 @@
    "where": "Next Level Pros office, 5715 Bedford St",
    "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal",
-   "description": "Biweekly call with Adam, taken from the office."
+   "description": "Biweekly call with Adam. Taking the call from the office."
   },
   {
    "title": "(Talib) Full Detail: Patrick (2011 Subaru Outback)",
@@ -542,7 +529,7 @@
    "where": "2938 Milton Ln, Richland, WA",
    "link": "https://www.google.com/calendar/event?eid=Y2h2a3FjMXFsOXIwdGs5MTY0dnFidjVzaGsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail for Patrick's 2011 Subaru Outback, $199. Talib is assigned. Water and electricity available, no pet hair. Car 1 of 2, his Hummer is Friday at 3 PM."
+   "description": "Full Detail, 2011 Subaru Outback for Patrick, $199. Water and electricity yes, no pet hair. Car 1 of 2. Same customer has a Hummer Fri Nov 6 at 3 PM."
   },
   {
    "title": "(Talib)Full Detail: Patrick (Hummer)",
@@ -552,7 +539,7 @@
    "where": "2938 Milton Ln, Richland, WA",
    "link": "https://www.google.com/calendar/event?eid=MGRqbXBwMWNtbGMwbjNkc2pyZmdxMzVkOWMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail for Patrick's Hummer, $199. Talib is assigned. Confirm seat count, $30 per seat over 5. Water and electricity available, no pet hair. Car 2 of 2."
+   "description": "Full Detail, Hummer for Patrick, $199. Confirm seat count, +$30 per seat over 5. Car 2 of 2 after Thursday Outback at same address."
   },
   {
    "title": "(Ethan- James ) Full Detail: Ramon (Volkswagen Jetta)",
@@ -562,7 +549,7 @@
    "where": "700 Road 32, Trlr 204, Pasco, WA",
    "link": "https://www.google.com/calendar/event?eid=ZGxla3BsMjd0cWFmNG9yaWxqcGM5djlzY3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail for Ramon's Volkswagen Jetta, $199. Ethan and James are assigned. Water and electricity available, no pet hair, medium condition."
+   "description": "Full Detail, Volkswagen Jetta for Ramon, $199. Water and electricity yes, no pet hair. Condition medium / not bad."
   },
   {
    "title": "[Content] Post: Lesson one from a real coach",
@@ -572,7 +559,7 @@
    "where": "",
    "link": "https://www.google.com/calendar/event?eid=ZWUwMHNra2dsZG11a2E2azkwZXE2aGxscGcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
-   "description": "Reel 3 of 3, post to @thecaidenlee at 3:30 PM. Hook: coaching kids to sub 10, lesson one. Overhead hand cam, plan the whole cross in inspection, then solve it."
+   "description": "REEL 3 of 3 for week of 11/2. Post to @thecaidenlee at 3:30 PM Pacific. Hook: I coach kids to sub 10. Here's lesson one. Plan the whole cross in inspection."
   },
   {
    "title": "(Ian) Full Detail: Stephanie (2018 Dodge CARAVAN)",
@@ -582,7 +569,7 @@
    "where": "5715 Bedford St",
    "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail for Stephanie's 2018 Dodge Caravan (8 seats), $249, Ian is assigned. Water and electricity available, no pet hair or deep stains."
+   "description": "Full Detail, 2018 Dodge Caravan 8 seats for Stephanie, $249 quoted, can upcharge to $300 day of. Water and electricity yes, no pet hair or deep stains."
   },
   {
    "title": "Full Detail: Jorge (2002 Toyota Tundra)",
@@ -592,7 +579,7 @@
    "where": "2021 Maham Ave, Richland, WA",
    "link": "https://www.google.com/calendar/event?eid=ZmhsbzIxdjZqN2s1OTByMjA4ZXNubTIwZG8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail for Jorge's 2002 Toyota Tundra (5 seats), $199. Water and power available, no pet hair or stains. Work truck, main goal is getting the seats looking good."
+   "description": "Full Detail, 2002 Toyota Tundra 5 seats for Jorge, $199. Work truck, focus on seats looking decent. No stains."
   },
   {
    "title": "Full Detail: Eric (2024 Toyota Venza)",
@@ -602,7 +589,7 @@
    "where": "9400 W 9th Pl, Kennewick, WA",
    "link": "https://www.google.com/calendar/event?eid=amQxczdmdGg2M3ZuYmlzZ3RrbGVoNWkyOHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail for Eric's 2024 Toyota Venza, $199, paying cash. Water and electricity available, no pet hair. He was worried about cold weather and agreed to 9 AM."
+   "description": "Full Detail, 2024 Toyota Venza for Eric, $199 cash. Water and electricity yes. Customer concerned about cold weather, agreed to 9 AM."
   },
   {
    "title": "Full Detail: Miguel (vehicle TBD)",
@@ -612,7 +599,7 @@
    "where": "3002 Blaine St, Pasco, WA",
    "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail for Miguel, vehicle not provided, $199. Water and power available, no pet hair. Booked Oct 26."
+   "description": "Full Detail for Miguel, vehicle not provided, $199. Water and electricity yes, no pet hair."
   },
   {
    "title": "Film reels",
@@ -622,7 +609,7 @@
    "where": "",
    "link": "https://www.google.com/calendar/event?eid=ZXMyc3M0YXVsb2xvMG9wbHZqODVnbXZxb2cgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
-   "description": "Film block for the 3 reels planned for the week of 11/2: $3 cube vs $60 cube, 18 with no employees, and lesson one from a real coach. Shot lists are in each [Content] Post event."
+   "description": "Film block for the 3 reels in the week of 11/2 plan: $3 vs $60 cube, 18 with no employees, and lesson one from a real coach."
   },
   {
    "title": "⛪ Church",
@@ -632,7 +619,7 @@
    "where": "",
    "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDhUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal",
-   "description": "Every Sunday 9 to 11 AM. Standing commitment, a tech covers any Sunday-morning booking."
+   "description": "Every Sunday 9 to 11 AM. Standing commitment, no jobs for Caiden personally in this window."
   },
   {
    "title": "Reynolds' party",
@@ -669,7 +656,7 @@
    "where": "",
    "link": "https://www.google.com/calendar/event?eid=MGs5b241ZTQ0OW1wcXM0anRiZThha2RzZ2MgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
-   "description": "Reminder to text Seth and confirm his Full Detail still works for Wednesday, Nov 18 at 1:00 PM. Chevy Silverado in West Richland, $199."
+   "description": "Send Seth a reminder text asking if the detail still works for Wednesday, Nov 18 at 1:00 PM. Full Detail, Chevy Silverado, 5236 Chris Street, West Richland, WA, $199."
   },
   {
    "title": "Full Detail: Marcus ($50 Travel Fee) (2004 Dodge ram 1500)",
@@ -679,7 +666,7 @@
    "where": "248 Adams court umatilla",
    "link": "https://www.google.com/calendar/event?eid=bHFsNWVhaTE3NGExdmd2ZnFiYmY2aG81am8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail for Marcus's 2004 Dodge Ram 1500 in Umatilla, $250 including a $50 travel fee. No tech assigned yet. Water and electricity available, no pet hair or deep stains."
+   "description": "Full Detail, 2004 Dodge Ram 1500 5 seats for Marcus, $250 including $50 travel fee. Water and electricity yes."
   }
  ]
 }
