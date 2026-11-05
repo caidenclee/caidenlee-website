@@ -1,7 +1,72 @@
 {
- "generatedAt": "2026-11-04T22:14:43Z",
- "headline": "Caiden, your afternoon jobs are underway, and Google flagged that vidIQ got access to your account, so check it if that was not you.",
+ "generatedAt": "2026-11-05T00:15:27Z",
+ "headline": "Caiden, your Pages deploy failed this afternoon and the Walla Walla Powerwash pitch bounced. Tomorrow has your 1 PM Adam call and Talib on Patrick's Outback at 3.",
  "items": [
+  {
+   "id": "1a1a90c9bc38bcb3",
+   "from": "Deseret Book <reviews@yotpo.com>",
+   "subject": "How was your experience at Deseret Book?",
+   "date": "2026-11-05T00:12:17Z",
+   "category": "Promos",
+   "summary": "Deseret Book is asking you to rate your recent shopping experience on their site.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a90c9bc38bcb3",
+   "body": ""
+  },
+  {
+   "id": "1a1a8e694b880e26",
+   "from": "J.P. Morgan <alerts.no.reply@jpmorgan.com>",
+   "subject": "Your investment account statement(s) are available",
+   "date": "2026-11-04T23:30:45Z",
+   "category": "Bills & orders",
+   "summary": "J.P. Morgan says a new investment account statement is ready to view online.",
+   "action": "Review your J.P. Morgan statement",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a8e694b880e26",
+   "body": "Your investment account statement(s) are available.\n\nYour latest J.P. Morgan investment account statement is ready to view in your online account."
+  },
+  {
+   "id": "1a19e70bb0f21c29",
+   "from": "Mail Delivery Subsystem <mailer-daemon@googlemail.com>",
+   "subject": "Delivery Status Notification (Delay)",
+   "date": "2026-11-04T23:27:56Z",
+   "category": "Updates",
+   "summary": "Your booking pitch to Segovia Mobile Notary still has not delivered, and Gmail stops retrying Thursday afternoon.",
+   "action": "Find another way to reach Segovia Mobile Notary",
+   "due": "2026-11-05",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a19e70bb0f21c29",
+   "body": "** Delivery incomplete **\n\nThere was a temporary problem delivering your message to info@segoviamobilenotary.com. Gmail will retry for 23 more hours. You'll be notified if the delivery fails permanently.\n\nThe response from the remote server was:\n451 4.4.4 Mail received as unauthenticated, incoming to a recipient domain configured in a hosted tenant which has no mail-enabled subscriptions.\n\nWill-Retry-Until: Thu, 05 Nov 2026 14:45:51 -0800 (PST)"
+  },
+  {
+   "id": "1a1a8ab5a357b75f",
+   "from": "caidenclee <notifications@github.com>",
+   "subject": "[caidenclee/caidenlee-website] Run failed: pages build and deployment - main (cb3876d)",
+   "date": "2026-11-04T22:26:03Z",
+   "category": "Updates",
+   "summary": "GitHub Pages build succeeded but the deploy step failed for your website at 2:25 PM.",
+   "action": "Check the failed Pages deploy on GitHub",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a8ab5a357b75f",
+   "body": "[caidenclee/caidenlee-website] pages build and deployment workflow run\n\nRepository: caidenclee/caidenlee-website\nWorkflow: pages build and deployment\nDuration: 10 minutes and 49.0 seconds\nFinished: 2026-11-04 22:25:43 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/41923569611\n\nJobs:\n  * build succeeded (2 annotations)\n  * deploy failed (3 annotations)\n  * report-build-status succeeded (1 annotation)"
+  },
+  {
+   "id": "1a1a8a8e7b44b7ad",
+   "from": "Mail Delivery Subsystem <mailer-daemon@googlemail.com>",
+   "subject": "Delivery Status Notification (Failure)",
+   "date": "2026-11-04T22:23:24Z",
+   "category": "Updates",
+   "summary": "Your booking page pitch to Walla Walla Powerwash bounced because that Gmail address is inactive.",
+   "action": "Find another contact for Walla Walla Powerwash",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1a8a8e7b44b7ad",
+   "body": "** Address not found **\n\nYour message wasn't delivered to wallawallapowerwash@gmail.com because the address couldn't be found, or is unable to receive mail.\n\nThe response was:\n\n550 5.2.1 The email account that you tried to reach is inactive."
+  },
   {
    "id": "1a1a88494dd6223a",
    "from": "Google <no-reply@accounts.google.com>",
@@ -237,19 +302,6 @@
    "body": "Dylan Thomas paid you $200.00\n\nMoney credited to your Venmo account.\n\nTransaction details\nDate: Nov 03, 2026\nTransaction ID: [removed]\nSent to: @Caiden-Lee-7\n\nFor any issues, contact the Venmo Help Center at help.venmo.com."
   },
   {
-   "id": "1a19e70bb0f21c29",
-   "from": "Mail Delivery Subsystem <mailer-daemon@googlemail.com>",
-   "subject": "Delivery Status Notification (Delay)",
-   "date": "2026-11-03T23:10:28Z",
-   "category": "Updates",
-   "summary": "Your booking pitch to Segovia Mobile Notary has not delivered yet, and Gmail will keep retrying until Thursday.",
-   "action": "Find another way to reach Segovia Mobile Notary",
-   "due": "2026-11-05",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19e70bb0f21c29",
-   "body": "Delivery incomplete\n\nThere was a temporary problem delivering your message to info@segoviamobilenotary.com. Gmail will retry for 47 more hours. You'll be notified if the delivery fails permanently.\n\nThe response from the remote server was:\n451 4.4.4 Mail received as unauthenticated, incoming to a recipient domain configured in a hosted tenant which has no mail-enabled subscriptions.\n\nWill retry until: Thu, 05 Nov 2026 2:45 PM PST"
-  },
-  {
    "id": "1a1a35b79d8931b8",
    "from": "Badger Mountain Detailing <messenger@messaging.squareup.com>",
    "subject": "Receipt from Badger Mountain Detailing #cfXN",
@@ -458,58 +510,6 @@
    "body": "I think my favorite verse this week was Proverbs 3:5-6. Trust in the Lord with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.\n\nWhat hapened this week\nThis week thursday we decided to go by bike. Our last lesson canceled and we had a bit of time. At this point we were clear across town. We decided extra time means extra contacting. So we decided to try to bike back to the church on our own without using maps, just the spirit. We biked for a long time talking to people along the way. Suddenly we notice it's getting dim. At this point we finally give in and use maps. I think the spirit told us to. We navigate to the church only to find ourselves 20 miles away. We peddled hard! It was a successful trip we found a few interested people and a lottt of drunk people.\n\nI think the funnest moment this week was Saturday. We were in the heart of the Mamelodi township contacting in public when we run into a bar. This bar comes out after us. It was overwhelming with so many crazys. These guys are asking what the heck we are doing in a township. White people are not in there natural habitat here. After talking to them about 5 minutes I realized my phone was not in my pocket. I felt dumb to have my phone just disappeared like that. My companion, and Owabile a member of the ward were still caught up in conversation with others. Me just thinking i want out of here. But yet still i was answering questions. As we finially start pulling away from this group one of the guys runs and buys us ice-cream. We except cautiously but thank him. When I finially got a chance to talk to my companion I tell him that my phone was snatched. He then said \"I got mine\" reaches in his pocket and pulls out my phone. It was so funny.\n\nMirical of the week, free ice cream\n(Maximum rating 2/10)\n\nMake sure to trust in the Lord\n-Elder Nelson\n"
   },
   {
-   "id": "1a19f4786f2290da",
-   "from": "YouTube Shopping <no-reply@youtube.com>",
-   "subject": "Congrats on hitting 15K+ views on shopping-related content!",
-   "date": "2026-11-03T02:40:27Z",
-   "category": "Promos",
-   "summary": "YouTube Shopping congratulates you on 15K views and invites you to join its affiliate program.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19f4786f2290da",
-   "body": ""
-  },
-  {
-   "id": "1a19f1db0e26e141",
-   "from": "Venmo <venmo@venmo.com>",
-   "subject": "Your Venmo Standard transfer has been initiated",
-   "date": "2026-11-03T01:54:45Z",
-   "category": "Bills & orders",
-   "summary": "Venmo started a $250 standard transfer to your Chase bank account, estimated to arrive Thursday, November 5.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19f1db0e26e141",
-   "body": "Standard transfer initiated\nInitiated on Tuesday, November 03, 2026\nTransfer Amount: $250.00\nTransfer transaction ID: [removed]\nEstimated arrival: Thursday, November 05, 2026\nDestination: Jpmorgan Chase Bank [removed]\n\nYou can see the status of your bank transfers in your Venmo Account Statement.\nBank transfers tend to process in 1 to 3 business days. Weekends and holidays can slow things down.\n\nIf you did not make this request, visit help.venmo.com immediately."
-  },
-  {
-   "id": "1a19f1b9b5c23558",
-   "from": "Venmo <venmo@venmo.com>",
-   "subject": "Cornelio Valdez paid $250.00 to your Venmo account. Leave it in Venmo or transfer it to your bank account.",
-   "date": "2026-11-03T01:52:28Z",
-   "category": "Bills & orders",
-   "summary": "Cornelio Valdez paid you $250 on Venmo on November 2.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19f1b9b5c23558",
-   "body": "Cornelio valdez paid you $250.00\n11/2\n\nMoney credited to your Venmo account.\n\nTransaction details\nDate: Nov 02, 2026\nTransaction ID: [removed]\nSent to: @Caiden-Lee-7\n\nIf you don't recognize this payment or want to report it as unauthorized, you can file a dispute in the Venmo app."
-  },
-  {
-   "id": "1a19f09e2330de35",
-   "from": "Kaiti Yoo on LinkedIn <messages-noreply@linkedin.com>",
-   "subject": "Caiden, add Kaiti Yoo ➕",
-   "date": "2026-11-03T01:33:05Z",
-   "category": "Promos",
-   "summary": "LinkedIn suggests you connect with Kaiti Yoo, a director and founder.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a19f09e2330de35",
-   "body": ""
-  },
-  {
    "id": "1a1a0223cbfd5125",
    "from": "Brysen Schmidt <brysen.schmidt@missionary.org>",
    "subject": "🎵Baby I know that you like mee🎶 - Soulja Boy",
@@ -525,16 +525,6 @@
  ],
  "events": [
   {
-   "title": "[Cory] Full Detail: Shawn (Truck)",
-   "start": "2026-11-04T13:00:00",
-   "end": "2026-11-04T16:00:00",
-   "allDay": false,
-   "where": "3522 Kristin drive west Richland",
-   "link": "https://www.google.com/calendar/event?eid=MDQ4N2ZqdTAwZXE1dThjM3I5MjRvcnVldjAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
-   "calendar": "business",
-   "description": "Full Detail for Shawn, 2020 Toyota Highlander, $199. Cory is assigned. Water and electricity available, possible pet hair."
-  },
-  {
    "title": "[Ian] Full Detail: Karen (2010 Toyota Prius)",
    "start": "2026-11-04T13:30:00",
    "end": "2026-11-04T16:30:00",
@@ -545,16 +535,6 @@
    "description": "Full Detail for Karen's 2010 Toyota Prius, $199 special price. Ian is assigned. Water and electricity available, no kids or pets."
   },
   {
-   "title": "[Content] Post: 18 with no employees",
-   "start": "2026-11-04T15:30:00",
-   "end": "2026-11-04T15:45:00",
-   "allDay": false,
-   "where": "",
-   "link": "https://www.google.com/calendar/event?eid=dDBsaTdjc2J2dmtwamQwdW11YTc5OWE4MmcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
-   "calendar": "personal",
-   "description": "Reel 2 of 3, post to @thecaidenlee at 3:30 PM. Hook: 18 and AI agents run the detailing business. Screen recording into talking head, fast cuts, one proof shot, short explanation from the van."
-  },
-  {
    "title": "Call with Adam",
    "start": "2026-11-05T13:00:00",
    "end": "2026-11-05T14:00:00",
@@ -563,6 +543,26 @@
    "link": "https://www.google.com/calendar/event?eid=dTYxa2hqaWlyZzRtMnVycXJ2MXVxbzQ0bzRfMjAyNjExMDVUMjEwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Biweekly call with Adam, taken from the office."
+  },
+  {
+   "title": "(Talib) Full Detail: Patrick (2011 Subaru Outback)",
+   "start": "2026-11-05T15:00:00",
+   "end": "2026-11-05T18:00:00",
+   "allDay": false,
+   "where": "2938 Milton Ln, Richland, WA",
+   "link": "https://www.google.com/calendar/event?eid=Y2h2a3FjMXFsOXIwdGs5MTY0dnFidjVzaGsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "calendar": "business",
+   "description": "Full Detail for Patrick's 2011 Subaru Outback, $199. Talib is assigned. Water and electricity available, no pet hair. Car 1 of 2, his Hummer is Friday at 3 PM."
+  },
+  {
+   "title": "(Talib)Full Detail: Patrick (Hummer)",
+   "start": "2026-11-06T15:00:00",
+   "end": "2026-11-06T18:00:00",
+   "allDay": false,
+   "where": "2938 Milton Ln, Richland, WA",
+   "link": "https://www.google.com/calendar/event?eid=MGRqbXBwMWNtbGMwbjNkc2pyZmdxMzVkOWMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+   "calendar": "business",
+   "description": "Full Detail for Patrick's Hummer, $199. Talib is assigned. Confirm seat count, $30 per seat over 5. Water and electricity available, no pet hair. Car 2 of 2."
   },
   {
    "title": "(Ethan- James ) Full Detail: Ramon (Volkswagen Jetta)",
@@ -585,14 +585,14 @@
    "description": "Reel 3 of 3, post to @thecaidenlee at 3:30 PM. Hook: coaching kids to sub 10, lesson one. Overhead hand cam, plan the whole cross in inspection, then solve it."
   },
   {
-   "title": "Full Detail: Stephanie (2018 Dodge CARAVAN)",
+   "title": "(Ian) Full Detail: Stephanie (2018 Dodge CARAVAN)",
    "start": "2026-11-06T16:00:00",
    "end": "2026-11-06T19:00:00",
    "allDay": false,
    "where": "5715 Bedford St",
    "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail for Stephanie, 2018 Dodge Caravan, $249, tech unassigned. Quoted 249, can be upcharged."
+   "description": "Full Detail for Stephanie's 2018 Dodge Caravan (8 seats), $249, Ian is assigned. Water and electricity available, no pet hair or deep stains."
   },
   {
    "title": "Full Detail: Jorge (2002 Toyota Tundra)",
