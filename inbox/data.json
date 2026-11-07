@@ -1,19 +1,45 @@
 {
-  "generatedAt": "2026-11-07T06:11:08Z",
-  "headline": "Caiden, three Full Details start at 9 AM tomorrow, then film reels at 2:30.",
+  "generatedAt": "2026-11-07T14:15:52Z",
+  "headline": "Three full details start at 9 AM today, then film reels at 2:30 PM. Also, your website Pages deploy has failed three times.",
   "items": [
+    {
+      "id": "1a1b52a1ab8736c5",
+      "from": "Kutly <noreply@kutly.io>",
+      "subject": "New device signed in to your Kutly account",
+      "date": "2026-11-07T08:39:56Z",
+      "category": "Updates",
+      "summary": "Kutly saw a new sign in from Chrome on a Mac in Seattle overnight via OAuth.",
+      "action": "Check the Kutly sign in was you",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1b52a1ab8736c5",
+      "body": "A new device just signed in to your Kutly account. If you don't recognize this device, please check your account for any unauthorized activity, and also make sure that the sign in type used is secure.\n\nSign in type: OAuth\nDevice: Chrome on Macintosh\nLocation: Seattle, United States (98.97.36.148)\nTime: November 07, 12:39 AM PST\n\nTo sign out of this device, open your Kutly account settings."
+    },
+    {
+      "id": "1a1b520b3c0d70ed",
+      "from": "Google <noreply-accounts@google.com>",
+      "subject": "You shared some Google Account data with ElevenLabs",
+      "date": "2026-11-07T08:29:41Z",
+      "category": "Updates",
+      "summary": "You signed in to ElevenLabs with Google, sharing your name, profile picture, and email address.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1b520b3c0d70ed",
+      "body": "Keep track of your Google Account data\n\nYou're receiving this email because you used Sign in with Google to sign in to ElevenLabs on November 7 at 12:29 AM.\n\nThis email summarizes the info you shared. There's nothing you need to do right now.\n\nElevenLabs received this profile info:\nCaiden Lee (name and profile picture)\ncaidenclee@gmail.com (email address)\n\nIf you want to stop using Sign in with Google with ElevenLabs, go to your Google Account. Review ElevenLabs's Privacy Policy and Terms of Service to understand how it will process and protect your data."
+    },
     {
       "id": "1a1b36850d631120",
       "from": "caidenclee <notifications@github.com>",
       "subject": "[caidenclee/caidenlee-website] Run failed: pages build and deployment - main (439126c)",
       "date": "2026-11-07T00:28:39Z",
       "category": "Updates",
-      "summary": "GitHub Pages deploy failed on main after the build step succeeded.",
-      "action": "",
+      "summary": "The GitHub Pages deploy job failed again for caidenlee-website, though the build step itself succeeded.",
+      "action": "Check why the Pages deploy keeps failing",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1b36850d631120",
-      "body": "[caidenclee/caidenlee-website] pages build and deployment workflow run\n\nRepository: caidenclee/caidenlee-website\nWorkflow: pages build and deployment\nDuration: 10 minutes and 47.0 seconds\nFinished: 2026-11-07 00:28:18 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42317320786\n\nJobs:\n  * build succeeded (2 annotations)\n  * deploy failed (3 annotations)\n  * report-build-status succeeded (1 annotation)"
+      "body": "pages build and deployment workflow run for caidenclee/caidenlee-website\n\nWorkflow: pages build and deployment\nDuration: 10 minutes and 47 seconds\nFinished: 2026-11-07 00:28 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42317320786\n\nJobs:\n* build succeeded (2 annotations)\n* deploy failed\n* report-build-status succeeded (1 annotation)"
     },
     {
       "id": "1a1b1b4eca18977d",
@@ -21,12 +47,12 @@
       "subject": "[caidenclee/caidenlee-website] Run failed: pages build and deployment - main (b79facf)",
       "date": "2026-11-06T16:33:05Z",
       "category": "Updates",
-      "summary": "GitHub Pages deploy for caidenlee-website failed on main after a successful build.",
+      "summary": "Another GitHub Pages deploy for caidenlee-website failed at the deploy step after a successful build.",
       "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1b1b4eca18977d",
-      "body": "[caidenclee/caidenlee-website] pages build and deployment workflow run\n\nRepository: caidenclee/caidenlee-website\nWorkflow: pages build and deployment\nDuration: 10 minutes and 42.0 seconds\nFinished: 2026-11-06 16:32:45 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42251705140\n\nJobs:\n  * build succeeded (2 annotations)\n  * report-build-status succeeded (1 annotation)\n  * deploy failed (3 annotations)"
+      "body": "pages build and deployment workflow run for caidenclee/caidenlee-website\n\nWorkflow: pages build and deployment\nDuration: 10 minutes and 42 seconds\nFinished: 2026-11-06 16:32 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42251705140\n\nJobs:\n* build succeeded (2 annotations)\n* deploy failed\n* report-build-status succeeded (1 annotation)"
     },
     {
       "id": "1a1b17c8e37d1fb2",
@@ -34,12 +60,12 @@
       "subject": "[GitHub] Claude is requesting updated permissions",
       "date": "2026-11-06T15:31:31Z",
       "category": "Updates",
-      "summary": "The Claude GitHub App is asking for updated permissions on your account.",
-      "action": "",
+      "summary": "The Claude GitHub App installed on your account is asking for extra permissions; ignoring keeps current access.",
+      "action": "Review or ignore the Claude app permission request",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1b17c8e37d1fb2",
-      "body": "A GitHub App, Claude, installed on your account is requesting updated permissions.\n\nVisit https://github.com/settings/installations/162582160/permissions/update to review and accept or ignore these permissions.\n\nYou may choose to ignore this request. If you do, Claude will retain its current permissions.\n\nYou can view pending requests by viewing your Apps settings page.\nhttps://github.com/settings/installations\n\nThanks,\nYour friends at GitHub"
+      "body": "A GitHub App, Claude, installed on your account is requesting updated permissions.\n\nVisit https://github.com/settings/installations/162582160/permissions/update to review and accept or ignore these permissions.\n\nYou may choose to ignore this request. If you do, Claude will retain its current permissions.\n\nYou can view pending requests on your Apps settings page: https://github.com/settings/installations\n\nThanks,\nYour friends at GitHub"
     },
     {
       "id": "1a1b134de33b5177",
@@ -47,7 +73,7 @@
       "subject": "Weekend Rundown: WWE Crown Jewel & More 💥",
       "date": "2026-11-06T14:13:13Z",
       "category": "Promos",
-      "summary": "ESPN promo covering WWE Crown Jewel, college football, and Monday Night Football.",
+      "summary": "ESPN weekend lineup promo featuring WWE Crown Jewel, college football, and Bills at Vikings.",
       "action": "",
       "due": "",
       "urgent": false,
@@ -60,12 +86,12 @@
       "subject": "MaxPreps Ranking Update for Connell Football",
       "date": "2026-11-06T03:16:31Z",
       "category": "Updates",
-      "summary": "MaxPreps says Connell Football boys varsity dropped in the Washington state rankings.",
+      "summary": "Connell Eagles varsity football dropped in the MaxPreps Washington state rankings.",
       "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1aedfef3486ea2",
-      "body": "Caiden,\n\nSee what's changed for your favorite teams in the MaxPreps rankings:\n\nConnell Football\nBoys Varsity Fall\nThe Eagles moved down in the WA state rankings. Tap below to see their new ranking and current league and division standings.\n\nYou are receiving this email because you have selected a favorite team on MaxPreps and are opted in to get notifications."
+      "body": "Caiden,\n\nSee what's changed for your favorite teams in the MaxPreps rankings:\n\nConnell Football, Boys Varsity Fall\nThe Eagles moved down in the WA state rankings. Open MaxPreps to see their new ranking and current league and division standings.\n\nYou are receiving this email because you have selected a favorite team on MaxPreps and are opted in to get notifications."
     },
     {
       "id": "1a1aeb112398e958",
@@ -73,12 +99,12 @@
       "subject": "Danielle Dunigan paid you $250.00",
       "date": "2026-11-06T02:30:02Z",
       "category": "Bills & orders",
-      "summary": "Danielle Dunigan Venmoed you $250 for the Subaru Detail Dunigan job.",
-      "action": "Confirm the $250 Subaru detail payment landed",
+      "summary": "Danielle Dunigan paid you $250 on Venmo for the Subaru detail.",
+      "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1aeb112398e958",
-      "body": "Danielle Dunigan paid you $250.00\n\nSubaru Detail Dunigan\n\nMoney credited to your Venmo account.\n\nTransaction details\nDate\nNov 05, 2026\nTransaction ID\n[removed]\nSent to\n@Caiden-Lee-7"
+      "body": "Danielle Dunigan paid you $250.00\n\nNote: Subaru Detail Dunigan\n\nMoney credited to your Venmo account.\n\nTransaction details\nDate: Nov 05, 2026\nTransaction ID: [removed]\nSent to: @Caiden-Lee-7"
     },
     {
       "id": "1a1aea0c71988187",
@@ -86,7 +112,7 @@
       "subject": "How was your experience at Pasco - Burden & Convention Pl Costa Vida?",
       "date": "2026-11-06T02:12:14Z",
       "category": "Promos",
-      "summary": "Costa Vida asks for feedback on your Pasco Burden and Convention Pl visit.",
+      "summary": "Costa Vida Pasco wants feedback on your recent visit.",
       "action": "",
       "due": "",
       "urgent": false,
@@ -99,12 +125,12 @@
       "subject": "Your October 2026 transaction history",
       "date": "2026-11-06T01:02:32Z",
       "category": "Bills & orders",
-      "summary": "Venmo says your October 2026 transaction history statement is ready to view.",
+      "summary": "Your October 2026 Venmo transaction history statement is ready to view.",
       "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ae60f8d5723d7",
-      "body": "Your October 2026 transaction history\n\nYour transaction history for October 2026 is now available.\n\nView history on Venmo.com\n\nVenmo sends this notification periodically to help you stay on top of your account activity."
+      "body": "Your transaction history for October 2026 is now available.\n\nView history on Venmo.com: https://venmo.com/account/statement?start=10-01-2026&end=10-31-2026\n\nVenmo sends this notification periodically to help you stay on top of your account activity. As required by law, we are providing you with this notification of your transaction history."
     },
     {
       "id": "1a1ae282a3655aa0",
@@ -112,7 +138,7 @@
       "subject": "Reminder: How was your experience at Pasco - Burden & Convention Pl Costa Vida?",
       "date": "2026-11-06T00:00:30Z",
       "category": "Promos",
-      "summary": "Costa Vida reminder asking again for feedback on the Pasco location visit.",
+      "summary": "Reminder survey from Costa Vida Pasco asking about your recent meal.",
       "action": "",
       "due": "",
       "urgent": false,
@@ -125,12 +151,12 @@
       "subject": "Delivery Status Notification (Failure)",
       "date": "2026-11-05T23:08:34Z",
       "category": "Updates",
-      "summary": "Your outreach to info@segoviamobilenotary.com permanently failed after delivery retries.",
-      "action": "",
+      "summary": "Your website pitch to Segovia Mobile Notary permanently failed; their mail server rejects outside email.",
+      "action": "Find another way to reach Segovia Mobile Notary",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a19e70bb0f21c29",
-      "body": "Message not delivered\n\nThere was a problem delivering your message to info@segoviamobilenotary.com. See the technical details below.\n\nThe response from the remote server was:\n451 4.4.4 Mail received as unauthenticated, incoming to a recipient domain configured in a hosted tenant which has no mail-enabled subscriptions.\n\nFinal-Recipient: info@segoviamobilenotary.com\nAction: failed\nStatus: 4.4.4"
+      "body": "Message not delivered\n\nThere was a problem delivering your message to info@segoviamobilenotary.com.\n\nThe response from the remote server was:\n451 4.4.4 Mail received as unauthenticated, incoming to a recipient domain configured in a hosted tenant which has no mail-enabled subscriptions.\n\nAction: failed\nLast attempt: Thu, 05 Nov 2026 3:08 PM PST"
     },
     {
       "id": "1a1ad93a56106393",
@@ -138,7 +164,7 @@
       "subject": "Try these with a YouTube video",
       "date": "2026-11-05T21:18:16Z",
       "category": "Promos",
-      "summary": "TubeAlfred welcome email with sample prompts for YouTube research in chat tools.",
+      "summary": "TubeAlfred welcome email with four sample prompts for YouTube research in AI chats.",
       "action": "",
       "due": "",
       "urgent": false,
@@ -151,12 +177,12 @@
       "subject": "You shared some Google Account data with TubeAlfred",
       "date": "2026-11-05T21:16:17Z",
       "category": "Updates",
-      "summary": "Google confirms you signed into TubeAlfred with Google and shared profile info.",
+      "summary": "You signed in to TubeAlfred with Google, sharing your name, profile picture, and email address.",
       "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ad91d40586090",
-      "body": "You're receiving this email because you used Sign in with Google to sign in to TubeAlfred on November 5 at 1:16 PM.\n\nThis email summarizes the info you shared. There's nothing you need to do right now.\n\nTubeAlfred received this profile info\nCaiden Lee\nName and profile picture\ncaidenclee@gmail.com\nEmail address"
+      "body": "Keep track of your Google Account data\n\nYou're receiving this email because you used Sign in with Google to sign in to TubeAlfred on November 5 at 1:16 PM.\n\nThis email summarizes the info you shared. There's nothing you need to do right now.\n\nTubeAlfred received this profile info:\nCaiden Lee (name and profile picture)\ncaidenclee@gmail.com (email address)\n\nIf you want to stop using Sign in with Google with TubeAlfred, go to your Google Account. Review TubeAlfred's Privacy Policy and Terms of Service to understand how it will process and protect your data."
     },
     {
       "id": "1a1ad7d0c09cd24c",
@@ -164,12 +190,12 @@
       "subject": "Updates to your branded content toolkit on YouTube",
       "date": "2026-11-05T20:53:36Z",
       "category": "Updates",
-      "summary": "YouTube outlines new branded content disclosure labels and automated detection tools.",
+      "summary": "YouTube announced new branded content labels and tools, plus auto-detection of undeclared paid promotions.",
       "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ad7d0c09cd24c",
-      "body": "Supporting your brand partnerships on YouTube\n\nWe know brand partnerships are critical for growing your business. To help you maintain transparency with viewers, we've introduced several features that streamline how you disclose paid content.\n\nThese updates include refreshed, viewer-facing labels for branded content, as well as age and location controls. We're also starting to roll out automated detection for undeclared brand deals and may start auto-labeling content we detect as paid promotion that wasn't declared.\n\nAs a creator, you are responsible for ensuring your branded content is properly disclosed and follows our policies and all legal regulatory requirements."
+      "body": "Supporting your brand partnerships on YouTube\n\nWe know brand partnerships are critical for growing your business and deepening your connection with your community. To help you maintain transparency with viewers and strengthen relationships with brand partners, we've introduced several features that streamline how you disclose paid content.\n\nThese updates include refreshed, viewer-facing labels for branded content, as well as age and location controls to help you navigate regional requirements. As we shared in September, we're also starting to roll out automated detection for undeclared brand deals and may start auto-labeling content we detect as paid promotion that wasn't declared.\n\nWhile these tools are designed to help, as a creator, you are responsible for ensuring your branded content is properly disclosed and follows our policies and all legal regulatory requirements.\n\nWhat's in your branded content toolkit?\n\nClarified global policy\nIn September we updated YouTube policy guidelines to standardize terminology around \"branded content\" and clarify regulatory disclosure obligations and applicable Google Ads policy.\n\nRedesigned viewer labels\nViewers now see a refreshed, simpler paid promotion label."
     },
     {
       "id": "1a1ad74e8ba971b7",
@@ -177,12 +203,12 @@
       "subject": "You paid Angel Mendoza $75.00",
       "date": "2026-11-05T20:44:42Z",
       "category": "Bills & orders",
-      "summary": "You paid Angel Mendoza $75 on Venmo with the note Car.",
+      "summary": "You sent Angel Mendoza $75 on Venmo for the car; payment completed.",
       "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ad74e8ba971b7",
-      "body": "You paid Angel Mendoza $75.00\n\nCar\n\nTransaction details\nDate\nNov 05, 2026\nStatus\nCompleted\nTransaction ID\n[removed]\nPayment Method\nJpmorgan Chase Bank account ending in [removed]\nSent from\n@Caiden-Lee-7"
+      "body": "You paid Angel Mendoza $75.00\n\nNote: Car\n\nTransaction details\nDate: Nov 05, 2026\nStatus: Completed\nTransaction ID: [removed]\nPayment method: Chase bank account [removed]\nSent from: @Caiden-Lee-7"
     },
     {
       "id": "1a1ad2a31289f2b6",
@@ -190,12 +216,12 @@
       "subject": "[World Cube Association] Summary",
       "date": "2026-11-05T19:23:05Z",
       "category": "Updates",
-      "summary": "WCA forum digest lists new topics, including debate about keeping Clock as an event.",
+      "summary": "WCA forum digest: 3 new topics, including debates over removing Clock and 4pad timer penalties.",
       "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ad2a31289f2b6",
-      "body": "A brief summary of World Cube Association since 2026-10-29 19:10:18 UTC\n\n3 New Topics\n2 Unread Notifications\n93 New Users\n\nPopular Topics\nPlease don't remove Clock\nPotential unfair penalties in 4pad\nShould the scrambles included or showed with any competitor's ID?\n\nThis summary is sent when we haven't seen you in a while."
+      "body": "A brief summary of the World Cube Association forum since 2026-10-29.\n\n3 New Topics\n2 Unread Notifications\n93 New Users\n\nPopular Topics\n\nPlease don't remove Clock\nA member argues Clock should stay as a WCA event and that FTO should replace FMC instead, since Clock is popular and its records get broken more often.\n\nPotential unfair penalties in 4pad\nA member worries 4pad timers make it harder for judges to tell a DNF from an OK solve when a solver fixes a +2 right before stopping the timer."
     },
     {
       "id": "1a1ad1d1fcbc0b8c",
@@ -203,7 +229,7 @@
       "subject": "Less prep on your Thanksgiving menu",
       "date": "2026-11-05T19:08:47Z",
       "category": "Promos",
-      "summary": "Chick-fil-A catering promo pitching help for Thanksgiving hosting menus.",
+      "summary": "Chick-fil-A is promoting catering trays for Thanksgiving hosting.",
       "action": "",
       "due": "",
       "urgent": false,
@@ -216,7 +242,7 @@
       "subject": "1,114 CEOs Exposed a Productivity Trap",
       "date": "2026-11-05T18:02:23Z",
       "category": "Promos",
-      "summary": "DeepWork newsletter about a productivity trap reported by over a thousand CEOs.",
+      "summary": "DeepWork newsletter about the hidden cost of being too competent at work.",
       "action": "",
       "due": "",
       "urgent": false,
@@ -229,12 +255,12 @@
       "subject": "Your Venmo Standard transfer has been initiated",
       "date": "2026-11-05T16:43:06Z",
       "category": "Bills & orders",
-      "summary": "Venmo started a $169.15 standard bank transfer expected Monday, November 9.",
+      "summary": "A $169.15 Venmo standard transfer to your Chase account started and should arrive Monday, Nov 9.",
       "action": "",
-      "due": "2026-11-09",
+      "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ac97b726572e3",
-      "body": "Standard transfer initiated\nInitiated on\nThursday, November 05, 2026\nTransfer Amount\n$169.15\nTransfer transaction ID\n[removed]\nEstimated arrival\nMonday, November 09, 2026\nDestination\nJpmorgan Chase Bank ending in [removed]"
+      "body": "Standard transfer initiated\n\nInitiated on: Thursday, November 05, 2026\nTransfer amount: $169.15\nTransfer transaction ID: [removed]\nEstimated arrival: Monday, November 09, 2026\nDestination: Chase bank account [removed]\n\nBank transfers tend to process in 1 to 3 business days. Weekends and holidays can sometimes slow things down."
     },
     {
       "id": "1a1ac976d8b1336b",
@@ -242,12 +268,12 @@
       "subject": "James Chang paid you $169.15",
       "date": "2026-11-05T16:42:46Z",
       "category": "Bills & orders",
-      "summary": "James Chang Venmoed you $169.15 labeled CubingGG Payout.",
+      "summary": "James Chang paid you $169.15 on Venmo as a CubingGG payout.",
       "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ac976d8b1336b",
-      "body": "James Chang paid you $169.15\n\nCubingGG Payout\n\nMoney credited to your Venmo account.\n\nTransaction details\nDate\nNov 05, 2026\nTransaction ID\n[removed]\nSent to\n@Caiden-Lee-7"
+      "body": "James Chang paid you $169.15\n\nNote: CubingGG Payout\n\nMoney credited to your Venmo account.\n\nTransaction details\nDate: Nov 05, 2026\nTransaction ID: [removed]\nSent to: @Caiden-Lee-7"
     },
     {
       "id": "1a1ac83a9bcbb7c2",
@@ -255,12 +281,12 @@
       "subject": "Delivery Status Notification (Failure)",
       "date": "2026-11-05T16:21:14Z",
       "category": "Updates",
-      "summary": "Your message to info@arcadiasupport.com bounced because their mail server is misconfigured.",
+      "summary": "Your email to info@arcadiasupport.com bounced because their mail server is misconfigured.",
       "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ac83a9bcbb7c2",
-      "body": "Message not delivered\n\nYour message couldn't be delivered to info@arcadiasupport.com because the remote server is misconfigured.\n\nThe response from the remote server was:\n550 Please turn on SMTP Authentication in your mail client, or login to the IMAP/POP3 server before sending your message. mail from Google is not permitted to relay through this server without authentication.\n\nFinal-Recipient: info@arcadiasupport.com\nAction: failed\nStatus: 5.7.0"
+      "body": "Message not delivered\n\nYour message couldn't be delivered to info@arcadiasupport.com because the remote server is misconfigured.\n\nThe response from the remote server was:\n550 Please turn on SMTP Authentication in your mail client, or login to the IMAP/POP3 server before sending your message. The sending server is not permitted to relay through this server without authentication.\n\nAction: failed\nLast attempt: Thu, 05 Nov 2026 8:21 AM PST"
     },
     {
       "id": "1a1ac7eed45b58c3",
@@ -268,12 +294,12 @@
       "subject": "Delivery Status Notification (Failure)",
       "date": "2026-11-05T16:16:02Z",
       "category": "Updates",
-      "summary": "Mail to loschiloslawncare@gmail.com failed because that address does not exist.",
+      "summary": "Your pitch to loschiloslawncare@gmail.com bounced because that address does not exist.",
       "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ac7eed45b58c3",
-      "body": "Address not found\n\nYour message wasn't delivered to loschiloslawncare@gmail.com because the address couldn't be found, or is unable to receive mail.\n\nThe response was:\n550 5.1.1 The email account that you tried to reach does not exist.\n\nFinal-Recipient: loschiloslawncare@gmail.com\nAction: failed\nStatus: 5.1.1"
+      "body": "Address not found\n\nYour message wasn't delivered to loschiloslawncare@gmail.com because the address couldn't be found, or is unable to receive mail.\n\nThe response was:\n550 5.1.1 The email account that you tried to reach does not exist. Please try double-checking the recipient's email address for typos or unnecessary spaces.\n\nLast attempt: Thu, 05 Nov 2026 8:16 AM PST"
     },
     {
       "id": "1a1ac79ea0f6d35b",
@@ -281,12 +307,12 @@
       "subject": "[caidenclee/caidenlee-website] Run failed: pages build and deployment - main (0fb26a3)",
       "date": "2026-11-05T16:10:32Z",
       "category": "Updates",
-      "summary": "Earlier GitHub Pages deploy on main also failed after the build step succeeded.",
+      "summary": "A GitHub Pages deploy for caidenlee-website failed at the deploy step on Thursday morning.",
       "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ac79ea0f6d35b",
-      "body": "[caidenclee/caidenlee-website] pages build and deployment workflow run\n\nRepository: caidenclee/caidenlee-website\nWorkflow: pages build and deployment\nDuration: 48.0 seconds\nFinished: 2026-11-05 16:10:11 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42061698361\n\nJobs:\n  * build succeeded (2 annotations)\n  * report-build-status succeeded (1 annotation)\n  * deploy failed (4 annotations)"
+      "body": "pages build and deployment workflow run for caidenclee/caidenlee-website\n\nWorkflow: pages build and deployment\nDuration: 48 seconds\nFinished: 2026-11-05 16:10 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42061698361\n\nJobs:\n* build succeeded (2 annotations)\n* deploy failed\n* report-build-status succeeded (1 annotation)"
     },
     {
       "id": "1a1ac4ae397972ab",
@@ -294,38 +320,12 @@
       "subject": "New device signed in to your Kutly account",
       "date": "2026-11-05T15:19:09Z",
       "category": "Updates",
-      "summary": "Kutly reports a new Safari on iOS sign-in to your account from Seattle.",
+      "summary": "Kutly saw a new sign in from Safari on iOS in Seattle on Thursday morning.",
       "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ac4ae397972ab",
-      "body": "A new device just signed in to your Kutly account. If you don't recognize this device, please check your account for any unauthorized activity, and also make sure that the sign in type used is secure.\n\nSign in type: OAuth\nDevice: Safari on iOS\nLocation: Seattle, United States ([removed])\nTime: November 05, 07:19AM PST\n\nTo immediately sign out of this device visit the URL below.\nhttps://clerk.kutly.io/v1/tickets/accept?ticket=[removed]"
-    },
-    {
-      "id": "1a1abdcd704792ee",
-      "from": "YouTube Creators <no-reply@youtube.com>",
-      "subject": "Caiden Lee, your October Creator Month in Review is here",
-      "date": "2026-11-05T13:18:58Z",
-      "category": "Updates",
-      "summary": "YouTube October review shows 193 new subscribers, 67.6K views, and 241.4K minutes.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1abdcd704792ee",
-      "body": "Month in review\n\nCaiden Lee\n\nHere's how your channel did in October\n\n193 New subscribers\n241.4K Minutes watched\n67.6K Total views\n\nYouTube Partner Program creators should accept updated terms in YouTube Studio by January 31, 2027, to avoid gaps in earnings from ads, YouTube Premium, and fan funding.\n\nData reported is based on last month: October 1, 2026, through October 31, 2026."
-    },
-    {
-      "id": "1a1ab49edc4010b9",
-      "from": "GotPrint Exclusive <noreply@gotprint.com>",
-      "subject": "Single or Bulk? Custom Posters",
-      "date": "2026-11-05T10:22:07Z",
-      "category": "Promos",
-      "summary": "GotPrint marketing email promoting custom posters in single or bulk quantities.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1ab49edc4010b9",
-      "body": ""
+      "body": "A new device just signed in to your Kutly account. If you don't recognize this device, please check your account for any unauthorized activity, and also make sure that the sign in type used is secure.\n\nSign in type: OAuth\nDevice: Safari on iOS\nLocation: Seattle, United States (98.97.36.169)\nTime: November 05, 7:19 AM PST\n\nTo sign out of this device, open your Kutly account settings."
     }
   ],
   "events": [
@@ -337,7 +337,7 @@
       "where": "2021 Maham Ave, Richland, WA",
       "link": "https://www.google.com/calendar/event?eid=ZmhsbzIxdjZqN2s1OTByMjA4ZXNubTIwZG8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
-      "description": "Full Detail, 2002 Toyota Tundra, Jorge, $199. Work truck. Main goal is seats looking good. No stains. Wants it decently nice for work. Water and electricity yes."
+      "description": "Full Detail, $199. 2002 Toyota Tundra, 5 seats. Water and power on site, no pet hair or stains. Work truck, main goal is getting the seats looking good."
     },
     {
       "title": "Full Detail: Eric (2024 Toyota Venza)",
@@ -347,7 +347,7 @@
       "where": "9400 W 9th Pl, Kennewick, WA",
       "link": "https://www.google.com/calendar/event?eid=amQxczdmdGg2M3ZuYmlzZ3RrbGVoNWkyOHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
-      "description": "Full Detail, 2024 Toyota Venza, Eric, $199. Paying cash. Concerned about cold weather, agreed to 9 AM. Water and electricity yes. Booked Wed Nov 4, 2026."
+      "description": "Full Detail, $199. 2024 Toyota Venza. Water and power on site, no pet hair. Paying cash. Customer worried about cold weather, agreed to 9 AM. Booked Nov 4."
     },
     {
       "title": "Full Detail: Miguel (vehicle TBD)",
@@ -357,7 +357,7 @@
       "where": "3002 Blaine St, Pasco, WA",
       "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
-      "description": "Full Detail, vehicle not provided, Miguel, $199. Water and electricity yes. Pet hair no. Booked Mon Oct 26, 2026."
+      "description": "Full Detail, $199. Vehicle not provided. Water and power on site, no pet hair. Booked Oct 26."
     },
     {
       "title": "Film reels",
@@ -367,7 +367,7 @@
       "where": "",
       "link": "https://www.google.com/calendar/event?eid=ZXMyc3M0YXVsb2xvMG9wbHZqODVnbXZxb2cgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
       "calendar": "personal",
-      "description": "Film block for 3 reels: $3 vs $60 cube, 18 with no employees, lesson one from a real coach. Reshoot weakest if already posted. 2:30 to 4:00 PM Saturday."
+      "description": "Film block for the 3 reels in the week of 11/2 plan, including the $3 cube vs $60 cube video and 18 with no employees. Shot lists are in the Content Plan doc."
     },
     {
       "title": "⛪ Church",
@@ -377,7 +377,7 @@
       "where": "",
       "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDhUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
       "calendar": "personal",
-      "description": "Every Sunday 9 to 11 AM. Standing commitment. No jobs for Caiden personally in this window; a tech covers any Sunday-morning booking."
+      "description": "Every Sunday 9 to 11 AM. Standing commitment, no jobs for Caiden in this window; a tech covers any Sunday morning booking."
     },
     {
       "title": "Reynolds' party",
@@ -404,7 +404,8 @@
       "allDay": false,
       "where": "",
       "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMTFUMjAwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
-      "calendar": "personal"
+      "calendar": "personal",
+      "description": "Hosted by chris@gonextlevelpros.com."
     },
     {
       "title": "Text Seth: confirm Nov 18 detail still works",
@@ -414,7 +415,7 @@
       "where": "",
       "link": "https://www.google.com/calendar/event?eid=MGs5b241ZTQ0OW1wcXM0anRiZThha2RzZ2MgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
       "calendar": "personal",
-      "description": "Send Seth a reminder text asking if the detail still works for Wednesday, Nov 18 at 1:00 PM. Job: Full Detail, Chevy Silverado, 5236 Chris Street, West Richland, WA, $199."
+      "description": "Text Seth to confirm the Full Detail on Wed, Nov 18 at 1 PM still works. Chevy Silverado, 5236 Chris Street, West Richland, $199."
     },
     {
       "title": "Full Detail: Marcus ($50 Travel Fee) (2004 Dodge ram 1500)",
@@ -424,7 +425,7 @@
       "where": "248 Adams court umatilla",
       "link": "https://www.google.com/calendar/event?eid=bHFsNWVhaTE3NGExdmd2ZnFiYmY2aG81am8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
-      "description": "Marcus, $50 travel fee. 2004 Dodge ram 1500. Full Detail $250 at 248 Adams court Umatilla. Water and electricity yes. Booked Oct 29, 2026."
+      "description": "Full Detail, $250 including $50 travel fee. 2004 Dodge Ram 1500, 5 seats. Tech unassigned. Water and power on site, no pet hair or stains."
     }
   ]
 }
