@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-07T02:15:18Z",
+  "generatedAt": "2026-11-07T04:12:25Z",
   "headline": "Caiden, three Full Details start tomorrow at 9 AM, then film reels at 2:30.",
   "items": [
     {
@@ -234,7 +234,7 @@
       "due": "2026-11-09",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ac97b726572e3",
-      "body": "Standard transfer initiated\nInitiated on\nThursday, November 05, 2026\nTransfer Amount\n$169.15\nTransfer transaction ID\n[removed]\nEstimated arrival\nMonday, November 09, 2026\nDestination\nJpmorgan Chase Bank ····6307"
+      "body": "Standard transfer initiated\nInitiated on\nThursday, November 05, 2026\nTransfer Amount\n$169.15\nTransfer transaction ID\n[removed]\nEstimated arrival\nMonday, November 09, 2026\nDestination\nJpmorgan Chase Bank ending in [removed]"
     },
     {
       "id": "1a1ac976d8b1336b",
@@ -352,52 +352,9 @@
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1aa4bd61b1f0d8",
       "body": ""
-    },
-    {
-      "id": "1a1a99be22e1ba4a",
-      "from": "Silver Mountain Resort <marketing@silvermt.com>",
-      "subject": "Winter Is Near❄️",
-      "date": "2026-11-04T21:42:28Z",
-      "category": "Promos",
-      "summary": "Silver Mountain November newsletter with season pass, lodging, and event promos.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1a99be22e1ba4a",
-      "body": ""
     }
   ],
   "events": [
-    {
-      "title": "(Ethan- James ) Full Detail: Ramon (Volkswagen Jetta)",
-      "start": "2026-11-06T15:00:00",
-      "end": "2026-11-06T18:00:00",
-      "allDay": false,
-      "where": "700 Road 32, Trlr 204, Pasco, WA",
-      "link": "https://www.google.com/calendar/event?eid=ZGxla3BsMjd0cWFmNG9yaWxqcGM5djlzY3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
-      "calendar": "business",
-      "description": "Service: Full Detail. Vehicle: Volkswagen Jetta. Customer: Ramon. Price: $199. Water and electricity yes. Pet hair no. Condition: Medium / not bad. Booked: Tue Nov 3, 2026."
-    },
-    {
-      "title": "[Content] Post: Lesson one from a real coach",
-      "start": "2026-11-06T15:30:00",
-      "end": "2026-11-06T15:45:00",
-      "allDay": false,
-      "where": "",
-      "link": "https://www.google.com/calendar/event?eid=ZWUwMHNra2dsZG11a2E2azkwZXE2aGxscGcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
-      "calendar": "personal",
-      "description": "REEL 3 of 3 for the week of 11/2. Post to @thecaidenlee at 3:30 PM Pacific. Hook: I coach kids to sub 10. Here's lesson one. Lesson 1: plan the whole cross in inspection, then solve without looking at it."
-    },
-    {
-      "title": "(Ian) Full Detail: Stephanie (2018 Dodge CARAVAN)",
-      "start": "2026-11-06T16:00:00",
-      "end": "2026-11-06T19:00:00",
-      "allDay": false,
-      "where": "5715 Bedford St",
-      "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
-      "calendar": "business",
-      "description": "Customer: Stephanie. Vehicle: 2018 Dodge CARAVAN (8 seats). Full Detail $249. Quoted 249, can upcharge to 300 day of. Water and electricity yes. Booked Oct 30, 2026."
-    },
     {
       "title": "Full Detail: Jorge (2002 Toyota Tundra)",
       "start": "2026-11-07T09:00:00",
