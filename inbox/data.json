@@ -1,7 +1,20 @@
 {
-  "generatedAt": "2026-11-07T14:15:52Z",
-  "headline": "Three full details start at 9 AM today, then film reels at 2:30 PM. Also, your website Pages deploy has failed three times.",
+  "generatedAt": "2026-11-07T16:10:35Z",
+  "headline": "Caiden, three full details start at 9 AM, then film reels at 2:30. Connell lost to Seton Catholic 35-52.",
   "items": [
+    {
+      "id": "1a1b6c03b58d164f",
+      "from": "MaxPreps <reply@fans.maxpreps-email.com>",
+      "subject": "Score Posted for Connell Varsity Boys Football",
+      "date": "2026-11-07T15:46:15Z",
+      "category": "Updates",
+      "summary": "Connell Eagles varsity football lost to Seton Catholic 35-52 on Friday night.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1b6c03b58d164f",
+      "body": "Score update for Friday, 06 November 2026:\n\nConnell Varsity Boys Football\nConnell Eagles 35\nSeton Catholic Cougars 52\n\nYou are receiving this email because you have selected at least one favorite team on MaxPreps and are opted in to get notifications."
+    },
     {
       "id": "1a1b52a1ab8736c5",
       "from": "Kutly <noreply@kutly.io>",
@@ -39,7 +52,7 @@
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1b36850d631120",
-      "body": "pages build and deployment workflow run for caidenclee/caidenlee-website\n\nWorkflow: pages build and deployment\nDuration: 10 minutes and 47 seconds\nFinished: 2026-11-07 00:28 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42317320786\n\nJobs:\n* build succeeded (2 annotations)\n* deploy failed\n* report-build-status succeeded (1 annotation)"
+      "body": "pages build and deployment workflow run for caidenclee/caidenlee-website\n\nWorkflow: pages build and deployment\nDuration: 10 minutes and 47 seconds\nFinished: 2026-11-07 00:28 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42317320786\n\nJobs:\n* build succeeded (2 annotations)\n* deploy failed (3 annotations)\n* report-build-status succeeded (1 annotation)"
     },
     {
       "id": "1a1b1b4eca18977d",
@@ -313,19 +326,6 @@
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1ac79ea0f6d35b",
       "body": "pages build and deployment workflow run for caidenclee/caidenlee-website\n\nWorkflow: pages build and deployment\nDuration: 48 seconds\nFinished: 2026-11-05 16:10 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42061698361\n\nJobs:\n* build succeeded (2 annotations)\n* deploy failed\n* report-build-status succeeded (1 annotation)"
-    },
-    {
-      "id": "1a1ac4ae397972ab",
-      "from": "Kutly <noreply@kutly.io>",
-      "subject": "New device signed in to your Kutly account",
-      "date": "2026-11-05T15:19:09Z",
-      "category": "Updates",
-      "summary": "Kutly saw a new sign in from Safari on iOS in Seattle on Thursday morning.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1ac4ae397972ab",
-      "body": "A new device just signed in to your Kutly account. If you don't recognize this device, please check your account for any unauthorized activity, and also make sure that the sign in type used is secure.\n\nSign in type: OAuth\nDevice: Safari on iOS\nLocation: Seattle, United States (98.97.36.169)\nTime: November 05, 7:19 AM PST\n\nTo sign out of this device, open your Kutly account settings."
     }
   ],
   "events": [
