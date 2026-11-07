@@ -1,7 +1,20 @@
 {
-  "generatedAt": "2026-11-07T00:17:17Z",
-  "headline": "Caiden, Danielle Venmoed $250 for the Subaru detail, and three Full Details start tomorrow at 9 AM.",
+  "generatedAt": "2026-11-07T02:15:18Z",
+  "headline": "Caiden, three Full Details start tomorrow at 9 AM, then film reels at 2:30.",
   "items": [
+    {
+      "id": "1a1b36850d631120",
+      "from": "caidenclee <notifications@github.com>",
+      "subject": "[caidenclee/caidenlee-website] Run failed: pages build and deployment - main (439126c)",
+      "date": "2026-11-07T00:28:39Z",
+      "category": "Updates",
+      "summary": "GitHub Pages deploy failed on main after the build step succeeded.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1b36850d631120",
+      "body": "[caidenclee/caidenlee-website] pages build and deployment workflow run\n\nRepository: caidenclee/caidenlee-website\nWorkflow: pages build and deployment\nDuration: 10 minutes and 47.0 seconds\nFinished: 2026-11-07 00:28:18 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42317320786\n\nJobs:\n  * build succeeded (2 annotations)\n  * deploy failed (3 annotations)\n  * report-build-status succeeded (1 annotation)"
+    },
     {
       "id": "1a1b1b4eca18977d",
       "from": "caidenclee <notifications@github.com>",
@@ -361,9 +374,9 @@
       "end": "2026-11-06T18:00:00",
       "allDay": false,
       "where": "700 Road 32, Trlr 204, Pasco, WA",
-      "link": "https://www.google.com/calendar/event?eid=ZGxla3BsMjd0cWFmNG9yaWxqcGM5djlzY3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "link": "https://www.google.com/calendar/event?eid=ZGxla3BsMjd0cWFmNG9yaWxqcGM5djlzY3MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
-      "description": "Service: Full Detail. Vehicle: Volkswagen Jetta. Customer: Ramon. Price: $199. Water and electricity yes. Pet hair no. Condition medium. Booked Tue Nov 3, 2026."
+      "description": "Service: Full Detail. Vehicle: Volkswagen Jetta. Customer: Ramon. Price: $199. Water and electricity yes. Pet hair no. Condition: Medium / not bad. Booked: Tue Nov 3, 2026."
     },
     {
       "title": "[Content] Post: Lesson one from a real coach",
@@ -371,9 +384,9 @@
       "end": "2026-11-06T15:45:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=ZWUwMHNra2dsZG11a2E2azkwZXE2aGxscGcgY2FpZGVuY2xlZUBt",
+      "link": "https://www.google.com/calendar/event?eid=ZWUwMHNra2dsZG11a2E2azkwZXE2aGxscGcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
       "calendar": "personal",
-      "description": "REEL 3 of 3 for the week of 11/2. Post to @thecaidenlee at 3:30 PM Pacific. Lesson 1: plan the whole cross in inspection, then solve without looking at it."
+      "description": "REEL 3 of 3 for the week of 11/2. Post to @thecaidenlee at 3:30 PM Pacific. Hook: I coach kids to sub 10. Here's lesson one. Lesson 1: plan the whole cross in inspection, then solve without looking at it."
     },
     {
       "title": "(Ian) Full Detail: Stephanie (2018 Dodge CARAVAN)",
@@ -381,9 +394,9 @@
       "end": "2026-11-06T19:00:00",
       "allDay": false,
       "where": "5715 Bedford St",
-      "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "link": "https://www.google.com/calendar/event?eid=bWxyMzZnb2dqbXU2cjNqc3VqcDg2NjFmNm8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
-      "description": "Customer: Stephanie. Vehicle: 2018 Dodge CARAVAN (8 seats). Full Detail $249. Quoted 249, can upcharge to 300 day of. Water and electricity yes. Pet hair no."
+      "description": "Customer: Stephanie. Vehicle: 2018 Dodge CARAVAN (8 seats). Full Detail $249. Quoted 249, can upcharge to 300 day of. Water and electricity yes. Booked Oct 30, 2026."
     },
     {
       "title": "Full Detail: Jorge (2002 Toyota Tundra)",
@@ -391,9 +404,9 @@
       "end": "2026-11-07T12:00:00",
       "allDay": false,
       "where": "2021 Maham Ave, Richland, WA",
-      "link": "https://www.google.com/calendar/event?eid=ZmhsbzIxdjZqN2s1OTByMjA4ZXNubTIwZG8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "link": "https://www.google.com/calendar/event?eid=ZmhsbzIxdjZqN2s1OTByMjA4ZXNubTIwZG8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
-      "description": "Service: Full Detail. 2002 Toyota Tundra. Customer: Jorge. Price: $199. Work truck, seats looking good is main goal. No stains. Water and electricity yes."
+      "description": "Full Detail, 2002 Toyota Tundra, Jorge, $199. Work truck. Main goal is seats looking good. No stains. Wants it decently nice for work. Water and electricity yes."
     },
     {
       "title": "Full Detail: Eric (2024 Toyota Venza)",
@@ -401,9 +414,9 @@
       "end": "2026-11-07T12:00:00",
       "allDay": false,
       "where": "9400 W 9th Pl, Kennewick, WA",
-      "link": "https://www.google.com/calendar/event?eid=amQxczdmdGg2M3ZuYmlzZ3RrbGVoNWkyOHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "link": "https://www.google.com/calendar/event?eid=amQxczdmdGg2M3ZuYmlzZ3RrbGVoNWkyOHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
-      "description": "Service: Full Detail. 2024 Toyota Venza. Customer: Eric. Price: $199. Paying cash. Concerned about cold weather, agreed to 9 AM. Booked Wed Nov 4, 2026."
+      "description": "Full Detail, 2024 Toyota Venza, Eric, $199. Paying cash. Concerned about cold weather, agreed to 9 AM. Water and electricity yes. Booked Wed Nov 4, 2026."
     },
     {
       "title": "Full Detail: Miguel (vehicle TBD)",
@@ -411,9 +424,9 @@
       "end": "2026-11-07T12:00:00",
       "allDay": false,
       "where": "3002 Blaine St, Pasco, WA",
-      "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "link": "https://www.google.com/calendar/event?eid=a2dqZDV0NWRzNGZqMDJ2YXU3MnZhMmVkcHMgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
-      "description": "Service: Full Detail. Vehicle not provided. Customer: Miguel. Price: $199. Water and electricity yes. Pet hair no. Booked Mon Oct 26, 2026."
+      "description": "Full Detail, vehicle not provided, Miguel, $199. Water and electricity yes. Pet hair no. Booked Mon Oct 26, 2026."
     },
     {
       "title": "Film reels",
@@ -421,17 +434,17 @@
       "end": "2026-11-07T16:00:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=ZXMyc3M0YXVsb2xvMG9wbHZqODVnbXZxb2cgY2FpZGVuY2xlZUBt",
+      "link": "https://www.google.com/calendar/event?eid=ZXMyc3M0YXVsb2xvMG9wbHZqODVnbXZxb2cgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
       "calendar": "personal",
-      "description": "Film block for 3 reels: $3 vs $60 cube, 18 with no employees, Lesson one from a real coach. Shot lists in Content Plan doc."
+      "description": "Film block for 3 reels: $3 vs $60 cube, 18 with no employees, lesson one from a real coach. Reshoot weakest if already posted. 2:30 to 4:00 PM Saturday."
     },
     {
-      "title": "Church",
+      "title": "⛪ Church",
       "start": "2026-11-08T09:00:00",
       "end": "2026-11-08T11:00:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDhUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
+      "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMDhUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
       "calendar": "personal",
       "description": "Every Sunday 9 to 11 AM. Standing commitment. No jobs for Caiden personally in this window; a tech covers any Sunday-morning booking."
     },
@@ -441,7 +454,7 @@
       "end": "2026-11-10T22:00:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=bnJza2oxZjgwZDF1NWtkY3NwNXA2c283NDggY2FpZGVuY2xlZUBt",
+      "link": "https://www.google.com/calendar/event?eid=bnJza2oxZjgwZDF1NWtkY3NwNXA2c283NDggY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
       "calendar": "personal"
     },
     {
@@ -450,7 +463,7 @@
       "end": "2026-11-11T09:30:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMTFUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
+      "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMTFUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
       "calendar": "personal"
     },
     {
@@ -459,7 +472,7 @@
       "end": "2026-11-11T13:30:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMTFUMjAwMDAwWiBjYWlkZW5jbGVlQG0",
+      "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMTFUMjAwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
       "calendar": "personal"
     },
     {
@@ -468,7 +481,7 @@
       "end": "2026-11-11T13:15:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=MGs5b241ZTQ0OW1wcXM0anRiZThha2RzZ2MgY2FpZGVuY2xlZUBt",
+      "link": "https://www.google.com/calendar/event?eid=MGs5b241ZTQ0OW1wcXM0anRiZThha2RzZ2MgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
       "calendar": "personal",
       "description": "Send Seth a reminder text asking if the detail still works for Wednesday, Nov 18 at 1:00 PM. Job: Full Detail, Chevy Silverado, 5236 Chris Street, West Richland, WA, $199."
     },
@@ -478,9 +491,9 @@
       "end": "2026-11-11T17:00:00",
       "allDay": false,
       "where": "248 Adams court umatilla",
-      "link": "https://www.google.com/calendar/event?eid=bHFsNWVhaTE3NGExdmd2ZnFiYmY2aG81am8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "link": "https://www.google.com/calendar/event?eid=bHFsNWVhaTE3NGExdmd2ZnFiYmY2aG81am8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
-      "description": "Customer: Marcus ($50 Travel Fee). 2004 Dodge ram 1500. Full Detail $250. Address: 248 Adams court Umatilla. Water and electricity yes. Pet hair no."
+      "description": "Marcus, $50 travel fee. 2004 Dodge ram 1500. Full Detail $250 at 248 Adams court Umatilla. Water and electricity yes. Booked Oct 29, 2026."
     }
   ]
 }
