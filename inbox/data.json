@@ -1,7 +1,85 @@
 {
-  "generatedAt": "2026-11-08T00:16:23Z",
-  "headline": "Caiden, Angel is wrapping up Jorge's Tundra until 5, and church is tomorrow at 9 AM.",
+  "generatedAt": "2026-11-08T02:12:12Z",
+  "headline": "Caiden, today's details are done, church is tomorrow at 9 AM, and Laurie Dillbeck is booked Monday at 3 PM.",
   "items": [
+    {
+      "id": "1a1b8da003522425",
+      "from": "Eleven Labs Inc. <invoice+statements+acct_1M07hSLmdOdiMXBs@stripe.com>",
+      "subject": "Your receipt from Eleven Labs Inc. #2580-5826-9008",
+      "date": "2026-11-08T01:50:56Z",
+      "category": "Bills & orders",
+      "summary": "ElevenLabs charged $1.08 for the Starter plan first month promo, covering Nov 8 to Dec 8.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1b8da003522425",
+      "body": "Receipt from Eleven Labs Inc. $1.08 Paid on November 8, 2026 with [removed]\n\nReceipt #2580-5826-9008 Nov 8 to Dec 8, 2026\nStarter (per subscription) Qty 1 $6.00\nSubtotal $6.00\nStarter First Month Promo ($5.00 off) -$5.00\nTotal excluding tax $1.00\nSales Tax - Washington (8.1%) $0.08\nTotal $1.08\nAmount paid $1.08"
+    },
+    {
+      "id": "1a1b8d7330c80efd",
+      "from": "ElevenLabs <no-reply@elevenlabs.io>",
+      "subject": "New login from Chrome on MacOS",
+      "date": "2026-11-08T01:47:52Z",
+      "category": "Updates",
+      "summary": "ElevenLabs flagged a new Chrome on MacOS login from Seattle.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1b8d7330c80efd",
+      "body": "We've noticed a login from a device you don't usually use.\n\nNew login from Chrome on MacOS\n\nHi Caiden,\n\nWe've detected a login from a new device on your account, Chrome 155.0 on MacOS. The login was approximately from Seattle, US. If this wasn't you, you can secure your account from your profile settings or contact ElevenLabs support.\n\nBest,\nElevenLabs"
+    },
+    {
+      "id": "1a1b8a33bdfe95ce",
+      "from": "Vanaia <info@vanaia.com>",
+      "subject": "Your fax was successfully sent",
+      "date": "2026-11-08T00:51:07Z",
+      "category": "Updates",
+      "summary": "WiseFax confirmed your fax to +18556416935 was sent successfully.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1b8a33bdfe95ce",
+      "body": "Thank you for choosing WiseFax.\n\nYour fax to number +18556416935 was successfully sent.\n\nFax confirmation will be securely stored for the duration of your subscription. If you cancel, it will be stored for up to 30 days after it was sent.\n\nIf you have any questions, contact support@vanaia.com."
+    },
+    {
+      "id": "1a1b8a065f3e20ac",
+      "from": "Vanaia <info@vanaia.com>",
+      "subject": "Your fax is processing",
+      "date": "2026-11-08T00:47:54Z",
+      "category": "Updates",
+      "summary": "WiseFax said your fax to +18556416935 was being processed.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1b8a065f3e20ac",
+      "body": "Thank you for choosing WiseFax.\n\nYour fax to number +18556416935 is now being processed.\n\nWe will send you a confirmation email as soon as your fax is successfully sent, or a notification if it cannot be sent.\n\nIn most cases it takes up to 15 minutes for a fax to be processed. If your document contains more than 5 pages or many graphics, processing might take longer.\n\nIf you have any questions, contact support@vanaia.com."
+    },
+    {
+      "id": "1a1b89ad80b4d699",
+      "from": "Vanaia Checkout <mailer@fastspring.com>",
+      "subject": "Caiden Lee, here is your receipt for the order VAN261108-8967-11110",
+      "date": "2026-11-08T00:41:57Z",
+      "category": "Bills & orders",
+      "summary": "FastSpring charged $8.71 for a monthly WiseFax number subscription, renewing December 8.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1b89ad80b4d699",
+      "body": "Hello Caiden Lee,\nThank you for your purchase. Below is your product delivery information.\n\nMonthly subscription to fax number, $8.00 x 1\nSubscription renews every 1 month.\nNext charge: 12/8/26 ($8.71).\n\nTax: $0.71\nTotal: $8.71\n\nCharges will appear on your bill as FS *faxpurchase\nOrder Reference: VAN261108-8967-11110"
+    },
+    {
+      "id": "1a1b89ad66bc9529",
+      "from": "Vanaia Checkout <mailer@fastspring.com>",
+      "subject": "Caiden Lee, your subscription to \"Monthly subscription to fax number\" was successfully activated.",
+      "date": "2026-11-08T00:41:57Z",
+      "category": "Bills & orders",
+      "summary": "Your monthly WiseFax fax number subscription was activated and renews December 8.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1b89ad66bc9529",
+      "body": "Hello Caiden Lee,\nYour subscription to \"Monthly subscription to fax number\" was successfully activated.\n\nMonthly subscription to fax number x 1\nSubscription renews every 1 month.\nNext charge: 12/8/26 ($8.71)."
+    },
     {
       "id": "1a1b87c672a32b88",
       "from": "Vanaia <info@vanaia.com>",
@@ -9,7 +87,7 @@
       "date": "2026-11-08T00:08:38Z",
       "category": "Updates",
       "summary": "WiseFax sent an activation link for the account you just registered.",
-      "action": "Activate your WiseFax account",
+      "action": "",
       "due": "",
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1b87c672a32b88",
@@ -196,19 +274,6 @@
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1aea0c71988187",
       "body": ""
-    },
-    {
-      "id": "1a1ae60f8d5723d7",
-      "from": "Venmo <venmo@venmo.com>",
-      "subject": "Your October 2026 transaction history",
-      "date": "2026-11-06T01:02:32Z",
-      "category": "Bills & orders",
-      "summary": "Venmo posted your October 2026 transaction history, which is now ready to review.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1ae60f8d5723d7",
-      "body": "Your October 2026 transaction history is now available.\n\nVenmo sends this notification periodically to help you stay on top of your account activity.\nAs required by law, we are providing you with this notification of your transaction history."
     }
   ],
   "events": [
@@ -340,6 +405,16 @@
       "description": "Service: Full Detail. Vehicle: 2002 Toyota Tundra (5 seats). Customer: Jorge. Price: $199. Work truck. Main goal is getting the seats looking good. No stains."
     },
     {
+      "title": "Full Detail: Laurie Dillbeck (vehicle TBD)",
+      "start": "2026-11-09T15:00:00",
+      "end": "2026-11-09T18:00:00",
+      "allDay": false,
+      "where": "4198 Lolo Way, Richland, WA",
+      "link": "https://www.google.com/calendar/event?eid=bnBtN2s0c3FjcGk1NXJhNWdvMzdlZmU5dGcgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+      "calendar": "business",
+      "description": "Repeat customer from July 2026. Full Detail, $199, vehicle not confirmed (previously an Audi Q3 and boyfriend's Silverado). Tech unassigned."
+    },
+    {
       "title": "Full Detail: Marcus ($50 Travel Fee) (2004 Dodge ram 1500)",
       "start": "2026-11-11T14:00:00",
       "end": "2026-11-11T17:00:00",
@@ -348,6 +423,16 @@
       "link": "https://www.google.com/calendar/event?eid=bHFsNWVhaTE3NGExdmd2ZnFiYmY2aG81am8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
       "description": "Customer: Marcus ($50 Travel Fee). Vehicle: 2004 Dodge ram 1500 (5 seats). Service: Full Detail. Price: $250. Assigned tech: Unassigned. Water and electricity yes. Pet hair no."
+    },
+    {
+      "title": "Full Detail: Michele (Toyota Camry)",
+      "start": "2026-11-12T15:00:00",
+      "end": "2026-11-12T18:00:00",
+      "allDay": false,
+      "where": "6626 Chapel Blvd A103, Pasco, WA",
+      "link": "https://www.google.com/calendar/event?eid=ZGUwMjYwdXBubGpidGZxa2wzMmQxZ3VmbW8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+      "calendar": "business",
+      "description": "Full Detail on a Toyota Camry for Michele, $199 at 6626 Chapel Blvd, Apt A103, Pasco, WA. Water available, electricity on her patio. No pet hair. Tech unassigned."
     }
   ]
 }
