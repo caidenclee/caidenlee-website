@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-11-08T16:17:21Z",
- "headline": "Caiden, church is at 9 AM, and your Walgreens Photo order is still waiting for pickup in Pasco.",
+ "generatedAt": "2026-11-08T18:08:40Z",
+ "headline": "Caiden, Hussein is following up on Adam's cubing coaching session, so reply with a weekend time that works for you.",
  "items": [
+  {
+   "id": "1a1939bbc8386443",
+   "from": "Hussein Nasser <hussein.nasser@gmail.com>",
+   "subject": "Re: Coaching Session",
+   "date": "2026-11-08T16:54:20Z",
+   "category": "Personal",
+   "summary": "Hussein Nasser is following up, asking when you are free for Adam's cubing coaching session. Adam is only free on weekends.",
+   "action": "Reply to Hussein and Adam with a weekend time for the coaching call",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1939bbc8386443",
+   "body": "Hi Caiden,\n\nAny news on your availability please?\n\nHussein"
+  },
   {
    "id": "1a1bba2ab9f266f0",
    "from": "ESPN <espn@mktg.espnmail.com>",
@@ -326,19 +339,6 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1b36850d631120",
    "body": "[caidenclee/caidenlee-website] pages build and deployment workflow run\n\nRepository: caidenclee/caidenlee-website\nWorkflow: pages build and deployment\nDuration: 10 minutes and 47.0 seconds\nFinished: 2026-11-07 00:28:18 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42317320786\n\nJobs:\n  * build succeeded (2 annotations)\n  * deploy failed (3 annotations)\n  * report-build-status succeeded (1 annotation)"
-  },
-  {
-   "id": "1a1b1b4eca18977d",
-   "from": "caidenclee <notifications@github.com>",
-   "subject": "[caidenclee/caidenlee-website] Run failed: pages build and deployment - main (b79facf)",
-   "date": "2026-11-06T16:33:05Z",
-   "category": "Updates",
-   "summary": "An earlier GitHub Pages deploy on main failed after a successful build, commit b79facf.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1b1b4eca18977d",
-   "body": "[caidenclee/caidenlee-website] pages build and deployment workflow run\n\nRepository: caidenclee/caidenlee-website\nWorkflow: pages build and deployment\nDuration: 10 minutes and 42.0 seconds\nFinished: 2026-11-06 16:32:45 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42251705140\n\nJobs:\n  * build succeeded (2 annotations)\n  * report-build-status succeeded (1 annotation)\n  * deploy failed (3 annotations)"
   }
  ],
  "events": [
@@ -458,6 +458,16 @@
    "link": "https://www.google.com/calendar/event?eid=bGRlcDJxMDlqdHJpNWg2MnM4bXVyNmo1OGsgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
    "description": "Film block for the 3 reels in the Content Plan, week of 11/9/2026. 1. World record scramble, best of 5. 2. 42 faster, 0 football, one solve in the jersey."
+  },
+  {
+   "title": "⛪ Church",
+   "start": "2026-11-15T09:00:00",
+   "end": "2026-11-15T11:00:00",
+   "allDay": false,
+   "where": "",
+   "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMTVUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+   "calendar": "personal",
+   "description": "Every Sunday 9 to 11 AM. Standing commitment, no jobs for Caiden personally in this window. A tech covers any Sunday morning booking."
   }
  ]
 }
