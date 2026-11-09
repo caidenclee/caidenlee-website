@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-08T22:08:59Z",
+ "generatedAt": "2026-11-09T00:09:06Z",
  "headline": "Caiden, Hussein is following up on Adam's cubing coaching session, so reply with a weekend time that works for you.",
  "items": [
   {
@@ -326,19 +326,6 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1b520b3c0d70ed",
    "body": "You're receiving this email because you used Sign in with Google to sign in to ElevenLabs on November 7 at 12:29 AM.\n\nThis email summarizes the info you shared. There's nothing you need to do right now.\n\nElevenLabs received this profile info\nCaiden Lee\nName and profile picture\ncaidenclee@gmail.com\nEmail address\n\nIf you want to stop using Sign in with Google with ElevenLabs, go to your Google Account."
-  },
-  {
-   "id": "1a1b36850d631120",
-   "from": "caidenclee <notifications@github.com>",
-   "subject": "[caidenclee/caidenlee-website] Run failed: pages build and deployment - main (439126c)",
-   "date": "2026-11-07T00:28:39Z",
-   "category": "Updates",
-   "summary": "GitHub Pages deploy failed on main after the build succeeded, commit 439126c.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1b36850d631120",
-   "body": "[caidenclee/caidenlee-website] pages build and deployment workflow run\n\nRepository: caidenclee/caidenlee-website\nWorkflow: pages build and deployment\nDuration: 10 minutes and 47.0 seconds\nFinished: 2026-11-07 00:28:18 UTC\n\nView results: https://github.com/caidenclee/caidenlee-website/actions/runs/42317320786\n\nJobs:\n  * build succeeded (2 annotations)\n  * deploy failed (3 annotations)\n  * report-build-status succeeded (1 annotation)"
   }
  ],
  "events": [
