@@ -1,7 +1,33 @@
 {
- "generatedAt": "2026-11-09T18:15:00Z",
+ "generatedAt": "2026-11-09T20:20:00Z",
  "headline": "Hussein offered Nov 21 or 22 for your coaching session, and you have a Dylan and Laurie detail at 3 today.",
  "items": [
+  {
+   "id": "1a1c1ecf603e83c2",
+   "from": "Epidemic Sound <hello@email.epidemicsound.com>",
+   "subject": "An update to our Terms of Use",
+   "date": "2026-11-09T20:08:14Z",
+   "category": "Updates",
+   "summary": "Epidemic Sound is updating its terms of use for EU AI Act transparency rules, effective December 2, 2026.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1c1ecf603e83c2",
+   "body": "Changes relating to the EU AI Act.\n\nWe're updating our terms of use to reflect new transparency rules under the EU AI Act.\n\nContent created or modified with our AI features, such as Adapt and Voices, will carry machine-readable markings, such as metadata and watermarks, that identify it as AI-generated or AI-modified. Please don't intentionally remove or tamper with these markings. Ordinary editing and exporting in your usual tools that incidentally changes metadata is fine.\n\nThe updated terms of use apply from 2 December 2026. If you don't use our AI features, this update doesn't affect how you use Epidemic Sound."
+  },
+  {
+   "id": "1a1c184734570d3e",
+   "from": "caidenclee <notifications@github.com>",
+   "subject": "[caidenclee/caidenlee-website] Run failed: pages build and deployment - main (a083ff9)",
+   "date": "2026-11-09T18:13:21Z",
+   "category": "Updates",
+   "summary": "A GitHub Pages build and deployment run failed for the caidenlee-website repo on main.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1c184734570d3e",
+   "body": "[caidenclee/caidenlee-website] pages build and deployment workflow run\n\nRepository: caidenclee/caidenlee-website\nWorkflow: pages build and deployment\nDuration: 2 minutes and 24.0 seconds\nFinished: 2026-11-09 18:13:01 UTC\n\nJobs: none were run."
+  },
   {
    "id": "1a1c170e0c74f285",
    "from": "Etsy Sellers <email@seller.etsy.com>",
@@ -304,7 +330,7 @@
   {
    "id": "1a1b89ad80b4d699",
    "from": "Vanaia Checkout <mailer@fastspring.com>",
-   "subject": "Caiden Lee, here is your receipt for the order [removed]",
+   "subject": "Caiden Lee, here is your receipt for the order VAN261108-8967-11110",
    "date": "2026-11-08T00:41:57Z",
    "category": "Bills & orders",
    "summary": "FastSpring receipt for your monthly fax number subscription from Vanaia.",
@@ -313,6 +339,45 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1b89ad80b4d699",
    "body": "Hello Caiden Lee, thank you for your purchase. Your order: Monthly subscription to fax number. The subscription renews every month."
+  },
+  {
+   "id": "1a1b89ad66bc9529",
+   "from": "Vanaia Checkout <mailer@fastspring.com>",
+   "subject": "Caiden Lee, your subscription to \"Monthly subscription to fax number\" was successfully activated.",
+   "date": "2026-11-08T00:41:57Z",
+   "category": "Bills & orders",
+   "summary": "Vanaia confirmed your monthly fax number subscription was activated.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1b89ad66bc9529",
+   "body": "Hello Caiden Lee,\n\nYour subscription to \"Monthly subscription to fax number\" was successfully activated."
+  },
+  {
+   "id": "1a1b87c672a32b88",
+   "from": "Vanaia <info@vanaia.com>",
+   "subject": "WiseFax Account Registration",
+   "date": "2026-11-08T00:08:38Z",
+   "category": "Updates",
+   "summary": "WiseFax confirmed your account registration and asked you to activate it with a link.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1b87c672a32b88",
+   "body": "Thank you for creating your WiseFax account. Please follow the link in the original email to activate your new account."
+  },
+  {
+   "id": "1a1b875fedc21712",
+   "from": "Costa Vida Guest Experience <feedback@surveys.costavida.com>",
+   "subject": "Reminder: How was your experience at Pasco - Burden & Convention Pl Costa Vida?",
+   "date": "2026-11-08T00:01:42Z",
+   "category": "Promos",
+   "summary": "Costa Vida in Pasco is reminding you to take a survey about your recent visit.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1b875fedc21712",
+   "body": ""
   }
  ],
  "events": [
