@@ -1,7 +1,46 @@
 {
-  "generatedAt": "2026-11-10T18:12:12Z",
-  "headline": "Hussein is waiting on your coaching availability for Nov 21 or 22, and you have a Corolla detail in Richland at 3 PM today.",
+  "generatedAt": "2026-11-10T20:15:00Z",
+  "headline": "Hussein still needs your coaching availability for Nov 21 or 22, and you have a Corolla detail in Richland at 3 PM today.",
   "items": [
+    {
+      "id": "1a1c6f94e7e04924",
+      "subject": "You're Approved to Preregister for FSY 2027!",
+      "date": "2026-11-10T19:39:49Z",
+      "category": "Updates",
+      "summary": "FSY says Caiden is approved to preregister for the summer 2027 conference, with timing depending on his stake's cycle.",
+      "action": "Check your stake's FSY cycle and preregister",
+      "due": "",
+      "urgent": false,
+      "body": "Dear Caiden,\n\nYou are invited to attend a For the Strength of Youth (FSY) conference in summer 2027. You already have your bishopric's approval to preregister.\n\nIf your stake is on-cycle this year, you can preregister now. If your stake is off-cycle, preregistration opens February 15, 2027.\n\nPreregistration lets you choose preferred sessions and request to be at a session with others using a session link. Use the FSY Dashboard to preregister, find session updates, and edit your registration information.",
+      "from": "noreply-fsy@fsy.churchofjesuschrist.org <noreply-fsy@fsy.churchofjesuschrist.org>",
+      "link": "https://mail.google.com/mail/#all/1a1c6f94e7e04924"
+    },
+    {
+      "id": "1a1c6c47da26a5e7",
+      "subject": "CASE STUDIES LIVE | Jonathan Ord - 11/18",
+      "date": "2026-11-10T18:42:02Z",
+      "category": "Promos",
+      "summary": "Sandlot Events promotes a live Case Studies chat with Jonathan Ord on Nov 18 at The Sandlot in San Clemente.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "body": "",
+      "from": "Sandlot Events <events@sandlotpartners.com>",
+      "link": "https://mail.google.com/mail/#all/1a1c6c47da26a5e7"
+    },
+    {
+      "id": "1a1c6ab1aca52828",
+      "subject": "RE: @cubercaiden ​quick ​merch math",
+      "date": "2026-11-10T18:14:18Z",
+      "category": "Promos",
+      "summary": "Fourthwall's partnerships rep follows up offering sample credits to try their creator merch platform before launch.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "body": "",
+      "from": "Alejandro Negrete <alejandro@fourthwall-creatorstech.com>",
+      "link": "https://mail.google.com/mail/#all/1a1c6ab1aca52828"
+    },
     {
       "id": "1a1c5d5ebd7ea713",
       "from": "caidenclee <notifications@github.com>",
@@ -335,7 +374,7 @@
       "end": "2026-11-10T19:00:00",
       "allDay": false,
       "where": "1529 McPherson Ave, Richland, WA",
-      "link": "https://www.google.com/calendar/event?eid=amdlOXEwdWxoazlqYWRsc3QzcDVuMjIwZTAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "link": "https://www.google.com/calendar/event?eid=amdlOXEwdWxoazlqYWRsc3QzcDVuMjIwZTAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
       "description": "Customer: Jason. Vehicle: Toyota Corolla. Service: Full Detail + pet hair removal. Price: $249."
     },
@@ -345,7 +384,7 @@
       "end": "2026-11-10T22:00:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=bnJza2oxZjgwZDF1NWtkY3NwNXA2c283NDggY2FpZGVuY2xlZUBt",
+      "link": "https://www.google.com/calendar/event?eid=bnJza2oxZjgwZDF1NWtkY3NwNXA2c283NDggY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
       "calendar": "personal"
     },
     {
@@ -354,7 +393,7 @@
       "end": "2026-11-11T09:30:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMTFUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
+      "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMTFUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
       "calendar": "personal"
     },
     {
@@ -363,7 +402,7 @@
       "end": "2026-11-11T13:30:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMTFUMjAwMDAwWiBjYWlkZW5jbGVlQG0",
+      "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMTFUMjAwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
       "calendar": "personal"
     },
     {
@@ -372,7 +411,7 @@
       "end": "2026-11-11T13:15:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=MGs5b241ZTQ0OW1wcXM0anRiZThha2RzZ2MgY2FpZGVuY2xlZUBt",
+      "link": "https://www.google.com/calendar/event?eid=MGs5b241ZTQ0OW1wcXM0anRiZThha2RzZ2MgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
       "calendar": "personal",
       "description": "Send Seth a reminder text asking if the detail still works for Wednesday, Nov 18 at 1:00 PM. Job: Full Detail, Chevy Silverado, West Richland, $199."
     },
@@ -382,7 +421,7 @@
       "end": "2026-11-11T17:00:00",
       "allDay": false,
       "where": "248 Adams court umatilla",
-      "link": "https://www.google.com/calendar/event?eid=bHFsNWVhaTE3NGExdmd2ZnFiYmY2aG81am8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "link": "https://www.google.com/calendar/event?eid=bHFsNWVhaTE3NGExdmd2ZnFiYmY2aG81am8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
       "description": "Customer: Marcus. Vehicle: 2004 Dodge Ram 1500. Service: Full Detail. Price: $250. Tech: Unassigned. Water and electricity available."
     },
@@ -392,7 +431,7 @@
       "end": "2026-11-11T15:45:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=YmFnaTJxcjdsbnRyZW8xbDBtcHZmNmFibWcgY2FpZGVuY2xlZUBt",
+      "link": "https://www.google.com/calendar/event?eid=YmFnaTJxcjdsbnRyZW8xbDBtcHZmNmFibWcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
       "calendar": "personal",
       "description": "Reel 2 of 3, week of 11/9/2026. Format: Spectacle. One solve in the jersey, two numbers on one label card."
     },
@@ -402,7 +441,7 @@
       "end": "2026-11-12T18:00:00",
       "allDay": false,
       "where": "6626 Chapel Blvd A103, Pasco, WA",
-      "link": "https://www.google.com/calendar/event?eid=ZGUwMjYwdXBubGpidGZxa2wzMmQxZ3VmbW8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "link": "https://www.google.com/calendar/event?eid=ZGUwMjYwdXBubGpidGZxa2wzMmQxZ3VmbW8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
       "description": "Customer: Michele. Vehicle: Toyota Camry. Service: Full Detail. Price: $199. Tech: Unassigned. Water and electricity available."
     },
@@ -412,7 +451,7 @@
       "end": "2026-11-12T18:00:00",
       "allDay": false,
       "where": "2301 W 4th Pl, Kennewick, WA",
-      "link": "https://www.google.com/calendar/event?eid=aTZ1cGQyb2hwbThrNmNlNjNzaGpjbjQ0OWsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "link": "https://www.google.com/calendar/event?eid=aTZ1cGQyb2hwbThrNmNlNjNzaGpjbjQ0OWsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
       "description": "Customer: Garrett. Vehicle: Mercury sedan, about 2008. Service: Full Detail. Price: $200. Tech: Unassigned."
     },
@@ -422,7 +461,7 @@
       "end": "2026-11-13T15:45:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=MGR1ZGo0dmlnbWxibmZ1YWgxbWQxajQwZGMgY2FpZGVuY2xlZUBt",
+      "link": "https://www.google.com/calendar/event?eid=MGR1ZGo0dmlnbWxibmZ1YWgxbWQxajQwZGMgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
       "calendar": "personal",
       "description": "Reel 3 of 3, week of 11/9/2026. Screen recording into talking head."
     },
@@ -432,19 +471,19 @@
       "end": "2026-11-14T16:00:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=bGRlcDJxMDlqdHJpNWg2MnM4bXVyNmo1OGsgY2FpZGVuY2xlZUBt",
+      "link": "https://www.google.com/calendar/event?eid=bGRlcDJxMDlqdHJpNWg2MnM4bXVyNmo1OGsgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
       "calendar": "personal",
       "description": "Film block for the 3 reels in the Content Plan, week of 11/9/2026."
     },
     {
-      "title": "Church",
+      "title": "⛪ Church",
       "start": "2026-11-15T09:00:00",
       "end": "2026-11-15T11:00:00",
       "allDay": false,
       "where": "",
-      "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMTVUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
+      "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMTVUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
       "calendar": "personal",
-      "description": "Every Sunday 9 to 11 AM. Standing commitment."
+      "description": "Every Sunday 9,11 AM. Standing commitment , no jobs for Caiden personally in this window; a tech covers any Sunday-morning booking."
     },
     {
       "title": "Flight to Austin (DL 848)",
@@ -452,7 +491,7 @@
       "end": "2026-11-15T21:57:00",
       "allDay": false,
       "where": "Seattle SEA",
-      "link": "https://www.google.com/calendar/event?eid=dDJicmFvbGs2c2s2bDRraDdzaHNqZ2RrOTQgY2FpZGVuY2xlZUBt",
+      "link": "https://www.google.com/calendar/event?eid=dDJicmFvbGs2c2s2bDRraDdzaHNqZ2RrOTQgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
       "calendar": "personal"
     },
     {
@@ -461,7 +500,7 @@
       "end": "2026-11-16T18:00:00",
       "allDay": false,
       "where": "6119 W Court St, Pasco, WA 99301",
-      "link": "https://www.google.com/calendar/event?eid=bHNuMjhvbTY3am9zNWowaTJpcWQ0dGxvamsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "link": "https://www.google.com/calendar/event?eid=bHNuMjhvbTY3am9zNWowaTJpcWQ0dGxvamsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
       "description": "Customer: Dylan. Vehicle: 2017 Ford Explorer. Service: Full Detail. Price: $199 special."
     },
@@ -471,7 +510,7 @@
       "end": "2026-11-16T18:00:00",
       "allDay": false,
       "where": "4510 S Everett Street, Kennewick, WA",
-      "link": "https://www.google.com/calendar/event?eid=aXNobTFvdDByaWlyZTd0ZXNvaWc0ZzMxYTQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "link": "https://www.google.com/calendar/event?eid=aXNobTFvdDByaWlyZTd0ZXNvaWc0ZzMxYTQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
       "description": "Customer: Cecilia. Vehicle: 2025 Toyota Highlander Platinum. Price: $250 standard."
     },
@@ -480,8 +519,8 @@
       "start": "2026-11-16T16:00:00",
       "end": "2026-11-16T18:00:00",
       "allDay": false,
-      "where": "4510 S Everett Street, Kennewick, WA (next door, exact address TBD)",
-      "link": "https://www.google.com/calendar/event?eid=cHJiOHBpOGVyMW45bjE3MDlrYjVkcXFiM2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+      "where": "4510 S Everett Street, Kennewick, WA (next door neighbor, exact address TBD)",
+      "link": "https://www.google.com/calendar/event?eid=cHJiOHBpOGVyMW45bjE3MDlrYjVkcXFiM2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
       "calendar": "business",
       "description": "Customer: Cecilia's next door neighbor. Vehicle: 2022 Kia Telluride. Service: Full Detail. Price: $199 standard."
     }
