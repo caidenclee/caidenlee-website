@@ -1,7 +1,46 @@
 {
- "generatedAt": "2026-11-10T04:16:48Z",
+ "generatedAt": "2026-11-10T06:12:09Z",
  "headline": "Hi Caiden, reply to Hussein about coaching on Nov 21 or 22, and your first Badger job tomorrow is Jason at 3 PM.",
  "items": [
+  {
+   "id": "1a1c3eb108230f50",
+   "from": "Paper Animators <accounts@paperanimators.com>",
+   "subject": "Your Paper Animators account is active, optional email confirmation",
+   "date": "2026-11-10T05:25:23Z",
+   "category": "Updates",
+   "summary": "Your Paper Animators account is active, and confirming your email is optional and does not affect exports.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1c3eb108230f50",
+   "body": "Your account is active. You can sign in and export animations using your available plan allowance. Confirming this email address is optional and does not unlock or limit exports.\n\nThis link expires in 24 hours. You can return to the website and export at any time. Unsaved animations are not stored on our server.\n\nIf you did not request this, ignore this email."
+  },
+  {
+   "id": "1a1c3e2aec89a51c",
+   "from": "ElevenLabs <no-reply@elevenlabs.io>",
+   "subject": "New login from Safari on iPhone",
+   "date": "2026-11-10T05:16:14Z",
+   "category": "Updates",
+   "summary": "ElevenLabs noticed a login to your account from Safari on an iPhone.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1c3e2aec89a51c",
+   "body": "We've detected a login from a new device on your account, Safari on iPhone. If this wasn't you, you can secure your account from your profile settings or contact ElevenLabs support."
+  },
+  {
+   "id": "1a1c3c4bec712457",
+   "from": "ElevenLabs <no-reply@elevenlabs.io>",
+   "subject": "New login from Chrome on MacOS",
+   "date": "2026-11-10T04:43:32Z",
+   "category": "Updates",
+   "summary": "ElevenLabs noticed a login to your account from Chrome on a Mac.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1c3c4bec712457",
+   "body": "We've detected a login from a new device on your account, Chrome on MacOS. If this wasn't you, you can secure your account from your profile settings or contact ElevenLabs support."
+  },
   {
    "id": "1a1c3654c01e93e9",
    "from": "Venmo <venmo@venmo.com>",
@@ -352,45 +391,6 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1ba4348533708a",
    "body": "Hi Caiden Lee, your ID is verified. You can now use advanced YouTube features. To keep using these features, you'll need to follow the Community Guidelines and maintain a positive standing."
-  },
-  {
-   "id": "1a1b958807287db8",
-   "from": "Walgreens Photo <walgreens@mktx.walgreens.com>",
-   "subject": "Your Walgreens Photo order is ready.",
-   "date": "2026-11-08T04:09:07Z",
-   "category": "Bills & orders",
-   "summary": "An earlier Walgreens Photo order is ready for pickup.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1b958807287db8",
-   "body": "Hi Caiden, your Walgreens Photo order is ready. Swing by the store anytime to pick it up."
-  },
-  {
-   "id": "1a1b9499b2f2cc8b",
-   "from": "Walgreens Photo <walgreens@mktx.walgreens.com>",
-   "subject": "Order confirmed: That’s going to look GOOD!",
-   "date": "2026-11-08T03:52:51Z",
-   "category": "Bills & orders",
-   "summary": "Walgreens confirmed an earlier photo order and started working on it.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1b9499b2f2cc8b",
-   "body": "Good going placing that order with Walgreens Photo! We've already started working and will keep you posted on your order's progress. Thanks for your order, Caiden!"
-  },
-  {
-   "id": "1a1b94998d8e3366",
-   "from": "Walgreens <walgreens@mktx.walgreens.com>",
-   "subject": "Complete Your Online Registration for Access to Photo Deals & Perks",
-   "date": "2026-11-08T03:52:50Z",
-   "category": "Promos",
-   "summary": "Walgreens invites you to finish creating an online account for photo deals and perks.",
-   "action": "",
-   "due": "",
-   "urgent": false,
-   "link": "https://mail.google.com/mail/#all/1a1b94998d8e3366",
-   "body": ""
   }
  ],
  "events": [
