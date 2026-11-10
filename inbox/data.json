@@ -1,7 +1,46 @@
 {
-  "generatedAt": "2026-11-10T00:17:02Z",
-  "headline": "Hi Caiden, reply to Hussein about coaching on Nov 21 or 22, grab your Walgreens photo order, and your Badger jobs start today at 3 PM.",
+  "generatedAt": "2026-11-10T02:14:07Z",
+  "headline": "Hi Caiden, reply to Hussein about coaching on Nov 21 or 22, and your first Badger job tomorrow is Jason at 3 PM.",
   "items": [
+    {
+      "id": "1a1c3166bc26ea06",
+      "subject": "👤 Someone at YouTube you may know",
+      "date": "2026-11-10T01:33:05Z",
+      "category": "Updates",
+      "summary": "LinkedIn suggests a YouTube creator you may know.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1c3166bc26ea06",
+      "body": "",
+      "from": "Jordan Welch on LinkedIn <messages-noreply@linkedin.com>"
+    },
+    {
+      "id": "1a1c30e77fca4830",
+      "subject": "How was your experience at Deseret Book?",
+      "date": "2026-11-10T01:24:25Z",
+      "category": "Promos",
+      "summary": "Deseret Book asks you to review your recent purchase.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1c30e77fca4830",
+      "body": "",
+      "from": "Deseret Book <reviews@yotpo.com>"
+    },
+    {
+      "id": "1a1c2f0166ea484e",
+      "subject": "⭐ ⭐ ⭐ ⭐ ⭐  How many stars would you give WiseFax?",
+      "date": "2026-11-10T00:51:15Z",
+      "category": "Promos",
+      "summary": "WiseFax asks you to rate your recent purchase on Trustpilot.",
+      "action": "",
+      "due": "",
+      "urgent": false,
+      "link": "https://mail.google.com/mail/#all/1a1c2f0166ea484e",
+      "body": "",
+      "from": "Wisefax <noreply.invitations@trustpilotmail.com>"
+    },
     {
       "id": "1a1c28e39717f3a5",
       "from": "Andrea Heintzelman <andrea.heintzelman@missionary.org>",
@@ -326,97 +365,9 @@
       "urgent": false,
       "link": "https://mail.google.com/mail/#all/1a1b94998d8e3366",
       "body": ""
-    },
-    {
-      "id": "1a1b8da003522425",
-      "from": "\"Eleven Labs Inc.\" <invoice+statements@stripe.com>",
-      "subject": "Your receipt from Eleven Labs Inc. [removed]",
-      "date": "2026-11-08T01:50:56Z",
-      "category": "Bills & orders",
-      "summary": "Stripe sent your receipt for a payment to Eleven Labs.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1b8da003522425",
-      "body": "Your receipt from Eleven Labs Inc. is available in the original email."
-    },
-    {
-      "id": "1a1b8d7330c80efd",
-      "from": "ElevenLabs <no-reply@elevenlabs.io>",
-      "subject": "New login from Chrome on MacOS",
-      "date": "2026-11-08T01:47:52Z",
-      "category": "Updates",
-      "summary": "ElevenLabs noticed a login from Chrome on MacOS, a device you do not usually use.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1b8d7330c80efd",
-      "body": "We've noticed a login from a device you don't usually use: Chrome on MacOS. If this was you, no action is needed."
-    },
-    {
-      "id": "1a1b8a33bdfe95ce",
-      "from": "Vanaia <info@vanaia.com>",
-      "subject": "Your fax was successfully sent",
-      "date": "2026-11-08T00:51:07Z",
-      "category": "Updates",
-      "summary": "WiseFax confirms your fax was sent successfully.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1b8a33bdfe95ce",
-      "body": "Thank you for choosing WiseFax. Your fax was successfully sent. Fax confirmation will be securely stored for the duration of your subscription and you can download it from your account."
-    },
-    {
-      "id": "1a1b8a065f3e20ac",
-      "from": "Vanaia <info@vanaia.com>",
-      "subject": "Your fax is processing",
-      "date": "2026-11-08T00:47:54Z",
-      "category": "Updates",
-      "summary": "WiseFax says your fax is being processed.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1b8a065f3e20ac",
-      "body": "Thank you for choosing WiseFax. Your fax is now being processed. You can check its status from your WiseFax account."
-    },
-    {
-      "id": "1a1b89ad80b4d699",
-      "from": "Vanaia Checkout <mailer@fastspring.com>",
-      "subject": "Caiden Lee, here is your receipt for the order [removed]",
-      "date": "2026-11-08T00:41:57Z",
-      "category": "Bills & orders",
-      "summary": "FastSpring sent the receipt for your monthly fax number subscription from Vanaia.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1b89ad80b4d699",
-      "body": "Hello Caiden Lee, thank you for your purchase. Your order: Monthly subscription to fax number. The subscription renews every month."
-    },
-    {
-      "id": "1a1b89ad66bc9529",
-      "from": "Vanaia Checkout <mailer@fastspring.com>",
-      "subject": "Caiden Lee, your subscription to \"Monthly subscription to fax number\" was successfully activated.",
-      "date": "2026-11-08T00:41:57Z",
-      "category": "Updates",
-      "summary": "FastSpring confirms your monthly fax number subscription is active.",
-      "action": "",
-      "due": "",
-      "urgent": false,
-      "link": "https://mail.google.com/mail/#all/1a1b89ad66bc9529",
-      "body": "Hello Caiden Lee, your subscription to \"Monthly subscription to fax number\" was successfully activated."
     }
   ],
   "events": [
-    {
-      "title": "(Talib) Full Detail: Laurie Dillbeck (vehicle TBD)",
-      "start": "2026-11-09T15:00:00",
-      "end": "2026-11-09T18:00:00",
-      "allDay": false,
-      "where": "4198 Lolo Way, Richland, WA",
-      "link": "https://www.google.com/calendar/event?eid=bnBtN2s0c3FjcGk1NXJhNWdvMzdlZmU5dGcgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
-      "calendar": "business",
-      "description": "Repeat customer Laurie Dillbeck. Full Detail, $199. Vehicle not confirmed. Assigned tech field says unassigned."
-    },
     {
       "title": "Full Detail + Pet Hair: Jason (Toyota Corolla)",
       "start": "2026-11-10T15:00:00",
@@ -553,6 +504,26 @@
       "link": "https://www.google.com/calendar/event?eid=bHNuMjhvbTY3am9zNWowaTJpcWQ0dGxvamsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
       "calendar": "business",
       "description": "Full Detail on a 2017 Ford Explorer (treat as 5 seater), $199 special. Condition good. Water and electricity available."
+    },
+    {
+      "title": "Full Detail: Cecilia (2025 Toyota Highlander Platinum)",
+      "start": "2026-11-16T16:00:00",
+      "end": "2026-11-16T18:00:00",
+      "allDay": false,
+      "where": "4510 S Everett Street, Kennewick, WA",
+      "link": "https://www.google.com/calendar/event?eid=aXNobTFvdDByaWlyZTd0ZXNvaWc0ZzMxYTQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+      "calendar": "business",
+      "description": "Full detail, $250 standard. Pet hair no, deep stains no, water and electricity available. Customer says it is basically a new car."
+    },
+    {
+      "title": "Full Detail: Cecilia's neighbor (2022 Kia Telluride)",
+      "start": "2026-11-16T16:00:00",
+      "end": "2026-11-16T18:00:00",
+      "allDay": false,
+      "where": "4510 S Everett Street, Kennewick, WA (next door neighbor, exact address TBD)",
+      "link": "https://www.google.com/calendar/event?eid=cHJiOHBpOGVyMW45bjE3MDlrYjVkcXFiM2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
+      "calendar": "business",
+      "description": "Full detail, $199 standard, not yet quoted. Neighbor's name and phone not collected yet."
     }
   ]
 }
