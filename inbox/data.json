@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-11T04:10:05Z",
+ "generatedAt": "2026-11-11T06:16:04Z",
  "headline": "Hey Caiden, tomorrow has a 9 AM call with Lucien and a business lunch at noon, and your Thursday details are still unassigned to a tech.",
  "items": [
   {
@@ -330,21 +330,21 @@
  ],
  "events": [
   {
-   "title": "Reynolds' party",
-   "start": "2026-11-10T19:00:00",
-   "end": "2026-11-10T22:00:00",
-   "allDay": false,
-   "where": "",
-   "link": "https://www.google.com/calendar/event?eid=bnJza2oxZjgwZDF1NWtkY3NwNXA2c283NDggY2FpZGVuY2xlZUBt",
-   "calendar": "personal"
-  },
-  {
    "title": "Call with Lucien",
    "start": "2026-11-11T09:00:00",
    "end": "2026-11-11T09:30:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMTFUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
+   "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMTFUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+   "calendar": "personal"
+  },
+  {
+   "title": "Max Air",
+   "start": "2026-11-11T12:00:00",
+   "end": "2026-11-11T13:00:00",
+   "allDay": false,
+   "where": "Max Air Trampoline Park, 731 N Columbia Center Blvd #100a, Kennewick, WA 99336",
+   "link": "https://www.google.com/calendar/event?eid=OHFhNDNtOGg5MWwwZzRzdG82c3RnZWZoaTggY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal"
   },
   {
@@ -353,7 +353,7 @@
    "end": "2026-11-11T13:30:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMTFUMjAwMDAwWiBjYWlkZW5jbGVlQG0",
+   "link": "https://www.google.com/calendar/event?eid=XzhrcWo0ZTFnNzRzajBiYTE2a28zMGI5azhkMWs2YmExOGgyM2NiYTY2bDMzZWRwbzYxMmpjZDltODhfMjAyNjExMTFUMjAwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal"
   },
   {
@@ -362,19 +362,19 @@
    "end": "2026-11-11T13:15:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=MGs5b241ZTQ0OW1wcXM0anRiZThha2RzZ2MgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=MGs5b241ZTQ0OW1wcXM0anRiZThha2RzZ2MgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
-   "description": "Send Seth a reminder text asking if the detail still works for Wednesday, Nov 18 at 1:00 PM. Job: Full Detail, Chevy Silverado, West Richland, $199."
+   "description": "Send Seth a reminder text asking if the detail still works for Wednesday, Nov 18 at 1:00 PM. Job: Full Detail, Chevy Silverado, 5236 Chris Street, West Richland, WA, $199."
   },
   {
-   "title": "(Cancelled) Full Detail: Marcus (2004 Dodge Ram 1500)",
+   "title": "(⚠️Cancelled) Full Detail: Marcus ($50 Travel Fee) (2004 Dodge ram 1500)",
    "start": "2026-11-11T14:00:00",
    "end": "2026-11-11T17:00:00",
    "allDay": false,
    "where": "248 Adams court umatilla",
-   "link": "https://www.google.com/calendar/event?eid=bHFsNWVhaTE3NGExdmd2ZnFiYmY2aG81am8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=bHFsNWVhaTE3NGExdmd2ZnFiYmY2aG81am8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Cancelled. Full Detail, $250, tech unassigned."
+   "description": "Customer: Marcus ($50 Travel Fee) Phone:[removed] Vehicle: 2004 Dodge ram 1500 (5 seats) Service: Full Detail Price: $250 Address: 248 Adams court umatilla Assigned tech: Unassigned Pet hair? No Water access? Yes Electricity access? Yes Deep stains? No Notes: none Booked on"
   },
   {
    "title": "[Content] Post: 42 Americans are faster than me. None of them play football.",
@@ -382,9 +382,9 @@
    "end": "2026-11-11T15:45:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=YmFnaTJxcjdsbnRyZW8xbDBtcHZmNmFibWcgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=YmFnaTJxcjdsbnRyZW8xbDBtcHZmNmFibWcgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
-   "description": "Reel 2 of 3 for the week of 11/9. Spectacle format: one solve in the jersey, two numbers on one label card."
+   "description": "REEL 2 of 3, week of 11/9/2026. Source: Hook Bank 11/6/2026, hook 2. HOOK (opening line): 42 Americans are faster than me. None of them play football. FORMAT: Spectacle. One solve in the jersey, two numbers on one label card, the pattern behind the 107K and 17K reels. SHOT LIS"
   },
   {
    "title": "Full Detail: Michele (Toyota Camry)",
@@ -392,9 +392,9 @@
    "end": "2026-11-12T18:00:00",
    "allDay": false,
    "where": "6626 Chapel Blvd A103, Pasco, WA",
-   "link": "https://www.google.com/calendar/event?eid=ZGUwMjYwdXBubGpidGZxa2wzMmQxZ3VmbW8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=ZGUwMjYwdXBubGpidGZxa2wzMmQxZ3VmbW8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail, $199, tech unassigned. Water and electricity available."
+   "description": "Customer: Michele Phone:[removed] Vehicle: Toyota Camry (year not provided) Service: Full Detail Price: $199 Address: 6626 Chapel Blvd, Apt A103, Pasco, WA Assigned tech: Unassigned Pet hair? No Water access? Yes Electricity access? Yes (outlet on her patio, right where sh"
   },
   {
    "title": "Full Detail: Garrett (2008 Mercury)",
@@ -402,9 +402,9 @@
    "end": "2026-11-12T18:00:00",
    "allDay": false,
    "where": "2301 W 4th Pl, Kennewick, WA",
-   "link": "https://www.google.com/calendar/event?eid=aTZ1cGQyb2hwbThrNmNlNjNzaGpjbjQ0OWsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=aTZ1cGQyb2hwbThrNmNlNjNzaGpjbjQ0OWsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail, $200 special, tech unassigned. Customer unsure of exact year."
+   "description": "Customer: Garrett Phone:[removed] Vehicle: Mercury sedan, approx. 2008 (customer unsure of year; maroon, likely Milan or Sable), 5 seater not confirmed Service: Full Detail Price: $200 (customer quoted the $200 special) Address: 2301 W 4th Pl, Kennewick, WA Assigned tech: U"
   },
   {
    "title": "Full Detail + Pet Hair: Jason (Toyota Corolla)",
@@ -412,9 +412,9 @@
    "end": "2026-11-13T19:00:00",
    "allDay": false,
    "where": "1529 McPherson Ave, Richland, WA",
-   "link": "https://www.google.com/calendar/event?eid=amdlOXEwdWxoazlqYWRsc3QzcDVuMjIwZTAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=amdlOXEwdWxoazlqYWRsc3QzcDVuMjIwZTAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail plus pet hair removal, $249 agreed in writing."
+   "description": "Customer: Jason Phone:[removed] Vehicle: Toyota Corolla (year not provided) Service: Full Detail + pet hair removal Price: $249 ($199 detail + $50 pet hair removal, agreed in writing) Address: 1529 McPherson Ave, Richland, WA (city not stated by customer, assumed Richland;"
   },
   {
    "title": "[Content] Post: My AI agents had a meeting about me. I wasn't invited.",
@@ -422,9 +422,9 @@
    "end": "2026-11-13T15:45:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=MGR1ZGo0dmlnbWxibmZ1YWgxbWQxajQwZGMgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=MGR1ZGo0dmlnbWxibmZ1YWgxbWQxajQwZGMgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
-   "description": "Reel 3 of 3 for the week of 11/9. Screen recording into talking head."
+   "description": "REEL 3 of 3, week of 11/9/2026. Source: Hook Bank 11/6/2026, hook 4. HOOK (opening line): My AI agents had a meeting about me. I wasn't invited. FORMAT: Screen recording into talking head. Show the agents doing something real, then react. Funnier than explaining it. SHOT LIST"
   },
   {
    "title": "Film reels",
@@ -432,9 +432,9 @@
    "end": "2026-11-14T16:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=bGRlcDJxMDlqdHJpNWg2MnM4bXVyNmo1OGsgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=bGRlcDJxMDlqdHJpNWg2MnM4bXVyNmo1OGsgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal",
-   "description": "Film block for the 3 reels in the Content Plan, week of 11/9."
+   "description": "Film block for the 3 reels in the Content Plan, week of 11/9/2026. Slot was free, no move needed. 1. The world record scramble: best of 5 on the exact 2.51 WR scramble, times stacked on screen. Label: WR SCRAMBLE, MY TIME. 2. 42 faster, 0 football: one solve in the jersey, big 4"
   },
   {
    "title": "⛪ Church",
@@ -442,9 +442,9 @@
    "end": "2026-11-15T11:00:00",
    "allDay": false,
    "where": "",
-   "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMTVUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
+   "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMTVUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
    "calendar": "personal",
-   "description": "Every Sunday 9 to 11 AM. A tech covers any Sunday-morning booking."
+   "description": "Every Sunday 9,11 AM. Standing commitment , no jobs for Caiden personally in this window; a tech covers any Sunday-morning booking."
   },
   {
    "title": "Flight to Austin (DL 848)",
@@ -452,7 +452,7 @@
    "end": "2026-11-15T21:57:00",
    "allDay": false,
    "where": "Seattle SEA",
-   "link": "https://www.google.com/calendar/event?eid=dDJicmFvbGs2c2s2bDRraDdzaHNqZ2RrOTQgY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=dDJicmFvbGs2c2s2bDRraDdzaHNqZ2RrOTQgY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal"
   },
   {
@@ -461,9 +461,9 @@
    "end": "2026-11-16T18:00:00",
    "allDay": false,
    "where": "6119 W Court St, Pasco, WA 99301",
-   "link": "https://www.google.com/calendar/event?eid=bHNuMjhvbTY3am9zNWowaTJpcWQ0dGxvamsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=bHNuMjhvbTY3am9zNWowaTJpcWQ0dGxvamsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail, $199 special. Water and electricity available."
+   "description": "Customer: Dylan Phone:[removed] Vehicle: 2017 Ford Explorer (treat as a 5 seater) Service: Full Detail Price: $199 special Address: 6119 W Court St, Pasco, WA 99301 Assigned tech: Unassigned Pet hair? No Water access? Yes Electricity access? Yes Notes: Condition good. 3RD"
   },
   {
    "title": "Full Detail: Cecilia (2025 Toyota Highlander Platinum)",
@@ -471,19 +471,19 @@
    "end": "2026-11-16T18:00:00",
    "allDay": false,
    "where": "4510 S Everett Street, Kennewick, WA",
-   "link": "https://www.google.com/calendar/event?eid=aXNobTFvdDByaWlyZTd0ZXNvaWc0ZzMxYTQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "link": "https://www.google.com/calendar/event?eid=aXNobTFvdDByaWlyZTd0ZXNvaWc0ZzMxYTQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail, $250 standard. Nearly new car."
+   "description": "Customer: Cecilia ([removed]) Vehicle: 2025 Toyota Highlander Platinum Price: $250 standard Verification answers: - Pet hair: No - Deep stains: No - Water access: Yes - Electricity access: Yes Notes: Customer says it's basically a new car. She's traveling (Utah then Monta"
   },
   {
    "title": "Full Detail: Cecilia's neighbor (2022 Kia Telluride)",
    "start": "2026-11-16T16:00:00",
    "end": "2026-11-16T18:00:00",
    "allDay": false,
-   "where": "4510 S Everett Street, Kennewick, WA (next door, exact address TBD)",
-   "link": "https://www.google.com/calendar/event?eid=cHJiOHBpOGVyMW45bjE3MDlrYjVkcXFiM2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "where": "4510 S Everett Street, Kennewick, WA (next door neighbor, exact address TBD)",
+   "link": "https://www.google.com/calendar/event?eid=cHJiOHBpOGVyMW45bjE3MDlrYjVkcXFiM2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn&ctz=America/Los_Angeles",
    "calendar": "business",
-   "description": "Full Detail, $199 standard, not yet quoted. Neighbor's details still to be collected."
+   "description": "Service: Full Detail Price: $199 standard (not yet quoted to customer; Cecilia's paired job was quoted $250 in August) Customer: Cecilia's next door neighbor (name and phone not yet collected; wife's car) Vehicle: 2022 Kia Telluride Address: Next door to 4510 S Everett Street, Ke"
   },
   {
    "title": "Flight to Chicago (DL 1199)",
@@ -491,7 +491,7 @@
    "end": "2026-11-17T21:54:00",
    "allDay": false,
    "where": "Atlanta ATL",
-   "link": "https://www.google.com/calendar/event?eid=ZmZwODJ1djNza3R1aWh1aHJiOGZqZXNjcjggY2FpZGVuY2xlZUBt",
+   "link": "https://www.google.com/calendar/event?eid=ZmZwODJ1djNza3R1aWh1aHJiOGZqZXNjcjggY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal"
   }
  ]
