@@ -1,7 +1,46 @@
 {
- "generatedAt": "2026-11-11T06:16:04Z",
- "headline": "Hey Caiden, tomorrow has a 9 AM call with Lucien and a business lunch at noon, and your Thursday details are still unassigned to a tech.",
+ "generatedAt": "2026-11-11T14:10:03Z",
+ "headline": "Hey Caiden, you have a 9 AM call with Lucien, the dentist at 10, and football gear check in due by Friday.",
  "items": [
+  {
+   "id": "1a1ca32da5316a22",
+   "from": "Venmo <venmo@venmo.com>",
+   "subject": "Lindsey Nataf paid you $220.00",
+   "date": "2026-11-11T10:41:32Z",
+   "category": "Bills & orders",
+   "summary": "Lindsey Nataf paid you $220 on Venmo for the start of four sessions.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1ca32da5316a22",
+   "body": "Lindsey Nataf paid you $220.00\nNote: Nov 4 start of 4 sessions\nMoney credited to your Venmo account.\nDate: Nov 11, 2026\nTransaction ID: [removed]"
+  },
+  {
+   "id": "1a1c985142725c02",
+   "from": "JONATHAN ANGELO <t.angelojonathan@gmail.com>",
+   "subject": "Please Disregard My Previous Email",
+   "date": "2026-11-11T07:31:41Z",
+   "category": "Personal",
+   "summary": "Jonathan withdrew his earlier request for a speed cube, so nothing more is needed.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1c985142725c02",
+   "body": "Hello,\n\nI'm sorry, but please disregard my previous email about requesting a speed cube. I no longer wish to proceed with the request.\n\nThank you for your time, and apologies for any inconvenience.\n\nBest regards,\nJonathan"
+  },
+  {
+   "id": "1a1c980b24bbbc4c",
+   "from": "JONATHAN ANGELO <t.angelojonathan@gmail.com>",
+   "subject": "A Small Request from a Filipino Speedcubing Fan",
+   "date": "2026-11-11T07:26:54Z",
+   "category": "Personal",
+   "summary": "A young cuber from the Philippines asked if you could gift a speed cube, then withdrew the request.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1c980b24bbbc4c",
+   "body": "Hello Caiden Lee!\n\nI'm Jonathan, a young speedcubing fan from the Philippines. I enjoy solving Rubik's Cubes and I'm hoping to improve my speedcubing skills.\n\nI wanted to kindly ask whether you would consider gifting or sponsoring a speed cube, if you have one available. I completely understand if that's not possible.\n\nThank you for your time and for sharing your cubing content!\n\nHappy cubing,\nJonathan"
+  },
   {
    "id": "1a1c8b94681f60eb",
    "from": "Sageview High School Football <sales@gearupsports.net>",
@@ -326,6 +365,32 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1c1361b94d44c9",
    "body": "Wassup gang, so sorry it's been a few weeks since my last email, there was a lot of absolutely nothing going on for a few weeks so I didn't care to write anything. ANYWAYS, transfers happened.\n\nBut before I get into that, 2 days before transfers, me and Elder Langston put someone on date! We went to visit her, her name is Sue. During the lesson I thought \"invite her to be baptized\" and after, Langston had thought the same thing. We went back to Sue's house, Langston shared 2 Nephi 2:2 and she said she was reading that as we knocked on her door. We asked her to be baptized and she said she was just thinking the same thing as we left her house earlier. She accepted the invitation. The spirit was so strong.\n\nThen it was a few busy days until transfers. I got the news I'm going to the west side, to the Bitterroot YSA area! SO PRETTY OVER HERE! My new companion is Elder Welch, who has been out about 18 months. We are the Bitterroot Zone Leaders. We also live with 2 other elders in a trailer house, and Welch and I have been cleaning the place out. I love it here and I love you all!\n\nThanks to the people who sent me the most elite Halloween packages and snacks! Keep living it up wherever you are.\n\nNew address: [removed]"
+  },
+  {
+   "id": "1a1c0f68d6b5fe94",
+   "from": "FinalForms <mailman@finalforms.com>",
+   "subject": "Gear Check In",
+   "date": "2026-11-09T15:39:05Z",
+   "category": "School",
+   "summary": "Sageview football gear check in runs Nov 9 to 13 by grade, 2:30 to 3:30 at football storage.",
+   "action": "Turn in football gear at your grade's check in slot",
+   "due": "2026-11-13",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1c0f68d6b5fe94",
+   "body": "Gear Check in this week at Football storage, north end of the field.\n\nMonday Nov. 9: Seniors 2:30-3:30\nTuesday Nov. 10: Juniors 2:30-3:30\nThursday Nov. 12: Freshman & Sophomores 2:30-3:30\nFriday Nov. 13: Freshman 2:30-3:30\n\nMake sure:\n- all uniforms, including practice jersey, are washed\n- take \"Lobos\" sticker off of helmet\n- all gear is in your bag\n- put name on piece of paper and slide into name tag slot on outside of bag\n- Don't forget Guardian caps\n- Fine for missing gear totals about $1,500\n\nThank you,\nDon Hogue\nSageview High School Athletics"
+  },
+  {
+   "id": "1a1939bbc8386443",
+   "from": "Hussein Nasser <hussein.nasser@gmail.com>",
+   "subject": "Re: Coaching Session",
+   "date": "2026-11-09T14:47:12Z",
+   "category": "Personal",
+   "summary": "Hussein says this weekend does not work for Adam's coaching session and asks about November 21 or 22.",
+   "action": "Reply to Hussein with your availability on Nov 21 or 22",
+   "due": "2026-11-21",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1939bbc8386443",
+   "body": "Hi Caiden,\n\nWe are at a cubing competition this weekend and so it's inconvenient for us. What about the 21/22 of November. What do you have then?\n\nHussein"
   }
  ],
  "events": [
@@ -336,6 +401,15 @@
    "allDay": false,
    "where": "",
    "link": "https://www.google.com/calendar/event?eid=c25jMHNoMzAzMDc4b2o1Z3F0M2QyZnA5NDhfMjAyNjExMTFUMTcwMDAwWiBjYWlkZW5jbGVlQG0&ctz=America/Los_Angeles",
+   "calendar": "personal"
+  },
+  {
+   "title": "Dentist",
+   "start": "2026-11-11T10:00:00",
+   "end": "2026-11-11T11:00:00",
+   "allDay": false,
+   "where": "",
+   "link": "https://www.google.com/calendar/event?eid=Z3FxajB0Y3RvYWQ4ZnVqYjRpZWc4cjBvMTggY2FpZGVuY2xlZUBt&ctz=America/Los_Angeles",
    "calendar": "personal"
   },
   {
