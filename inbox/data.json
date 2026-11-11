@@ -1,7 +1,20 @@
 {
- "generatedAt": "2026-11-11T02:12:30Z",
+ "generatedAt": "2026-11-11T04:10:05Z",
  "headline": "Hey Caiden, you have a detail at 3 PM today, football gear check-in is due this week, and Hussein needs a coaching date for Nov 21 or 22.",
  "items": [
+  {
+   "id": "1a1c8b94681f60eb",
+   "from": "Sageview High School Football <sales@gearupsports.net>",
+   "subject": "20% off your team’s shop (+ free shipping)",
+   "date": "2026-11-11T03:49:07Z",
+   "category": "Promos",
+   "summary": "Sageview High School Football shop is offering 20% off team gear and free shipping for the holidays.",
+   "action": "",
+   "due": "",
+   "urgent": false,
+   "link": "https://mail.google.com/mail/#all/1a1c8b94681f60eb",
+   "body": ""
+  },
   {
    "id": "1a1c825d8847063a",
    "from": "Lydia from Claude Code <no-reply@email.claude.com>",
@@ -313,32 +326,9 @@
    "urgent": false,
    "link": "https://mail.google.com/mail/#all/1a1c1361b94d44c9",
    "body": "Wassup gang, so sorry it's been a few weeks since my last email, there was a lot of absolutely nothing going on for a few weeks so I didn't care to write anything. ANYWAYS, transfers happened.\n\nBut before I get into that, 2 days before transfers, me and Elder Langston put someone on date! We went to visit her, her name is Sue. During the lesson I thought \"invite her to be baptized\" and after, Langston had thought the same thing. We went back to Sue's house, Langston shared 2 Nephi 2:2 and she said she was reading that as we knocked on her door. We asked her to be baptized and she said she was just thinking the same thing as we left her house earlier. She accepted the invitation. The spirit was so strong.\n\nThen it was a few busy days until transfers. I got the news I'm going to the west side, to the Bitterroot YSA area! SO PRETTY OVER HERE! My new companion is Elder Welch, who has been out about 18 months. We are the Bitterroot Zone Leaders. We also live with 2 other elders in a trailer house, and Welch and I have been cleaning the place out. I love it here and I love you all!\n\nThanks to the people who sent me the most elite Halloween packages and snacks! Keep living it up wherever you are.\n\nNew address: [removed]"
-  },
-  {
-   "id": "1a1c0f68d6b5fe94",
-   "from": "FinalForms <mailman@finalforms.com>",
-   "subject": "Gear Check In",
-   "date": "2026-11-09T15:39:05Z",
-   "category": "School",
-   "summary": "Sageview High School football gear check-in runs this week, with sessions by grade level from 2:30 to 3:30 each day.",
-   "action": "Turn in your football gear on your grade's check-in day",
-   "due": "2026-11-12",
-   "urgent": true,
-   "link": "https://mail.google.com/mail/#all/1a1c0f68d6b5fe94",
-   "body": "Sageview High School via FinalForms\n\nGear Check in this week at Football storage, north end of the field.\n\nMonday Nov. 9th: Seniors, 2:30 to 3:30\nTuesday, Nov. 10th: Juniors, 2:30 to 3:30\nThursday, Nov. 12th: Freshman & Sophomores, 2:30 to 3:30\nFriday, Nov. 13th: Freshman, 2:30 to 3:30\n\nMake sure:\n- all uniforms, including practice jersey are washed\n- take \"Lobos\" sticker off of helmet\n- all gear is in your bag\n- put name on piece of paper and slide into name tag slot on outside of bag\n- Don't forget Guardian caps\n- Fine for missing gear totals about $1,500\n\nThank You,\nDon Hogue\nSageview High School Athletics"
   }
  ],
  "events": [
-  {
-   "title": "Full Detail + Pet Hair: Jason (Toyota Corolla)",
-   "start": "2026-11-10T15:00:00",
-   "end": "2026-11-10T19:00:00",
-   "allDay": false,
-   "where": "1529 McPherson Ave, Richland, WA",
-   "link": "https://www.google.com/calendar/event?eid=amdlOXEwdWxoazlqYWRsc3QzcDVuMjIwZTAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
-   "calendar": "business",
-   "description": "Full Detail plus pet hair removal on a Toyota Corolla. Price $249 agreed in writing."
-  },
   {
    "title": "Reynolds' party",
    "start": "2026-11-10T19:00:00",
@@ -374,17 +364,17 @@
    "where": "",
    "link": "https://www.google.com/calendar/event?eid=MGs5b241ZTQ0OW1wcXM0anRiZThha2RzZ2MgY2FpZGVuY2xlZUBt",
    "calendar": "personal",
-   "description": "Ask Seth if the detail still works for Wednesday, Nov 18 at 1:00 PM. Full Detail, Chevy Silverado, West Richland, $199."
+   "description": "Send Seth a reminder text asking if the detail still works for Wednesday, Nov 18 at 1:00 PM. Job: Full Detail, Chevy Silverado, West Richland, $199."
   },
   {
-   "title": "Full Detail: Marcus ($50 Travel Fee) (2004 Dodge ram 1500)",
+   "title": "(Cancelled) Full Detail: Marcus (2004 Dodge Ram 1500)",
    "start": "2026-11-11T14:00:00",
    "end": "2026-11-11T17:00:00",
    "allDay": false,
    "where": "248 Adams court umatilla",
    "link": "https://www.google.com/calendar/event?eid=bHFsNWVhaTE3NGExdmd2ZnFiYmY2aG81am8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
-   "description": "Full Detail on a 2004 Dodge Ram 1500, $250 plus $50 travel fee. Tech unassigned. Water and electricity available."
+   "description": "Cancelled. Full Detail, $250, tech unassigned."
   },
   {
    "title": "[Content] Post: 42 Americans are faster than me. None of them play football.",
@@ -394,7 +384,7 @@
    "where": "",
    "link": "https://www.google.com/calendar/event?eid=YmFnaTJxcjdsbnRyZW8xbDBtcHZmNmFibWcgY2FpZGVuY2xlZUBt",
    "calendar": "personal",
-   "description": "Reel 2 of 3 for the week of 11/9. Spectacle format: one solve in the jersey with two numbers on one label card."
+   "description": "Reel 2 of 3 for the week of 11/9. Spectacle format: one solve in the jersey, two numbers on one label card."
   },
   {
    "title": "Full Detail: Michele (Toyota Camry)",
@@ -404,7 +394,7 @@
    "where": "6626 Chapel Blvd A103, Pasco, WA",
    "link": "https://www.google.com/calendar/event?eid=ZGUwMjYwdXBubGpidGZxa2wzMmQxZ3VmbW8gZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
-   "description": "Full Detail on a Toyota Camry, $199. Tech unassigned. Water access yes, outlet on her patio."
+   "description": "Full Detail, $199, tech unassigned. Water and electricity available."
   },
   {
    "title": "Full Detail: Garrett (2008 Mercury)",
@@ -414,7 +404,17 @@
    "where": "2301 W 4th Pl, Kennewick, WA",
    "link": "https://www.google.com/calendar/event?eid=aTZ1cGQyb2hwbThrNmNlNjNzaGpjbjQ0OWsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
-   "description": "Full Detail on an approx. 2008 Mercury sedan, $200 special. Tech unassigned."
+   "description": "Full Detail, $200 special, tech unassigned. Customer unsure of exact year."
+  },
+  {
+   "title": "Full Detail + Pet Hair: Jason (Toyota Corolla)",
+   "start": "2026-11-13T15:00:00",
+   "end": "2026-11-13T19:00:00",
+   "allDay": false,
+   "where": "1529 McPherson Ave, Richland, WA",
+   "link": "https://www.google.com/calendar/event?eid=amdlOXEwdWxoazlqYWRsc3QzcDVuMjIwZTAgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
+   "calendar": "business",
+   "description": "Full Detail plus pet hair removal, $249 agreed in writing."
   },
   {
    "title": "[Content] Post: My AI agents had a meeting about me. I wasn't invited.",
@@ -424,7 +424,7 @@
    "where": "",
    "link": "https://www.google.com/calendar/event?eid=MGR1ZGo0dmlnbWxibmZ1YWgxbWQxajQwZGMgY2FpZGVuY2xlZUBt",
    "calendar": "personal",
-   "description": "Reel 3 of 3 for the week of 11/9. Screen recording into talking head, show the agents doing something real, then react."
+   "description": "Reel 3 of 3 for the week of 11/9. Screen recording into talking head."
   },
   {
    "title": "Film reels",
@@ -434,7 +434,7 @@
    "where": "",
    "link": "https://www.google.com/calendar/event?eid=bGRlcDJxMDlqdHJpNWg2MnM4bXVyNmo1OGsgY2FpZGVuY2xlZUBt",
    "calendar": "personal",
-   "description": "Film block for the 3 reels in the Content Plan for the week of 11/9."
+   "description": "Film block for the 3 reels in the Content Plan, week of 11/9."
   },
   {
    "title": "⛪ Church",
@@ -444,7 +444,7 @@
    "where": "",
    "link": "https://www.google.com/calendar/event?eid=b2hwa21nbTl2YWpkcWhwN2dvNXFkZXJhdmtfMjAyNjExMTVUMTcwMDAwWiBjYWlkZW5jbGVlQG0",
    "calendar": "personal",
-   "description": "Every Sunday 9–11 AM. Standing commitment — no jobs for Caiden personally in this window; a tech covers any Sunday-morning booking."
+   "description": "Every Sunday 9 to 11 AM. A tech covers any Sunday-morning booking."
   },
   {
    "title": "Flight to Austin (DL 848)",
@@ -463,7 +463,7 @@
    "where": "6119 W Court St, Pasco, WA 99301",
    "link": "https://www.google.com/calendar/event?eid=bHNuMjhvbTY3am9zNWowaTJpcWQ0dGxvamsgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
-   "description": "Full Detail on a 2017 Ford Explorer, $199 special. Condition good."
+   "description": "Full Detail, $199 special. Water and electricity available."
   },
   {
    "title": "Full Detail: Cecilia (2025 Toyota Highlander Platinum)",
@@ -473,17 +473,26 @@
    "where": "4510 S Everett Street, Kennewick, WA",
    "link": "https://www.google.com/calendar/event?eid=aXNobTFvdDByaWlyZTd0ZXNvaWc0ZzMxYTQgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
-   "description": "Full Detail on a 2025 Toyota Highlander Platinum, $250 standard. Basically a new car, no pet hair or deep stains."
+   "description": "Full Detail, $250 standard. Nearly new car."
   },
   {
    "title": "Full Detail: Cecilia's neighbor (2022 Kia Telluride)",
    "start": "2026-11-16T16:00:00",
    "end": "2026-11-16T18:00:00",
    "allDay": false,
-   "where": "4510 S Everett Street, Kennewick, WA (next door neighbor, exact address TBD)",
+   "where": "4510 S Everett Street, Kennewick, WA (next door, exact address TBD)",
    "link": "https://www.google.com/calendar/event?eid=cHJiOHBpOGVyMW45bjE3MDlrYjVkcXFiM2MgZThjMGFiYTcwNDI2YWJkMDFkMWJmNDRhMzYyNDE1ZTRlZjQwNWExY2Y2NmRjZDM4OWI2MDZlMDdkY2RiZWRjM0Bn",
    "calendar": "business",
-   "description": "Full Detail on a 2022 Kia Telluride, $199 standard, not yet quoted to the customer."
+   "description": "Full Detail, $199 standard, not yet quoted. Neighbor's details still to be collected."
+  },
+  {
+   "title": "Flight to Chicago (DL 1199)",
+   "start": "2026-11-17T19:40:00",
+   "end": "2026-11-17T21:54:00",
+   "allDay": false,
+   "where": "Atlanta ATL",
+   "link": "https://www.google.com/calendar/event?eid=ZmZwODJ1djNza3R1aWh1aHJiOGZqZXNjcjggY2FpZGVuY2xlZUBt",
+   "calendar": "personal"
   }
  ]
 }
