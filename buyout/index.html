@@ -52,6 +52,7 @@ button:disabled{cursor:default}
 #me.on .av{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--pc)}
 #me .si{display:flex;align-items:baseline;gap:8px;flex:1}
 #me .nm{font-size:14px}#me .cash{font-size:17px;margin-left:auto}#me .meta{display:block;order:2}
+.mybtn{height:32px;padding:0 10px;font-size:12.5px;background:#243067;border-color:#5362b8}
 input.nmi{width:100%;height:40px;border-radius:10px;background:#0d1330;border:1px solid var(--line);color:var(--ink);font:inherit;font-size:16px;font-weight:700;padding:0 10px 0 34px;user-select:text;-webkit-user-select:text;outline:none}
 input.nmi:focus{border-color:var(--acc)}
 .names{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:12px}
@@ -327,7 +328,7 @@ function buildBoard() {
 }
 function buildSeats() {
   const g = G, n = g.players.length;
-  const seat = (p, id) => { const pl = g.players[p]; return `<div class="seat"${id ? ' id="me"' : ''} data-p="${p}" style="--pc:${pl.color}"><div class="av">${esc(pl.name[0].toUpperCase())}</div><div class="si"><div class="nm">${esc(pl.name)}<span class="lv">${pl.human ? '' : B.LEVELS[pl.level].name}</span></div><div class="cash">${fmt(g.s.cash[p])}</div><div class="meta"></div></div></div>`; };
+  const seat = (p, id) => { const pl = g.players[p]; return `<div class="seat"${id ? ' id="me"' : ''} data-p="${p}" style="--pc:${pl.color}"><div class="av">${esc(pl.name[0].toUpperCase())}</div><div class="si"><div class="nm">${esc(pl.name)}<span class="lv">${pl.human ? '' : B.LEVELS[pl.level].name}</span></div><div class="cash">${fmt(g.s.cash[p])}</div><div class="meta"></div></div>${id ? '<button class="btn mybtn" data-act="mine">My shares</button>' : ''}</div>`; };
   /* opponents sit clockwise from your left: left, across the top, right */
   const top = []; for (let p = 2; p < n - 1; p++) top.push(seat(p));
   $('#seatL').innerHTML = seat(1); $('#seatR').innerHTML = n > 2 ? seat(n - 1) : ''; $('#seatsTop').innerHTML = top.join('');
@@ -359,12 +360,12 @@ async function botDecision(g, pd, pl) {
   let a;
   if (!L.mc) a = B.policy(g.s, Math.random, L.noise);
   else {
-    const an = new B.Analysis(g.s, { seed: (Math.random() * 1e9) | 0, prune: true });
+    const an = new B.Analysis(g.s, { seed: (Math.random() * 1e9) | 0, prune: true, full: true });
     if (an.c.length === 1) a = an.c[0].a;
     else {
       const cap = L.maxRounds || 1e9;
       while (performance.now() - t0 < L.mc && an.rounds < cap) { an.runFor(10, cap); await sleep(0); if (G !== g) throw 0; }
-      a = an.best().a;
+      a = an.choose();
     }
   }
   const pace = PACE[cfg.pace] * (pd.type === 'dispose' ? .6 : 1);
@@ -528,7 +529,8 @@ function renderSeats() {
     const p = +el.dataset.p;
     el.classList.toggle('on', p === turn); el.classList.toggle('think', p === g.thinking);
     const meta = el.querySelector('.meta');
-    meta.textContent = p === 0 ? `${s.sh[0].reduce((a, b) => a + b, 0)} shares · ${s.hand[0].length} tiles` : `${s.hand[p].length} tiles · shares hidden`;
+    if (p === 0) el.querySelector('.mybtn').textContent = `My shares (${s.sh[0].reduce((a, b) => a + b, 0)})`;
+    meta.textContent = p === 0 ? `${s.hand[0].length} tiles` : `${s.hand[p].length} tiles · shares hidden`;
     const cur = s.cash[p], shown = g.shownCash[p];
     if (cur !== shown) {
       g.shownCash[p] = cur;
@@ -736,6 +738,16 @@ function sheetPile(c) {
   <p class="sub">${25 - s.bank[c]} shares are in players' hands. ${z ? `If it paid out now: ${fmt(pr * 10)} to the largest holder, ${fmt(pr * 5)} to the second.` : 'It pays nothing until someone founds it.'}</p>
   <table><tr><th>Size</th><th>Share</th><th>1st bonus</th><th>2nd bonus</th></tr>${rows}</table>`);
 }
+function sheetMine() {
+  const s = G.s; let total = 0, n = 0;
+  const rows = CH.map((c, i) => {
+    const k = s.sh[0][i], z = s.size[i], pr = z ? B.price(s, i) : 0, v = k * pr; total += v; n += k;
+    return `<tr style="${k ? 'color:#fff;font-weight:800' : 'color:#7f8ab8'}"><td>${chip(i)}</td><td style="font-size:16px">${k}</td><td>${z ? fmt(pr) : 'not on board'}</td><td>${k ? fmt(v) : '·'}</td><td>${s.bank[i]}</td></tr>`;
+  }).join('');
+  openSheet('My shares', `<div class="stats"><div class="stat"><b>${n}</b><span>shares held</span></div><div class="stat"><b>${fmt(total)}</b><span>value at today's prices</span></div><div class="stat"><b>${fmt(s.cash[0])}</b><span>cash</span></div><div class="stat"><b>${fmt(s.cash[0] + total)}</b><span>cash + shares</span></div></div>
+  <table><tr><th>Company</th><th>Yours</th><th>Price</th><th>Value</th><th>In pile</th></tr>${rows}</table>
+  <p class="sub" style="margin-top:8px">Bonuses aren't counted here, because who else holds what is hidden. Shares in a company that's off the board are worth nothing unless it's founded again.</p>`);
+}
 function sheetHint() {
   const g = G, an = g.an; if (!an) return;
   const s = g.s, pd = s.pending, locked = pd.type !== 'place' && pd.type !== 'buy';
@@ -865,6 +877,7 @@ document.addEventListener('click', ev => {
   if (d.act === 'log') return sheetLog();
   if (d.act === 'review') return sheetReview();
   if (d.pile !== undefined) { sfx.tap(); return sheetPile(+d.pile); }
+  if (d.act === 'mine') { sfx.tap(); return sheetMine(); }
   if (g.s.over || !g.resolve) return;
   const s = g.s, pd = s.pending;
   if (d.t !== undefined) return selectTile(+d.t);

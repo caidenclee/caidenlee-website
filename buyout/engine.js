@@ -375,7 +375,7 @@
   function policyBuys(s, p, rnd, noise) {
     const buys = [], extra = [0, 0, 0, 0, 0, 0, 0]; let cash = s.cash[p];
     for (let k = 0; k < 3; k++) {
-      let best = -1, bv = 110;
+      let best = -1, bv = -1e9; /* always fill all three buys when affordable */
       for (let c = 0; c < NCH; c++) {
         if (s.size[c] === 0 || s.bank[c] - extra[c] <= 0) continue;
         const pr = price(s, c); if (pr > cash) continue;
@@ -458,7 +458,7 @@
     return x.length === y.length && x.every((v, i) => v === y[i]);
   }
 
-  function candidates(s, wide) {
+  function candidates(s, wide, full) {
     const pd = s.pending, p = pd.player, out = [];
     switch (pd.type) {
       case 'place':
@@ -497,6 +497,22 @@
           }
         };
         rec(0, [], s.cash[p]);
+        if (full) {
+          /* bots: top every partial purchase up to three shares (or until the cash runs out); buying nothing stays as an option */
+          const filled = [{ buys: [] }];
+          for (const o of out) {
+            if (!o.buys.length) continue;
+            const b = o.buys.slice(); let cash = s.cash[p]; for (const c of b) cash -= price(s, c);
+            while (b.length < 3) {
+              let add = -1;
+              for (const x of sc) { const c = x[1]; if (price(s, c) <= cash && b.filter(y => y === c).length < s.bank[c]) { add = c; break; } }
+              if (add < 0) break;
+              b.push(add); cash -= price(s, add);
+            }
+            const a = { buys: b }; if (!filled.some(f => sameAction(f, a))) filled.push(a);
+          }
+          out.length = 0; for (const f of filled) out.push(f);
+        }
         if (pd.canEnd) out.push({ buys: [], end: true });
         break;
       }
@@ -509,7 +525,8 @@
       opts = opts || {};
       this.s = clone(s); this.me = s.pending.player; this.type = s.pending.type;
       this.seed = (opts.seed || 1) | 0; this.depth = opts.depth || 12; this.prune = !!opts.prune; this.dollars = opts.metric === 'margin';
-      this.c = candidates(this.s, !!opts.wide).map(a => this._mk(a));
+      this.full = !!opts.full;
+      this.c = candidates(this.s, !!opts.wide, this.full).map(a => this._mk(a));
       this.rounds = 0;
     }
     _mk(a) { return { a, sc: [], sum: 0, win: 0, margin: 0, alive: true }; }
@@ -549,6 +566,15 @@
       if (n === c.sc.length) return c.sum / n;
       let t = 0; for (let i = 0; i < n; i++) t += c.sc[i]; return t / n;
     }
+    /* the bot's move: buying nothing must clearly beat the best full purchase, not just edge it on noise */
+    choose() {
+      const b = this.best();
+      if (!this.full || this.type !== 'buy' || b.a.end || b.a.buys.length) return b.a;
+      let alt = null;
+      for (const c of this.c) if (c !== b && !c.a.end && c.sc.length >= Math.min(6, b.sc.length) && (!alt || c.sum / c.sc.length > alt.sum / alt.sc.length)) alt = c;
+      if (!alt) return b.a;
+      return b.sum / b.sc.length - alt.sum / alt.sc.length > 0.02 ? b.a : alt.a;
+    }
     best() {
       let b = null, bn = -1;
       for (const c of this.c) { if (c.sc.length > bn) bn = c.sc.length; }
@@ -573,10 +599,10 @@
   function botMove(s, level, rnd, budgetMs) {
     const L = LEVELS[level];
     if (!L.mc) return policy(s, rnd, L.noise);
-    const an = new Analysis(s, { seed: (rnd() * 1e9) | 0, prune: true });
+    const an = new Analysis(s, { seed: (rnd() * 1e9) | 0, prune: true, full: true });
     if (an.c.length === 1) return an.c[0].a;
     an.runFor(budgetMs || L.mc, L.maxRounds);
-    return an.best().a;
+    return an.choose();
   }
 
   return {
