@@ -162,7 +162,8 @@ h3.sec{font-size:13px;margin:16px 0 7px;letter-spacing:.06em;text-transform:uppe
 #banner .k{font-size:11px;font-weight:900;letter-spacing:.3em;color:var(--acc)}
 #banner .m{font-size:21px;font-weight:900;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
 #banner .s{font-size:12.5px;color:var(--dim);margin-top:5px}
-#toast{position:fixed;left:50%;top:calc(126px + env(safe-area-inset-top));transform:translate(-50%,-20px);background:#232e66;border:1px solid #5362b8;padding:7px 13px;border-radius:99px;font-size:12.5px;font-weight:700;z-index:65;opacity:0;transition:all .3s;pointer-events:none;max-width:92vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#toast{position:fixed;left:50%;top:calc(126px + env(safe-area-inset-top));transform:translate(-50%,-20px);background:#232e66;border:1px solid #5362b8;padding:7px 13px;border-radius:99px;font-size:15px;font-weight:700;z-index:65;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;max-width:94vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 10px 30px -8px #000}
+.said{font-size:15px;color:var(--ink)}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 .conf{position:fixed;top:-12px;width:9px;height:14px;z-index:80;pointer-events:none;animation:fall linear forwards}
 
@@ -205,7 +206,7 @@ h3.sec{font-size:13px;margin:16px 0 7px;letter-spacing:.06em;text-transform:uppe
   #sheet.wide{width:min(94vw,860px)}
   .stats{grid-template-columns:repeat(4,1fr)}
 }
-@media (max-width:979px){#modeBadge{display:none}}
+@media (max-width:979px){#modeBadge{display:none}#toast{display:none}}
 @media (max-height:640px) and (max-width:979px){.pile .pz,.pile .pn{display:none}.tile{height:34px}#tray{min-height:100px}}
 </style>
 </head>
@@ -240,9 +241,11 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 const chip = c => `<span class="chip" style="--cc:${CH[c].color};--ci:${CH[c].ink}">${CH[c].name}</span>`;
 const PCOL = ['#e9edff', '#ff9d5c', '#5cc8ff', '#c98bff', '#7ee08a', '#ff7fa0'];
 const BOTS = ['Nova', 'Dash', 'Echo', 'Rook', 'Vega'];
-const PACE = { slow: 1100, normal: 600, fast: 160 };
+const PACE = { study: 700, slow: 600, normal: 450, fast: 120 };
+const STEP = { study: 3200, slow: 1900, normal: 850, fast: 150 };
 const store = { get(k, d) { try { return JSON.parse(localStorage.getItem('buyout.' + k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('buyout.' + k, JSON.stringify(v)); } catch (e) {} } };
-let cfg = Object.assign({ n: 4, level: 'shark', mode: 'training', pace: 'normal', sound: true }, store.get('cfg', {}));
+let cfg = Object.assign({ n: 4, level: 'shark', mode: 'training', pace: 'slow', sound: true }, store.get('cfg', {}));
+if (!PACE[cfg.pace] || !store.get('paceV2', 0)) { cfg.pace = 'slow'; store.set('paceV2', 1); store.set('cfg', cfg); }
 let G = null;
 
 /* ---------- sound ---------- */
@@ -279,7 +282,7 @@ function newGame() {
   }
   const z = () => new Array(n).fill(0);
   G = {
-    s, players, mode: cfg.mode, sel: -1, cart: [], end: false, an: null, resolve: null, thinking: -1, lastTile: -1, newTiles: [],
+    s, players, mode: cfg.mode, sel: -1, cart: [], end: false, an: null, resolve: null, thinking: -1, focus: -1, lastTile: -1, newTiles: [],
     prevBoard: new Int8Array(B.N).fill(B.EMPTY), shownCash: s.cash.slice(), hist: [], decisions: [], lastHold: null,
     stats: { bonus: z(), sales: z(), spent: z(), bought: z(), founded: z(), mergers: z(), traded: z() }, bigPay: null,
   };
@@ -392,7 +395,7 @@ async function present(g, evs) {
       case 'setup': logLine('Opening tiles: ' + e.draws.map((t, p) => `${nm(g, p)} ${B.tileName(t)}`).join(', ') + `. ${nm(g, e.first)} go${e.first ? 'es' : ''} first.`); snap(g); break;
       case 'turn': logLine(`Turn ${g.s.turnNo + 1} · ${g.players[e.player].name}`, 't'); break;
       case 'pass': logLine(`${nm(g, e.player)} had no playable tile.`); break;
-      case 'place': g.lastTile = e.tile; logLine(`${nm(g, e.player)} placed <b>${B.tileName(e.tile)}</b>.`); sfx.place(); wait = Math.max(wait, 250); break;
+      case 'place': g.lastTile = e.tile; logLine(`${nm(g, e.player)} placed <b>${B.tileName(e.tile)}</b>.`); sfx.place(); if (e.player !== 0) await say(g, e.player, `placed <b>${B.tileName(e.tile)}</b>${e.kind === 'plain' ? '' : e.kind === 'grow' ? ' · grows a company' : e.kind === 'found' ? ' · founds a startup' : ' · triggers an acquisition'}`, e.kind === 'plain' || e.kind === 'grow' ? 1 : .6); else wait = Math.max(wait, 250); break;
       case 'grow': logLine(`${chip(e.chain)} grows to ${e.size}.`); break;
       case 'found':
         g.stats.founded[e.player]++; logLine(`${nm(g, e.player)} founded ${chip(e.chain)}${e.free ? ' and took a free share' : ''}.`);
@@ -415,7 +418,7 @@ async function present(g, evs) {
         if (e.trade) parts.push(`traded ${e.trade} for ${e.trade / 2} ${chip(e.survivor)}`);
         if (e.keep) parts.push(`kept ${e.keep}`);
         g.stats.sales[e.player] += e.sell * e.price; g.stats.traded[e.player] += e.trade;
-        logLine(`${nm(g, e.player)} ${parts.join(', ')} ${chip(e.defunct)}.`); wait = Math.max(wait, 350); break;
+        logLine(`${nm(g, e.player)} ${parts.join(', ')} ${chip(e.defunct)}.`); if (e.player !== 0) await say(g, e.player, `${parts.join(', ')} ${chip(e.defunct)}`, 1); else wait = Math.max(wait, 350); break;
       }
       case 'merged': logLine(`${chip(e.survivor)} is now ${e.size} tiles.`); wait = Math.max(wait, 700); break;
       case 'buy':
@@ -424,24 +427,34 @@ async function present(g, evs) {
           g.stats.spent[e.player] += e.cost; g.stats.bought[e.player] += e.buys.length;
           logLine(`${nm(g, e.player)} bought ${Object.keys(cnt).map(c => `${cnt[c]} ${chip(+c)}`).join(', ')} for <span class="money">${fmt(e.cost)}</span>.`);
           sfx.buy(); g.bump = Object.keys(cnt).map(Number);
-          if (e.player !== 0) toast(`${g.players[e.player].name} bought ${Object.keys(cnt).map(c => `${cnt[c]} ${CH[c].name}`).join(', ')}`);
+          if (e.player !== 0) await say(g, e.player, `bought ${Object.keys(cnt).map(c => `<b>${cnt[c]}</b> ${chip(+c)}`).join(' ')}`, 1);
           wait = Math.max(wait, 300);
-        } else logLine(`${nm(g, e.player)} bought nothing.`);
+        } else { logLine(`${nm(g, e.player)} bought nothing.`); if (e.player !== 0) await say(g, e.player, 'bought nothing', .6); }
         break;
-      case 'draw': if (e.player === 0) { g.newTiles.push(e.tile); logLine(`You drew <b>${B.tileName(e.tile)}</b>.`); } break;
+      case 'draw': if (e.player === 0) { g.newTiles.push(e.tile); logLine(`You drew <b>${B.tileName(e.tile)}</b>.`); } else { logLine(`${nm(g, e.player)} drew a tile.`); await say(g, e.player, 'drew a tile', .45); } break;
       case 'swap': if (e.player === 0) { if (e.tile >= 0) g.newTiles.push(e.tile); logLine(`Your dead tile ${B.tileName(e.dead)} was swapped${e.tile >= 0 ? ' for <b>' + B.tileName(e.tile) + '</b>' : ''}.`); } else logLine(`${nm(g, e.player)} swapped a dead tile.`); break;
       case 'end': logLine(e.why === 'declared' ? '<b>The game was ended.</b> Final payouts:' : '<b>No moves left.</b> Final payouts:', 't'); await banner('Game over', 'Final payouts', 'Every company pays its bonuses and all shares are sold', 1500); break;
       case 'liquidate': for (const [p, k, amt] of e.sales) { g.stats.sales[p] += amt; } logLine(`${chip(e.chain)} shares sold at ${fmt(e.price)}.`); break;
     }
   }
+  g.focus = -1; $('#toast').classList.remove('on');
   render();
-  if (wait) await sleep(Math.min(wait, PACE[cfg.pace] + 300));
+  if (wait) await sleep(Math.min(wait, STEP[cfg.pace] + 300));
 }
 let bannerT = 0;
 function banner(k, m, s, ms) {
   const el = $('#banner'); el.querySelector('.k').textContent = k; el.querySelector('.m').innerHTML = m; el.querySelector('.s').textContent = s;
   el.classList.remove('on'); void el.offsetWidth; el.style.animationDuration = (cfg.pace === 'fast' ? ms * .55 : ms) + 'ms'; el.classList.add('on');
   return sleep((cfg.pace === 'fast' ? ms * .5 : ms * .8));
+}
+/* announce one bot step, show the board as it now stands, and hold long enough to read it */
+async function say(g, p, html, k) {
+  if (G !== g) return;
+  const pl = g.players[p], msg = `<b style="color:${pl.color}">${pl.name}</b> ${html}`;
+  g.focus = p; renderBoard(); renderSeats(); renderMarket();
+  const el = $('#toast'); clearTimeout(bannerT); el.innerHTML = msg; el.classList.add('on');
+  $('#prompt').innerHTML = `<span class="said">${msg}</span>`; $('#acts').innerHTML = '';
+  await sleep(STEP[cfg.pace] * k);
 }
 function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(bannerT); bannerT = setTimeout(() => el.classList.remove('on'), 1800); }
 
@@ -479,7 +492,7 @@ function renderBoard() {
   }
 }
 function renderSeats() {
-  const g = G, s = g.s, turn = s.over ? -1 : s.pending.player;
+  const g = G, s = g.s, turn = s.over ? -1 : g.focus >= 0 ? g.focus : s.pending.player;
   document.querySelectorAll('.seat').forEach(el => {
     const p = +el.dataset.p;
     el.classList.toggle('on', p === turn); el.classList.toggle('think', p === g.thinking);
@@ -728,7 +741,8 @@ function sheetSetup(first) {
   <p class="lab">Players</p>${seg('n', [[3, '3'], [4, '4'], [5, '5'], [6, '6']])}
   <p class="lab">Bot skill</p>${seg('level', [['intern', 'Intern'], ['founder', 'Founder'], ['shark', 'Shark'], ['titan', 'Titan'], ['mixed', 'Mixed']])}
   <p class="lab">Mode</p>${seg('mode', [['training', 'Training (hints)'], ['real', 'Real game']])}
-  <p class="lab">Bot speed</p>${seg('pace', [['slow', 'Slow'], ['normal', 'Normal'], ['fast', 'Fast']])}
+  <p class="lab">Bot speed</p>${seg('pace', [['study', 'Study'], ['slow', 'Slow'], ['normal', 'Normal'], ['fast', 'Fast']])}
+  <p class="sub">${{ study: 'Study: each bot step (tile, purchase, draw) is announced and held for about 3 seconds so you can track holdings.', slow: 'Slow: each bot step is announced and held for about 2 seconds.', normal: 'Normal: each bot step is held for just under a second.', fast: 'Fast: bots move almost instantly. Use the move log to catch up.' }[cfg.pace]}</p>
   <p class="sub">${cfg.mode === 'training' ? 'Training: a hint button ranks your options and explains each one. You still get the full review afterwards.' : 'Real game: no help during play. The full review with best and worst moves appears at the end.'} ${{ intern: 'Interns play by simple rules of thumb.', founder: 'Founders look a little way ahead.', shark: 'Sharks simulate hundreds of futures per move.', titan: 'Titans search deepest and take a moment longer.', mixed: 'A random mix of Founders, Sharks and Titans.' }[cfg.level]}</p>
   <button class="btn pri" style="width:100%;height:48px;font-size:16px" data-act="start">Start game</button>
   ${G && !G.s.over ? '<button class="btn" style="width:100%;margin-top:8px" data-act="close">Back to current game</button>' : ''}
