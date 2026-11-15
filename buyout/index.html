@@ -93,7 +93,27 @@ input.nmi:focus{border-color:var(--acc)}
 #tray{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:7px;min-height:118px}
 #prompt{font-size:12.5px;color:var(--dim);min-height:17px;line-height:1.3}
 #prompt b{color:var(--ink)}
-#hand{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+#handrow{display:flex;gap:8px;align-items:stretch}
+#hand{flex:1;display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+#deck{position:relative;flex:none;width:50px;border-radius:10px;background:#101737;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;line-height:1;transition:transform .12s}
+#deck:active{transform:scale(.94)}
+#deck .dc{position:relative;width:22px;height:18px;margin-bottom:1px}
+#deck .dc i{position:absolute;left:3px;top:0;width:15px;height:19px;border-radius:3px;background:linear-gradient(160deg,#fff,#c9d1ff);border:1px solid #6d79b8;box-shadow:0 1px 2px #0008}
+#deck .dc i:nth-child(1){transform:rotate(-14deg) translateX(-3px)}#deck .dc i:nth-child(3){transform:rotate(14deg) translateX(3px)}
+#deck b{font-size:14px;font-weight:900;margin-top:3px}#deck small{font-size:8px;color:var(--dim);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+#deck.bump{animation:bump .4s ease}
+.fly{position:fixed;z-index:75;width:22px;height:30px;border-radius:5px;display:grid;place-items:center;font-weight:900;font-size:13px;pointer-events:none;border:1.5px solid #fff;box-shadow:0 6px 14px -4px #000}
+.mycards{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:10px}
+.mycards div{aspect-ratio:5/7;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;font-size:13px;line-height:1.1;border:1.5px solid #fff8}
+.mycards div b{font-size:19px}.mycards div.none{opacity:.28;border-color:transparent}
+#bubble{position:fixed;z-index:45;display:none;max-width:min(280px,72vw);background:#fff;color:#0a0e1c;border-radius:16px;padding:10px 13px;font-size:14px;font-weight:700;line-height:1.4;box-shadow:0 14px 34px -8px #000;cursor:pointer;text-align:left}
+#bubble.on{display:block;animation:pop .3s cubic-bezier(.2,1.4,.4,1)}
+#bubble::after{content:"";position:absolute;width:14px;height:14px;background:#fff;transform:rotate(45deg)}
+#bubble.up::after{top:-6px;left:calc(var(--tx) - 7px)}
+#bubble.lt::after{left:-6px;top:calc(50% - 7px)}
+#bubble.rt::after{right:-6px;top:calc(50% - 7px)}
+#bubble .nt{display:block;font-size:12px;font-weight:600;color:#4a5380;margin-top:4px}
+#bubble .go{display:block;font-size:11px;font-weight:800;color:#3558e6;margin-top:5px;letter-spacing:.04em;text-transform:uppercase}
 .tile{height:40px;border-radius:10px;background:linear-gradient(160deg,#2a366e,#1b2450);border:1px solid #4553a0;font-weight:800;font-size:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;gap:2px;transition:transform .15s,box-shadow .15s,border-color .15s;position:relative}
 .tile small{font-size:8.5px;font-weight:700;letter-spacing:.04em;color:var(--tc,#9aa7ff);text-transform:uppercase}
 .tile.sel{transform:translateY(-5px);border-color:#fff;box-shadow:0 8px 18px -6px #7c8cff}
@@ -249,13 +269,14 @@ h3.sec{font-size:13px;margin:16px 0 7px;letter-spacing:.06em;text-transform:uppe
   <div id="mid"><div id="board"></div></div>
   <div id="seatR"></div>
   <div id="market"></div>
-  <div id="tray"><div id="meSlot"></div><div id="prompt"></div><div id="hand"></div><div id="buyrow" hidden></div><div id="acts"></div></div>
+  <div id="tray"><div id="meSlot"></div><div id="prompt"></div><div id="handrow"><button id="deck" data-act="mine" aria-label="My shares"><span class="dc"><i></i><i></i><i></i></span><b id="deckN">0</b><small>shares</small></button><div id="hand"></div></div><div id="buyrow" hidden></div><div id="acts"></div></div>
   <div id="side"><h3>Move log</h3><div id="log"></div></div>
 </div>
 <div id="scrim"></div>
 <div id="sheet"><div id="sheetHead"><h2 id="sheetTitle"></h2><button class="btn" id="peekBtn" data-act="peek" hidden>Peek board</button><button class="ib" id="closeBtn" data-act="close">✕</button></div><div id="sheetBody"></div></div>
 <div id="banner"><div class="bx"><div class="k"></div><div class="m"></div><div class="s"></div></div></div>
 <div id="toast"></div>
+<button id="bubble" data-act="next"></button>
 
 <script src="engine.js"></script>
 <script>
@@ -267,14 +288,15 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 const chip = c => `<span class="chip" style="--cc:${CH[c].color};--ci:${CH[c].ink}">${CH[c].name}</span>`;
 const PCOL = ['#e9edff', '#ff9d5c', '#5cc8ff', '#c98bff', '#7ee08a', '#ff7fa0'];
 const BOTS = ['Nova', 'Dash', 'Echo', 'Rook', 'Vega'];
-const PACE = { study: 700, slow: 600, normal: 450, fast: 120 };
-const STEP = { study: 3200, slow: 1900, normal: 850, fast: 150 };
+const PACE = { study: 150, normal: 250, fast: 0 };
+const STEP = { study: 450, normal: 800, fast: 60 };
 const store = { get(k, d) { try { return JSON.parse(localStorage.getItem('buyout.' + k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('buyout.' + k, JSON.stringify(v)); } catch (e) {} } };
-let cfg = Object.assign({ n: 4, level: 'shark', mode: 'training', pace: 'slow', sound: true }, store.get('cfg', {}));
-if (!PACE[cfg.pace] || !store.get('paceV2', 0)) { cfg.pace = 'slow'; store.set('paceV2', 1); store.set('cfg', cfg); }
-const cleanName = (v, d) => (String(v || '').replace(/[<>&"'`]/g, '').trim().slice(0, 10)) || d;
-const defName = i => i ? BOTS[i - 1] : 'You';
-if (!Array.isArray(cfg.names)) cfg.names = [];
+let cfg = Object.assign({ n: 4, level: 'shark', mode: 'training', pace: 'normal', sound: true }, store.get('cfg', {}));
+if (!(cfg.pace in STEP)) { cfg.pace = 'normal'; store.set('cfg', cfg); }
+const cleanName = (v, d) => (String(v || '').replace(/[<>&"'`]/g, '').trim().slice(0, 12)) || d;
+const DEFNAMES = ['Caiden', 'Blake', 'Uncle Phil', 'Noah', 'Rook', 'Vega'];
+const defName = i => DEFNAMES[i];
+cfg.names = DEFNAMES.slice(); /* always start from the default names; edits last until the page is reloaded */
 let G = null;
 
 /* ---------- sound ---------- */
@@ -311,13 +333,13 @@ function newGame() {
   const z = () => new Array(n).fill(0);
   G = {
     s, players, mode: cfg.mode, sel: -1, cart: [], end: false, an: null, resolve: null, thinking: -1, focus: -1, lastTile: -1, newTiles: [],
-    prevBoard: new Int8Array(B.N).fill(B.EMPTY), shownCash: s.cash.slice(), hist: [], decisions: [], lastHold: null,
+    prevBoard: new Int8Array(B.N).fill(B.EMPTY), shownCash: s.cash.slice(), shownSh: [0, 0, 0, 0, 0, 0, 0], turnSay: null, next: null, hist: [], decisions: [], lastHold: null,
     stats: { bonus: z(), sales: z(), spent: z(), bought: z(), founded: z(), mergers: z(), traded: z() }, bigPay: null,
   };
   $('#modeBadge').textContent = G.mode === 'training' ? 'Training' : 'Real game';
   $('#modeBadge').className = 'badge' + (G.mode === 'real' ? ' real' : '');
   $('#log').innerHTML = '';
-  buildBoard(); buildSeats(); closeSheet(true);
+  buildBoard(); buildSeats(); closeSheet(true); hideBubble();
   run(G);
 }
 
@@ -328,7 +350,7 @@ function buildBoard() {
 }
 function buildSeats() {
   const g = G, n = g.players.length;
-  const seat = (p, id) => { const pl = g.players[p]; return `<div class="seat"${id ? ' id="me"' : ''} data-p="${p}" style="--pc:${pl.color}"><div class="av">${esc(pl.name[0].toUpperCase())}</div><div class="si"><div class="nm">${esc(pl.name)}<span class="lv">${pl.human ? '' : B.LEVELS[pl.level].name}</span></div><div class="cash">${fmt(g.s.cash[p])}</div><div class="meta"></div></div>${id ? '<button class="btn mybtn" data-act="mine">My shares</button>' : ''}</div>`; };
+  const seat = (p, id) => { const pl = g.players[p]; return `<div class="seat"${id ? ' id="me"' : ''} data-p="${p}" style="--pc:${pl.color}"><div class="av">${esc(pl.name[0].toUpperCase())}</div><div class="si"><div class="nm">${esc(pl.name)}<span class="lv">${pl.human ? '' : B.LEVELS[pl.level].name}</span></div><div class="cash">${fmt(g.s.cash[p])}</div><div class="meta"></div></div></div>`; };
   /* opponents sit clockwise from your left: left, across the top, right */
   const top = []; for (let p = 2; p < n - 1; p++) top.push(seat(p));
   $('#seatL').innerHTML = seat(1); $('#seatR').innerHTML = n > 2 ? seat(n - 1) : ''; $('#seatsTop').innerHTML = top.join('');
@@ -425,15 +447,15 @@ async function present(g, evs) {
   for (const e of evs) {
     switch (e.e) {
       case 'setup': logLine('Opening tiles: ' + e.draws.map((t, p) => `${nm(g, p)} ${B.tileName(t)}`).join(', ') + `. ${nm(g, e.first)} go${g.players[e.first].name === 'You' ? '' : 'es'} first.`); snap(g); break;
-      case 'turn': logLine(`Turn ${g.s.turnNo + 1} · ${g.players[e.player].name}`, 't'); break;
-      case 'pass': logLine(`${nm(g, e.player)} had no playable tile.`); break;
-      case 'place': g.lastTile = e.tile; logLine(`${nm(g, e.player)} placed <b>${B.tileName(e.tile)}</b>.`); sfx.place(); if (e.player !== 0) await say(g, e.player, `placed <b>${B.tileName(e.tile)}</b>${e.kind === 'plain' ? '' : e.kind === 'grow' ? ' · grows a company' : e.kind === 'found' ? ' · founds a startup' : ' · triggers an acquisition'}`, e.kind === 'plain' || e.kind === 'grow' ? 1 : .6); else wait = Math.max(wait, 250); break;
+      case 'turn': await flushTurn(g); g.turnSay = { p: e.player, parts: [], notes: [] }; logLine(`Turn ${g.s.turnNo + 1} · ${g.players[e.player].name}`, 't'); break;
+      case 'pass': logLine(`${nm(g, e.player)} had no playable tile.`); note(g, e.player, 'had no tile I could play'); break;
+      case 'place': g.lastTile = e.tile; note(g, e.player, `played <b>${B.tileName(e.tile)}</b>`); logLine(`${nm(g, e.player)} placed <b>${B.tileName(e.tile)}</b>.`); sfx.place(); if (e.player !== 0) await say(g, e.player, `placed <b>${B.tileName(e.tile)}</b>${e.kind === 'plain' ? '' : e.kind === 'grow' ? ' · grows a company' : e.kind === 'found' ? ' · founds a startup' : ' · triggers an acquisition'}`, e.kind === 'plain' || e.kind === 'grow' ? 1 : .6); else wait = Math.max(wait, 250); break;
       case 'grow': logLine(`${chip(e.chain)} grows to ${e.size}.`); break;
       case 'found':
-        g.stats.founded[e.player]++; logLine(`${nm(g, e.player)} founded ${chip(e.chain)}${e.free ? ' and took a free share' : ''}.`);
+        g.stats.founded[e.player]++; note(g, e.player, `founded ${chip(e.chain)}`); logLine(`${nm(g, e.player)} founded ${chip(e.chain)}${e.free ? ' and took a free share' : ''}.`);
         sfx.found(); await banner('New startup', `${chip(e.chain)}`, `Founded by ${g.players[e.player].name} · ${e.size} tiles`, 1100); break;
       case 'merge':
-        g.stats.mergers[e.player]++; sfx.merge();
+        g.stats.mergers[e.player]++; sfx.merge(); note(g, e.player, `made ${chip(e.survivor)} acquire ${e.defuncts.map(chip).join(' and ')}`);
         logLine(`<b>Acquisition:</b> ${chip(e.survivor)} acquires ${e.defuncts.map(chip).join(' and ')}.`);
         await banner('Acquisition', `${chip(e.survivor)} <span style="opacity:.6">acquires</span> ${e.defuncts.map(chip).join(' ')}`, `Triggered by ${g.players[e.player].name}`, 1500); break;
       case 'bonus':
@@ -449,7 +471,7 @@ async function present(g, evs) {
         if (e.sell) parts.push(`sold ${e.sell} for <span class="money">${fmt(e.sell * e.price)}</span>`);
         if (e.trade) parts.push(`traded ${e.trade} for ${e.trade / 2} ${chip(e.survivor)}`);
         if (e.keep) parts.push(`kept ${e.keep}`);
-        g.stats.sales[e.player] += e.sell * e.price; g.stats.traded[e.player] += e.trade;
+        g.stats.sales[e.player] += e.sell * e.price; g.stats.traded[e.player] += e.trade; note(g, e.player, `${parts.join(', ')} ${chip(e.defunct)}`);
         logLine(`${nm(g, e.player)} ${parts.join(', ')} ${chip(e.defunct)}.`); if (e.player !== 0) await say(g, e.player, `${parts.join(', ')} ${chip(e.defunct)}`, 1); else wait = Math.max(wait, 350); break;
       }
       case 'merged': logLine(`${chip(e.survivor)} is now ${e.size} tiles.`); wait = Math.max(wait, 700); break;
@@ -458,20 +480,20 @@ async function present(g, evs) {
           const cnt = {}; e.buys.forEach(c => cnt[c] = (cnt[c] || 0) + 1);
           g.stats.spent[e.player] += e.cost; g.stats.bought[e.player] += e.buys.length;
           logLine(`${nm(g, e.player)} bought ${Object.keys(cnt).map(c => `${cnt[c]} ${chip(+c)}`).join(', ')} for <span class="money">${fmt(e.cost)}</span>.`);
-          sfx.buy(); g.bump = Object.keys(cnt).map(Number);
+          sfx.buy(); g.bump = Object.keys(cnt).map(Number); note(g, e.player, `bought ${Object.keys(cnt).map(c => `${cnt[c]} ${chip(+c)}`).join(' and ')}`);
           if (e.player !== 0) await say(g, e.player, `bought ${Object.keys(cnt).map(c => `<b>${cnt[c]}</b> ${chip(+c)}`).join(' ')}`, 1);
           wait = Math.max(wait, 300);
-        } else { logLine(`${nm(g, e.player)} bought nothing.`); if (e.player !== 0) await say(g, e.player, 'bought nothing', .6); }
+        } else { note(g, e.player, 'bought nothing'); logLine(`${nm(g, e.player)} bought nothing.`); if (e.player !== 0) await say(g, e.player, 'bought nothing', .6); }
         break;
       case 'draw': if (e.player === 0) { g.newTiles.push(e.tile); logLine(`You drew <b>${B.tileName(e.tile)}</b>.`); } else { logLine(`${nm(g, e.player)} drew a tile.`); await say(g, e.player, 'drew a tile', .45); } break;
       case 'swap': if (e.player === 0) { if (e.tile >= 0) g.newTiles.push(e.tile); logLine(`Your dead tile ${B.tileName(e.dead)} was swapped${e.tile >= 0 ? ' for <b>' + B.tileName(e.tile) + '</b>' : ''}.`); } else logLine(`${nm(g, e.player)} swapped a dead tile.`); break;
-      case 'end': logLine(e.why === 'declared' ? '<b>The game was ended.</b> Final payouts:' : '<b>No moves left.</b> Final payouts:', 't'); await banner('Game over', 'Final payouts', 'Every company pays its bonuses and all shares are sold', 1500); break;
+      case 'end': await flushTurn(g); logLine(e.why === 'declared' ? '<b>The game was ended.</b> Final payouts:' : '<b>No moves left.</b> Final payouts:', 't'); await banner('Game over', 'Final payouts', 'Every company pays its bonuses and all shares are sold', 1500); break;
       case 'liquidate': for (const [p, k, amt] of e.sales) { g.stats.sales[p] += amt; } logLine(`${chip(e.chain)} shares sold at ${fmt(e.price)}.`); break;
     }
   }
   g.focus = -1; $('#toast').classList.remove('on');
   render();
-  if (wait) await sleep(Math.min(wait, STEP[cfg.pace] + 300));
+  if (wait) await sleep(Math.min(wait, cfg.pace === 'fast' ? 90 : STEP[cfg.pace] + 300));
 }
 let bannerT = 0;
 function banner(k, m, s, ms) {
@@ -480,6 +502,28 @@ function banner(k, m, s, ms) {
   return sleep((cfg.pace === 'fast' ? ms * .5 : ms * .8));
 }
 /* announce one bot step, show the board as it now stands, and hold long enough to read it */
+/* study mode: collect what happened in a bot's turn, then show it in a speech bubble and wait for Next */
+function note(g, p, txt) { const t = g.turnSay; if (!t) return; if (p === t.p) t.parts.push(txt); else t.notes.push(`${g.players[p].name} ${txt}`); }
+function hideBubble() { $('#bubble').classList.remove('on'); }
+async function flushTurn(g) {
+  const t = g.turnSay; g.turnSay = null;
+  if (!t || cfg.pace !== 'study' || t.p === 0 || !t.parts.length || G !== g) return;
+  const pl = g.players[t.p], ps = t.parts, el = $('#bubble');
+  const line = ps.length > 1 ? ps.slice(0, -1).join(', ') + ' and ' + ps[ps.length - 1] : ps[0];
+  g.focus = t.p; renderBoard(); renderSeats(); renderMarket(); $('#toast').classList.remove('on');
+  el.innerHTML = `I ${line}.${t.notes.map(x => `<span class="nt">${x}.</span>`).join('')}<span class="go">Tap for next ▶</span>`;
+  el.className = 'on';
+  const seat = document.querySelector(`.seat[data-p="${t.p}"]`), r = seat.getBoundingClientRect(), bw = el.offsetWidth, bh = el.offsetHeight;
+  const side = seat.parentElement.id; let x, y;
+  if (side === 'seatL') { x = r.right + 12; y = r.top + r.height / 2 - bh / 2; el.classList.add('lt'); }
+  else if (side === 'seatR') { x = r.left - bw - 12; y = r.top + r.height / 2 - bh / 2; el.classList.add('rt'); }
+  else { x = Math.max(8, Math.min(innerWidth - bw - 8, r.left + r.width / 2 - bw / 2)); y = r.bottom + 12; el.classList.add('up'); el.style.setProperty('--tx', r.left + r.width / 2 - x + 'px'); }
+  el.style.left = x + 'px'; el.style.top = Math.max(8, y) + 'px';
+  $('#prompt').innerHTML = `<span class="said"><b style="color:${pl.color}">${pl.name}</b> finished their turn.</span>`;
+  $('#acts').innerHTML = '<button class="btn pri" data-act="next">Next ▶</button>';
+  await new Promise(res => { g.next = res; });
+  g.next = null; hideBubble();
+}
 async function say(g, p, html, k) {
   if (G !== g) return;
   const pl = g.players[p], msg = `<b style="color:${pl.color}">${pl.name}</b> ${html}`;
@@ -529,7 +573,6 @@ function renderSeats() {
     const p = +el.dataset.p;
     el.classList.toggle('on', p === turn); el.classList.toggle('think', p === g.thinking);
     const meta = el.querySelector('.meta');
-    if (p === 0) el.querySelector('.mybtn').textContent = `My shares (${s.sh[0].reduce((a, b) => a + b, 0)})`;
     meta.textContent = p === 0 ? `${s.hand[0].length} tiles` : `${s.hand[p].length} tiles · shares hidden`;
     const cur = s.cash[p], shown = g.shownCash[p];
     if (cur !== shown) {
@@ -551,6 +594,23 @@ function renderMarket() {
     return `<button class="pile${z ? '' : ' off'}${z >= B.SAFE ? ' safe' : ''}${g.bump && g.bump.indexOf(i) >= 0 ? ' bump' : ''}" data-pile="${i}" style="--cc:${c.color};--ci:${c.ink}"><span class="g">${c.glyph}</span><span class="pn">${c.name}</span><span class="pp">${z ? fmt(B.price(s, i)) : '—'}</span><span class="pz">${z ? z + ' tiles' : 'not founded'}</span>${own ? `<span class="own">${own}</span>` : ''}</button>`;
   }).join('');
   g.bump = null;
+  let tot = 0;
+  for (let c = 0; c < 7; c++) { const k = s.sh[0][c], d = k - g.shownSh[c]; tot += k; if (d) { g.shownSh[c] = k; flyCards(c, Math.abs(d), d > 0); } }
+  $('#deckN').textContent = tot;
+}
+/* share cards fly between a stock pile and your deck */
+function flyCards(c, n, toDeck) {
+  const pile = document.querySelector(`[data-pile="${c}"] .g`), deck = $('#deck'); if (!pile || !deck) return;
+  const a = pile.getBoundingClientRect(), b = deck.getBoundingClientRect();
+  const P = [a.left + a.width / 2 - 11, a.top + a.height / 2 - 15], D = [b.left + b.width / 2 - 11, b.top + b.height / 2 - 15];
+  const from = toDeck ? P : D, to = toDeck ? D : P; n = Math.min(n, 6);
+  for (let i = 0; i < n; i++) {
+    const el = document.createElement('div'); el.className = 'fly'; el.textContent = CH[c].glyph;
+    el.style.cssText = `left:${from[0]}px;top:${from[1]}px;background:${CH[c].color};color:${CH[c].ink};opacity:0`;
+    document.body.appendChild(el);
+    const an = el.animate([{ transform: 'translate(0,0) rotate(0deg) scale(1.15)', opacity: 1 }, { transform: `translate(${(to[0] - from[0]) * .5}px,${(to[1] - from[1]) * .5 - 30}px) rotate(${toDeck ? 200 : -200}deg) scale(1.3)`, opacity: 1, offset: .5 }, { transform: `translate(${to[0] - from[0]}px,${to[1] - from[1]}px) rotate(${toDeck ? 360 : -360}deg) scale(.8)`, opacity: 1 }], { duration: 650, delay: i * 140, easing: 'cubic-bezier(.3,.1,.3,1)', fill: 'both' });
+    an.onfinish = () => { el.remove(); if (toDeck) { deck.classList.remove('bump'); void deck.offsetWidth; deck.classList.add('bump'); } };
+  }
 }
 const KIND = { plain: ['solo', '#9aa7ff'], found: ['found', '#5cf2c2'], grow: ['grow', null], merge: ['merge', '#fff'], dead: ['dead', '#ff5d73'], blocked: ['wait', '#ffb23e'] };
 function renderTray() {
@@ -744,7 +804,7 @@ function sheetMine() {
     const k = s.sh[0][i], z = s.size[i], pr = z ? B.price(s, i) : 0, v = k * pr; total += v; n += k;
     return `<tr style="${k ? 'color:#fff;font-weight:800' : 'color:#7f8ab8'}"><td>${chip(i)}</td><td style="font-size:16px">${k}</td><td>${z ? fmt(pr) : 'not on board'}</td><td>${k ? fmt(v) : '·'}</td><td>${s.bank[i]}</td></tr>`;
   }).join('');
-  openSheet('My shares', `<div class="stats"><div class="stat"><b>${n}</b><span>shares held</span></div><div class="stat"><b>${fmt(total)}</b><span>value at today's prices</span></div><div class="stat"><b>${fmt(s.cash[0])}</b><span>cash</span></div><div class="stat"><b>${fmt(s.cash[0] + total)}</b><span>cash + shares</span></div></div>
+  openSheet('My shares', `<div class="mycards">${CH.map((c, i) => `<div class="${s.sh[0][i] ? '' : 'none'}" style="background:${c.color};color:${c.ink}">${c.glyph}<b>${s.sh[0][i]}</b></div>`).join('')}</div><div class="stats"><div class="stat"><b>${n}</b><span>shares held</span></div><div class="stat"><b>${fmt(total)}</b><span>value at today's prices</span></div><div class="stat"><b>${fmt(s.cash[0])}</b><span>cash</span></div><div class="stat"><b>${fmt(s.cash[0] + total)}</b><span>cash + shares</span></div></div>
   <table><tr><th>Company</th><th>Yours</th><th>Price</th><th>Value</th><th>In pile</th></tr>${rows}</table>
   <p class="sub" style="margin-top:8px">Bonuses aren't counted here, because who else holds what is hidden. Shares in a company that's off the board are worth nothing unless it's founded again.</p>`);
 }
@@ -782,11 +842,11 @@ function sheetSetup(first) {
   const seg = (key, opts) => `<div class="seg">${opts.map(([v, l]) => `<button data-cfg="${key}" data-v="${v}" class="${String(cfg[key]) === String(v) ? 'on' : ''}">${l}</button>`).join('')}</div>`;
   openSheet(first ? '' : 'New game', `<div class="hero">BUYOUT</div><div class="herosub">Found startups. Buy in early. Cash out on the acquisition.</div>
   <p class="lab">Players</p>${seg('n', [[3, '3'], [4, '4'], [5, '5'], [6, '6']])}
-  <p class="lab">Names (you first, then clockwise from your left)</p><div class="names">${Array.from({ length: cfg.n }, (_, i) => `<label style="--pc:${PCOL[i]}"><i></i><input class="nmi" data-name="${i}" maxlength="10" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="${defName(i)}" value="${esc(cleanName(cfg.names[i], ''))}"></label>`).join('')}</div>
+  <p class="lab">Names (you first, then clockwise from your left)</p><div class="names">${Array.from({ length: cfg.n }, (_, i) => `<label style="--pc:${PCOL[i]}"><i></i><input class="nmi" data-name="${i}" maxlength="12" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="${defName(i)}" value="${esc(cleanName(cfg.names[i], defName(i)))}"></label>`).join('')}</div>
   <p class="lab">Bot skill</p>${seg('level', [['intern', 'Intern'], ['founder', 'Founder'], ['shark', 'Shark'], ['titan', 'Titan'], ['mixed', 'Mixed']])}
   <p class="lab">Mode</p>${seg('mode', [['training', 'Training (hints)'], ['real', 'Real game']])}
-  <p class="lab">Bot speed</p>${seg('pace', [['study', 'Study'], ['slow', 'Slow'], ['normal', 'Normal'], ['fast', 'Fast']])}
-  <p class="sub">${{ study: 'Study: each bot step (tile, purchase, draw) is announced and held for about 3 seconds so you can track holdings.', slow: 'Slow: each bot step is announced and held for about 2 seconds.', normal: 'Normal: each bot step is held for just under a second.', fast: 'Fast: bots move almost instantly. Use the move log to catch up.' }[cfg.pace]}</p>
+  <p class="lab">Bot speed</p>${seg('pace', [['study', 'Study'], ['normal', 'Normal'], ['fast', 'Fast']])}
+  <p class="sub">${{ study: 'Study: after every bot turn the game stops and the bot says what it played and bought. Tap Next to move on.', normal: 'Normal: each bot takes about 2 to 3 seconds per turn.', fast: 'Fast: bots move instantly. Use the move log to catch up.' }[cfg.pace]}</p>
   <p class="sub">${cfg.mode === 'training' ? 'Training: a hint button ranks your options and explains each one. You still get the full review afterwards.' : 'Real game: no help during play. The full review with best and worst moves appears at the end.'} ${{ intern: 'Interns play by simple rules of thumb.', founder: 'Founders look a little way ahead.', shark: 'Sharks simulate hundreds of futures per move.', titan: 'Titans search deepest and take a moment longer.', mixed: 'A random mix of Founders, Sharks and Titans.' }[cfg.level]}</p>
   <button class="btn pri" style="width:100%;height:48px;font-size:16px" data-act="start">Start game</button>
   ${G && !G.s.over ? '<button class="btn" style="width:100%;margin-top:8px" data-act="close">Back to current game</button>' : ''}
@@ -878,6 +938,7 @@ document.addEventListener('click', ev => {
   if (d.act === 'review') return sheetReview();
   if (d.pile !== undefined) { sfx.tap(); return sheetPile(+d.pile); }
   if (d.act === 'mine') { sfx.tap(); return sheetMine(); }
+  if (d.act === 'next') { if (g.next) { sfx.tap(); g.next(); } return; }
   if (g.s.over || !g.resolve) return;
   const s = g.s, pd = s.pending;
   if (d.t !== undefined) return selectTile(+d.t);
@@ -907,7 +968,8 @@ document.addEventListener('click', ev => {
 });
 function reopen() { const g = G, pd = g.s.pending; if (pd.type === 'found') sheetFound(g, pd); else if (pd.type === 'survivor') sheetSurvivor(g, pd); else if (pd.type === 'dispose') sheetDispose(g, pd); }
 
-document.addEventListener('input', ev => { const i = ev.target.dataset && ev.target.dataset.name; if (i !== undefined) { cfg.names[+i] = cleanName(ev.target.value, ''); store.set('cfg', cfg); } });
+document.addEventListener('input', ev => { const i = ev.target.dataset && ev.target.dataset.name; if (i !== undefined) cfg.names[+i] = cleanName(ev.target.value, ''); });
+document.addEventListener('keydown', ev => { if ((ev.key === ' ' || ev.key === 'Enter') && G && G.next && ev.target.tagName !== 'INPUT') { ev.preventDefault(); G.next(); } });
 $('#sndBtn').textContent = cfg.sound ? '🔊' : '🔇';
 buildBoard();
 sheetSetup(true);
