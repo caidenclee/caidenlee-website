@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#0a0e1c">
+<title>Buyout — startup acquisition game</title>
+<style>
+:root{
+  --bg:#0a0e1c; --bg2:#111731; --panel:#161d3a; --panel2:#1d2648; --line:#2a3563; --ink:#e9edff; --dim:#8f9ac4;
+  --acc:#5cf2c2; --warn:#ffb23e; --bad:#ff5d73; --good:#4ade80; --r:12px;
+  --font:ui-rounded,"SF Pro Rounded","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(1200px 700px at 50% -10%,#1b2554 0%,var(--bg) 60%) fixed,var(--bg);color:var(--ink);font-family:var(--font);overflow:hidden;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
+button:disabled{cursor:default}
+#app{height:100dvh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr) auto auto;gap:6px;padding:calc(6px + env(safe-area-inset-top)) 8px calc(8px + env(safe-area-inset-bottom));max-width:1500px;margin:0 auto}
+
+/* top bar */
+#top{display:flex;align-items:center;gap:8px;min-height:36px}
+.logo{font-weight:900;letter-spacing:.14em;font-size:15px;background:linear-gradient(90deg,var(--acc),#7c8cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+#status{flex:1;min-width:0;font-size:12.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
+#status b{color:var(--ink)}
+.ib{width:34px;height:34px;border-radius:10px;background:var(--panel);border:1px solid var(--line);display:grid;place-items:center;font-size:15px;transition:transform .12s,background .15s}
+.ib:active{transform:scale(.92)}
+.badge{font-size:10px;font-weight:800;letter-spacing:.08em;padding:3px 7px;border-radius:99px;background:#243067;color:#b9c4ff;text-transform:uppercase}
+.badge.real{background:#3a1d2a;color:#ff9db0}
+
+/* seats */
+#seats{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:5px}
+.seat{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:5px 4px 5px;text-align:center;min-width:0;transition:border-color .25s,box-shadow .25s,transform .25s}
+.seat.on{border-color:var(--pc);box-shadow:0 0 0 1px var(--pc),0 6px 22px -8px var(--pc);transform:translateY(-1px)}
+.seat .av{width:24px;height:24px;border-radius:50%;margin:0 auto 2px;display:grid;place-items:center;font-size:12px;font-weight:900;color:#0a0e1c;background:var(--pc)}
+.seat .nm{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seat .lv{display:none;font-size:10px;color:var(--dim)}
+.seat .cash{font-size:12px;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums}
+.seat .meta{display:none;font-size:10.5px;color:var(--dim)}
+.seat.think .av::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid transparent;border-top-color:var(--pc);animation:spin .8s linear infinite}
+.seat .av{position:relative}
+.floater{position:fixed;z-index:60;font-weight:900;font-size:14px;pointer-events:none;animation:floatUp 1.5s ease-out forwards;text-shadow:0 2px 8px #000a}
+.floater.up{color:var(--good)} .floater.down{color:var(--bad)}
+
+/* board */
+#mid{min-height:0;display:flex;align-items:center;justify-content:center;container-type:size}
+#board{width:min(100cqw,calc(100cqh * 12 / 9));aspect-ratio:12/9;display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(9,1fr);gap:clamp(1.5px,.45cqw,5px);padding:clamp(3px,.8cqw,10px);background:linear-gradient(160deg,#131a3a,#0d1228);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 50px -20px #000,inset 0 0 40px #0006;container-type:inline-size}
+.cell{position:relative;border-radius:22%;background:#0e1430;border:1px solid #1c2550;color:#3c4880;font-size:2.35cqw;font-weight:700;display:grid;place-items:center;min-width:0;min-height:0;transition:background .3s,border-color .3s,color .3s,box-shadow .3s}
+.cell.mine{border:1.5px dashed #9aa7ff;color:#c6ceff;background:#18214d}
+.cell.mine.bad{border-color:#5a628f;color:#6d77a8;background:#111838}
+.cell.lone{background:linear-gradient(160deg,#59648f,#3b446b);border-color:#7a86b8;color:#e9edff;box-shadow:inset 0 -2px 0 #0004,0 2px 6px #0006}
+.cell.ch{background:linear-gradient(160deg,color-mix(in srgb,var(--cc) 100%,#fff 0%),color-mix(in srgb,var(--cc) 72%,#000));border-color:color-mix(in srgb,var(--cc) 60%,#fff);color:var(--ci);box-shadow:inset 0 -2px 0 #0003,0 2px 8px -2px var(--cc)}
+.cell.ch.safe::after{content:"";position:absolute;inset:8%;border-radius:20%;border:1.5px solid #fff9;pointer-events:none}
+.cell.sel{outline:2px solid #fff;outline-offset:1px;z-index:3;animation:selPulse 1s ease-in-out infinite}
+.cell.last::before{content:"";position:absolute;top:8%;right:8%;width:16%;height:16%;border-radius:50%;background:#fff;box-shadow:0 0 6px #fff}
+.cell.hl{animation:hl 1s ease-in-out infinite}
+.cell.pop{animation:pop .45s cubic-bezier(.2,1.5,.4,1) both}
+.cell.flip{animation:flip .5s ease both}
+
+/* market */
+#market{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.pile{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:5px 2px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;transition:transform .12s,border-color .2s,opacity .3s}
+.pile:active{transform:scale(.95)}
+.pile.off{opacity:.45}
+.pile .g{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-weight:900;font-size:13px;color:var(--ci);background:linear-gradient(160deg,var(--cc),color-mix(in srgb,var(--cc) 70%,#000));box-shadow:2px 2px 0 color-mix(in srgb,var(--cc) 45%,#000),4px 4px 0 color-mix(in srgb,var(--cc) 25%,#000)}
+.pile .pn{font-size:9.5px;font-weight:700;margin-top:3px;white-space:nowrap}
+.pile .pp{font-size:11px;font-weight:800;font-variant-numeric:tabular-nums}
+.pile .pz{font-size:9px;color:var(--dim)}
+.pile .own{position:absolute;top:-5px;right:-3px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#fff;color:#0a0e1c;font-size:10.5px;font-weight:900;display:grid;place-items:center;box-shadow:0 2px 6px #0008}
+.pile.bump{animation:bump .4s ease}
+.pile.safe .pz::after{content:" · safe";color:var(--acc)}
+
+/* tray */
+#tray{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:7px;min-height:118px}
+#prompt{font-size:12.5px;color:var(--dim);min-height:17px;line-height:1.3}
+#prompt b{color:var(--ink)}
+#hand{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+.tile{height:40px;border-radius:10px;background:linear-gradient(160deg,#2a366e,#1b2450);border:1px solid #4553a0;font-weight:800;font-size:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;gap:2px;transition:transform .15s,box-shadow .15s,border-color .15s;position:relative}
+.tile small{font-size:8.5px;font-weight:700;letter-spacing:.04em;color:var(--tc,#9aa7ff);text-transform:uppercase}
+.tile.sel{transform:translateY(-5px);border-color:#fff;box-shadow:0 8px 18px -6px #7c8cff}
+.tile.bad{opacity:.4}
+.tile.off{pointer-events:none;filter:saturate(.6)}
+.tile.new{animation:pop .5s cubic-bezier(.2,1.5,.4,1)}
+.tile.empty{background:none;border:1px dashed var(--line)}
+#acts{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.btn{height:40px;padding:0 14px;border-radius:11px;background:var(--panel2);border:1px solid var(--line);font-weight:800;font-size:13.5px;transition:transform .1s,filter .15s,opacity .2s;white-space:nowrap}
+.btn:active{transform:scale(.96)}
+.btn.pri{background:linear-gradient(180deg,#6ff7cd,#34c99b);color:#04261b;border-color:#8dffe0;flex:1;box-shadow:0 8px 20px -10px var(--acc)}
+.btn.warn{background:#3a2a12;border-color:#a8742a;color:#ffd08a}
+.btn.warn.on{background:linear-gradient(180deg,#ffc76a,#f0932b);color:#2b1800}
+.btn:disabled{opacity:.4}
+.btn.hint{background:#241d4e;border-color:#6558c9;color:#cfc7ff}
+#buyrow{display:flex;gap:5px;flex-wrap:wrap}
+.bb{height:36px;padding:0 8px 0 5px;border-radius:10px;background:var(--panel2);border:1px solid color-mix(in srgb,var(--cc) 55%,#000);display:flex;align-items:center;gap:6px;font-weight:800;font-size:12.5px}
+.bb i{font-style:normal;width:24px;height:24px;border-radius:7px;background:var(--cc);color:var(--ci);display:grid;place-items:center;font-size:12px}
+.bb:disabled{opacity:.35}
+.bb .q{background:#fff;color:#0a0e1c;border-radius:8px;padding:1px 6px;font-size:11px}
+.bb .x{color:var(--dim);font-size:15px;padding:0 2px}
+
+/* side (log) */
+#side{display:none}
+#log{font-size:12px;line-height:1.45;color:#b8c1e8;overflow:auto;display:flex;flex-direction:column;gap:3px}
+#log .t{color:var(--dim);font-weight:800;margin-top:6px;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+#log .k{font-weight:800} #log .money{color:var(--acc);font-weight:700}
+.chip{display:inline-block;padding:0 6px;border-radius:6px;background:var(--cc);color:var(--ci);font-weight:800;font-size:.92em}
+
+/* sheets */
+#scrim{position:fixed;inset:0;background:#050814b0;backdrop-filter:blur(3px);z-index:40;opacity:0;pointer-events:none;transition:opacity .25s}
+#scrim.on{opacity:1;pointer-events:auto}
+#sheet{position:fixed;left:50%;bottom:0;width:min(100%,560px);max-height:88dvh;transform:translate(-50%,105%);background:linear-gradient(180deg,#1b2450,#131a3a);border:1px solid #3a478a;border-bottom:0;border-radius:20px 20px 0 0;z-index:50;transition:transform .35s cubic-bezier(.2,.9,.3,1);display:flex;flex-direction:column;box-shadow:0 -20px 60px -10px #000}
+#sheet.on{transform:translate(-50%,0)}
+#sheet.peek{transform:translate(-50%,calc(100% - 54px))}
+#sheetHead{display:flex;align-items:center;gap:8px;padding:12px 14px 6px}
+#sheetHead h2{flex:1;margin:0;font-size:16px;font-weight:900}
+#sheetBody{padding:4px 14px calc(16px + env(safe-area-inset-bottom));overflow:auto;-webkit-overflow-scrolling:touch}
+.sub{color:var(--dim);font-size:12.5px;line-height:1.45;margin:0 0 10px}
+.opt{width:100%;display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);margin-bottom:7px;text-align:left;transition:transform .1s,border-color .15s}
+.opt:active{transform:scale(.985)}
+.opt .g{width:38px;height:38px;border-radius:10px;background:var(--cc);color:var(--ci);display:grid;place-items:center;font-weight:900;flex:none}
+.opt .tx{flex:1;min-width:0}.opt .tx b{display:block;font-size:14px}.opt .tx span{font-size:11.5px;color:var(--dim)}
+.step{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);margin-bottom:7px}
+.step .tx{flex:1}.step .tx b{font-size:14px}.step .tx span{display:block;font-size:11.5px;color:var(--dim)}
+.step button{width:38px;height:38px;border-radius:10px;background:#2a366e;font-size:20px;font-weight:900}
+.step button:disabled{opacity:.3}
+.step .n{width:34px;text-align:center;font-weight:900;font-size:18px;font-variant-numeric:tabular-nums}
+.row{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.hintc{border-radius:12px;background:var(--panel2);border:1px solid var(--line);padding:10px;margin-bottom:8px}
+.hintc.top{border-color:var(--acc);box-shadow:0 0 0 1px #5cf2c244}
+.hintc h4{margin:0 0 4px;font-size:14px;display:flex;gap:8px;align-items:center}
+.hintc h4 em{font-style:normal;margin-left:auto;font-size:12px;color:var(--acc);font-variant-numeric:tabular-nums}
+.hintc ul{margin:4px 0 6px;padding:0;list-style:none;font-size:12px;line-height:1.45;color:#c5cdf2}
+.hintc li{padding-left:16px;position:relative}
+.hintc li::before{position:absolute;left:0;font-weight:900}
+.hintc li.p::before{content:"+";color:var(--good)} .hintc li.m::before{content:"–";color:var(--bad)} .hintc li.n::before{content:"·";color:var(--dim)}
+.bar{height:5px;border-radius:3px;background:#0b1026;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#7c8cff,var(--acc));border-radius:3px;transition:width .4s}
+.tag{font-size:10px;font-weight:900;letter-spacing:.06em;padding:2px 7px;border-radius:99px;text-transform:uppercase}
+.tag.best{background:#0f3d2e;color:#7dffcf}.tag.good{background:#1d3a55;color:#9bd4ff}.tag.inacc{background:#4a3d12;color:#ffe08a}.tag.mist{background:#4d2a12;color:#ffb27a}.tag.blun{background:#4d1422;color:#ff8fa3}.tag.na{background:#2a3157;color:#aab3dc}
+.seg{display:flex;background:#0d1330;border:1px solid var(--line);border-radius:12px;padding:3px;gap:3px;margin-bottom:12px}
+.seg button{flex:1;height:38px;border-radius:9px;font-weight:800;font-size:13px;color:var(--dim);transition:background .2s,color .2s}
+.seg button.on{background:linear-gradient(180deg,#34428a,#28346e);color:#fff;box-shadow:0 2px 8px #0006}
+.lab{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin:0 0 5px}
+.hero{font-size:34px;font-weight:900;letter-spacing:.16em;text-align:center;margin:4px 0 0;background:linear-gradient(90deg,var(--acc),#7c8cff,#d47bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.herosub{text-align:center;color:var(--dim);font-size:12.5px;margin:2px 0 14px}
+table{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}
+th,td{padding:5px 4px;text-align:right;border-bottom:1px solid #263060}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--dim);font-size:10.5px;font-weight:800;letter-spacing:.04em}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-bottom:10px}
+.stat{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:9px}
+.stat b{display:block;font-size:19px;font-weight:900}.stat span{font-size:11px;color:var(--dim)}
+.place{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:13px;font-weight:700}
+.place .pb{flex:1;height:22px;border-radius:7px;background:#0b1026;overflow:hidden}.place .pb i{display:block;height:100%;border-radius:7px;background:var(--pc);width:0;transition:width 1.1s cubic-bezier(.2,.9,.3,1)}
+.place .amt{width:74px;text-align:right;font-variant-numeric:tabular-nums}
+h3.sec{font-size:13px;margin:16px 0 7px;letter-spacing:.06em;text-transform:uppercase;color:#c9d1ff}
+.rules p,.rules li{font-size:13px;line-height:1.5;color:#cdd4f5}.rules h4{margin:12px 0 2px}
+
+/* banner + toast */
+#banner{position:fixed;inset:0;z-index:70;display:grid;place-items:center;pointer-events:none;opacity:0}
+#banner.on{animation:bannerIn 1.7s ease both}
+#banner .bx{background:linear-gradient(180deg,#232e66f2,#151c40f2);border:1px solid #5362b8;border-radius:18px;padding:16px 22px;text-align:center;box-shadow:0 30px 80px -10px #000;max-width:90vw}
+#banner .k{font-size:11px;font-weight:900;letter-spacing:.3em;color:var(--acc)}
+#banner .m{font-size:21px;font-weight:900;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+#banner .s{font-size:12.5px;color:var(--dim);margin-top:5px}
+#toast{position:fixed;left:50%;top:calc(126px + env(safe-area-inset-top));transform:translate(-50%,-20px);background:#232e66;border:1px solid #5362b8;padding:7px 13px;border-radius:99px;font-size:12.5px;font-weight:700;z-index:65;opacity:0;transition:all .3s;pointer-events:none;max-width:92vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.conf{position:fixed;top:-12px;width:9px;height:14px;z-index:80;pointer-events:none;animation:fall linear forwards}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pop{0%{transform:scale(.2) rotate(-12deg);opacity:0}60%{transform:scale(1.18)}100%{transform:none;opacity:1}}
+@keyframes flip{0%{transform:rotateY(0)}50%{transform:rotateY(90deg) scale(1.1)}100%{transform:rotateY(0)}}
+@keyframes selPulse{50%{box-shadow:0 0 0 4px #ffffff40}}
+@keyframes hl{50%{filter:brightness(1.35)}}
+@keyframes bump{40%{transform:translateY(-6px) scale(1.06)}}
+@keyframes floatUp{0%{opacity:0;transform:translateY(6px) scale(.8)}15%{opacity:1;transform:translateY(0) scale(1.1)}100%{opacity:0;transform:translateY(-38px)}}
+@keyframes bannerIn{0%{opacity:0;transform:scale(.85)}12%{opacity:1;transform:scale(1.03)}18%{transform:scale(1)}85%{opacity:1}100%{opacity:0;transform:scale(1.02)}}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+
+/* desktop */
+@media (min-width:980px) and (min-height:560px){
+  #app{grid-template-columns:230px minmax(0,1fr) 330px;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;padding:14px 18px}
+  #top{grid-column:1/-1}
+  .logo{font-size:20px}#status{font-size:14px}
+  #seats{grid-column:1;grid-row:2/4;grid-auto-flow:row;grid-auto-columns:auto;grid-auto-rows:min-content;gap:9px;align-content:start}
+  .seat{display:grid;grid-template-columns:auto 1fr;column-gap:10px;text-align:left;padding:11px 12px;align-items:center}
+  .seat .av{width:38px;height:38px;font-size:17px;grid-row:1/4;margin:0}
+  .seat .nm{font-size:14px}.seat .lv{display:inline;margin-left:6px}.seat .cash{font-size:18px}.seat .meta{display:block}
+  #mid{grid-column:2;grid-row:2}
+  #tray{grid-column:2;grid-row:3;padding:12px;min-height:150px}
+  #market{grid-column:3;grid-row:2;grid-template-columns:1fr;gap:7px;align-content:start;overflow:auto;padding:7px 7px 0 0}
+  .pile{flex-direction:row;padding:8px 12px;gap:12px}
+  .pile .g{width:34px;height:34px;font-size:16px}.pile .pn{font-size:14px;margin:0;flex:1;text-align:left}.pile .pp{font-size:15px}.pile .pz{font-size:11.5px;width:74px;text-align:right}
+  .pile .own{top:-6px;right:-5px}
+  #side{display:flex;flex-direction:column;grid-column:3;grid-row:3;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px;min-height:0;height:190px}
+  #side h3{margin:0 0 4px;font-size:11px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
+  #logBtn{display:none}
+  #toast{top:58px}
+  .tile{height:54px;font-size:18px}.tile small{font-size:10px}
+  #hand{max-width:560px}
+  #prompt{font-size:14px}
+  #sheet{bottom:auto;top:50%;border-radius:20px;border-bottom:1px solid #3a478a;transform:translate(-50%,-46%) scale(.96);opacity:0;pointer-events:none;transition:transform .25s,opacity .2s;width:min(92vw,600px)}
+  #sheet.on{transform:translate(-50%,-50%);opacity:1;pointer-events:auto}
+  #sheet.peek{transform:translate(-50%,-50%);opacity:.08}
+  #sheet.wide{width:min(94vw,860px)}
+  .stats{grid-template-columns:repeat(4,1fr)}
+}
+@media (max-width:979px){#modeBadge{display:none}}
+@media (max-height:640px) and (max-width:979px){.pile .pz,.pile .pn{display:none}.tile{height:34px}#tray{min-height:100px}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="top">
+    <span class="logo">BUYOUT</span><span class="badge" id="modeBadge">Training</span>
+    <div id="status"></div>
+    <button class="ib" id="logBtn" data-act="log" aria-label="Move log">☰</button>
+    <button class="ib" data-act="sound" id="sndBtn" aria-label="Sound">🔊</button>
+    <button class="ib" data-act="rules" aria-label="Rules">?</button>
+    <button class="ib" data-act="menu" aria-label="Menu">⚙</button>
+  </div>
+  <div id="seats"></div>
+  <div id="mid"><div id="board"></div></div>
+  <div id="market"></div>
+  <div id="tray"><div id="prompt"></div><div id="hand"></div><div id="buyrow" hidden></div><div id="acts"></div></div>
+  <div id="side"><h3>Move log</h3><div id="log"></div></div>
+</div>
+<div id="scrim"></div>
+<div id="sheet"><div id="sheetHead"><h2 id="sheetTitle"></h2><button class="btn" id="peekBtn" data-act="peek" hidden>Peek board</button><button class="ib" id="closeBtn" data-act="close">✕</button></div><div id="sheetBody"></div></div>
+<div id="banner"><div class="bx"><div class="k"></div><div class="m"></div><div class="s"></div></div></div>
+<div id="toast"></div>
+
+<script src="engine.js"></script>
+<script>
+'use strict';
+const B = Buyout, CH = B.CHAINS, $ = s => document.querySelector(s);
+const fmt = n => (n < 0 ? '-$' : '$') + Math.abs(Math.round(n)).toLocaleString('en-US');
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const chip = c => `<span class="chip" style="--cc:${CH[c].color};--ci:${CH[c].ink}">${CH[c].name}</span>`;
+const PCOL = ['#e9edff', '#ff9d5c', '#5cc8ff', '#c98bff', '#7ee08a', '#ff7fa0'];
+const BOTS = ['Nova', 'Dash', 'Echo', 'Rook', 'Vega'];
+const PACE = { slow: 1100, normal: 600, fast: 160 };
+const store = { get(k, d) { try { return JSON.parse(localStorage.getItem('buyout.' + k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('buyout.' + k, JSON.stringify(v)); } catch (e) {} } };
+let cfg = Object.assign({ n: 4, level: 'shark', mode: 'training', pace: 'normal', sound: true }, store.get('cfg', {}));
+let G = null;
+
+/* ---------- sound ---------- */
+let AC = null;
+function tone(f, d, type, v, when) {
+  if (!cfg.sound) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    const t = AC.currentTime + (when || 0), o = AC.createOscillator(), g = AC.createGain();
+    o.type = type || 'triangle'; o.frequency.setValueAtTime(f, t);
+    g.gain.setValueAtTime(v || 0.05, t); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+    o.connect(g).connect(AC.destination); o.start(t); o.stop(t + d + 0.02);
+  } catch (e) {}
+}
+const sfx = {
+  place() { tone(220, .09, 'square', .035); tone(330, .08, 'triangle', .04, .03); },
+  found() { [392, 523, 659].forEach((f, i) => tone(f, .16, 'triangle', .05, i * .07)); },
+  buy() { tone(880, .06, 'sine', .05); tone(1320, .1, 'sine', .04, .05); },
+  merge() { [196, 262, 330, 392, 523].forEach((f, i) => tone(f, .28, 'sawtooth', .028, i * .06)); },
+  cash() { [1046, 1318, 1568].forEach((f, i) => tone(f, .09, 'sine', .04, i * .05)); },
+  tap() { tone(520, .04, 'sine', .03); },
+  win() { [523, 659, 784, 1046, 1318].forEach((f, i) => tone(f, .3, 'triangle', .05, i * .11)); },
+  lose() { [392, 330, 262].forEach((f, i) => tone(f, .3, 'triangle', .045, i * .14)); },
+};
+
+/* ---------- game setup ---------- */
+function newGame() {
+  const n = cfg.n, s = B.newGame(n, (Math.random() * 2 ** 31) | 0);
+  const names = BOTS.slice().sort(() => Math.random() - .5);
+  const players = [];
+  for (let p = 0; p < n; p++) {
+    const lv = p === 0 ? null : cfg.level === 'mixed' ? ['founder', 'shark', 'titan'][(Math.random() * 3) | 0] : cfg.level;
+    players.push({ name: p === 0 ? 'You' : names[p - 1], human: p === 0, level: lv, color: PCOL[p] });
+  }
+  const z = () => new Array(n).fill(0);
+  G = {
+    s, players, mode: cfg.mode, sel: -1, cart: [], end: false, an: null, resolve: null, thinking: -1, lastTile: -1, newTiles: [],
+    prevBoard: new Int8Array(B.N).fill(B.EMPTY), shownCash: s.cash.slice(), hist: [], decisions: [], lastHold: null,
+    stats: { bonus: z(), sales: z(), spent: z(), bought: z(), founded: z(), mergers: z(), traded: z() }, bigPay: null,
+  };
+  $('#modeBadge').textContent = G.mode === 'training' ? 'Training' : 'Real game';
+  $('#modeBadge').className = 'badge' + (G.mode === 'real' ? ' real' : '');
+  $('#log').innerHTML = '';
+  buildBoard(); buildSeats(); closeSheet(true);
+  run(G);
+}
+
+function buildBoard() {
+  let h = '';
+  for (let i = 0; i < B.N; i++) h += `<button class="cell" data-t="${i}">${B.tileName(i)}</button>`;
+  $('#board').innerHTML = h;
+}
+function buildSeats() {
+  $('#seats').innerHTML = G.players.map((pl, p) =>
+    `<div class="seat" data-p="${p}" style="--pc:${pl.color}"><div class="av">${pl.name[0]}</div><div class="nm">${pl.name}<span class="lv">${pl.human ? '' : B.LEVELS[pl.level].name}</span></div><div class="cash">${fmt(G.s.cash[p])}</div><div class="meta"></div></div>`).join('');
+}
+
+/* ---------- main loop ---------- */
+async function run(g) {
+  await present(g, g.s.ev.splice(0));
+  while (!g.s.over && G === g) {
+    const pd = g.s.pending, pl = g.players[pd.player];
+    render();
+    let a;
+    try { a = pl.human ? await humanDecision(g, pd) : await botDecision(g, pd, pl); } catch (e) { console.error(e); return; }
+    if (G !== g) return;
+    g.lastHold = g.s.sh.map(x => x.slice()); g.lastSize = g.s.size.slice();
+    const turnBefore = g.s.turnNo;
+    B.apply(g.s, a);
+    if (g.s.turnNo !== turnBefore || g.s.over) snap(g);
+    await present(g, g.s.ev.splice(0));
+  }
+  if (G === g) { render(); gameOver(g); }
+}
+function snap(g) { g.hist.push(g.players.map((_, p) => g.s.over ? g.s.cash[p] : B.netWorth(g.s, p))); }
+
+async function botDecision(g, pd, pl) {
+  const L = B.LEVELS[pl.level], t0 = performance.now();
+  g.thinking = pd.player; renderSeats(); setStatus();
+  let a;
+  if (!L.mc) a = B.policy(g.s, Math.random, L.noise);
+  else {
+    const an = new B.Analysis(g.s, { seed: (Math.random() * 1e9) | 0, prune: true });
+    if (an.c.length === 1) a = an.c[0].a;
+    else {
+      const cap = L.maxRounds || 1e9;
+      while (performance.now() - t0 < L.mc && an.rounds < cap) { an.runFor(10, cap); await sleep(0); if (G !== g) throw 0; }
+      a = an.best().a;
+    }
+  }
+  const pace = PACE[cfg.pace] * (pd.type === 'dispose' ? .6 : 1);
+  await sleep(Math.max(0, pace - (performance.now() - t0)));
+  if (G !== g) throw 0;
+  g.thinking = -1;
+  return a;
+}
+
+function humanDecision(g, pd) {
+  g.sel = -1; g.cart = []; g.end = false;
+  if (pd.type === 'buy' && !pd.canEnd && !buyable(g).length) return Promise.resolve({ buys: [] });
+  startAnalysis(g);
+  render();
+  if (pd.type === 'found') sheetFound(g, pd);
+  else if (pd.type === 'survivor') sheetSurvivor(g, pd);
+  else if (pd.type === 'dispose') sheetDispose(g, pd);
+  return new Promise(res => { g.resolve = res; });
+}
+function buyable(g) {
+  const s = g.s, out = [];
+  for (let c = 0; c < 7; c++) if (s.size[c] && s.bank[c] > 0 && B.price(s, c) <= s.cash[0]) out.push(c);
+  return out;
+}
+function startAnalysis(g) {
+  const an = new B.Analysis(g.s, { seed: (Math.random() * 1e9) | 0, wide: true, metric: 'margin', prune: g.s.pending.type === 'buy' });
+  g.an = an;
+  if (an.c.length < 2) return;
+  (async () => {
+    while (G === g && g.an === an && an.rounds < 260) { an.runFor(9, 260); if (g.hintLive) g.hintLive(); await sleep(14); }
+  })();
+}
+function commit(a) {
+  const g = G; if (!g || !g.resolve) return;
+  const s = g.s, pd = s.pending, an = g.an;
+  if (an && an.c.length >= 2) {
+    if (an.rounds < 40) an.runFor(120, 40);
+    const ch = an.ensure(a), best = an.best(), n = Math.min(ch.sc.length, best.sc.length);
+    const loss = Math.max(0, an.mean(best, n) - an.mean(ch, n));
+    const ranked = an.ranked();
+    g.decisions.push({
+      turn: s.turnNo + 1, type: pd.type, label: actionLabel(s, a, pd), bestLabel: actionLabel(s, best.a, pd),
+      same: B.sameAction(a, best.a), loss, n, proj: an.mean(ch, n), bestProj: an.mean(best, n),
+      why: explain(s, 0, a, pd), bestWhy: explain(s, 0, best.a, pd),
+      gap: ranked.length > 1 ? ranked[0].score - ranked[1].score : 0, opts: ranked.length,
+    });
+  }
+  g.an = null; g.hintLive = null;
+  const r = g.resolve; g.resolve = null; closeSheet(true); r(a);
+}
+
+/* ---------- presentation of engine events ---------- */
+function logLine(html, cls) { const d = document.createElement('div'); if (cls) d.className = cls; d.innerHTML = html; const L = $('#log'); L.appendChild(d); L.scrollTop = 1e9; }
+const nm = (g, p) => `<span class="k" style="color:${g.players[p].color}">${g.players[p].name}</span>`;
+async function present(g, evs) {
+  let wait = 0;
+  for (const e of evs) {
+    switch (e.e) {
+      case 'setup': logLine('Opening tiles: ' + e.draws.map((t, p) => `${nm(g, p)} ${B.tileName(t)}`).join(', ') + `. ${nm(g, e.first)} go${e.first ? 'es' : ''} first.`); snap(g); break;
+      case 'turn': logLine(`Turn ${g.s.turnNo + 1} · ${g.players[e.player].name}`, 't'); break;
+      case 'pass': logLine(`${nm(g, e.player)} had no playable tile.`); break;
+      case 'place': g.lastTile = e.tile; logLine(`${nm(g, e.player)} placed <b>${B.tileName(e.tile)}</b>.`); sfx.place(); wait = Math.max(wait, 250); break;
+      case 'grow': logLine(`${chip(e.chain)} grows to ${e.size}.`); break;
+      case 'found':
+        g.stats.founded[e.player]++; logLine(`${nm(g, e.player)} founded ${chip(e.chain)}${e.free ? ' and took a free share' : ''}.`);
+        sfx.found(); await banner('New startup', `${chip(e.chain)}`, `Founded by ${g.players[e.player].name} · ${e.size} tiles`, 1100); break;
+      case 'merge':
+        g.stats.mergers[e.player]++; sfx.merge();
+        logLine(`<b>Acquisition:</b> ${chip(e.survivor)} acquires ${e.defuncts.map(chip).join(' and ')}.`);
+        await banner('Acquisition', `${chip(e.survivor)} <span style="opacity:.6">acquires</span> ${e.defuncts.map(chip).join(' ')}`, `Triggered by ${g.players[e.player].name}`, 1500); break;
+      case 'bonus':
+        for (const [p, amt, k] of e.pays) {
+          g.stats.bonus[p] += amt;
+          logLine(`${nm(g, p)} collects <span class="money">${fmt(amt)}</span> ${chip(e.chain)} bonus (${k} shares).`);
+          if (p === 0 && (!g.bigPay || amt > g.bigPay.amt)) g.bigPay = { amt, chain: e.chain, turn: g.s.turnNo + 1 };
+        }
+        if (e.pays.length) { sfx.cash(); wait = Math.max(wait, 900); }
+        break;
+      case 'dispose': {
+        const parts = [];
+        if (e.sell) parts.push(`sold ${e.sell} for <span class="money">${fmt(e.sell * e.price)}</span>`);
+        if (e.trade) parts.push(`traded ${e.trade} for ${e.trade / 2} ${chip(e.survivor)}`);
+        if (e.keep) parts.push(`kept ${e.keep}`);
+        g.stats.sales[e.player] += e.sell * e.price; g.stats.traded[e.player] += e.trade;
+        logLine(`${nm(g, e.player)} ${parts.join(', ')} ${chip(e.defunct)}.`); wait = Math.max(wait, 350); break;
+      }
+      case 'merged': logLine(`${chip(e.survivor)} is now ${e.size} tiles.`); wait = Math.max(wait, 700); break;
+      case 'buy':
+        if (e.buys.length) {
+          const cnt = {}; e.buys.forEach(c => cnt[c] = (cnt[c] || 0) + 1);
+          g.stats.spent[e.player] += e.cost; g.stats.bought[e.player] += e.buys.length;
+          logLine(`${nm(g, e.player)} bought ${Object.keys(cnt).map(c => `${cnt[c]} ${chip(+c)}`).join(', ')} for <span class="money">${fmt(e.cost)}</span>.`);
+          sfx.buy(); g.bump = Object.keys(cnt).map(Number);
+          if (e.player !== 0) toast(`${g.players[e.player].name} bought ${Object.keys(cnt).map(c => `${cnt[c]} ${CH[c].name}`).join(', ')}`);
+          wait = Math.max(wait, 300);
+        } else logLine(`${nm(g, e.player)} bought nothing.`);
+        break;
+      case 'draw': if (e.player === 0) { g.newTiles.push(e.tile); logLine(`You drew <b>${B.tileName(e.tile)}</b>.`); } break;
+      case 'swap': if (e.player === 0) { if (e.tile >= 0) g.newTiles.push(e.tile); logLine(`Your dead tile ${B.tileName(e.dead)} was swapped${e.tile >= 0 ? ' for <b>' + B.tileName(e.tile) + '</b>' : ''}.`); } else logLine(`${nm(g, e.player)} swapped a dead tile.`); break;
+      case 'end': logLine(e.why === 'declared' ? '<b>The game was ended.</b> Final payouts:' : '<b>No moves left.</b> Final payouts:', 't'); await banner('Game over', 'Final payouts', 'Every company pays its bonuses and all shares are sold', 1500); break;
+      case 'liquidate': for (const [p, k, amt] of e.sales) { g.stats.sales[p] += amt; } logLine(`${chip(e.chain)} shares sold at ${fmt(e.price)}.`); break;
+    }
+  }
+  render();
+  if (wait) await sleep(Math.min(wait, PACE[cfg.pace] + 300));
+}
+let bannerT = 0;
+function banner(k, m, s, ms) {
+  const el = $('#banner'); el.querySelector('.k').textContent = k; el.querySelector('.m').innerHTML = m; el.querySelector('.s').textContent = s;
+  el.classList.remove('on'); void el.offsetWidth; el.style.animationDuration = (cfg.pace === 'fast' ? ms * .55 : ms) + 'ms'; el.classList.add('on');
+  return sleep((cfg.pace === 'fast' ? ms * .5 : ms * .8));
+}
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(bannerT); bannerT = setTimeout(() => el.classList.remove('on'), 1800); }
+
+/* ---------- rendering ---------- */
+function render() { if (!G) return; renderBoard(); renderSeats(); renderMarket(); renderTray(); setStatus(); }
+function setStatus() {
+  const g = G, s = g.s, el = $('#status');
+  if (s.over) { el.innerHTML = '<b>Game over</b>'; return; }
+  const pd = s.pending, pl = g.players[pd.player];
+  const what = { place: 'placing a tile', found: 'founding a startup', survivor: 'choosing the survivor', dispose: 'handling acquired shares', buy: 'buying shares' }[pd.type];
+  el.innerHTML = innerWidth < 980 ? `Turn ${s.turnNo + 1} · <b>${s.bag.length}</b> in bag` : `Turn ${s.turnNo + 1} · <b style="color:${pl.color}">${pl.name}</b> ${pl.human ? 'are' : 'is'} ${what} · ${s.bag.length} tiles in the bag`;
+}
+function renderBoard() {
+  const g = G, s = g.s, cells = $('#board').children, mine = s.hand[0];
+  const pd = s.pending, myPlace = pd && pd.type === 'place' && pd.player === 0;
+  let hl = [];
+  if (myPlace && g.sel >= 0) hl = B.tileInfo(s, g.sel).chains;
+  const lt = g.lastTile, lr = lt >= 0 ? (lt / 12) | 0 : 0, lc = lt >= 0 ? lt % 12 : 0;
+  for (let i = 0; i < B.N; i++) {
+    const v = s.board[i], el = cells[i], prev = g.prevBoard[i];
+    let cls = 'cell';
+    if (v === B.LONE) cls += ' lone';
+    else if (v >= 0) { cls += ' ch'; if (s.size[v] >= B.SAFE) cls += ' safe'; if (hl.indexOf(v) >= 0) cls += ' hl'; el.style.setProperty('--cc', CH[v].color); el.style.setProperty('--ci', CH[v].ink); }
+    else if (mine.indexOf(i) >= 0) { cls += ' mine'; if (!B.playable(B.tileInfo(s, i).k)) cls += ' bad'; }
+    if (i === g.sel && myPlace) cls += ' sel';
+    if (i === lt && v >= 0) cls += ' last';
+    if (v !== prev) {
+      if (prev === B.EMPTY) cls += ' pop';
+      else { cls += ' flip'; el.style.animationDelay = (Math.abs(((i / 12) | 0) - lr) + Math.abs(i % 12 - lc)) * 55 + 'ms'; }
+      if (prev === B.EMPTY) el.style.animationDelay = '0ms';
+      g.prevBoard[i] = v;
+      const e2 = el; setTimeout(() => { e2.classList.remove('pop', 'flip'); }, 1400);
+    } else if (el.classList.contains('pop')) cls += ' pop'; else if (el.classList.contains('flip')) cls += ' flip';
+    if (el.className !== cls) el.className = cls;
+  }
+}
+function renderSeats() {
+  const g = G, s = g.s, turn = s.over ? -1 : s.pending.player;
+  document.querySelectorAll('.seat').forEach(el => {
+    const p = +el.dataset.p;
+    el.classList.toggle('on', p === turn); el.classList.toggle('think', p === g.thinking);
+    const meta = el.querySelector('.meta');
+    meta.textContent = p === 0 ? `${s.sh[0].reduce((a, b) => a + b, 0)} shares · ${s.hand[0].length} tiles` : `${s.hand[p].length} tiles · shares hidden`;
+    const cur = s.cash[p], shown = g.shownCash[p];
+    if (cur !== shown) {
+      g.shownCash[p] = cur;
+      const ce = el.querySelector('.cash'), t0 = performance.now(), d = cur - shown;
+      const r = el.getBoundingClientRect(), f = document.createElement('div');
+      f.className = 'floater ' + (d > 0 ? 'up' : 'down'); f.textContent = (d > 0 ? '+' : '−') + fmt(Math.abs(d));
+      f.style.left = Math.min(innerWidth - 90, r.left + r.width / 2 - 28) + 'px'; f.style.top = r.bottom - 14 + 'px';
+      document.body.appendChild(f); setTimeout(() => f.remove(), 1500);
+      const tick = now => { const k = Math.min(1, (now - t0) / 600); ce.textContent = fmt(shown + d * (1 - Math.pow(1 - k, 3))); if (k < 1 && g.shownCash[p] === cur) requestAnimationFrame(tick); else if (g.shownCash[p] === cur) ce.textContent = fmt(cur); };
+      requestAnimationFrame(tick);
+    }
+  });
+}
+function renderMarket() {
+  const g = G, s = g.s;
+  $('#market').innerHTML = CH.map((c, i) => {
+    const z = s.size[i], own = s.sh[0][i];
+    return `<button class="pile${z ? '' : ' off'}${z >= B.SAFE ? ' safe' : ''}${g.bump && g.bump.indexOf(i) >= 0 ? ' bump' : ''}" data-pile="${i}" style="--cc:${c.color};--ci:${c.ink}"><span class="g">${c.glyph}</span><span class="pn">${c.name}</span><span class="pp">${z ? fmt(B.price(s, i)) : '—'}</span><span class="pz">${z ? z + ' tiles' : 'not founded'}</span>${own ? `<span class="own">${own}</span>` : ''}</button>`;
+  }).join('');
+  g.bump = null;
+}
+const KIND = { plain: ['solo', '#9aa7ff'], found: ['found', '#5cf2c2'], grow: ['grow', null], merge: ['merge', '#fff'], dead: ['dead', '#ff5d73'], blocked: ['wait', '#ffb23e'] };
+function renderTray() {
+  const g = G, s = g.s, pd = s.pending, mine = pd && pd.player === 0 && !s.over;
+  const placing = mine && pd.type === 'place', buying = mine && pd.type === 'buy';
+  let h = '';
+  const hand = s.hand[0].slice().sort((a, b) => (a % 12) - (b % 12) || a - b);
+  for (const t of hand) {
+    const info = B.tileInfo(s, t), k = KIND[info.k], col = info.k === 'grow' ? CH[info.chains[0]].color : k[1];
+    const isNew = g.newTiles.indexOf(t) >= 0;
+    h += `<button class="tile${t === g.sel ? ' sel' : ''}${B.playable(info.k) ? '' : ' bad'}${placing ? '' : ' off'}${isNew ? ' new' : ''}" data-tile="${t}" style="--tc:${col}">${B.tileName(t)}<small>${k[0]}</small></button>`;
+  }
+  for (let i = hand.length; i < 6; i++) h += '<div class="tile empty"></div>';
+  $('#hand').innerHTML = h; g.newTiles = [];
+  const P = $('#prompt'), A = $('#acts'), R = $('#buyrow');
+  const hintBtn = g.mode === 'training' && g.an && g.an.c.length > 1 ? '<button class="btn hint" data-act="hint">💡 Hint</button>' : '';
+  R.hidden = !buying;
+  if (s.over) { P.innerHTML = '<b>Game over.</b>'; A.innerHTML = '<button class="btn pri" data-act="review">See results &amp; review</button>'; return; }
+  if (placing) {
+    if (g.sel >= 0) { P.innerHTML = describeTile(s, g.sel); A.innerHTML = `${hintBtn}<button class="btn pri" data-act="place">Place ${B.tileName(g.sel)}</button>`; }
+    else { P.innerHTML = '<b>Your turn.</b> Pick a tile from your hand (or tap its square on the board).'; A.innerHTML = hintBtn; }
+  } else if (buying) {
+    const cost = g.cart.reduce((a, c) => a + B.price(s, c), 0), left = s.cash[0] - cost;
+    P.innerHTML = `<b>Buy up to 3 shares.</b> Cash ${fmt(s.cash[0])}${g.cart.length ? ` · spending ${fmt(cost)} · <b>${fmt(left)}</b> left` : ''}`;
+    let r = '';
+    for (let c = 0; c < 7; c++) {
+      if (!s.size[c]) continue;
+      const q = g.cart.filter(x => x === c).length, pr = B.price(s, c);
+      const dis = g.cart.length >= 3 || pr > left || s.bank[c] - q <= 0;
+      r += `<button class="bb" data-buy="${c}" style="--cc:${CH[c].color};--ci:${CH[c].ink}" ${dis ? 'disabled' : ''}><i>${CH[c].glyph}</i>${fmt(pr)}${q ? `<span class="q">×${q}</span>` : ''}</button>`;
+      if (q) r += `<button class="bb" data-unbuy="${c}" style="--cc:${CH[c].color};--ci:${CH[c].ink}" aria-label="Remove one ${CH[c].name}"><span class="x">−</span></button>`;
+    }
+    R.innerHTML = r || '<span class="sub" style="margin:0">No companies on the board yet.</span>';
+    A.innerHTML = hintBtn + (pd.canEnd ? `<button class="btn warn${g.end ? ' on' : ''}" data-act="endtoggle">${g.end ? '✓ Ending game' : 'End game?'}</button>` : '') +
+      `<button class="btn pri" data-act="buy">${g.end ? 'Confirm & end the game' : g.cart.length ? `Buy ${g.cart.length} · ${fmt(cost)}` : 'Buy nothing'}</button>`;
+  } else if (mine) { P.innerHTML = '<b>Your decision.</b>'; A.innerHTML = '<button class="btn pri" data-act="reopen">Open decision</button>'; }
+  else { const pl = g.players[pd.player]; P.innerHTML = `<b style="color:${pl.color}">${pl.name}</b> is thinking…`; A.innerHTML = ''; }
+}
+function describeTile(s, t) {
+  const info = B.tileInfo(s, t), n = `<b>${B.tileName(t)}</b>`;
+  switch (info.k) {
+    case 'plain': return `${n}: standalone tile, nothing changes.`;
+    case 'found': return `${n}: founds a new startup. You get a free share.`;
+    case 'grow': { const c = info.chains[0], z = s.size[c] + B.growCount(s, t); return `${n}: grows ${chip(c)} to ${z} (${fmt(B.priceOf(c, z))}/share).`; }
+    case 'merge': return `${n}: triggers an acquisition between ${info.chains.map(chip).join(' and ')}.`;
+    case 'dead': return `${n}: dead tile. It would merge two safe companies. It gets swapped at the end of your turn.`;
+    case 'blocked': return `${n}: can't be played while all seven startups are on the board.`;
+  }
+}
+
+/* ---------- labels + explanations (training text) ---------- */
+function actionLabel(s, a, pd) {
+  switch (pd.type) {
+    case 'place': return 'Place ' + B.tileName(a.tile);
+    case 'found': return 'Found ' + CH[a.chain].name;
+    case 'survivor': return CH[a.chain].name + ' survives';
+    case 'dispose': { const k = s.sh[pd.player][pd.defunct], keep = k - (a.sell | 0) - (a.trade | 0); return [a.sell ? `Sell ${a.sell}` : '', a.trade ? `Trade ${a.trade}` : '', keep ? `Keep ${keep}` : ''].filter(Boolean).join(' · '); }
+    case 'buy': {
+      if (a.end) return 'End the game';
+      if (!a.buys.length) return 'Buy nothing';
+      const cnt = {}; a.buys.forEach(c => cnt[c] = (cnt[c] || 0) + 1);
+      return 'Buy ' + Object.keys(cnt).map(c => `${cnt[c]} ${CH[c].name}`).join(' + ');
+    }
+  }
+}
+function standing(s, p, c, extra) {
+  const mine = s.sh[p][c] + (extra || 0), lead = B.maxOther(s, p, c);
+  if (!mine) return lead ? `you hold none (leader has ${lead})` : 'nobody holds shares';
+  if (mine > lead) return `you lead ${mine} to ${lead}`;
+  if (mine === lead) return `you're tied for the lead at ${mine}`;
+  return `you trail ${mine} to ${lead}`;
+}
+function explain(s, p, a, pd) {
+  const out = [], G_ = G;
+  const rival = (c, pr) => { let b = 0, w = -1; for (let q = 0; q < s.n; q++) if (q !== p) { const x = B.bonusFor(s, c, q, 0, pr); if (x > b) { b = x; w = q; } } return w < 0 ? null : [G_.players[w].name, b]; };
+  if (pd.type === 'place') {
+    const info = B.tileInfo(s, a.tile);
+    if (info.k === 'plain') out.push(['n', 'Standalone tile. Nothing changes, and your other tiles stay in reserve.']);
+    else if (info.k === 'found') { out.push(['p', 'Founds a new startup and gives you a free founder share.']); if (s.cash[p] < 800) out.push(['p', 'A free share matters more while you are short on cash.']); }
+    else if (info.k === 'grow') {
+      const c = info.chains[0], z0 = s.size[c], z1 = z0 + B.growCount(s, a.tile), p0 = B.priceOf(c, z0), p1 = B.priceOf(c, z1), mine = s.sh[p][c];
+      out.push(['n', `${CH[c].name} grows ${z0} → ${z1}; share price ${p1 > p0 ? `${fmt(p0)} → ${fmt(p1)}` : 'stays ' + fmt(p0)}.`]);
+      out.push([mine >= B.maxOther(s, p, c) && mine ? 'p' : mine ? 'n' : 'm', `In ${CH[c].name}, ${standing(s, p, c)}.`]);
+      if (z0 < B.SAFE && z1 >= B.SAFE) out.push(['n', 'It becomes safe: it can never be acquired, so its bonus only pays at the end of the game.']);
+      if (z0 < B.ENDSIZE && z1 >= B.ENDSIZE) out.push(['n', 'It reaches 41 tiles, which lets any player end the game.']);
+    } else if (info.k === 'merge') {
+      let mx = 0; for (const c of info.chains) mx = Math.max(mx, s.size[c]);
+      const tops = info.chains.filter(c => s.size[c] === mx);
+      if (tops.length > 1) out.push(['n', `The companies are tied in size, so you choose which one survives.`]);
+      for (const d of info.chains) {
+        if (tops.length === 1 && d === tops[0]) continue;
+        const pr = B.price(s, d), my = B.bonusFor(s, d, p, 0, pr), rv = rival(d, pr), k = s.sh[p][d];
+        const pre = tops.length > 1 ? `If ${CH[d].name} is acquired: ` : `${CH[d].name} is acquired by ${CH[tops[0]].name}: `;
+        out.push([my ? 'p' : 'm', pre + (my ? `you collect a ${fmt(my)} bonus and can cash out ${k} share${k > 1 ? 's' : ''} at ${fmt(pr)}.` : k ? `you get no bonus, but can cash out ${k} share${k > 1 ? 's' : ''}.` : 'you hold no shares and get nothing.')]);
+        if (rv) out.push(['m', `${rv[0]} collects ${fmt(rv[1])} from it.`]);
+      }
+    }
+  } else if (pd.type === 'found') {
+    const c = a.chain, z = B.growCount(s, pd.tile);
+    out.push(['n', `${CH[c].name} is a ${['low', 'mid', 'top'][CH[c].tier]}-priced startup: shares start at ${fmt(B.priceOf(c, z))}.`]);
+    if (s.sh[p][c] > 1 || (s.sh[p][c] && true)) out.push(['p', `You already hold ${s.sh[p][c]} from before, so reviving it restores their value.`]);
+    const lead = B.maxOther(s, p, c); if (lead) out.push(['m', `A rival already holds ${lead} from an earlier round.`]);
+    out.push(['n', CH[c].tier === 2 ? 'Pricier shares mean bigger bonuses, but they are harder to defend.' : CH[c].tier === 0 ? 'Cheap shares make it easy to build and defend a lead.' : 'A middle path between cost and bonus size.']);
+  } else if (pd.type === 'survivor') {
+    for (const d of pd.chains) {
+      if (d === a.chain) continue;
+      const pr = B.price(s, d), my = B.bonusFor(s, d, p, 0, pr), rv = rival(d, pr);
+      out.push([my ? 'p' : 'm', `${CH[d].name} pays out now: ${my ? `you collect ${fmt(my)}` : 'you get nothing'}${rv ? `, ${rv[0]} collects ${fmt(rv[1])}` : ''}.`]);
+    }
+    out.push(['n', `In the survivor ${CH[a.chain].name}, ${standing(s, p, a.chain)}.`]);
+  } else if (pd.type === 'dispose') {
+    const d = pd.defunct, sv = pd.survivor, k = s.sh[p][d], keep = k - (a.sell | 0) - (a.trade | 0);
+    if (a.sell) out.push(['n', `Selling ${a.sell} brings in ${fmt(a.sell * pd.dprice)} now.`]);
+    if (a.trade) out.push(['n', `Trading ${a.trade} gets ${a.trade / 2} ${CH[sv].name} (worth about ${fmt(a.trade / 2 * B.price(s, sv))} today); afterwards ${standing(s, p, sv, a.trade / 2)}.`]);
+    if (keep) out.push(['n', `Keeping ${keep} only pays if ${CH[d].name} is founded again later (${s.bag.length} tiles left in the bag).`]);
+  } else if (pd.type === 'buy') {
+    if (a.end) out.push(['n', 'Ends the game now: every company pays its bonuses and all shares are sold.']);
+    const cnt = {}; (a.buys || []).forEach(c => cnt[c] = (cnt[c] || 0) + 1); let cost = 0;
+    for (const cs of Object.keys(cnt)) {
+      const c = +cs, k = cnt[c], before = s.sh[p][c], after = before + k, lead = B.maxOther(s, p, c); cost += k * B.price(s, c);
+      let t, sign = 'n';
+      if (after > lead && before <= lead) { t = `takes the sole lead (${after} to ${lead})`; sign = 'p'; }
+      else if (after === lead && before < lead) { t = `ties the lead at ${after}`; sign = 'p'; }
+      else if (before > lead) { t = `extends your lead (${after} to ${lead})`; sign = after - lead > 4 ? 'n' : 'p'; }
+      else t = `leaves you trailing ${after} to ${lead}`;
+      out.push([sign, `${k} ${CH[c].name} at ${fmt(B.price(s, c))}: ${t}.${sign === 'p' && s.size[c] < B.SAFE ? ' It can still be acquired, so that position could pay out early.' : ''}`]);
+    }
+    if (!a.end) out.push(['n', cost ? `Costs ${fmt(cost)}, leaving you ${fmt(s.cash[p] - cost)}.` : `Keeps all ${fmt(s.cash[p])} for later turns.`]);
+  }
+  return out;
+}
+const proj = v => v >= 0 ? `${fmt(v)} ahead` : `${fmt(-v)} behind`;
+const bullets = w => '<ul>' + w.map(x => `<li class="${x[0]}">${x[1]}</li>`).join('') + '</ul>';
+function rating(loss, n) {
+  if (n < 20) return ['na', 'Unrated'];
+  if (loss <= 250) return ['best', 'Best'];
+  if (loss <= 750) return ['good', 'Good'];
+  if (loss <= 1500) return ['inacc', 'Inaccuracy'];
+  if (loss <= 3000) return ['mist', 'Mistake'];
+  return ['blun', 'Blunder'];
+}
+
+/* ---------- sheets ---------- */
+let sheetLock = false;
+function openSheet(title, html, opts) {
+  opts = opts || {}; sheetLock = !!opts.lock;
+  $('#sheetTitle').innerHTML = title; $('#sheetBody').innerHTML = html;
+  $('#closeBtn').hidden = sheetLock; $('#peekBtn').hidden = !sheetLock; $('#peekBtn').textContent = 'Peek board';
+  const sh = $('#sheet'); sh.classList.remove('peek'); sh.classList.toggle('wide', !!opts.wide); sh.classList.add('on');
+  $('#scrim').classList.add('on'); $('#sheetBody').scrollTop = 0;
+}
+function closeSheet(force) { if (sheetLock && !force) return; sheetLock = false; if (G) G.hintLive = null; $('#sheet').classList.remove('on', 'peek'); $('#scrim').classList.remove('on'); }
+function hintInline(g) { return g.mode === 'training' && g.an && g.an.c.length > 1 ? '<button class="btn hint" data-act="hint" style="width:100%;margin-bottom:8px">💡 Show hint</button>' : ''; }
+
+function sheetFound(g, pd) {
+  const s = g.s, z = B.growCount(s, pd.tile);
+  let h = `<p class="sub">Your tile connects ${z} tiles. Pick which startup to found. You get one free share of it.</p>` + hintInline(g);
+  for (let c = 0; c < 7; c++) if (!s.size[c]) h += `<button class="opt" data-commit='{"chain":${c}}' style="--cc:${CH[c].color};--ci:${CH[c].ink}"><span class="g">${CH[c].glyph}</span><span class="tx"><b>${CH[c].name}</b><span>${['Low', 'Mid', 'Top'][CH[c].tier]} tier · ${fmt(B.priceOf(c, z))}/share · ${s.bank[c]} in the pile${s.sh[0][c] ? ` · you hold ${s.sh[0][c]}` : ''}</span></span></button>`;
+  openSheet('Found a startup', h, { lock: true });
+}
+function sheetSurvivor(g, pd) {
+  const s = g.s;
+  let h = '<p class="sub">These companies are the same size. Choose which one survives; the other is acquired and pays its bonuses.</p>' + hintInline(g);
+  for (const c of pd.options) h += `<button class="opt" data-commit='{"chain":${c}}' style="--cc:${CH[c].color};--ci:${CH[c].ink}"><span class="g">${CH[c].glyph}</span><span class="tx"><b>${CH[c].name} survives</b><span>${s.size[c]} tiles · you hold ${s.sh[0][c]}</span></span></button>`;
+  openSheet('Choose the survivor', h, { lock: true });
+}
+function sheetDispose(g, pd) {
+  const s = g.s, k = s.sh[0][pd.defunct];
+  g.disp = g.disp && g.dispKey === s.turnNo + ':' + pd.defunct ? g.disp : { sell: 0, trade: 0 }; g.dispKey = s.turnNo + ':' + pd.defunct;
+  const d = g.disp, keep = k - d.sell - d.trade, maxT = Math.min(k - (k % 2), s.bank[pd.survivor] * 2), sp = B.price(s, pd.survivor);
+  const h = `<p class="sub">${chip(pd.defunct)} was acquired by ${chip(pd.survivor)}. You hold <b style="color:#fff">${k}</b> ${CH[pd.defunct].name} shares. Decide what happens to each one.</p>${hintInline(g)}
+  <div class="row"><button class="btn" data-disp="sellall">Sell all</button><button class="btn" data-disp="trademax" ${maxT ? '' : 'disabled'}>Trade max</button><button class="btn" data-disp="keepall">Keep all</button></div>
+  <div class="step"><div class="tx"><b>Sell</b><span>${fmt(pd.dprice)} each · ${fmt(d.sell * pd.dprice)} total</span></div><button data-disp="s-" ${d.sell ? '' : 'disabled'}>−</button><div class="n">${d.sell}</div><button data-disp="s+" ${keep ? '' : 'disabled'}>+</button></div>
+  <div class="step"><div class="tx"><b>Trade 2 for 1</b><span>Get ${d.trade / 2} ${CH[pd.survivor].name} (${fmt(sp)} each now · ${s.bank[pd.survivor]} in the pile)</span></div><button data-disp="t-" ${d.trade ? '' : 'disabled'}>−</button><div class="n">${d.trade}</div><button data-disp="t+" ${keep >= 2 && d.trade + 2 <= maxT ? '' : 'disabled'}>+</button></div>
+  <div class="step"><div class="tx"><b>Keep</b><span>Worth something only if ${CH[pd.defunct].name} is founded again</span></div><div class="n">${keep}</div></div>
+  <button class="btn pri" style="width:100%" data-commit='${JSON.stringify(d)}'>Confirm</button>`;
+  openSheet('Your acquired shares', h, { lock: true });
+}
+function sheetPile(c) {
+  const s = G.s, z = s.size[c], pr = z ? B.price(s, c) : 0, C = CH[c];
+  const rows = [[2, '2'], [3, '3'], [4, '4'], [5, '5'], [6, '6–10'], [11, '11–20'], [21, '21–30'], [31, '31–40'], [41, '41+']].map(([n, l]) => { const p = B.priceOf(c, n), on = z && B.priceOf(c, z) === p && (n <= 5 ? z === n : true); return `<tr style="${on ? 'color:#fff;font-weight:800;background:#ffffff10' : 'color:#aab3dc'}"><td>${l} tiles</td><td>${fmt(p)}</td><td>${fmt(p * 10)}</td><td>${fmt(p * 5)}</td></tr>`; }).join('');
+  openSheet(`${chip(c)} stock pile`, `
+  <div class="stats"><div class="stat"><b>${s.bank[c]} <span style="display:inline">of 25</span></b><span>shares left in the pile</span></div><div class="stat"><b>${s.sh[0][c]}</b><span>shares you hold</span></div>
+  <div class="stat"><b>${z ? fmt(pr) : '—'}</b><span>${z ? 'price per share' : 'not on the board'}</span></div><div class="stat"><b>${z || 0}${z >= B.SAFE ? ' · safe' : ''}</b><span>tiles on the board</span></div></div>
+  <p class="sub">${25 - s.bank[c]} shares are in players' hands. ${z ? `If it paid out now: ${fmt(pr * 10)} to the largest holder, ${fmt(pr * 5)} to the second.` : 'It pays nothing until someone founds it.'}</p>
+  <table><tr><th>Size</th><th>Share</th><th>1st bonus</th><th>2nd bonus</th></tr>${rows}</table>`);
+}
+function sheetHint() {
+  const g = G, an = g.an; if (!an) return;
+  const s = g.s, pd = s.pending, locked = pd.type !== 'place' && pd.type !== 'buy';
+  const draw = () => {
+    const r = an.ranked(); if (!r.length) return;
+    const top = r[0], shown = r.slice(0, pd.type === 'buy' ? 5 : 7);
+    let h = `<p class="sub">Each option is played out for the next three rounds ${an.rounds < 260 ? `(running… ${an.rounds} sims each)` : `${an.rounds} times`} with shuffled hidden tiles. The figure is your projected net worth against the strongest rival afterwards. Hints count everyone's shares for you, which a real table doesn't.</p>`;
+    const lo = Math.min(...shown.map(o => o.score)), span = Math.max(600, top.score - lo);
+    shown.forEach((o, i) => {
+      const d = top.score - o.score;
+      h += `<div class="hintc${i ? '' : ' top'}"><h4>${i ? '' : '<span class="tag best">Top pick</span>'}${esc(actionLabel(s, o.a, pd))}<em>${i ? `−${fmt(d)} vs top` : proj(o.score)}</em></h4>
+      <div class="bar"><i style="width:${Math.max(4, 100 - d / span * 85)}%"></i></div>${bullets(explain(s, 0, o.a, pd))}
+      <button class="btn" data-use='${JSON.stringify(o.a)}'>${locked ? 'Choose this' : 'Select this'}</button></div>`;
+    });
+    $('#sheetBody').innerHTML = h;
+  };
+  openSheet('Hint', '', {}); draw();
+  g.hintLive = () => { if ($('#sheet').classList.contains('on') && $('#sheetTitle').textContent === 'Hint' && an.rounds % 40 < 4) { const st = $('#sheetBody').scrollTop; draw(); $('#sheetBody').scrollTop = st; } };
+}
+function sheetRules() {
+  openSheet('How to play', `<div class="rules">
+  <p>Build startups on the grid, buy their shares, and cash in when one company acquires another. Most cash at the end wins.</p>
+  <h4>Your turn</h4><ol><li><b>Place one tile.</b> A tile next to a lone tile founds a startup (free share for you). A tile next to a startup grows it. A tile joining two startups triggers an acquisition.</li><li><b>Buy up to 3 shares</b> in any startups on the board. Prices rise as a company grows.</li><li><b>Draw</b> back up to 6 tiles.</li></ol>
+  <h4>Acquisitions</h4><p>The larger company survives. The largest shareholder of the acquired company gets 10× its share price, the second largest gets 5×. Ties split the bonuses; a lone shareholder takes both. Then each holder, starting with whoever triggered it, sells shares at the old price, trades 2 for 1 survivor share, or keeps them in case the company is founded again.</p>
+  <h4>Safe companies</h4><p>At 11+ tiles a company is safe and can't be acquired. A tile that would join two safe companies is dead and gets swapped.</p>
+  <h4>Ending</h4><p>Once any company reaches 41 tiles, or every company on the board is safe, the player whose turn it is may end the game after buying. All companies then pay bonuses and every share is sold.</p>
+  <h4>What's hidden</h4><p>Everyone's cash is public. Share holdings are secret, but every purchase is announced in the move log and tapping a stock pile shows how many are left.</p></div>`);
+}
+function sheetLog() { openSheet('Move log', `<div id="logCopy" style="font-size:12.5px;line-height:1.5;color:#b8c1e8">${$('#log').innerHTML}</div>`); const b = $('#sheetBody'); b.scrollTop = b.scrollHeight; }
+function sheetSetup(first) {
+  const L = store.get('life', { games: 0, wins: 0, acc: 0, accN: 0 });
+  const seg = (key, opts) => `<div class="seg">${opts.map(([v, l]) => `<button data-cfg="${key}" data-v="${v}" class="${String(cfg[key]) === String(v) ? 'on' : ''}">${l}</button>`).join('')}</div>`;
+  openSheet(first ? '' : 'New game', `<div class="hero">BUYOUT</div><div class="herosub">Found startups. Buy in early. Cash out on the acquisition.</div>
+  <p class="lab">Players</p>${seg('n', [[3, '3'], [4, '4'], [5, '5'], [6, '6']])}
+  <p class="lab">Bot skill</p>${seg('level', [['intern', 'Intern'], ['founder', 'Founder'], ['shark', 'Shark'], ['titan', 'Titan'], ['mixed', 'Mixed']])}
+  <p class="lab">Mode</p>${seg('mode', [['training', 'Training (hints)'], ['real', 'Real game']])}
+  <p class="lab">Bot speed</p>${seg('pace', [['slow', 'Slow'], ['normal', 'Normal'], ['fast', 'Fast']])}
+  <p class="sub">${cfg.mode === 'training' ? 'Training: a hint button ranks your options and explains each one. You still get the full review afterwards.' : 'Real game: no help during play. The full review with best and worst moves appears at the end.'} ${{ intern: 'Interns play by simple rules of thumb.', founder: 'Founders look a little way ahead.', shark: 'Sharks simulate hundreds of futures per move.', titan: 'Titans search deepest and take a moment longer.', mixed: 'A random mix of Founders, Sharks and Titans.' }[cfg.level]}</p>
+  <button class="btn pri" style="width:100%;height:48px;font-size:16px" data-act="start">Start game</button>
+  ${G && !G.s.over ? '<button class="btn" style="width:100%;margin-top:8px" data-act="close">Back to current game</button>' : ''}
+  ${L.games ? `<p class="sub" style="text-align:center;margin-top:12px">Your record: ${L.wins} wins in ${L.games} games${L.accN ? ` · average accuracy ${Math.round(L.acc / L.accN)}%` : ''}</p>` : ''}`, { lock: first && !G });
+  $('#closeBtn').hidden = !G; $('#peekBtn').hidden = true;
+}
+
+/* ---------- game over + review ---------- */
+function gameOver(g) {
+  const s = g.s, order = g.players.map((_, p) => p).sort((a, b) => s.cash[b] - s.cash[a]), rank = order.indexOf(0) + 1;
+  const dec = g.decisions.filter(d => d.n >= 20);
+  g.acc = dec.length ? Math.round(dec.reduce((a, d) => a + Math.max(0, 1 - d.loss / 4000), 0) / dec.length * 100) : null;
+  const L = store.get('life', { games: 0, wins: 0, acc: 0, accN: 0 });
+  L.games++; if (rank === 1) L.wins++; if (g.acc !== null) { L.acc += g.acc; L.accN++; } store.set('life', L);
+  if (rank === 1) { sfx.win(); confetti(); } else sfx.lose();
+  sheetReview();
+}
+function confetti() {
+  for (let i = 0; i < 70; i++) { const d = document.createElement('div'); d.className = 'conf'; d.style.left = Math.random() * 100 + 'vw'; d.style.background = CH[i % 7].color; d.style.animationDuration = 1.8 + Math.random() * 2 + 's'; d.style.animationDelay = Math.random() * .8 + 's'; document.body.appendChild(d); setTimeout(() => d.remove(), 5000); }
+}
+function chart(g) {
+  const H = g.hist, W = 600, Ht = 220, pad = 34, n = H.length; if (n < 2) return '';
+  let mx = 0; for (const r of H) for (const v of r) if (v > mx) mx = v;
+  const x = i => pad + i * (W - pad - 8) / (n - 1), y = v => Ht - 20 - v / mx * (Ht - 34);
+  let h = `<svg viewBox="0 0 ${W} ${Ht}" style="width:100%;height:auto;background:#0d1330;border-radius:12px;border:1px solid #263060">`;
+  for (let k = 0; k <= 4; k++) { const v = mx * k / 4; h += `<line x1="${pad}" x2="${W - 8}" y1="${y(v)}" y2="${y(v)}" stroke="#222b57"/><text x="${pad - 5}" y="${y(v) + 3}" fill="#7f8ab8" font-size="9" text-anchor="end">${Math.round(v / 1000)}k</text>`; }
+  for (let p = g.players.length - 1; p >= 0; p--) h += `<polyline fill="none" stroke="${g.players[p].color}" stroke-width="${p ? 1.8 : 3}" stroke-linejoin="round" opacity="${p ? .8 : 1}" points="${H.map((r, i) => x(i).toFixed(1) + ',' + y(r[p]).toFixed(1)).join(' ')}"/>`;
+  return h + `<text x="${W / 2}" y="${Ht - 5}" fill="#7f8ab8" font-size="9" text-anchor="middle">turns →  (cash + shares + bonuses owed)</text></svg><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:11.5px;margin-top:6px">${g.players.map(p => `<span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${p.color};margin-right:4px"></i>${p.name}</span>`).join('')}</div>`;
+}
+function moveCard(d, showBest) {
+  const r = rating(d.loss, d.n);
+  return `<div class="hintc"><h4><span class="tag ${r[0]}">${r[1]}</span><span>Turn ${d.turn}: ${esc(d.label)}</span><em>${d.loss > 250 ? 'cost ≈ ' + fmt(d.loss) : proj(d.proj)}</em></h4>${bullets(d.why)}${showBest && !d.same && d.loss > 250 ? `<div style="font-size:12px;color:#9fe9cf;font-weight:800;margin-top:4px">Simulations preferred: ${esc(d.bestLabel)} (about ${fmt(d.loss)} better over three rounds)</div>${bullets(d.bestWhy)}` : ''}</div>`;
+}
+function sheetReview() {
+  const g = G, s = g.s, n = g.players.length, st = g.stats;
+  const order = g.players.map((_, p) => p).sort((a, b) => s.cash[b] - s.cash[a]), rank = order.indexOf(0) + 1, top = s.cash[order[0]];
+  const ord = ['1st', '2nd', '3rd', '4th', '5th', '6th'][rank - 1];
+  const dec = g.decisions.filter(d => d.n >= 20), cnt = { best: 0, good: 0, inacc: 0, mist: 0, blun: 0 };
+  dec.forEach(d => cnt[rating(d.loss, d.n)[0]]++);
+  const worst = dec.filter(d => d.loss > 750).sort((a, b) => b.loss - a.loss).slice(0, 4);
+  const best = dec.filter(d => d.same && d.gap > 400 && d.opts > 1).sort((a, b) => b.gap - a.gap).slice(0, 3);
+  const rk = (arr, p) => arr.slice().sort((a, b) => b - a).indexOf(arr[p]) + 1;
+  const hold = g.lastHold || s.sh, lz = g.lastSize || s.size;
+  const leads = [0, 1, 2, 3, 4, 5, 6].filter(c => lz[c] && hold[0][c] && hold[0][c] >= Math.max(...hold.map(h => h[c]))).length;
+  const notes = [];
+  notes.push(rank === 1 ? `You won by ${fmt(top - s.cash[order[1]])}.` : `You finished ${fmt(top - s.cash[0])} behind ${g.players[order[0]].name}.`);
+  notes.push(`Bonuses made you ${fmt(st.bonus[0])} (${['most', '2nd most', '3rd most', '4th most', '5th most', 'least'][rk(st.bonus, 0) - 1]} at the table); the winner made ${fmt(st.bonus[order[0]])}.`);
+  if (g.bigPay) notes.push(`Your biggest single payout was ${fmt(g.bigPay.amt)} from ${CH[g.bigPay.chain].name} on turn ${g.bigPay.turn}.`);
+  notes.push(`You triggered ${st.mergers[0]} acquisition${st.mergers[0] === 1 ? '' : 's'} and founded ${st.founded[0]} startup${st.founded[0] === 1 ? '' : 's'}. At the final payout you held the lead (or a tie) in ${leads} compan${leads === 1 ? 'y' : 'ies'}.`);
+  if (dec.length) { const byType = {}; dec.forEach(d => { (byType[d.type] = byType[d.type] || []).push(d.loss); }); const tn = { place: 'tile placement', buy: 'share buying', dispose: 'sell/trade/keep choices', found: 'choosing what to found', survivor: 'survivor choices' }; const w = Object.keys(byType).filter(k => byType[k].length >= 3).map(k => [k, byType[k].reduce((a, b) => a + b, 0) / byType[k].length]).sort((a, b) => b[1] - a[1]); if (w.length > 1) notes.push(`Your weakest area this game was <b>${tn[w[0][0]]}</b> (about ${fmt(w[0][1])} given up per decision); your strongest was <b>${tn[w[w.length - 1][0]]}</b>.`); }
+  let h = `<div style="text-align:center;margin-bottom:10px"><div style="font-size:30px;font-weight:900">${rank === 1 ? '🏆 You won' : `You finished ${ord}`}</div><div class="sub" style="margin:0">${g.mode === 'training' ? 'Training game' : 'Real game'} · ${s.turnNo} turns · ${n} players</div></div>`;
+  order.forEach((p, i) => { h += `<div class="place" style="--pc:${g.players[p].color}"><span style="width:16px;color:var(--dim)">${i + 1}</span><span style="width:52px;overflow:hidden;text-overflow:ellipsis">${g.players[p].name}</span><div class="pb"><i data-w="${(s.cash[p] / top * 100).toFixed(1)}"></i></div><span class="amt">${fmt(s.cash[p])}</span></div>`; });
+  h += `<h3 class="sec">Your game</h3><div class="stats"><div class="stat"><b>${g.acc === null ? '—' : g.acc + '%'}</b><span>decision accuracy</span></div><div class="stat"><b>${fmt(st.bonus[0])}</b><span>bonus income</span></div><div class="stat"><b>${st.bought[0]}</b><span>shares bought (${fmt(st.spent[0])})</span></div><div class="stat"><b>${cnt.best + cnt.good}<span style="display:inline"> / ${dec.length}</span></b><span>best or good decisions</span></div></div>
+  <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px">${[['best', 'Best'], ['good', 'Good'], ['inacc', 'Inaccuracy'], ['mist', 'Mistake'], ['blun', 'Blunder']].map(([k, l]) => `<span class="tag ${k}">${cnt[k]} ${l}</span>`).join('')}</div>
+  <h3 class="sec">Summary</h3><ul style="margin:0;padding-left:18px;font-size:13px;line-height:1.55;color:#cdd4f5">${notes.map(x => `<li>${x}</li>`).join('')}</ul>
+  <h3 class="sec">Net worth over the game</h3>${chart(g)}
+  <h3 class="sec">Your costliest moves</h3>${worst.length ? worst.map(d => moveCard(d, true)).join('') : '<p class="sub">No decision cost you more than about $750. Clean game.</p>'}
+  <h3 class="sec">Your best finds</h3>${best.length ? best.map(d => moveCard(d, false)).join('') : '<p class="sub">No stand-out only-moves this game.</p>'}
+  <h3 class="sec">Table stats</h3><div style="overflow:auto"><table><tr><th>Player</th><th>Final</th><th>Bonuses</th><th>Share sales</th><th>Bought</th><th>Founded</th><th>Triggered</th></tr>${order.map(p => `<tr><td style="color:${g.players[p].color};font-weight:800">${g.players[p].name}</td><td>${fmt(s.cash[p])}</td><td>${fmt(st.bonus[p])}</td><td>${fmt(st.sales[p])}</td><td>${st.bought[p]}</td><td>${st.founded[p]}</td><td>${st.mergers[p]}</td></tr>`).join('')}</table></div>
+  <h3 class="sec">Holdings revealed (at the final payout)</h3><div style="overflow:auto"><table><tr><th>Player</th>${CH.map((c, i) => `<th style="color:${c.color}">${c.glyph}${lz[i] ? '' : '*'}</th>`).join('')}</tr>${order.map(p => `<tr><td style="color:${g.players[p].color};font-weight:800">${g.players[p].name}</td>${hold[p].map((k, c) => `<td style="${k && k >= Math.max(...hold.map(x => x[c])) ? 'color:#fff;font-weight:900' : 'color:#aab3dc'}">${k || '·'}</td>`).join('')}</tr>`).join('')}</table></div><p class="sub" style="margin-top:4px">* not on the board at the end, so those shares paid nothing.</p>
+  <h3 class="sec">Every decision</h3><details><summary style="font-size:13px;font-weight:700;padding:6px 0;cursor:pointer">Show all ${g.decisions.length} of your decisions</summary>${g.decisions.map(d => moveCard(d, true)).join('')}</details>
+  <p class="sub" style="margin-top:10px">Ratings come from simulated playouts, so they are estimates. A gap under about $300 is within the noise; treat "Mistake" and "Blunder" as the ones worth studying.</p>
+  <div class="row" style="margin-top:12px"><button class="btn pri" data-act="again">Play again</button><button class="btn" data-act="menu">Change setup</button></div>`;
+  openSheet('Results &amp; review', h, { wide: true });
+  requestAnimationFrame(() => setTimeout(() => document.querySelectorAll('.place .pb i').forEach(el => el.style.width = el.dataset.w + '%'), 60));
+}
+
+/* ---------- input ---------- */
+function selectTile(t) {
+  const g = G, s = g.s, pd = s.pending;
+  if (!pd || pd.player !== 0 || pd.type !== 'place' || s.hand[0].indexOf(t) < 0) return;
+  if (g.sel === t && B.playable(B.tileInfo(s, t).k)) { commit({ tile: t }); return; }
+  g.sel = t; sfx.tap(); render();
+}
+document.addEventListener('click', ev => {
+  const el = ev.target.closest('button,[data-act]'); const g = G;
+  if (ev.target.id === 'scrim') { closeSheet(); return; }
+  if (!el) return;
+  const d = el.dataset;
+  if (d.cfg) { cfg[d.cfg] = isNaN(+d.v) ? d.v : +d.v; store.set('cfg', cfg); sfx.tap(); sheetSetup(!G); return; }
+  if (d.act === 'start' || d.act === 'again') { sfx.found(); newGame(); return; }
+  if (d.act === 'rules') return sheetRules();
+  if (d.act === 'menu') return sheetSetup(false);
+  if (d.act === 'sound') { cfg.sound = !cfg.sound; store.set('cfg', cfg); $('#sndBtn').textContent = cfg.sound ? '🔊' : '🔇'; return; }
+  if (d.act === 'close') { closeSheet(); if (G && G.resolve && ['found', 'survivor', 'dispose'].includes(G.s.pending.type)) reopen(); return; }
+  if (d.act === 'peek') { const sh = $('#sheet'); sh.classList.toggle('peek'); const pk = sh.classList.contains('peek'); el.textContent = pk ? 'Back to decision' : 'Peek board'; $('#scrim').classList.toggle('on', !pk); return; }
+  if (!g) return;
+  if (d.act === 'log') return sheetLog();
+  if (d.act === 'review') return sheetReview();
+  if (d.pile !== undefined) { sfx.tap(); return sheetPile(+d.pile); }
+  if (g.s.over || !g.resolve) return;
+  const s = g.s, pd = s.pending;
+  if (d.t !== undefined) return selectTile(+d.t);
+  if (d.tile !== undefined) return selectTile(+d.tile);
+  if (d.act === 'place' && g.sel >= 0) { if (B.playable(B.tileInfo(s, g.sel).k)) commit({ tile: g.sel }); else toast('That tile can\'t be played right now'); return; }
+  if (d.buy !== undefined) { if (g.cart.length < 3) { g.cart.push(+d.buy); sfx.tap(); renderTray(); } return; }
+  if (d.unbuy !== undefined) { const i = g.cart.lastIndexOf(+d.unbuy); if (i >= 0) g.cart.splice(i, 1); sfx.tap(); renderTray(); return; }
+  if (d.act === 'endtoggle') { g.end = !g.end; renderTray(); return; }
+  if (d.act === 'buy') return commit({ buys: g.cart.slice(), end: g.end && pd.canEnd });
+  if (d.act === 'hint') return sheetHint();
+  if (d.act === 'reopen') return reopen();
+  if (d.commit) return commit(JSON.parse(d.commit));
+  if (d.use) {
+    const a = JSON.parse(d.use);
+    if (pd.type === 'place') { g.sel = a.tile; closeSheet(true); render(); }
+    else if (pd.type === 'buy') { g.cart = a.buys.slice(); g.end = !!a.end; closeSheet(true); render(); }
+    else if (pd.type === 'dispose') { g.disp = { sell: a.sell, trade: a.trade }; sheetDispose(g, pd); }
+    else commit(a);
+    return;
+  }
+  if (d.disp) {
+    const k = s.sh[0][pd.defunct], x = g.disp, maxT = Math.min(k - (k % 2), s.bank[pd.survivor] * 2);
+    if (d.disp === 'sellall') { x.sell = k; x.trade = 0; } else if (d.disp === 'trademax') { x.trade = maxT; x.sell = Math.min(x.sell, k - maxT); } else if (d.disp === 'keepall') { x.sell = 0; x.trade = 0; }
+    else if (d.disp === 's+') x.sell++; else if (d.disp === 's-') x.sell--; else if (d.disp === 't+') x.trade += 2; else if (d.disp === 't-') x.trade -= 2;
+    sfx.tap(); sheetDispose(g, pd);
+  }
+});
+function reopen() { const g = G, pd = g.s.pending; if (pd.type === 'found') sheetFound(g, pd); else if (pd.type === 'survivor') sheetSurvivor(g, pd); else if (pd.type === 'dispose') sheetDispose(g, pd); }
+
+$('#sndBtn').textContent = cfg.sound ? '🔊' : '🔇';
+buildBoard();
+sheetSetup(true);
+</script>
+</body>
+</html>
