@@ -17,7 +17,7 @@ html,body{height:100%;margin:0}
 body{background:radial-gradient(1200px 700px at 50% -10%,#1b2554 0%,var(--bg) 60%) fixed,var(--bg);color:var(--ink);font-family:var(--font);overflow:hidden;touch-action:manipulation;user-select:none;-webkit-user-select:none}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
 button:disabled{cursor:default}
-#app{height:100dvh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr) auto auto;gap:6px;padding:calc(6px + env(safe-area-inset-top)) 8px calc(8px + env(safe-area-inset-bottom));max-width:1500px;margin:0 auto}
+#app{height:100dvh;display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:auto auto minmax(0,1fr) auto auto;gap:6px;padding:calc(6px + env(safe-area-inset-top)) 8px calc(8px + env(safe-area-inset-bottom));max-width:1500px;margin:0 auto}
 
 /* top bar */
 #top{display:flex;align-items:center;gap:8px;min-height:36px}
@@ -30,16 +30,33 @@ button:disabled{cursor:default}
 .badge.real{background:#3a1d2a;color:#ff9db0}
 
 /* seats */
-#seats{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:5px}
-.seat{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:5px 4px 5px;text-align:center;min-width:0;transition:border-color .25s,box-shadow .25s,transform .25s}
-.seat.on{border-color:var(--pc);box-shadow:0 0 0 1px var(--pc),0 6px 22px -8px var(--pc);transform:translateY(-1px)}
-.seat .av{width:24px;height:24px;border-radius:50%;margin:0 auto 2px;display:grid;place-items:center;font-size:12px;font-weight:900;color:#0a0e1c;background:var(--pc)}
-.seat .nm{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.seat .lv{display:none;font-size:10px;color:var(--dim)}
-.seat .cash{font-size:12px;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums}
-.seat .meta{display:none;font-size:10.5px;color:var(--dim)}
+#top,#seatsTop,#market,#tray{grid-column:1/-1}
+#seatsTop{display:flex;justify-content:space-around;gap:6px}
+#seatsTop:empty,#seatL:empty,#seatR:empty{display:none}
+#seatL,#seatR{display:flex;align-items:center}
+.seat{position:relative;display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:4px 9px 4px 5px;min-width:0;transition:border-color .25s,box-shadow .25s}
+.seat.on{border-color:var(--pc);box-shadow:0 0 0 1px var(--pc),0 6px 22px -8px var(--pc)}
+.seat .av{position:relative;flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:900;color:#0a0e1c;background:var(--pc);writing-mode:horizontal-tb}
+.seat .si{min-width:0}
+.seat .nm{font-size:11.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seat .lv{display:none;font-size:10px;color:var(--dim);font-weight:600}
+.seat .cash{font-size:12.5px;font-weight:800;color:var(--acc);font-variant-numeric:tabular-nums;white-space:nowrap}
+.seat .meta{display:none;font-size:10.5px;color:var(--dim);white-space:nowrap}
 .seat.think .av::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid transparent;border-top-color:var(--pc);animation:spin .8s linear infinite}
-.seat .av{position:relative}
+#seatsTop .seat{flex:0 1 150px}
+#seatL .seat,#seatR .seat{writing-mode:vertical-rl;padding:7px 3px 9px;max-height:100%}
+#seatL .si,#seatR .si{display:flex;align-items:center;gap:8px}
+#me{border:0;background:none;padding:0;gap:8px}
+#me.on{box-shadow:none}
+#me .av{width:28px;height:28px;font-size:14px}
+#me.on .av{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--pc)}
+#me .si{display:flex;align-items:baseline;gap:8px;flex:1}
+#me .nm{font-size:14px}#me .cash{font-size:17px;margin-left:auto}#me .meta{display:block;order:2}
+input.nmi{width:100%;height:40px;border-radius:10px;background:#0d1330;border:1px solid var(--line);color:var(--ink);font:inherit;font-size:16px;font-weight:700;padding:0 10px 0 34px;user-select:text;-webkit-user-select:text;outline:none}
+input.nmi:focus{border-color:var(--acc)}
+.names{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:12px}
+.names label{position:relative;display:block}
+.names label i{position:absolute;left:8px;top:10px;width:20px;height:20px;border-radius:50%;background:var(--pc);pointer-events:none}
 .floater{position:fixed;z-index:60;font-weight:900;font-size:14px;pointer-events:none;animation:floatUp 1.5s ease-out forwards;text-shadow:0 2px 8px #000a}
 .floater.up{color:var(--good)} .floater.down{color:var(--bad)}
 
@@ -180,20 +197,26 @@ h3.sec{font-size:13px;margin:16px 0 7px;letter-spacing:.06em;text-transform:uppe
 
 /* desktop */
 @media (min-width:980px) and (min-height:560px){
-  #app{grid-template-columns:230px minmax(0,1fr) 330px;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;padding:14px 18px}
+  #app{grid-template-columns:150px minmax(0,1fr) 150px 320px;grid-template-rows:auto auto minmax(0,1fr) auto;gap:12px;padding:14px 18px}
   #top{grid-column:1/-1}
   .logo{font-size:20px}#status{font-size:14px}
-  #seats{grid-column:1;grid-row:2/4;grid-auto-flow:row;grid-auto-columns:auto;grid-auto-rows:min-content;gap:9px;align-content:start}
-  .seat{display:grid;grid-template-columns:auto 1fr;column-gap:10px;text-align:left;padding:11px 12px;align-items:center}
-  .seat .av{width:38px;height:38px;font-size:17px;grid-row:1/4;margin:0}
-  .seat .nm{font-size:14px}.seat .lv{display:inline;margin-left:6px}.seat .cash{font-size:18px}.seat .meta{display:block}
-  #mid{grid-column:2;grid-row:2}
-  #tray{grid-column:2;grid-row:3;padding:12px;min-height:150px}
-  #market{grid-column:3;grid-row:2;grid-template-columns:1fr;gap:7px;align-content:start;overflow:auto;padding:7px 7px 0 0}
+  #seatsTop{grid-column:1/4;grid-row:2;justify-content:space-around}
+  #seatL{grid-column:1;grid-row:3}#seatR{grid-column:3;grid-row:3}
+  .seat{padding:9px 12px;gap:10px}
+  .seat .av{width:36px;height:36px;font-size:16px}
+  .seat .nm{font-size:14px}.seat .lv{display:inline;margin-left:6px}.seat .cash{font-size:17px}.seat .meta{display:block}
+  #seatsTop .seat{flex:0 1 220px}
+  #seatL .seat,#seatR .seat{writing-mode:horizontal-tb;flex-direction:column;text-align:center;width:100%;padding:14px 8px}
+  #seatL .si,#seatR .si{display:block}
+  #seatL .lv,#seatR .lv{display:block;margin:0}
+  #me .av{width:36px;height:36px}#me .nm{font-size:16px}#me .cash{font-size:22px}
+  #mid{grid-column:2;grid-row:3}
+  #tray{grid-column:1/4;grid-row:4;padding:12px;min-height:150px}
+  #market{grid-column:4;grid-row:2/4;grid-template-columns:1fr;gap:7px;align-content:start;overflow:auto;padding:7px 7px 0 0}
   .pile{flex-direction:row;padding:8px 12px;gap:12px}
   .pile .g{width:34px;height:34px;font-size:16px}.pile .pn{font-size:14px;margin:0;flex:1;text-align:left}.pile .pp{font-size:15px}.pile .pz{font-size:11.5px;width:74px;text-align:right}
   .pile .own{top:-6px;right:-5px}
-  #side{display:flex;flex-direction:column;grid-column:3;grid-row:3;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px;min-height:0;height:190px}
+  #side{display:flex;flex-direction:column;grid-column:4;grid-row:4;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px;min-height:0;height:190px}
   #side h3{margin:0 0 4px;font-size:11px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
   #logBtn{display:none}
   #toast{top:58px}
@@ -220,10 +243,12 @@ h3.sec{font-size:13px;margin:16px 0 7px;letter-spacing:.06em;text-transform:uppe
     <button class="ib" data-act="rules" aria-label="Rules">?</button>
     <button class="ib" data-act="menu" aria-label="Menu">⚙</button>
   </div>
-  <div id="seats"></div>
+  <div id="seatsTop"></div>
+  <div id="seatL"></div>
   <div id="mid"><div id="board"></div></div>
+  <div id="seatR"></div>
   <div id="market"></div>
-  <div id="tray"><div id="prompt"></div><div id="hand"></div><div id="buyrow" hidden></div><div id="acts"></div></div>
+  <div id="tray"><div id="meSlot"></div><div id="prompt"></div><div id="hand"></div><div id="buyrow" hidden></div><div id="acts"></div></div>
   <div id="side"><h3>Move log</h3><div id="log"></div></div>
 </div>
 <div id="scrim"></div>
@@ -246,6 +271,9 @@ const STEP = { study: 3200, slow: 1900, normal: 850, fast: 150 };
 const store = { get(k, d) { try { return JSON.parse(localStorage.getItem('buyout.' + k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('buyout.' + k, JSON.stringify(v)); } catch (e) {} } };
 let cfg = Object.assign({ n: 4, level: 'shark', mode: 'training', pace: 'slow', sound: true }, store.get('cfg', {}));
 if (!PACE[cfg.pace] || !store.get('paceV2', 0)) { cfg.pace = 'slow'; store.set('paceV2', 1); store.set('cfg', cfg); }
+const cleanName = (v, d) => (String(v || '').replace(/[<>&"'`]/g, '').trim().slice(0, 10)) || d;
+const defName = i => i ? BOTS[i - 1] : 'You';
+if (!Array.isArray(cfg.names)) cfg.names = [];
 let G = null;
 
 /* ---------- sound ---------- */
@@ -274,11 +302,10 @@ const sfx = {
 /* ---------- game setup ---------- */
 function newGame() {
   const n = cfg.n, s = B.newGame(n, (Math.random() * 2 ** 31) | 0);
-  const names = BOTS.slice().sort(() => Math.random() - .5);
   const players = [];
   for (let p = 0; p < n; p++) {
     const lv = p === 0 ? null : cfg.level === 'mixed' ? ['founder', 'shark', 'titan'][(Math.random() * 3) | 0] : cfg.level;
-    players.push({ name: p === 0 ? 'You' : names[p - 1], human: p === 0, level: lv, color: PCOL[p] });
+    players.push({ name: cleanName(cfg.names[p], defName(p)), human: p === 0, level: lv, color: PCOL[p] });
   }
   const z = () => new Array(n).fill(0);
   G = {
@@ -299,8 +326,12 @@ function buildBoard() {
   $('#board').innerHTML = h;
 }
 function buildSeats() {
-  $('#seats').innerHTML = G.players.map((pl, p) =>
-    `<div class="seat" data-p="${p}" style="--pc:${pl.color}"><div class="av">${pl.name[0]}</div><div class="nm">${pl.name}<span class="lv">${pl.human ? '' : B.LEVELS[pl.level].name}</span></div><div class="cash">${fmt(G.s.cash[p])}</div><div class="meta"></div></div>`).join('');
+  const g = G, n = g.players.length;
+  const seat = (p, id) => { const pl = g.players[p]; return `<div class="seat"${id ? ' id="me"' : ''} data-p="${p}" style="--pc:${pl.color}"><div class="av">${esc(pl.name[0].toUpperCase())}</div><div class="si"><div class="nm">${esc(pl.name)}<span class="lv">${pl.human ? '' : B.LEVELS[pl.level].name}</span></div><div class="cash">${fmt(g.s.cash[p])}</div><div class="meta"></div></div></div>`; };
+  /* opponents sit clockwise from your left: left, across the top, right */
+  const top = []; for (let p = 2; p < n - 1; p++) top.push(seat(p));
+  $('#seatL').innerHTML = seat(1); $('#seatR').innerHTML = n > 2 ? seat(n - 1) : ''; $('#seatsTop').innerHTML = top.join('');
+  $('#meSlot').innerHTML = seat(0, true);
 }
 
 /* ---------- main loop ---------- */
@@ -392,7 +423,7 @@ async function present(g, evs) {
   let wait = 0;
   for (const e of evs) {
     switch (e.e) {
-      case 'setup': logLine('Opening tiles: ' + e.draws.map((t, p) => `${nm(g, p)} ${B.tileName(t)}`).join(', ') + `. ${nm(g, e.first)} go${e.first ? 'es' : ''} first.`); snap(g); break;
+      case 'setup': logLine('Opening tiles: ' + e.draws.map((t, p) => `${nm(g, p)} ${B.tileName(t)}`).join(', ') + `. ${nm(g, e.first)} go${g.players[e.first].name === 'You' ? '' : 'es'} first.`); snap(g); break;
       case 'turn': logLine(`Turn ${g.s.turnNo + 1} · ${g.players[e.player].name}`, 't'); break;
       case 'pass': logLine(`${nm(g, e.player)} had no playable tile.`); break;
       case 'place': g.lastTile = e.tile; logLine(`${nm(g, e.player)} placed <b>${B.tileName(e.tile)}</b>.`); sfx.place(); if (e.player !== 0) await say(g, e.player, `placed <b>${B.tileName(e.tile)}</b>${e.kind === 'plain' ? '' : e.kind === 'grow' ? ' · grows a company' : e.kind === 'found' ? ' · founds a startup' : ' · triggers an acquisition'}`, e.kind === 'plain' || e.kind === 'grow' ? 1 : .6); else wait = Math.max(wait, 250); break;
@@ -465,7 +496,7 @@ function setStatus() {
   if (s.over) { el.innerHTML = '<b>Game over</b>'; return; }
   const pd = s.pending, pl = g.players[pd.player];
   const what = { place: 'placing a tile', found: 'founding a startup', survivor: 'choosing the survivor', dispose: 'handling acquired shares', buy: 'buying shares' }[pd.type];
-  el.innerHTML = innerWidth < 980 ? `Turn ${s.turnNo + 1} · <b>${s.bag.length}</b> in bag` : `Turn ${s.turnNo + 1} · <b style="color:${pl.color}">${pl.name}</b> ${pl.human ? 'are' : 'is'} ${what} · ${s.bag.length} tiles in the bag`;
+  el.innerHTML = innerWidth < 980 ? `Turn ${s.turnNo + 1} · <b>${s.bag.length}</b> in bag` : `Turn ${s.turnNo + 1} · <b style="color:${pl.color}">${pl.name}</b> ${pl.name === 'You' ? 'are' : 'is'} ${what} · ${s.bag.length} tiles in the bag`;
 }
 function renderBoard() {
   const g = G, s = g.s, cells = $('#board').children, mine = s.hand[0];
@@ -739,6 +770,7 @@ function sheetSetup(first) {
   const seg = (key, opts) => `<div class="seg">${opts.map(([v, l]) => `<button data-cfg="${key}" data-v="${v}" class="${String(cfg[key]) === String(v) ? 'on' : ''}">${l}</button>`).join('')}</div>`;
   openSheet(first ? '' : 'New game', `<div class="hero">BUYOUT</div><div class="herosub">Found startups. Buy in early. Cash out on the acquisition.</div>
   <p class="lab">Players</p>${seg('n', [[3, '3'], [4, '4'], [5, '5'], [6, '6']])}
+  <p class="lab">Names (you first, then clockwise from your left)</p><div class="names">${Array.from({ length: cfg.n }, (_, i) => `<label style="--pc:${PCOL[i]}"><i></i><input class="nmi" data-name="${i}" maxlength="10" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="${defName(i)}" value="${esc(cleanName(cfg.names[i], ''))}"></label>`).join('')}</div>
   <p class="lab">Bot skill</p>${seg('level', [['intern', 'Intern'], ['founder', 'Founder'], ['shark', 'Shark'], ['titan', 'Titan'], ['mixed', 'Mixed']])}
   <p class="lab">Mode</p>${seg('mode', [['training', 'Training (hints)'], ['real', 'Real game']])}
   <p class="lab">Bot speed</p>${seg('pace', [['study', 'Study'], ['slow', 'Slow'], ['normal', 'Normal'], ['fast', 'Fast']])}
@@ -862,6 +894,7 @@ document.addEventListener('click', ev => {
 });
 function reopen() { const g = G, pd = g.s.pending; if (pd.type === 'found') sheetFound(g, pd); else if (pd.type === 'survivor') sheetSurvivor(g, pd); else if (pd.type === 'dispose') sheetDispose(g, pd); }
 
+document.addEventListener('input', ev => { const i = ev.target.dataset && ev.target.dataset.name; if (i !== undefined) { cfg.names[+i] = cleanName(ev.target.value, ''); store.set('cfg', cfg); } });
 $('#sndBtn').textContent = cfg.sound ? '🔊' : '🔇';
 buildBoard();
 sheetSetup(true);

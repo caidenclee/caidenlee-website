@@ -10,13 +10,13 @@
   const SAFE = 11, ENDSIZE = 41, MAXSH = 25, HAND = 6, START = 6000;
 
   const CHAINS = [
-    { id: 0, name: 'Pixel',  tier: 0, color: '#ff5d73', ink: '#2a0008', glyph: 'P' },
-    { id: 1, name: 'Nimbus', tier: 0, color: '#ffb23e', ink: '#2b1800', glyph: 'N' },
-    { id: 2, name: 'Kernel', tier: 1, color: '#f4e04d', ink: '#2a2500', glyph: 'K' },
-    { id: 3, name: 'Helix',  tier: 1, color: '#4ade80', ink: '#00210d', glyph: 'H' },
-    { id: 4, name: 'Volt',   tier: 1, color: '#38d6f5', ink: '#00222b', glyph: 'V' },
-    { id: 5, name: 'Apex',   tier: 2, color: '#7c8cff', ink: '#050a33', glyph: 'A' },
-    { id: 6, name: 'Orbit',  tier: 2, color: '#d47bff', ink: '#22003a', glyph: 'O' },
+    { id: 0, name: 'Spark',  tier: 0, color: '#ff5468', ink: '#2a0008', glyph: 'S' },
+    { id: 1, name: 'Tally',  tier: 0, color: '#f6df45', ink: '#2a2500', glyph: 'T' },
+    { id: 2, name: 'Atlas',  tier: 1, color: '#3558e6', ink: '#eef2ff', glyph: 'A' },
+    { id: 3, name: 'Flux',   tier: 1, color: '#43d67a', ink: '#00210d', glyph: 'F' },
+    { id: 4, name: 'Warp',   tier: 1, color: '#b06cff', ink: '#1c0036', glyph: 'W' },
+    { id: 5, name: 'Ignite', tier: 2, color: '#ff9530', ink: '#2b1500', glyph: 'I' },
+    { id: 6, name: 'Cirrus', tier: 2, color: '#6fdcff', ink: '#00222b', glyph: 'C' },
   ];
   const TIER = CHAINS.map(c => c.tier);
 
