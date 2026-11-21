@@ -157,6 +157,65 @@
       return fetch(url, { method: 'POST', body: body, mode: 'no-cors' }).then(function () { return { ok: true, unconfirmed: true }; });
     });
   }
+  // ---------- front screen + area picker (shared) ----------
+  var gateStep = 'start'; // 'start' -> 'pick' -> 'done' (main page)
+  function dayStarted(d) {
+    var r = log.days[d];
+    return !!r && ((r.plan && Array.isArray(r.plan.tabs) && r.plan.tabs.length > 0) || practiced(r) || !!String(r.note || '').trim());
+  }
+  // Big tap cards, one per area (the session's tabs). onChange gets the picked tab indexes.
+  function areaPicker(tabsArr, initial, onChange) {
+    var sel = initial.slice();
+    var wrap = h('div', 'sp-areas-wrap');
+    var grid = h('div', 'sp-areas'); grid.setAttribute('role', 'group'); grid.setAttribute('aria-label', 'Areas to practice');
+    var sync = function () {
+      grid.querySelectorAll('.sp-area').forEach(function (b) { b.setAttribute('aria-pressed', String(sel.indexOf(+b.dataset.ti) >= 0)); });
+      onChange(sel.slice().sort());
+    };
+    tabsArr.forEach(function (t, ti) {
+      var n = list(t.practice).length;
+      var b = h('button', 'sp-area'); b.type = 'button'; b.dataset.ti = String(ti);
+      b.style.setProperty('--c', t.color || TAB_COLORS[ti % TAB_COLORS.length]);
+      var tx = h('span', 'sp-area-text'); tx.append(h('b', null, t.name || ('Part ' + (ti + 1))), h('small', null, n + (n === 1 ? ' drill' : ' drills')));
+      b.append(h('span', 'dot'), tx, h('span', 'sp-area-tick', '✓'));
+      b.addEventListener('click', function () { var i = sel.indexOf(ti); if (i >= 0) sel.splice(i, 1); else sel.push(ti); sync(); });
+      grid.append(b);
+    });
+    var allB = h('button', 'sp-linkbtn', 'Pick everything'); allB.type = 'button';
+    allB.addEventListener('click', function () { sel = tabsArr.map(function (_, i) { return i; }); sync(); });
+    wrap.append(grid, allB);
+    setTimeout(sync, 0);
+    return wrap;
+  }
+  function drawGate(s, tabsArr) {
+    document.body.classList.add('sp-gated');
+    window.scrollTo(0, 0);
+    var g = h('section', 'sp-gate'), inner = h('div', 'sp-gate-in' + (gateStep === 'pick' ? ' pick' : ''));
+    if (gateStep !== 'pick') {
+      inner.append(h('span', 'sp-gate-date', parseDate(today()).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })));
+      inner.append(h('h1', 'sp-gate-h', 'Ready to practice, ' + (data.name || 'friend') + '?'));
+      var st = streak();
+      if (st) inner.append(h('span', 'sp-gate-streak', '🔥 ' + st + ' day streak'));
+      var go = h('button', 'btn btn-primary sp-gate-btn', 'Start Practice'); go.type = 'button';
+      go.addEventListener('click', function () { gateStep = 'pick'; render(); });
+      inner.append(go);
+    } else {
+      var back = h('button', 'sp-gate-back', '‹ Back'); back.type = 'button';
+      back.addEventListener('click', function () { gateStep = 'start'; render(); });
+      var picked = [];
+      var build = h('button', 'btn btn-primary sp-build', 'Build my agenda'); build.type = 'button'; build.disabled = true;
+      var picker = areaPicker(tabsArr, [], function (sel) { picked = sel; build.disabled = !sel.length; });
+      build.addEventListener('click', function () {
+        if (!picked.length) return;
+        var r = dayRec(today(), true); r.plan = { session: s.id, tabs: picked };
+        touch(today()); selDay = today(); gateStep = 'done';
+        render(); window.scrollTo(0, 0);
+      });
+      inner.append(back, h('h1', 'sp-gate-q', 'What do you want to practice today?'), picker, build);
+    }
+    g.append(inner); main.append(g);
+  }
+
   // Older version kept one day of checks per session. Move it into the log.
   function migrate() {
     var moved = false;
@@ -210,7 +269,7 @@
       window.addEventListener('popstate', render);
       var shownDay = today();
       document.addEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'visible' && today() !== shownDay) { if (selDay === shownDay) selDay = today(); shownDay = today(); render(); }
+        if (document.visibilityState === 'visible' && today() !== shownDay) { if (selDay === shownDay) selDay = today(); shownDay = today(); gateStep = 'start'; render(); }
       });
       render();
     })
@@ -227,6 +286,9 @@
     var s = currentSession();
     var latest = s === sessions[0];
     main.replaceChildren();
+    if (gateStep !== 'done' && list(s.tabs).length && !dayStarted(today())) { drawGate(s, list(s.tabs)); return; }
+    gateStep = 'done';
+    document.body.classList.remove('sp-gated');
     var d = 0;
     function rv(el) { el.classList.add('rv'); el.style.setProperty('--d', (d++ * 0.06) + 's'); return el; }
 
@@ -339,25 +401,8 @@
       if (picking) {
         var pk = h('div', 'sp-card sp-pick');
         pk.append(h('h2', 'sp-pick-q', isToday ? 'What do you want to practice today?' : 'What did you practice on ' + shortDate(selDay) + '?'));
-        var grid = h('div', 'sp-areas'); grid.setAttribute('role', 'group'); grid.setAttribute('aria-label', 'Areas to practice');
-        var build = h('button', 'btn btn-primary sp-build', 'Build my agenda'); build.type = 'button';
-        var sync = function () {
-          grid.querySelectorAll('.sp-area').forEach(function (b) { b.setAttribute('aria-pressed', String(pickSel.indexOf(+b.dataset.ti) >= 0)); });
-          build.disabled = !pickSel.length;
-        };
-        tabs.forEach(function (t, ti) {
-          var n = drills.filter(function (x) { return x.ti === ti; }).length;
-          var b = h('button', 'sp-area'); b.type = 'button'; b.dataset.ti = String(ti); b.style.setProperty('--c', tabColor(ti));
-          var tx = h('span', 'sp-area-text'); tx.append(h('b', null, tabName(ti)), h('small', null, n + (n === 1 ? ' drill' : ' drills')));
-          b.append(h('span', 'dot'), tx, h('span', 'sp-area-tick', '✓'));
-          b.addEventListener('click', function () {
-            var i = pickSel.indexOf(ti); if (i >= 0) pickSel.splice(i, 1); else pickSel.push(ti);
-            sync();
-          });
-          grid.append(b);
-        });
-        var allB = h('button', 'sp-linkbtn', 'Pick everything'); allB.type = 'button';
-        allB.addEventListener('click', function () { pickSel = tabs.map(function (_, i) { return i; }); sync(); });
+        var build = h('button', 'btn btn-primary sp-build', 'Build my agenda'); build.type = 'button'; build.disabled = !pickSel.length;
+        var grid = areaPicker(tabs, pickSel, function (sel) { pickSel = sel; build.disabled = !sel.length; });
         build.addEventListener('click', function () {
           if (!pickSel.length) return;
           var r = dayRec(selDay, true), keep = pickSel.slice().sort();
@@ -375,7 +420,7 @@
           cancel.addEventListener('click', function () { picking = false; drawAgenda(); });
           acts.append(cancel);
         }
-        pk.append(grid, allB, acts); agendaHost.append(pk); sync();
+        pk.append(grid, acts); agendaHost.append(pk);
         return;
       }
 
@@ -453,6 +498,7 @@
     dayBar = h('div', 'sp-day'); agendaHost = h('div', 'sp-agenda-host'); logHost = h('div');
     wrap.append(dayBar, agendaHost, logHost);
     main.append(wrap);
+    if (gb) main.insertBefore(wrap, gb); // practice leads the page, goal bar follows
 
     // stats
     if (stats.length) {
