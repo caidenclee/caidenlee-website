@@ -23,8 +23,10 @@
 // FIELD GUIDE
 //   date      "YYYY-MM-DD". Required. Also identifies the session.
 //   stats     Pills under the header. Add "sub" for a small second line and
-//             "wide": true to make a pill span the full row. A pill whose
-//             label contains "Goal" is highlighted green.
+//             "wide": true to make a pill span the full row.
+//             The "Current Average" and "Goal" stats become the goal bar at
+//             the top when both contain a number (for example "12.6" and
+//             "Sub 10"). Otherwise they show as normal pills.
 //   theme     The "Big Theme" banner: a title plus short points.
 //   tabs      Usually Cross, F2L, Last Layer. Each has:
 //               fix       "What to Fix" notes (plain text)
@@ -34,12 +36,15 @@
 //                           note      small gray line under it (optional)
 //                           link      a URL, or a site path like "/cross-trainer.html"
 //                           linkText  the link's button label (default "Open")
+//                           target    how much to do, shown as a badge,
+//                                     like "25 solves" or "10 min"
+//             Checklists clear themselves at the start of each new day.
+//             Checking off every drill sets off confetti.
 //
 // Keep every value in "double quotes", and remember the comma between items.
 // ============================================================================
 {
   "name": "Student First Name",
-  "coach": "Caiden Lee",
   "sessions": [
     {
       "date": "2026-01-01",
@@ -59,7 +64,7 @@
           "fix": [""],
           "practice": [
             "",
-            { "text": "", "note": "", "link": "", "linkText": "" }
+            { "text": "", "note": "", "link": "", "linkText": "", "target": "" }
           ]
         },
         {

@@ -1,6 +1,5 @@
 {
   "name": "Adam",
-  "coach": "Caiden Lee",
   "sessions": [
     {
       "date": "2026-11-21",
@@ -25,9 +24,9 @@
             "Practice yellow cross"
           ],
           "practice": [
-            { "text": "Cross solver on CsTimer", "note": "Bottom right corner, then Solvers", "link": "https://cstimer.net/", "linkText": "Open CsTimer" },
-            { "text": "Easy cross scrambles on CsTimer", "note": "CFOP, then Easy Cross", "link": "https://cstimer.net/", "linkText": "Open CsTimer" },
-            { "text": "Inspection Tool", "note": "Students only. Ask Caiden for the password.", "link": "/cross-trainer.html", "linkText": "Open Inspection Tool" }
+            { "text": "Cross solver on CsTimer", "target": "10 crosses", "note": "Bottom right corner, then Solvers", "link": "https://cstimer.net/", "linkText": "Open CsTimer" },
+            { "text": "Easy cross scrambles on CsTimer", "target": "25 solves", "note": "CFOP, then Easy Cross", "link": "https://cstimer.net/", "linkText": "Open CsTimer" },
+            { "text": "Inspection Tool", "target": "10 min", "note": "Students only. Ask Caiden for the password.", "link": "/cross-trainer.html", "linkText": "Open Inspection Tool" }
           ]
         },
         {
@@ -37,9 +36,9 @@
             "Solve into the back slots first"
           ],
           "practice": [
-            "Slow solves with zero pauses",
-            "Predict 2 pairs at once",
-            "F2L with no corner cutting"
+            { "text": "Slow solves with zero pauses", "target": "12 solves" },
+            { "text": "Predict 2 pairs at once", "target": "25 solves" },
+            { "text": "F2L with no corner cutting", "target": "12 solves" }
           ]
         },
         {
@@ -49,8 +48,8 @@
             "Turn fast"
           ],
           "practice": [
-            "Practice recognition during normal solves",
-            { "text": "CsTimer last layer training", "note": "CFOP, then Last Layer", "link": "https://cstimer.net/", "linkText": "Open CsTimer" }
+            { "text": "Practice recognition during normal solves", "target": "50 solves" },
+            { "text": "CsTimer last layer training", "target": "10 min", "note": "CFOP, then Last Layer", "link": "https://cstimer.net/", "linkText": "Open CsTimer" }
           ]
         }
       ]
