@@ -47,8 +47,17 @@
 // PRACTICE LOG
 //   Students log each practice day themselves on the page: drills checked,
 //   minutes, their average and notes. Nothing to add here. The log is saved
-//   on the student's own phone, so "Send to Caiden" is how you see it, and
-//   "Back up" / "Restore" moves it to a new phone.
+//   on the student's own phone. "Save progress for today" copies a day to a
+//   linked Google Sheet or Doc, and "Back up" / "Restore" moves the whole log
+//   to a new phone.
+//
+// SAVING TO GOOGLE
+//   Students tap "Save progress for today" to save a day into a Google Sheet
+//   or Google Doc they link once on the page (the page walks them through it).
+//   Optional: to have every save go to YOUR Sheet instead, set up the Sheet
+//   yourself with students/google-sheet-script.js and add its Web app URL:
+//     "saveTo": "https://script.google.com/macros/s/.../exec",
+//   right under "name". A student can still link their own file instead.
 //
 // Keep every value in "double quotes", and remember the comma between items.
 // ============================================================================

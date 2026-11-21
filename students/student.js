@@ -96,6 +96,7 @@
       if (!Object.keys(r.checks || {}).length && !(+r.minutes > 0) && !(+r.avg > 0) && !String(r.note || '').trim()) delete log.days[d];
     }
     saveLog();
+    if (onTouch) onTouch(d);
   }
   function practiced(r) { return !!r && (Object.keys(r.checks || {}).length > 0 || +r.minutes > 0 || +r.avg > 0); }
   function addDays(ymd, n) { var d = parseDate(ymd); d.setDate(d.getDate() + n); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
@@ -125,9 +126,36 @@
     return parts.join(' · ') || 'Notes only';
   }
   function copy(text, done) {
-    var ok = function () { done('Copied. Paste it in a text to Caiden.'); };
-    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, function () { done('Couldn’t copy on this browser.'); });
-    else done('Couldn’t copy on this browser.');
+    var fail = function () { done(false); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { done(true); }, fail);
+    else fail();
+  }
+
+  // ---------- save to Google Sheet / Doc ----------
+  // The student's own Sheet or Doc runs a small script (students/google-*-script.js)
+  // published as a web app. The page posts each day to that URL.
+  var onTouch = null;
+  function validScriptUrl(u) { return typeof u === 'string' && /^https:\/\/script\.google\.com\/(a\/[^\/]+\/)?macros\/s\/[\w-]+\/exec$/.test(u.trim()); }
+  function syncCfg() {
+    var c = store.get(KEY + 'sync');
+    if (c && validScriptUrl(c.url) && !(c.fromCoach && data && c.url !== data.saveTo)) return c;
+    if (data && validScriptUrl(data.saveTo)) return { url: data.saveTo.trim(), kind: '', name: '', fromCoach: true };
+    return null;
+  }
+  function savedMap() { return store.get(KEY + 'saved') || {}; }
+  function markSaved(days) { var m = savedMap(), t = Date.now(); days.forEach(function (d) { m[d] = t; }); store.set(KEY + 'saved', m); }
+  function postToGoogle(url, payload) {
+    var body = JSON.stringify(payload); // sent as text/plain, so the browser skips the CORS preflight
+    return fetch(url, { method: 'POST', body: body, redirect: 'follow' }).then(function (r) { return r.text(); }).then(function (t) {
+      var j; try { j = JSON.parse(t); } catch (e) {
+        throw new Error(/<html/i.test(t) ? 'Google asked for a sign-in. In the deployment, set Who has access to Anyone.' : 'Google sent an unexpected reply.');
+      }
+      if (!j || !j.ok) throw new Error((j && j.error) || 'The script didn’t accept the save.');
+      return j;
+    }, function () {
+      // Reply blocked by the browser: send anyway without reading the answer.
+      return fetch(url, { method: 'POST', body: body, mode: 'no-cors' }).then(function () { return { ok: true, unconfirmed: true }; });
+    });
   }
   // Older version kept one day of checks per session. Move it into the log.
   function migrate() {
@@ -469,8 +497,154 @@
         ta.t = setTimeout(function () { var r = dayRec(selDay, true); r.note = ta.value; touch(selDay); flash(); drawHistory(); }, 350);
       });
       nf.append(ta); card.append(nf);
-      card.append(h('p', 'sp-fine', 'Saves automatically on this device.'));
-      logHost.replaceChildren(card);
+      // save to Google
+      var sv = h('div', 'sp-save');
+      var saveLabel = function () { return selDay === today() ? 'Save progress for today' : 'Save progress for ' + shortDate(selDay); };
+      var sb = h('button', 'btn btn-primary sp-save-btn', saveLabel()); sb.type = 'button';
+      var sl = h('p', 'sp-save-status'); sl.setAttribute('role', 'status');
+      var refresh = function (msg, cls) {
+        var cfg = syncCfg(), where = cfg ? (cfg.name || (cfg.kind === 'doc' ? 'your Google Doc' : cfg.kind === 'sheet' ? 'your Google Sheet' : 'your Google file')) : '';
+        sl.className = 'sp-save-status' + (cls ? ' ' + cls : '');
+        sl.replaceChildren();
+        if (msg) sl.append(msg);
+        else if (!cfg) sl.append('Link a Google Sheet or Doc to save your progress there.');
+        else {
+          var at = savedMap()[selDay], r = log.days[selDay];
+          if (at && (!r || +r.updated <= at)) { sl.className += ' ok'; sl.append('✓ Saved to ' + where + ' at ' + new Date(at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })); }
+          else if (at) sl.append('You changed this day since your last save.');
+          else sl.append('Saves to ' + where + '.');
+        }
+        var lk = h('button', 'sp-linkbtn', cfg ? 'Change' : 'Link it'); lk.type = 'button';
+        lk.addEventListener('click', function () { openConnect(); });
+        sl.append(' ', lk);
+      };
+      sb.addEventListener('click', function () {
+        var cfg = syncCfg(); if (!cfg) { openConnect(); return; }
+        if (!log.days[selDay]) { refresh('Nothing logged for this day yet.', 'bad'); return; }
+        sb.disabled = true; sb.textContent = 'Saving…';
+        postToGoogle(cfg.url, { student: data.name || slug, days: [dayPayload(selDay)] }).then(function (j) {
+          if (j.name || j.kind) { cfg.name = j.name || cfg.name; cfg.kind = j.kind || cfg.kind; store.set(KEY + 'sync', cfg); }
+          markSaved([selDay]);
+          refresh(j.unconfirmed ? 'Sent. Open your ' + (cfg.kind === 'doc' ? 'Doc' : 'Sheet') + ' to check it arrived.' : '', j.unconfirmed ? '' : 'ok');
+          if (!j.unconfirmed) burstAt(sb, 18);
+        }).catch(function (e) { refresh('Couldn’t save. ' + (e && e.message ? e.message : 'Check your connection and try again.'), 'bad'); })
+          .then(function () { sb.disabled = false; sb.textContent = saveLabel(); });
+      });
+      onTouch = function (d) { if (d === selDay) refresh(); };
+      sv.append(sb, sl); card.append(sv); refresh();
+      logHost.replaceChildren(card, connectHost);
+    }
+
+    function dayPayload(d) {
+      var r = log.days[d] || { checks: {} };
+      var done = Object.keys(r.checks || {}).map(function (k) { return r.checks[k]; }).filter(function (v) { return typeof v === 'string'; });
+      return {
+        date: d, label: parseDate(d).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }),
+        done: done.length, total: total, drills: done, minutes: +r.minutes || 0, avg: +r.avg > 0 ? +r.avg : '',
+        note: String(r.note || '').trim(), session: s.date
+      };
+    }
+
+    // ----- link a Google Sheet or Doc (one-time setup) -----
+    var connectHost = h('div', 'sp-connect'); connectHost.hidden = true;
+    var codeCache = {};
+    function getCode(kind) {
+      if (codeCache[kind]) return Promise.resolve(codeCache[kind]);
+      return fetch('/students/google-' + kind + '-script.js', { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error('x'); return r.text(); })
+        .then(function (t) { codeCache[kind] = t; return t; });
+    }
+    function openConnect() { drawConnect(); connectHost.hidden = false; connectHost.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    function drawConnect() {
+      var cfg = syncCfg();
+      var kind = connectHost.dataset.kind || (cfg && cfg.kind) || 'sheet';
+      connectHost.dataset.kind = kind;
+      connectHost.replaceChildren();
+      var noun = kind === 'doc' ? 'Doc' : 'Sheet';
+      var hd = h('div', 'sp-card-h'); var h2 = h('h2', null, 'Link a Google ' + noun);
+      var x = h('button', 'sp-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Close'); x.addEventListener('click', function () { connectHost.hidden = true; });
+      hd.append(h2, x); connectHost.append(hd);
+
+      var seg = h('div', 'sp-seg'); seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', 'Save to');
+      [['sheet', 'Google Sheet'], ['doc', 'Google Doc']].forEach(function (o) {
+        var b = h('button', null, o[1]); b.type = 'button'; b.setAttribute('aria-pressed', String(kind === o[0]));
+        b.addEventListener('click', function () { connectHost.dataset.kind = o[0]; drawConnect(); });
+        seg.append(b);
+      });
+      connectHost.append(seg);
+      connectHost.append(h('p', 'sp-fine sp-connect-note', 'One-time setup. Do steps 1 to 4 on a computer, since the phone apps don’t have Apps Script.'));
+
+      var ol = h('ol', 'sp-steps');
+      var li1 = h('li'); var open = h('a', 'btn btn-secondary sp-step-btn', 'Open a new Google ' + noun);
+      open.href = kind === 'doc' ? 'https://docs.new' : 'https://sheets.new'; open.target = '_blank'; open.rel = 'noopener'; open.append(svg(ICON.ext));
+      li1.append(h('span', null, 'Make a new ' + noun + ' and name it, like “' + (data.name || 'My') + ' Practice”.'), open); ol.append(li1);
+      ol.append(h('li', null, 'In the ' + noun + ', click Extensions, then Apps Script.'));
+      var li3 = h('li');
+      var cp = h('button', 'btn btn-secondary sp-step-btn', 'Copy the code'); cp.type = 'button';
+      var cpMsg = h('span', 'sp-fine sp-cpmsg');
+      var det = h('details', 'sp-code'); det.append(h('summary', null, 'Show the code'));
+      var ta = h('textarea', 'sp-in'); ta.readOnly = true; ta.rows = 6; ta.spellcheck = false; ta.addEventListener('focus', function () { ta.select(); });
+      det.append(ta);
+      getCode(kind).then(function (t) { ta.value = t; }, function () {});
+      cp.addEventListener('click', function () {
+        var put = function (t) { copy(t, function (ok) { cpMsg.textContent = ok ? '✓ Copied' : 'Copy it from the box below.'; if (!ok) det.open = true; }); };
+        if (codeCache[kind]) put(codeCache[kind]); else getCode(kind).then(put, function () { cpMsg.textContent = 'Couldn’t load the code.'; });
+      });
+      li3.append(h('span', null, 'Delete what’s there, paste this code, and click Save.'), cp, cpMsg, det); ol.append(li3);
+      var li4 = h('li'); li4.append(h('span', null, 'Click Deploy, then New deployment, then Web app. Set Who has access to Anyone, click Deploy, and allow access.'),
+        h('span', 'sp-step-note', 'If Google says the app isn\u2019t verified, click Advanced, then Go to the project. It\u2019s your own script.'));
+      ol.append(li4);
+      var li5 = h('li'); li5.append(h('span', null, 'Copy the Web app URL and paste it here.'));
+      var row = h('div', 'sp-url-row');
+      var inp = h('input', 'sp-in'); inp.type = 'url'; inp.placeholder = 'https://script.google.com/macros/s/…/exec'; inp.autocomplete = 'off'; inp.spellcheck = false;
+      if (cfg && !cfg.fromCoach) inp.value = cfg.url;
+      var go = h('button', 'btn btn-primary', 'Link'); go.type = 'button';
+      row.append(inp, go); li5.append(row); ol.append(li5);
+      connectHost.append(ol);
+      var msg = h('p', 'sp-save-status'); msg.setAttribute('role', 'status'); connectHost.append(msg);
+      var after = h('div', 'sp-connect-after'); connectHost.append(after);
+
+      var allLabel = function (n) { return 'Save all ' + n + (n === 1 ? ' logged day' : ' logged days'); };
+      var showAfter = function (c) {
+        after.replaceChildren();
+        if (!c) return;
+        var logged = Object.keys(log.days).sort();
+        if (logged.length) {
+          var all = h('button', 'btn btn-secondary', allLabel(logged.length)); all.type = 'button';
+          all.addEventListener('click', function () {
+            all.disabled = true; all.textContent = 'Saving…';
+            postToGoogle(c.url, { student: data.name || slug, days: logged.map(dayPayload) }).then(function (j) {
+              markSaved(logged); msg.className = 'sp-save-status ok';
+              msg.textContent = j.unconfirmed ? 'Sent. Open your ' + noun + ' to check.' : '✓ Saved ' + logged.length + (logged.length === 1 ? ' day.' : ' days.');
+              if (onTouch) onTouch(selDay);
+            }).catch(function (e) { msg.className = 'sp-save-status bad'; msg.textContent = 'Couldn’t save. ' + (e.message || ''); })
+              .then(function () { all.disabled = false; all.textContent = allLabel(logged.length); });
+          });
+          after.append(all);
+        }
+        if (!c.fromCoach) {
+          var un = h('button', 'btn btn-secondary', 'Unlink'); un.type = 'button';
+          un.addEventListener('click', function () {
+            store.del(KEY + 'sync'); store.del(KEY + 'saved'); inp.value = '';
+            msg.className = 'sp-save-status'; msg.textContent = 'Unlinked.'; showAfter(null); if (onTouch) onTouch(selDay);
+          });
+          after.append(un);
+        }
+      };
+      if (cfg) { msg.className = 'sp-save-status ok'; msg.textContent = '✓ Linked to ' + (cfg.name || (cfg.fromCoach ? 'Caiden’s ' + noun : 'your ' + noun)) + '.'; showAfter(cfg); }
+
+      go.addEventListener('click', function () {
+        var u = inp.value.trim();
+        if (!validScriptUrl(u)) { msg.className = 'sp-save-status bad'; msg.textContent = 'That isn’t a Web app URL. It starts with https://script.google.com/macros/s/ and ends with /exec.'; return; }
+        go.disabled = true; go.textContent = 'Linking…'; msg.className = 'sp-save-status'; msg.textContent = '';
+        postToGoogle(u, { ping: true, student: data.name || slug }).then(function (j) {
+          var c = { url: u, kind: j.kind || kind, name: j.name || '' };
+          store.set(KEY + 'sync', c); store.del(KEY + 'saved');
+          msg.className = 'sp-save-status ok';
+          msg.textContent = j.unconfirmed ? 'Linked. Google didn’t confirm, so check your ' + noun + ' after your first save.' : '✓ Linked to ' + (c.name || 'your ' + noun) + '.';
+          showAfter(c); if (onTouch) onTouch(selDay);
+        }).catch(function (e) { msg.className = 'sp-save-status bad'; msg.textContent = 'Couldn’t link. ' + (e.message || ''); })
+          .then(function () { go.disabled = false; go.textContent = 'Link'; });
+      });
     }
 
     // ----- history -----
@@ -543,15 +717,7 @@
 
       // share + backup
       var acts = h('div', 'sp-actions');
-      var share = h('button', 'btn btn-primary', 'Send to Caiden'); share.type = 'button';
       var status = histStatus;
-      share.disabled = !days.length;
-      share.addEventListener('click', function () {
-        var text = shareText();
-        var done = function (msg) { status.textContent = msg; };
-        if (navigator.share) navigator.share({ title: (data.name || 'Student') + '’s practice', text: text }).then(function () { done('Sent.'); }).catch(function (e) { if (!e || e.name !== 'AbortError') copy(text, done); });
-        else copy(text, done);
-      });
       var bk = h('button', 'btn btn-secondary', 'Back up'); bk.type = 'button';
       bk.disabled = !days.length;
       bk.addEventListener('click', function () {
@@ -579,7 +745,7 @@
         }).catch(function () { status.textContent = 'That file isn’t a practice backup.'; });
         file.value = '';
       });
-      acts.append(share, bk, rs, file);
+      acts.append(bk, rs, file);
       histHost.append(acts);
     }
 
@@ -631,21 +797,6 @@
       sv.addEventListener('pointermove', show); sv.addEventListener('pointerdown', show); sv.addEventListener('pointerleave', function (ev) { if (ev.pointerType === 'mouse') hide(); });
       var plot = h('div', 'sp-chart-plot'); plot.append(sv, tip); wrapC.append(plot);
       return wrapC;
-    }
-
-    function shareText() {
-      var lines = [(data.name || 'Student') + '’s practice', ''];
-      lines.push('Streak: ' + streak() + (streak() === 1 ? ' day' : ' days') + '. This week: ' + weekCount() + '/7 days.');
-      lines.push('');
-      var days = Object.keys(log.days).filter(function (d) { return practiced(log.days[d]); }).sort().reverse().slice(0, 7);
-      days.forEach(function (d) {
-        var r = log.days[d];
-        var nm = dayName(d); lines.push((nm === 'Today' || nm === 'Yesterday' ? nm + ', ' + shortDate(d) : nm) + ': ' + summary(r));
-        var done = Object.keys(r.checks || {}).map(function (k) { return r.checks[k]; }).filter(function (v) { return typeof v === 'string'; });
-        if (done.length) lines.push('  Did: ' + done.join(', '));
-        if ((r.note || '').trim()) lines.push('  Notes: ' + r.note.trim());
-      });
-      return lines.join('\n');
     }
 
     drawDayBar(); drawTab(); updateProgress(); drawLog(); drawHistory();
