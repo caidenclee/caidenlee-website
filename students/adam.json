@@ -1,0 +1,59 @@
+{
+  "name": "Adam",
+  "coach": "Caiden Lee",
+  "sessions": [
+    {
+      "date": "2026-11-21",
+      "stats": [
+        { "label": "Current Average", "value": "12.6" },
+        { "label": "Goal", "value": "Sub 10" },
+        { "label": "PR Single", "value": "9.7" },
+        { "label": "Method / Knowledge", "value": "Full OLL + PLL", "sub": "Except the Dot OLL cases" },
+        { "label": "Inspection", "value": "Plans the full cross", "sub": "Predicts the first pair about a quarter of the time", "wide": true }
+      ],
+      "theme": {
+        "title": "Fluidity",
+        "points": ["No pausing", "Avoid lockups", "Avoid rotations"]
+      },
+      "tabs": [
+        {
+          "name": "Cross",
+          "fix": [
+            "Plan Cross + 1 on 100% of solves",
+            "If you cannot see Cross + 1, at least predict where the edge goes",
+            "Always make sure the cross you plan is an efficient one",
+            "Practice yellow cross"
+          ],
+          "practice": [
+            { "text": "Cross solver on CsTimer", "note": "Bottom right corner, then Solvers", "link": "https://cstimer.net/", "linkText": "Open CsTimer" },
+            { "text": "Easy cross scrambles on CsTimer", "note": "CFOP, then Easy Cross", "link": "https://cstimer.net/", "linkText": "Open CsTimer" },
+            { "text": "Inspection Tool", "note": "Students only. Ask Caiden for the password.", "link": "/cross-trainer.html", "linkText": "Open Inspection Tool" }
+          ]
+        },
+        {
+          "name": "F2L",
+          "fix": [
+            "No pausing between pairs",
+            "Solve into the back slots first"
+          ],
+          "practice": [
+            "Slow solves with zero pauses",
+            "Predict 2 pairs at once",
+            "F2L with no corner cutting"
+          ]
+        },
+        {
+          "name": "Last Layer",
+          "fix": [
+            "Recognize the case without looking at the back of the cube",
+            "Turn fast"
+          ],
+          "practice": [
+            "Practice recognition during normal solves",
+            { "text": "CsTimer last layer training", "note": "CFOP, then Last Layer", "link": "https://cstimer.net/", "linkText": "Open CsTimer" }
+          ]
+        }
+      ]
+    }
+  ]
+}

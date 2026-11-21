@@ -1,0 +1,78 @@
+// ============================================================================
+// STUDENT PAGE DATA: blank sample
+//
+// Lines that start with // are comments. The page ignores them, so you can keep
+// or delete them when you copy this file.
+//
+// ADD A NEW STUDENT (example: Maya)
+//   1. Copy this file to students/maya.json and fill it in.
+//      The file name is the URL: students/maya.json -> caidenlee.com/students/maya
+//      Use lowercase letters, numbers and dashes only.
+//   2. Copy the folder students/adam/ and rename the copy to students/maya/.
+//      Do not edit the index.html inside it. It is the same for every student.
+//   3. Commit and push. The page is live in about a minute.
+//
+// ADD A NEW SESSION FOR AN EXISTING STUDENT
+//   1. Open students/<name>.json.
+//   2. Copy one whole { ... } block inside "sessions", paste it as a new block,
+//      and change the date and notes. Put a comma between blocks.
+//   3. The newest date always shows first. Older sessions move into the
+//      "Past Sessions" list automatically, so never delete old ones.
+//   4. Each session has its own checklist, so new drills start unchecked.
+//
+// FIELD GUIDE
+//   date      "YYYY-MM-DD". Required. Also identifies the session.
+//   stats     Pills under the header. Add "sub" for a small second line and
+//             "wide": true to make a pill span the full row. A pill whose
+//             label contains "Goal" is highlighted green.
+//   theme     The "Big Theme" banner: a title plus short points.
+//   tabs      Usually Cross, F2L, Last Layer. Each has:
+//               fix       "What to Fix" notes (plain text)
+//               practice  "How to Practice" checklist. Each drill is either
+//                         plain text, or an object with:
+//                           text      the drill (required)
+//                           note      small gray line under it (optional)
+//                           link      a URL, or a site path like "/cross-trainer.html"
+//                           linkText  the link's button label (default "Open")
+//
+// Keep every value in "double quotes", and remember the comma between items.
+// ============================================================================
+{
+  "name": "Student First Name",
+  "coach": "Caiden Lee",
+  "sessions": [
+    {
+      "date": "2026-01-01",
+      "stats": [
+        { "label": "Current Average", "value": "" },
+        { "label": "Goal", "value": "" },
+        { "label": "PR Single", "value": "" },
+        { "label": "Method / Knowledge", "value": "", "sub": "" }
+      ],
+      "theme": {
+        "title": "",
+        "points": ["", ""]
+      },
+      "tabs": [
+        {
+          "name": "Cross",
+          "fix": [""],
+          "practice": [
+            "",
+            { "text": "", "note": "", "link": "", "linkText": "" }
+          ]
+        },
+        {
+          "name": "F2L",
+          "fix": [""],
+          "practice": [""]
+        },
+        {
+          "name": "Last Layer",
+          "fix": [""],
+          "practice": [""]
+        }
+      ]
+    }
+  ]
+}
