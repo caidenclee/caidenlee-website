@@ -93,7 +93,7 @@
     var r = log.days[d];
     if (r) {
       r.updated = Date.now();
-      if (!Object.keys(r.checks || {}).length && !(+r.minutes > 0) && !(+r.avg > 0) && !String(r.note || '').trim()) delete log.days[d];
+      if (!Object.keys(r.checks || {}).length && !(+r.minutes > 0) && !(+r.avg > 0) && !String(r.note || '').trim() && !(r.plan && r.plan.tabs && r.plan.tabs.length)) delete log.days[d];
     }
     saveLog();
     if (onTouch) onTouch(d);
@@ -131,8 +131,8 @@
     else fail();
   }
 
-  // ---------- save to Google Sheet / Doc ----------
-  // The student's own Sheet or Doc runs a small script (students/google-*-script.js)
+  // ---------- save to a Google Sheet ----------
+  // The student's own Sheet runs a small script (students/google-sheet-script.js)
   // published as a web app. The page posts each day to that URL.
   var onTouch = null;
   function validScriptUrl(u) { return typeof u === 'string' && /^https:\/\/script\.google\.com\/(a\/[^\/]+\/)?macros\/s\/[\w-]+\/exec$/.test(u.trim()); }
@@ -267,30 +267,8 @@
       setTimeout(function () { fill.style.width = pct + '%'; }, 350);
     }
 
-    // stats
-    if (stats.length) {
-      var sg = rv(h('section', 'sp-stats')); sg.setAttribute('aria-label', 'Stats');
-      stats.forEach(function (st) {
-        st = st || {};
-        var card = h('div', 'sp-stat' + (st.wide ? ' wide' : '') + (/goal/i.test(st.label || '') ? ' goal' : ''));
-        card.append(h('div', 'sp-stat-label', st.label || ''), h('div', 'sp-stat-value', st.value == null ? '' : String(st.value)));
-        if (st.sub) card.append(h('div', 'sp-stat-sub', st.sub));
-        sg.append(card);
-      });
-      main.append(sg);
-    }
-
-    // big theme
-    if (s.theme && (s.theme.title || list(s.theme.points).length)) {
-      var th = rv(h('section', 'sp-theme'));
-      th.append(h('div', 'section-label', 'Big Theme'), h('div', 'sp-theme-title', s.theme.title || ''));
-      var pts = h('ul', 'sp-theme-points');
-      list(s.theme.points).forEach(function (p) { pts.append(h('li', null, p)); });
-      th.append(pts); main.append(th);
-    }
-
-    // ================= PRACTICE LOG =================
-    // Every day has its own record: which drills were done, minutes, average and notes.
+    // ================= PRACTICE =================
+    // Each day: Start practice -> pick areas -> that day's agenda of drills -> log + save.
     var tabs = list(s.tabs);
     var drills = [];
     tabs.forEach(function (t, ti) {
@@ -298,21 +276,23 @@
     });
     var total = drills.length;
     if (!selDay || selDay > today()) selDay = today();
-    var barFill, barNote, resetBtn, dayBar, logHost, histHost, drawTab = function () {};
+    var dayBar, agendaHost, logHost, histHost, picking = false, pickSel = [];
+    var tabName = function (ti) { return (tabs[ti] && tabs[ti].name) || ('Part ' + (ti + 1)); };
+    var tabColor = function (ti) { return (tabs[ti] && tabs[ti].color) || TAB_COLORS[ti % TAB_COLORS.length]; };
 
-    function sessionDone(rec) { var n = 0; drills.forEach(function (x) { if (rec && rec.checks[x.id]) n++; }); return n; }
-    function updateProgress() {
-      var n = sessionDone(dayRec(selDay)), isToday = selDay === today();
-      if (barFill) barFill.style.width = total ? (100 * n / total) + '%' : '0';
-      if (barNote) {
-        barNote.parentNode.classList.toggle('all', n === total && total > 0);
-        barNote.textContent = n === total && total ? (isToday ? 'All done today. Nice work!' : 'All drills done this day.') : n + ' of ' + total + ' done' + (isToday ? ' today' : '');
-      }
-      if (resetBtn) resetBtn.textContent = isToday ? 'Reset for today' : 'Clear this day';
+    function planTabs(rec) {
+      if (!rec) return null;
+      if (rec.plan && Array.isArray(rec.plan.tabs)) return rec.plan.tabs.filter(function (ti) { return ti >= 0 && ti < tabs.length; });
+      if (practiced(rec) || String(rec.note || '').trim()) return tabs.map(function (_, i) { return i; }); // logged before agendas existed
+      return null;
     }
+    function agendaDrills(rec) { var p = planTabs(rec) || []; return drills.filter(function (x) { return p.indexOf(x.ti) >= 0; }); }
+    function started(d) { return planTabs(dayRec(d)) !== null; }
+    function longDay(d) { return parseDate(d).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
+
     function setDay(d, scroll) {
       if (!d || d > today()) return;
-      selDay = d; drawDayBar(); drawTab(); updateProgress(); drawLog(); drawHistory();
+      selDay = d; picking = false; drawDayBar(); drawAgenda(); drawLog(); drawHistory();
       if (scroll && dayBar) dayBar.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
@@ -338,18 +318,201 @@
       }
     }
 
+    // ----- start card / area picker / agenda -----
+    function drawAgenda() {
+      if (!agendaHost) return;
+      agendaHost.replaceChildren();
+      var rec = dayRec(selDay), plan = planTabs(rec), isToday = selDay === today();
+
+      if (!tabs.length) return;
+
+      if (plan === null && !picking) {
+        var st = h('div', 'sp-start');
+        st.append(h('span', 'sp-start-k', isToday ? 'New day' : 'Not logged yet'),
+          h('h2', null, isToday ? 'Ready to practice, ' + (data.name || 'friend') + '?' : 'Nothing logged for this day.'));
+        var go = h('button', 'btn btn-primary sp-start-btn', 'Start practice for ' + (isToday ? parseDate(selDay).toLocaleDateString('en-US', { weekday: 'long' }) : longDay(selDay))); go.type = 'button';
+        go.addEventListener('click', function () { picking = true; pickSel = []; drawAgenda(); });
+        st.append(go); agendaHost.append(st);
+        return;
+      }
+
+      if (picking) {
+        var pk = h('div', 'sp-card sp-pick');
+        pk.append(h('h2', 'sp-pick-q', isToday ? 'What do you want to practice today?' : 'What did you practice on ' + shortDate(selDay) + '?'));
+        var grid = h('div', 'sp-areas'); grid.setAttribute('role', 'group'); grid.setAttribute('aria-label', 'Areas to practice');
+        var build = h('button', 'btn btn-primary sp-build', 'Build my agenda'); build.type = 'button';
+        var sync = function () {
+          grid.querySelectorAll('.sp-area').forEach(function (b) { b.setAttribute('aria-pressed', String(pickSel.indexOf(+b.dataset.ti) >= 0)); });
+          build.disabled = !pickSel.length;
+        };
+        tabs.forEach(function (t, ti) {
+          var n = drills.filter(function (x) { return x.ti === ti; }).length;
+          var b = h('button', 'sp-area'); b.type = 'button'; b.dataset.ti = String(ti); b.style.setProperty('--c', tabColor(ti));
+          var tx = h('span', 'sp-area-text'); tx.append(h('b', null, tabName(ti)), h('small', null, n + (n === 1 ? ' drill' : ' drills')));
+          b.append(h('span', 'dot'), tx, h('span', 'sp-area-tick', '✓'));
+          b.addEventListener('click', function () {
+            var i = pickSel.indexOf(ti); if (i >= 0) pickSel.splice(i, 1); else pickSel.push(ti);
+            sync();
+          });
+          grid.append(b);
+        });
+        var allB = h('button', 'sp-linkbtn', 'Pick everything'); allB.type = 'button';
+        allB.addEventListener('click', function () { pickSel = tabs.map(function (_, i) { return i; }); sync(); });
+        build.addEventListener('click', function () {
+          if (!pickSel.length) return;
+          var r = dayRec(selDay, true), keep = pickSel.slice().sort();
+          r.plan = { session: s.id, tabs: keep };
+          Object.keys(r.checks).forEach(function (k) { // drop checks for areas that were taken off
+            var x = drills.filter(function (dd) { return dd.id === k; })[0];
+            if (x && keep.indexOf(x.ti) < 0) delete r.checks[k];
+          });
+          picking = false; touch(selDay); drawAgenda(); drawLog(); drawHistory();
+          agendaHost.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        var acts = h('div', 'sp-pick-acts'); acts.append(build);
+        if (plan !== null) {
+          var cancel = h('button', 'btn btn-secondary', 'Cancel'); cancel.type = 'button';
+          cancel.addEventListener('click', function () { picking = false; drawAgenda(); });
+          acts.append(cancel);
+        }
+        pk.append(grid, allB, acts); agendaHost.append(pk); sync();
+        return;
+      }
+
+      // agenda
+      var items = agendaDrills(rec);
+      var card = h('div', 'sp-card sp-agenda');
+      var hd = h('div', 'sp-card-h'); var h2 = h('h2'); var ic = h('span', 'ic'); ic.append(svg(ICON.drill));
+      h2.append(ic, isToday ? 'Today’s Agenda' : 'Agenda for ' + shortDate(selDay));
+      var cnt = h('span', 'sp-count'); hd.append(h2, cnt); card.append(hd);
+      var prog = h('div', 'sp-progress'); var fill = h('i'); prog.append(fill); card.append(prog);
+      var note = h('p', 'sp-agenda-note');
+      var count = function () {
+        var r = dayRec(selDay), n = 0; items.forEach(function (x) { if (r && r.checks[x.id]) n++; });
+        cnt.textContent = n + ' / ' + items.length; cnt.className = 'sp-count' + (n === items.length && items.length ? ' done' : '');
+        fill.style.width = items.length ? (100 * n / items.length) + '%' : '0';
+        note.className = 'sp-agenda-note' + (n === items.length && items.length ? ' all' : '');
+        note.textContent = n === items.length && items.length ? (isToday ? 'Agenda done. Nice work!' : 'Agenda done for this day.') : (items.length - n) + ' to go';
+        return n;
+      };
+      if (!items.length) card.append(h('p', 'sp-fine', 'No drills in these areas yet. Check the notes below.'));
+      (plan || []).forEach(function (ti) {
+        var mine = items.filter(function (x) { return x.ti === ti; });
+        if (!mine.length) return;
+        var grp = h('div', 'sp-group'); grp.style.setProperty('--c', tabColor(ti));
+        grp.append(h('div', 'sp-group-h', tabName(ti)));
+        var ol = h('ul', 'sp-check');
+        mine.forEach(function (x) {
+          var it = x.item, r0 = dayRec(selDay), on = !!(r0 && r0.checks[x.id]);
+          var li = h('li', 'sp-item' + (on ? ' on' : ''));
+          var lab = h('label'); var inp = h('input'); inp.type = 'checkbox'; inp.checked = on;
+          var box = h('span', 'sp-box'); box.append(svg(ICON.check));
+          lab.append(inp, box, drillText(it));
+          inp.addEventListener('change', function () {
+            var r = dayRec(selDay, true);
+            if (inp.checked) r.checks[x.id] = it.text || 'Drill'; else delete r.checks[x.id];
+            li.classList.toggle('on', inp.checked);
+            touch(selDay);
+            var n = count();
+            if (inp.checked && n === items.length) { burstAt(box, 30); burstAt(prog, 40); }
+            drawHistory();
+          });
+          li.append(lab); drillLink(li, it); ol.append(li);
+        });
+        grp.append(ol); card.append(grp);
+      });
+      var foot = h('div', 'sp-agenda-foot'); foot.append(note);
+      var edit = h('button', 'sp-linkbtn', 'Edit agenda'); edit.type = 'button';
+      edit.addEventListener('click', function () { picking = true; pickSel = (planTabs(dayRec(selDay)) || []).slice(); drawAgenda(); });
+      var reset = h('button', 'sp-linkbtn', 'Uncheck all'); reset.type = 'button';
+      reset.addEventListener('click', function () {
+        var r = dayRec(selDay); if (!r) return;
+        items.forEach(function (x) { delete r.checks[x.id]; });
+        touch(selDay); drawAgenda(); drawHistory();
+      });
+      var links = h('span', 'sp-agenda-links'); links.append(edit, reset); foot.append(links);
+      card.append(foot); agendaHost.append(card); count();
+    }
+
+    function drillText(it) {
+      var txt = h('span', 'sp-item-text'); txt.append(h('span', 'sp-item-title', it.text || ''));
+      if (it.target) txt.append(h('span', 'sp-target', it.target));
+      if (it.note) txt.append(h('span', 'sp-item-note', it.note));
+      return txt;
+    }
+    function drillLink(li, it) {
+      var href = safeHref(it.link); if (!href) return;
+      var lw = h('div', 'sp-item-link'); var a = h('a', null, it.linkText || 'Open');
+      a.href = href;
+      if (/^https?:/.test(href) && new URL(href).host !== location.host) { a.target = '_blank'; a.rel = 'noopener'; a.append(svg(ICON.ext)); }
+      lw.append(a); li.append(lw);
+    }
+
+    var wrap = rv(h('section', 'sp-practice'));
+    wrap.append(h('div', 'section-label', 'Practice'));
+    dayBar = h('div', 'sp-day'); agendaHost = h('div', 'sp-agenda-host'); logHost = h('div');
+    wrap.append(dayBar, agendaHost, logHost);
+    main.append(wrap);
+
+    // stats
+    if (stats.length) {
+      var sg = rv(h('section', 'sp-stats')); sg.setAttribute('aria-label', 'Stats');
+      stats.forEach(function (st) {
+        st = st || {};
+        var card = h('div', 'sp-stat' + (st.wide ? ' wide' : '') + (/goal/i.test(st.label || '') ? ' goal' : ''));
+        card.append(h('div', 'sp-stat-label', st.label || ''), h('div', 'sp-stat-value', st.value == null ? '' : String(st.value)));
+        if (st.sub) card.append(h('div', 'sp-stat-sub', st.sub));
+        sg.append(card);
+      });
+      main.append(sg);
+    }
+
+    // big theme
+    if (s.theme && (s.theme.title || list(s.theme.points).length)) {
+      var th = rv(h('section', 'sp-theme'));
+      th.append(h('div', 'section-label', 'Big Theme'), h('div', 'sp-theme-title', s.theme.title || ''));
+      var pts = h('ul', 'sp-theme-points');
+      list(s.theme.points).forEach(function (p) { pts.append(h('li', null, p)); });
+      th.append(pts); main.append(th);
+    }
+
+    // ----- session notes: What to Fix + How to Practice, by area (read only) -----
     if (tabs.length) {
-      var wrap = rv(h('section'));
-      wrap.append(h('div', 'section-label', 'Practice'));
-      dayBar = h('div', 'sp-day'); wrap.append(dayBar);
+      var nw = rv(h('section', 'sp-notes-sec'));
+      nw.append(h('div', 'section-label', 'Session Notes'));
       var bar = h('div', 'sp-tabs'); bar.setAttribute('role', 'tablist');
       var panelHost = h('div');
       var saved = store.get(KEY + 'tab');
       var active = (typeof saved === 'number' && saved < tabs.length) ? saved : 0;
+      var drawTab = function () {
+        tabBtns.forEach(function (b, bi) { b.setAttribute('aria-selected', String(bi === active)); b.tabIndex = bi === active ? 0 : -1; });
+        var t = tabs[active] || {};
+        var panel = h('div', 'sp-panel'); panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', 'tab-' + active);
+        panel.style.setProperty('--c', tabColor(active));
+        var fix = list(t.fix);
+        if (fix.length) {
+          var fc = h('div', 'sp-card');
+          var fh = h('div', 'sp-card-h'); var fh2 = h('h2'); var fic = h('span', 'ic'); fic.append(svg(ICON.fix)); fh2.append(fic, 'What to Fix'); fh.append(fh2); fc.append(fh);
+          var ul = h('ul', 'sp-fix'); fix.forEach(function (f) { ul.append(h('li', null, asItem(f).text || '')); });
+          fc.append(ul); panel.append(fc);
+        }
+        var mine = drills.filter(function (x) { return x.ti === active; });
+        if (mine.length) {
+          var pc = h('div', 'sp-card');
+          var ph = h('div', 'sp-card-h'); var ph2 = h('h2'); var pic = h('span', 'ic'); pic.append(svg(ICON.drill)); ph2.append(pic, 'How to Practice'); ph.append(ph2); pc.append(ph);
+          var ol = h('ul', 'sp-check');
+          mine.forEach(function (x) {
+            var li = h('li', 'sp-item ro'); var row = h('div', 'sp-ro'); row.append(drillText(x.item)); li.append(row); drillLink(li, x.item); ol.append(li);
+          });
+          pc.append(ol); panel.append(pc);
+        }
+        if (!fix.length && !mine.length) panel.append(h('div', 'sp-card', 'Nothing here this session.'));
+        panelHost.replaceChildren(panel);
+      };
       var tabBtns = tabs.map(function (t, ti) {
         var b = h('button', 'sp-tab'); b.type = 'button'; b.setAttribute('role', 'tab'); b.id = 'tab-' + ti;
-        b.style.setProperty('--c', t.color || TAB_COLORS[ti % TAB_COLORS.length]);
-        b.append(h('span', 'dot'), document.createTextNode(t.name || ('Part ' + (ti + 1))));
+        b.style.setProperty('--c', tabColor(ti));
+        b.append(h('span', 'dot'), document.createTextNode(tabName(ti)));
         b.addEventListener('click', function () { if (active !== ti) { active = ti; store.set(KEY + 'tab', ti); drawTab(); } });
         b.addEventListener('keydown', function (e) {
           if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
@@ -358,89 +521,13 @@
         });
         bar.append(b); return b;
       });
-
-      drawTab = function () {
-        tabBtns.forEach(function (b, bi) { b.setAttribute('aria-selected', String(bi === active)); b.tabIndex = bi === active ? 0 : -1; });
-        var t = tabs[active] || {};
-        var color = t.color || TAB_COLORS[active % TAB_COLORS.length];
-        var panel = h('div', 'sp-panel'); panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', 'tab-' + active);
-        panel.style.setProperty('--c', color);
-
-        var fix = list(t.fix);
-        if (fix.length) {
-          var fc = h('div', 'sp-card');
-          var fh = h('div', 'sp-card-h'); var h2 = h('h2'); var ic = h('span', 'ic'); ic.append(svg(ICON.fix)); h2.append(ic, 'What to Fix'); fh.append(h2); fc.append(fh);
-          var ul = h('ul', 'sp-fix'); fix.forEach(function (f) { ul.append(h('li', null, asItem(f).text || '')); });
-          fc.append(ul); panel.append(fc);
-        }
-
-        var mine = drills.filter(function (x) { return x.ti === active; });
-        if (mine.length) {
-          var pc = h('div', 'sp-card');
-          var ph = h('div', 'sp-card-h'); var h2b = h('h2'); var ic2 = h('span', 'ic'); ic2.append(svg(ICON.drill)); h2b.append(ic2, 'How to Practice');
-          var cnt = h('span', 'sp-count'); ph.append(h2b, cnt); pc.append(ph);
-          var ol = h('ul', 'sp-check');
-          var tabCount = function () {
-            var rec = dayRec(selDay), n = 0; mine.forEach(function (x) { if (rec && rec.checks[x.id]) n++; });
-            cnt.textContent = n + ' / ' + mine.length; cnt.className = 'sp-count' + (n === mine.length ? ' done' : '');
-          };
-          mine.forEach(function (x) {
-            var it = x.item, rec0 = dayRec(selDay), on = !!(rec0 && rec0.checks[x.id]);
-            var li = h('li', 'sp-item' + (on ? ' on' : ''));
-            var lab = h('label'); var inp = h('input'); inp.type = 'checkbox'; inp.checked = on;
-            var box = h('span', 'sp-box'); box.append(svg(ICON.check));
-            var txt = h('span', 'sp-item-text'); txt.append(h('span', 'sp-item-title', it.text || ''));
-            if (it.target) txt.append(h('span', 'sp-target', it.target));
-            if (it.note) txt.append(h('span', 'sp-item-note', it.note));
-            lab.append(inp, box, txt);
-            inp.addEventListener('change', function () {
-              var rec = dayRec(selDay, true);
-              if (inp.checked) rec.checks[x.id] = it.text || 'Drill'; else delete rec.checks[x.id];
-              li.classList.toggle('on', inp.checked);
-              var allNow = inp.checked && sessionDone(rec) === total;
-              touch(selDay); tabCount(); updateProgress(); drawHistory();
-              if (allNow) { burstAt(box, 30); burstAt(barFill && barFill.parentNode, 40); }
-            });
-            li.append(lab);
-            var href = safeHref(it.link);
-            if (href) {
-              var lw = h('div', 'sp-item-link'); var a = h('a', null, it.linkText || 'Open');
-              a.href = href;
-              if (/^https?:/.test(href) && new URL(href).host !== location.host) { a.target = '_blank'; a.rel = 'noopener'; a.append(svg(ICON.ext)); }
-              lw.append(a); li.append(lw);
-            }
-            ol.append(li);
-          });
-          pc.append(ol); panel.append(pc); tabCount();
-        }
-        if (!fix.length && !mine.length) panel.append(h('div', 'sp-card', 'Nothing here this session.'));
-        panelHost.replaceChildren(panel);
-      };
-
-      wrap.append(bar, panelHost);
-      if (total) {
-        var prog = h('div', 'sp-progress'); barFill = h('i'); prog.append(barFill);
-        var row = h('div', 'sp-reset-row'); barNote = h('span', 'note');
-        resetBtn = h('button', 'btn btn-secondary', 'Reset for today'); resetBtn.type = 'button';
-        resetBtn.addEventListener('click', function () {
-          var rec = dayRec(selDay); if (!rec) return;
-          drills.forEach(function (x) { delete rec.checks[x.id]; });
-          touch(selDay); drawTab(); updateProgress(); drawHistory();
-        });
-        row.append(barNote, resetBtn);
-        wrap.append(prog, row);
-      }
-      logHost = h('div'); wrap.append(logHost);
-      main.append(wrap);
-    } else {
-      var wrap2 = rv(h('section'));
-      wrap2.append(h('div', 'section-label', 'Practice'));
-      dayBar = h('div', 'sp-day'); logHost = h('div'); wrap2.append(dayBar, logHost); main.append(wrap2);
+      nw.append(bar, panelHost); main.append(nw); drawTab();
     }
 
     // ----- day log: minutes, average, notes -----
     function drawLog() {
       if (!logHost) return;
+      if (!started(selDay)) { logHost.replaceChildren(); onTouch = null; return; }
       var rec = dayRec(selDay) || {};
       var card = h('div', 'sp-card sp-log');
       var hd = h('div', 'sp-card-h'); var h2 = h('h2'); var ic = h('span', 'ic'); ic.append(svg(ICON.pen));
@@ -503,11 +590,11 @@
       var sb = h('button', 'btn btn-primary sp-save-btn', saveLabel()); sb.type = 'button';
       var sl = h('p', 'sp-save-status'); sl.setAttribute('role', 'status');
       var refresh = function (msg, cls) {
-        var cfg = syncCfg(), where = cfg ? (cfg.name || (cfg.kind === 'doc' ? 'your Google Doc' : cfg.kind === 'sheet' ? 'your Google Sheet' : 'your Google file')) : '';
+        var cfg = syncCfg(), where = cfg ? (cfg.name || 'your Google Sheet') : '';
         sl.className = 'sp-save-status' + (cls ? ' ' + cls : '');
         sl.replaceChildren();
         if (msg) sl.append(msg);
-        else if (!cfg) sl.append('Link a Google Sheet or Doc to save your progress there.');
+        else if (!cfg) sl.append('Link a Google Sheet to save your progress there.');
         else {
           var at = savedMap()[selDay], r = log.days[selDay];
           if (at && (!r || +r.updated <= at)) { sl.className += ' ok'; sl.append('✓ Saved to ' + where + ' at ' + new Date(at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })); }
@@ -525,7 +612,7 @@
         postToGoogle(cfg.url, { student: data.name || slug, days: [dayPayload(selDay)] }).then(function (j) {
           if (j.name || j.kind) { cfg.name = j.name || cfg.name; cfg.kind = j.kind || cfg.kind; store.set(KEY + 'sync', cfg); }
           markSaved([selDay]);
-          refresh(j.unconfirmed ? 'Sent. Open your ' + (cfg.kind === 'doc' ? 'Doc' : 'Sheet') + ' to check it arrived.' : '', j.unconfirmed ? '' : 'ok');
+          refresh(j.unconfirmed ? 'Sent. Open your Sheet to check it arrived.' : '', j.unconfirmed ? '' : 'ok');
           if (!j.unconfirmed) burstAt(sb, 18);
         }).catch(function (e) { refresh('Couldn’t save. ' + (e && e.message ? e.message : 'Check your connection and try again.'), 'bad'); })
           .then(function () { sb.disabled = false; sb.textContent = saveLabel(); });
@@ -540,12 +627,13 @@
       var done = Object.keys(r.checks || {}).map(function (k) { return r.checks[k]; }).filter(function (v) { return typeof v === 'string'; });
       return {
         date: d, label: parseDate(d).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' }),
-        done: done.length, total: total, drills: done, minutes: +r.minutes || 0, avg: +r.avg > 0 ? +r.avg : '',
+        focus: (planTabs(r) || []).map(tabName).join(', '),
+        done: done.length, total: agendaDrills(r).length || total, drills: done, minutes: +r.minutes || 0, avg: +r.avg > 0 ? +r.avg : '',
         note: String(r.note || '').trim(), session: s.date
       };
     }
 
-    // ----- link a Google Sheet or Doc (one-time setup) -----
+    // ----- link a Google Sheet (one-time setup) -----
     var connectHost = h('div', 'sp-connect'); connectHost.hidden = true;
     var codeCache = {};
     function getCode(kind) {
@@ -556,26 +644,18 @@
     function openConnect() { drawConnect(); connectHost.hidden = false; connectHost.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     function drawConnect() {
       var cfg = syncCfg();
-      var kind = connectHost.dataset.kind || (cfg && cfg.kind) || 'sheet';
-      connectHost.dataset.kind = kind;
+      var kind = 'sheet';
       connectHost.replaceChildren();
-      var noun = kind === 'doc' ? 'Doc' : 'Sheet';
-      var hd = h('div', 'sp-card-h'); var h2 = h('h2', null, 'Link a Google ' + noun);
+      var noun = 'Sheet';
+      var hd = h('div', 'sp-card-h'); var h2 = h('h2', null, 'Link a Google Sheet');
       var x = h('button', 'sp-x', '×'); x.type = 'button'; x.setAttribute('aria-label', 'Close'); x.addEventListener('click', function () { connectHost.hidden = true; });
       hd.append(h2, x); connectHost.append(hd);
 
-      var seg = h('div', 'sp-seg'); seg.setAttribute('role', 'group'); seg.setAttribute('aria-label', 'Save to');
-      [['sheet', 'Google Sheet'], ['doc', 'Google Doc']].forEach(function (o) {
-        var b = h('button', null, o[1]); b.type = 'button'; b.setAttribute('aria-pressed', String(kind === o[0]));
-        b.addEventListener('click', function () { connectHost.dataset.kind = o[0]; drawConnect(); });
-        seg.append(b);
-      });
-      connectHost.append(seg);
       connectHost.append(h('p', 'sp-fine sp-connect-note', 'One-time setup. Do steps 1 to 4 on a computer, since the phone apps don’t have Apps Script.'));
 
       var ol = h('ol', 'sp-steps');
       var li1 = h('li'); var open = h('a', 'btn btn-secondary sp-step-btn', 'Open a new Google ' + noun);
-      open.href = kind === 'doc' ? 'https://docs.new' : 'https://sheets.new'; open.target = '_blank'; open.rel = 'noopener'; open.append(svg(ICON.ext));
+      open.href = 'https://sheets.new'; open.target = '_blank'; open.rel = 'noopener'; open.append(svg(ICON.ext));
       li1.append(h('span', null, 'Make a new ' + noun + ' and name it, like “' + (data.name || 'My') + ' Practice”.'), open); ol.append(li1);
       ol.append(h('li', null, 'In the ' + noun + ', click Extensions, then Apps Script.'));
       var li3 = h('li');
@@ -675,7 +755,7 @@
       var strip = h('div', 'sp-strip'); strip.setAttribute('aria-label', 'Last 14 days');
       for (var k = 13; k >= 0; k--) {
         var d = addDays(today(), -k), r = log.days[d], lvl = 0;
-        if (practiced(r)) { var n = Object.keys(r.checks || {}).length; lvl = total ? Math.max(1, Math.min(4, Math.ceil(4 * n / total))) : 2; if (!n) lvl = 1; }
+        if (practiced(r)) { var n = Object.keys(r.checks || {}).length, size = agendaDrills(r).length || total; lvl = size ? Math.max(1, Math.min(4, Math.ceil(4 * n / size))) : 2; if (!n) lvl = 1; }
         var b = h('button', 'sp-cell lv' + lvl + (d === selDay ? ' sel' : '') + (d === today() ? ' now' : '')); b.type = 'button';
         var dd = parseDate(d);
         b.append(h('span', 'sp-cell-w', dd.toLocaleDateString('en-US', { weekday: 'narrow' })), h('span', 'sp-cell-n', String(dd.getDate())));
@@ -799,7 +879,7 @@
       return wrapC;
     }
 
-    drawDayBar(); drawTab(); updateProgress(); drawLog(); drawHistory();
+    drawDayBar(); drawAgenda(); drawLog(); drawHistory();
 
     // past sessions
     if (sessions.length > 1) {

@@ -13,7 +13,7 @@
  * This script can only touch this one spreadsheet.
  */
 var TAB = 'Practice Log';
-var HEAD = ['Date', 'Day', 'Drills done', 'Drills', 'Minutes', 'Average', 'Notes', 'Saved'];
+var HEAD = ['Date', 'Day', 'Focus', 'Drills done', 'Drills', 'Minutes', 'Average', 'Notes', 'Saved'];
 
 function doPost(e) {
   var out;
@@ -33,6 +33,7 @@ function doPost(e) {
         var row = [
           String(d.date),
           String(d.label || ''),
+          String(d.focus || ''),
           (+d.done || 0) + ' of ' + (+d.total || 0),
           (Array.isArray(d.drills) ? d.drills : []).map(String).join('\n'),
           +d.minutes > 0 ? +d.minutes : '',
@@ -70,11 +71,11 @@ function sheet_(ss) {
     sh.getRange('A:A').setNumberFormat('@');
     sh.getRange(1, 1, 1, HEAD.length).setValues([HEAD]).setFontWeight('bold');
     sh.setFrozenRows(1);
-    sh.setColumnWidth(4, 260);
-    sh.setColumnWidth(7, 320);
-    sh.getRange('D:D').setWrap(true);
-    sh.getRange('G:G').setWrap(true);
-    sh.getRange('H:H').setNumberFormat('mmm d, h:mm am/pm');
+    sh.setColumnWidth(5, 260);
+    sh.setColumnWidth(8, 320);
+    sh.getRange('E:E').setWrap(true);
+    sh.getRange('H:H').setWrap(true);
+    sh.getRange('I:I').setNumberFormat('mmm d, h:mm am/pm');
   }
   return sh;
 }
