@@ -1,5 +1,5 @@
 /* Student Pages template.
-   Every page at /students/<name>/ loads this file. It reads /students/<name>.json
+   Every student page (caidenlee.com/<name>/) loads this file. It reads /students/<name>.json
    and builds the page from it. To add a student or a session, edit data files only.
    See /students/_sample.json for the data format. */
 (function () {
@@ -70,10 +70,10 @@
   }
 
   // ---------- which student ----------
-  var parts = location.pathname.split('/').filter(Boolean);
-  var i = parts.indexOf('students');
-  var slug = (i >= 0 && parts[i + 1]) ? decodeURIComponent(parts[i + 1]).toLowerCase().replace(/\.html$/, '') : '';
-  if (slug === 'index') slug = '';
+  // The page's folder name picks the data file: caidenlee.com/adamnasser -> /students/adamnasser.json
+  var parts = location.pathname.split('/').filter(Boolean).filter(function (x) { return !/^index\.html?$/i.test(x); });
+  var slug = parts.length ? decodeURIComponent(parts[parts.length - 1]).toLowerCase().replace(/\.html$/, '') : '';
+  if (slug === 'students') slug = '';
   if (!/^[a-z0-9-]+$/.test(slug)) slug = '';
   var KEY = 'cl-student:' + slug + ':';
 

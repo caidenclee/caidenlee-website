@@ -4,13 +4,16 @@
 // Lines that start with // are comments. The page ignores them, so you can keep
 // or delete them when you copy this file.
 //
-// ADD A NEW STUDENT (example: Maya)
-//   1. Copy this file to students/maya.json and fill it in.
-//      The file name is the URL: students/maya.json -> caidenlee.com/students/maya
+// ADD A NEW STUDENT (example: Maya Smith at caidenlee.com/mayasmith)
+//   1. Copy this file to students/mayasmith.json and fill it in.
+//      The file name must match the URL name exactly.
 //      Use lowercase letters, numbers and dashes only.
-//   2. Copy the folder students/adam/ and rename the copy to students/maya/.
-//      Do not edit the index.html inside it. It is the same for every student.
-//   3. Commit and push. The page is live in about a minute.
+//   2. Copy the folder adamnasser/ (at the top of the site) and rename the
+//      copy to mayasmith/. Do not edit the index.html inside it. It is the
+//      same for every student.
+//   3. Pick a URL name that no other page on the site uses (not "tools",
+//      "inbox", "f2l" and so on).
+//   4. Commit and push. The page is live in about a minute.
 //
 // ADD A NEW SESSION FOR AN EXISTING STUDENT
 //   1. Open students/<name>.json.
