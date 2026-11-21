@@ -44,6 +44,12 @@
 //             Checklists clear themselves at the start of each new day.
 //             Checking off every drill sets off confetti.
 //
+// PRACTICE LOG
+//   Students log each practice day themselves on the page: drills checked,
+//   minutes, their average and notes. Nothing to add here. The log is saved
+//   on the student's own phone, so "Send to Caiden" is how you see it, and
+//   "Back up" / "Restore" moves it to a new phone.
+//
 // Keep every value in "double quotes", and remember the comma between items.
 // ============================================================================
 {
