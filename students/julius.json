@@ -1,0 +1,48 @@
+{
+  "name": "Julius",
+  "sessions": [
+    {
+      "date": "2026-11-25",
+      "theme": {
+        "title": "Rotations and Turning Speed",
+        "points": ["Inspection: Cross + 1 without rotating", "Last layer", "Cut the rotations", "Speed up your turning"]
+      },
+      "tabs": [
+        {
+          "name": "Cross",
+          "fix": [
+            "Plan Cross + 1 in inspection without rotating"
+          ],
+          "practice": [
+            { "text": "Cross + 2, timed" },
+            { "text": "Inspection Tool", "note": "Students only. Ask Caiden for the password.", "link": "/cross-trainer.html", "linkText": "Open Inspection Tool" }
+          ]
+        },
+        {
+          "name": "F2L",
+          "fix": [
+            "Avoid rotations",
+            "Speed up your turning",
+            "Push your lookahead",
+            "Learn pseudo slotting"
+          ],
+          "practice": [
+            { "text": "Speed up your turning and push your lookahead" },
+            { "text": "Solve the first pair into the back without rotating" },
+            { "text": "Cross + full F2L" }
+          ]
+        },
+        {
+          "name": "Last Layer",
+          "fix": [
+            "Tell G perms apart from A perms"
+          ],
+          "practice": [
+            { "text": "Practice G perms and A perms" },
+            { "text": "Send Caiden pictures and video" }
+          ]
+        }
+      ]
+    }
+  ]
+}
